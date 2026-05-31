@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { NavLink, Link } from 'react-router';
-import { Menu, X, BookOpen, ChevronDown, User, Layout, Briefcase, FileText, Settings, Star, Bookmark } from 'lucide-react';
+import { Menu, X, BookOpen, ChevronDown, User, Layout, Briefcase, FileText, Settings, Star, Bookmark, Home, Mail } from 'lucide-react';
 import { useReaderMode } from './ReaderModeContext';
 import { useApp } from '../context/AppContext';
 
@@ -27,6 +27,29 @@ export function Header() {
   const { openReader, isOpen: readerOpen } = useReaderMode();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [sectorsOpen, setSectorsOpen] = useState(false);
+
+  // Lock body scroll when mobile navigation drawer is active
+  useEffect(() => {
+    if (mobileOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [mobileOpen]);
+
+  // Handle Escape key closure for accessibility
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setMobileOpen(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   if (readerOpen) return null;
 
@@ -154,25 +177,18 @@ export function Header() {
               </Link>
               <Link
                 to="/signup"
-                className="hidden sm:inline-block px-3 py-2 rounded text-sm font-semibold hover:bg-muted/60 transition-colors mr-1"
+                className="px-3 py-2 rounded text-sm font-semibold hover:bg-muted/60 transition-colors mr-1"
                 style={{ color: 'var(--nurc-navy)' }}
               >
                 Sign Up
               </Link>
               <Link
                 to="/newsletters"
-                className="hidden lg:flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold border transition-all hover:bg-muted"
+                className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold border transition-all hover:bg-muted"
                 style={{ borderColor: 'var(--nurc-navy)', color: 'var(--nurc-navy)' }}
               >
                 <BookOpen size={14} />
-                Sample
-              </Link>
-              <Link
-                to="/subscribe"
-                className="btn-nurc hidden md:flex items-center px-4 py-2 rounded-lg text-sm font-semibold text-white cursor-pointer"
-                style={{ background: 'var(--nurc-teal)' }}
-              >
-                Get Started
+                Request Sample
               </Link>
             </div>
           )}
@@ -216,169 +232,135 @@ export function Header() {
             <button 
               onClick={() => setMobileOpen(false)} 
               className="p-1 rounded hover:bg-muted text-muted-foreground cursor-pointer bg-transparent border-0"
+              aria-label="Close menu"
             >
               <X size={18} />
             </button>
           </div>
 
           {/* Links drawer list */}
-          <nav className="flex flex-col gap-1.5 text-sm font-bold text-left" style={{ color: 'var(--nurc-navy)' }}>
-            {currentUser ? (
-              <>
-                <Link 
-                  to="/dashboard?tab=overview" 
-                  className="px-3 py-2 rounded-lg hover:bg-muted transition-colors flex items-center gap-2.5" 
-                  onClick={() => setMobileOpen(false)}
-                >
-                  <Layout size={15} className="text-teal" style={{ color: 'var(--nurc-teal)' }} />
-                  Dashboard
-                </Link>
-                
-                <button
-                  onClick={() => {
-                    setMobileOpen(false);
-                    if (newsletters && newsletters[0]) {
-                      openReader(newsletters[0].article, newsletters[0].id);
-                    }
-                  }}
-                  className="w-full text-left px-3 py-2 rounded-lg hover:bg-muted transition-colors flex items-center gap-2.5 cursor-pointer font-bold text-navy bg-transparent border-0"
-                >
-                  <BookOpen size={15} className="text-teal" style={{ color: 'var(--nurc-teal)' }} />
-                  Today's Newsletter
-                </button>
+          <nav className="flex flex-col gap-1 text-sm font-bold text-left" style={{ color: 'var(--nurc-navy)' }}>
+            <Link 
+              to="/" 
+              className="px-3 py-2 rounded-lg hover:bg-muted transition-colors flex items-center gap-2.5" 
+              onClick={() => setMobileOpen(false)}
+            >
+              <Home size={15} className="text-teal" style={{ color: 'var(--nurc-teal)' }} />
+              Home
+            </Link>
 
-                <Link 
-                  to="/dashboard?tab=overview" 
-                  className="px-3 py-2 rounded-lg hover:bg-muted transition-colors flex items-center gap-2.5" 
-                  onClick={() => setMobileOpen(false)}
-                >
-                  <Briefcase size={15} className="text-teal" style={{ color: 'var(--nurc-teal)' }} />
-                  My Industries
-                </Link>
+            <Link 
+              to="/sector/auto" 
+              className="px-3 py-2 rounded-lg hover:bg-muted transition-colors flex items-center gap-2.5" 
+              onClick={() => setMobileOpen(false)}
+            >
+              <Briefcase size={15} className="text-teal" style={{ color: 'var(--nurc-teal)' }} />
+              Industries
+            </Link>
 
-                <Link 
-                  to="/newsletters" 
-                  className="px-3 py-2 rounded-lg hover:bg-muted transition-colors flex items-center gap-2.5" 
-                  onClick={() => setMobileOpen(false)}
-                >
-                  <FileText size={15} className="text-teal" style={{ color: 'var(--nurc-teal)' }} />
-                  Archive
-                </Link>
+            <Link 
+              to="/pricing" 
+              className="px-3 py-2 rounded-lg hover:bg-muted transition-colors flex items-center gap-2.5" 
+              onClick={() => setMobileOpen(false)}
+            >
+              <Star size={15} className="text-teal" style={{ color: 'var(--nurc-teal)' }} />
+              Pricing
+            </Link>
 
-                <Link 
-                  to="/dashboard?tab=overview" 
-                  className="px-3 py-2 rounded-lg hover:bg-muted transition-colors flex items-center gap-2.5" 
-                  onClick={() => setMobileOpen(false)}
-                >
-                  <Bookmark size={15} className="text-teal" style={{ color: 'var(--nurc-teal)' }} />
-                  Saved Newsletters
-                </Link>
+            <Link 
+              to="/resources" 
+              className="px-3 py-2 rounded-lg hover:bg-muted transition-colors flex items-center gap-2.5" 
+              onClick={() => setMobileOpen(false)}
+            >
+              <FileText size={15} className="text-teal" style={{ color: 'var(--nurc-teal)' }} />
+              Resources
+            </Link>
 
-                <Link 
-                  to="/subscribe" 
-                  className="px-3 py-2 rounded-lg hover:bg-muted transition-colors flex items-center gap-2.5" 
-                  onClick={() => setMobileOpen(false)}
-                >
-                  <Star size={15} className="text-teal" style={{ color: 'var(--nurc-teal)' }} />
-                  Subscription
-                </Link>
+            <Link 
+              to="/about" 
+              className="px-3 py-2 rounded-lg hover:bg-muted transition-colors flex items-center gap-2.5" 
+              onClick={() => setMobileOpen(false)}
+            >
+              <User size={15} className="text-teal" style={{ color: 'var(--nurc-teal)' }} />
+              About
+            </Link>
 
-                <Link 
-                  to="/dashboard?tab=preferences" 
-                  className="px-3 py-2 rounded-lg hover:bg-muted transition-colors flex items-center gap-2.5" 
-                  onClick={() => setMobileOpen(false)}
-                >
-                  <Layout size={15} className="text-teal" style={{ color: 'var(--nurc-teal)' }} />
-                  Newsletter Appearance
-                </Link>
+            <Link 
+              to="/contact" 
+              className="px-3 py-2 rounded-lg hover:bg-muted transition-colors flex items-center gap-2.5" 
+              onClick={() => setMobileOpen(false)}
+            >
+              <Mail size={15} className="text-teal" style={{ color: 'var(--nurc-teal)' }} />
+              Contact
+            </Link>
 
-                <Link 
-                  to="/dashboard?tab=profile" 
-                  className="px-3 py-2 rounded-lg hover:bg-muted transition-colors flex items-center gap-2.5" 
-                  onClick={() => setMobileOpen(false)}
-                >
-                  <User size={15} className="text-teal" style={{ color: 'var(--nurc-teal)' }} />
-                  Profile
-                </Link>
+            {currentUser && (
+              <Link 
+                to="/dashboard" 
+                className="px-3 py-2 rounded-lg bg-teal/5 hover:bg-teal/10 transition-colors flex items-center gap-2.5 border border-teal/10" 
+                onClick={() => setMobileOpen(false)}
+              >
+                <Layout size={15} className="text-teal" style={{ color: 'var(--nurc-teal)' }} />
+                Dashboard
+              </Link>
+            )}
 
-                <Link 
-                  to="/dashboard?tab=preferences" 
-                  className="px-3 py-2 rounded-lg hover:bg-muted transition-colors flex items-center gap-2.5" 
-                  onClick={() => setMobileOpen(false)}
-                >
-                  <Settings size={15} className="text-teal" style={{ color: 'var(--nurc-teal)' }} />
-                  Settings
-                </Link>
-              </>
-            ) : (
-              <>
-                <Link 
-                  to="/newsletters" 
-                  className="px-3 py-2 rounded-lg hover:bg-muted transition-colors flex items-center gap-2.5" 
-                  onClick={() => setMobileOpen(false)}
-                >
-                  <FileText size={15} className="text-teal" style={{ color: 'var(--nurc-teal)' }} />
-                  Archive Newsletters
-                </Link>
-                <Link 
-                  to="/pricing" 
-                  className="px-3 py-2 rounded-lg hover:bg-muted transition-colors flex items-center gap-2.5" 
-                  onClick={() => setMobileOpen(false)}
-                >
-                  <Star size={15} className="text-teal" style={{ color: 'var(--nurc-teal)' }} />
-                  Pricing Plans
-                </Link>
+            <div className="h-px bg-border my-2" />
+
+            <Link 
+              to="/newsletters" 
+              className="px-3 py-2.5 rounded-lg border border-teal text-teal hover:bg-teal/5 transition-all flex items-center justify-center gap-2 text-xs text-center" 
+              onClick={() => setMobileOpen(false)}
+              style={{ borderColor: 'var(--nurc-teal)', color: 'var(--nurc-teal)' }}
+            >
+              <BookOpen size={14} />
+              Request Sample
+            </Link>
+
+            {!currentUser ? (
+              <div className="grid grid-cols-2 gap-2 mt-2">
                 <Link 
                   to="/login" 
-                  className="px-3 py-2 rounded-lg hover:bg-muted transition-colors flex items-center gap-2.5" 
+                  className="py-2.5 rounded-lg border border-border text-center hover:bg-muted transition-colors text-xs" 
                   onClick={() => setMobileOpen(false)}
                 >
-                  <User size={15} className="text-teal" style={{ color: 'var(--nurc-teal)' }} />
                   Login
                 </Link>
                 <Link 
                   to="/signup" 
-                  className="px-3 py-2 rounded-lg hover:bg-muted transition-colors flex items-center gap-2.5" 
+                  className="py-2.5 rounded-lg bg-navy text-white text-center hover:opacity-90 transition-opacity text-xs" 
+                  style={{ background: 'var(--nurc-navy)' }}
                   onClick={() => setMobileOpen(false)}
                 >
-                  <User size={15} className="text-teal" style={{ color: 'var(--nurc-teal)' }} />
                   Sign Up
                 </Link>
-              </>
-            )}
-          </nav>
-        </div>
-
-        {/* Drawer footer details & actions */}
-        <div className="border-t border-border pt-4">
-          {currentUser ? (
-            <div className="space-y-3 text-left">
-              <div className="px-3 py-2 bg-[#F8F9FA] border rounded-xl text-xs text-muted-foreground leading-normal">
-                <span className="font-bold block text-navy" style={{ color: 'var(--nurc-navy)' }}>{currentUser.fullName}</span>
-                <span className="truncate block mt-0.5">{currentUser.email}</span>
               </div>
+            ) : (
               <button
                 onClick={() => {
                   logout();
                   setMobileOpen(false);
                 }}
-                className="w-full text-center px-4 py-2.5 rounded-lg text-sm font-semibold border border-red-200 text-red-600 hover:bg-red-50 transition-colors cursor-pointer bg-transparent"
+                className="w-full text-center py-2.5 mt-2 rounded-lg text-xs font-semibold border border-red-200 text-red-600 hover:bg-red-50 transition-colors cursor-pointer bg-transparent"
               >
                 Log Out
               </button>
-            </div>
-          ) : (
-            <Link
-              to="/subscribe"
-              className="block text-center px-4 py-2.5 rounded-lg text-sm font-semibold text-white bg-teal cursor-pointer"
-              style={{ background: 'var(--nurc-teal)' }}
-              onClick={() => setMobileOpen(false)}
-            >
-              Get Started
-            </Link>
-          )}
+            )}
+          </nav>
         </div>
 
+        {/* Drawer footer details */}
+        <div className="border-t border-border pt-4">
+          {currentUser && (
+            <div className="px-3 py-2 bg-[#F8F9FA] border rounded-xl text-xs text-muted-foreground leading-normal">
+              <span className="font-bold block text-navy" style={{ color: 'var(--nurc-navy)' }}>{currentUser.fullName}</span>
+              <span className="truncate block mt-0.5">{currentUser.email}</span>
+            </div>
+          )}
+          <div className="text-[10px] text-center text-muted-foreground mt-2 leading-tight">
+            © NURC MediaNext Private Ltd.<br />Delhi, India
+          </div>
+        </div>
       </div>
     </header>
   );

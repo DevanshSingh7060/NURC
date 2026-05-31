@@ -1,4 +1,5 @@
 import { useRef, useState, useEffect, useCallback } from 'react';
+import { Link } from 'react-router';
 import { useReaderMode, ContentBlock, ReaderSettings } from './ReaderModeContext';
 import { BookOpen, ArrowLeft, Printer, Bookmark, Share2, Download, X, Sun, Moon, Monitor } from 'lucide-react';
 import { useApp } from '../context/AppContext';
@@ -12,8 +13,8 @@ const readingModeColors = {
 };
 
 const fontSizeMap: Record<ReaderSettings['fontSize'], string> = {
-  small:  '14px',
-  medium: '16px',
+  small:  '15px',
+  medium: '17px',
   large:  '19px',
 };
 
@@ -25,6 +26,8 @@ export function ReaderModeOverlay() {
   const { savedArticles, toggleSaveArticle, currentUser, setContinueReading, markAsRead, newsletters } = useApp();
   const [progress, setProgress] = useState(0);
   const [copied, setCopied] = useState(false);
+  
+  const [hoveredMode, setHoveredMode] = useState<string | null>(null);
   
   const contentRef = useRef<HTMLDivElement>(null);
   const touchStartX = useRef(0);
@@ -282,50 +285,62 @@ export function ReaderModeOverlay() {
       </div>
 
       <div
-        className="shrink-0 flex flex-col sm:flex-row sm:items-center justify-between px-5 py-3 border-b mt-1 print:hidden gap-3 transition-all duration-300"
+        className="shrink-0 flex items-center justify-between px-3 sm:px-5 py-3 border-b mt-1 print:hidden gap-1.5 transition-all duration-300"
         style={{ borderColor: modeColors.border, background: modeColors.bg }}
       >
-        <div className="flex items-center gap-3 min-w-0 flex-1">
+        <div className="flex items-center gap-2 min-w-0 flex-1">
           <button
             onClick={closeReader}
-            className="flex items-center gap-2 text-sm font-semibold transition-opacity hover:opacity-70 shrink-0 cursor-pointer bg-transparent border-0"
+            className="flex items-center gap-1 text-sm font-semibold transition-opacity hover:opacity-70 shrink-0 cursor-pointer bg-transparent border-0"
             style={{ color: 'var(--nurc-teal)', fontFamily: 'var(--font-heading)' }}
+            aria-label="Exit reader mode"
           >
-            <ArrowLeft size={15} />
+            <ArrowLeft size={16} />
             <span className="hidden sm:inline">Exit</span>
           </button>
-          <div className="h-4 w-px" style={{ background: modeColors.border }} />
-          <div className="flex items-center gap-2 min-w-0">
-            <BookOpen size={13} className="shrink-0 animate-none" style={{ color: modeColors.muted }} />
-            <span className="text-sm font-bold truncate" style={{ color: modeColors.text, fontFamily: 'var(--font-heading)' }}>
+          <div className="h-4 w-px hidden sm:block" style={{ background: modeColors.border }} />
+          <div className="flex items-center gap-1.5 min-w-0">
+            <span className="text-xs sm:text-sm font-bold truncate pr-1" style={{ color: modeColors.text, fontFamily: 'var(--font-heading)' }}>
               {article.title}
             </span>
-            <span className="text-xs font-semibold shrink-0" style={{ color: modeColors.muted, fontFamily: 'var(--font-heading)' }}>
+            <span className="hidden md:inline text-[10px] sm:text-xs font-semibold shrink-0" style={{ color: modeColors.muted, fontFamily: 'var(--font-heading)' }}>
               · {article.readTime} · {Math.round(progress)}% Read
             </span>
           </div>
         </div>
 
-        <div className="flex items-center gap-2 shrink-0 self-end sm:self-auto">
-          <div className="flex items-center bg-[#E5E7EB] p-1 rounded-xl border border-gray-300 transition-all shrink-0">
+        <div className="flex items-center gap-1.5 shrink-0">
+          <div className="flex items-center bg-[#E5E7EB] p-0.5 sm:p-1 rounded-lg sm:rounded-xl border border-gray-300 transition-all shrink-0">
             {(['default', 'night', 'dark'] as const).map(mode => {
               const isActive = settings.readingMode === mode;
+              const isHovered = hoveredMode === mode;
               return (
                 <button
                   key={mode}
                   onClick={() => updateSettings({ readingMode: mode })}
-                  className="px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg text-xs transition-all cursor-pointer flex items-center gap-1 sm:gap-1.5 border-0"
+                  onMouseEnter={() => setHoveredMode(mode)}
+                  onMouseLeave={() => setHoveredMode(null)}
+                  className="px-1.5 sm:px-3 py-1 rounded-md sm:rounded-lg text-xs transition-all cursor-pointer flex items-center gap-1 border-0"
                   style={{
-                    backgroundColor: isActive ? '#FFFFFF' : 'transparent',
-                    color: isActive ? '#0A2540' : '#4B5563',
+                    backgroundColor: isActive 
+                      ? '#FFFFFF' 
+                      : isHovered 
+                        ? '#F3F4F6' 
+                        : 'transparent',
+                    color: isActive 
+                      ? '#0A2540' 
+                      : isHovered 
+                        ? '#1F2937' 
+                        : '#4B5563',
                     fontWeight: isActive ? 600 : 500,
                     boxShadow: isActive ? '0 1px 3px rgba(0,0,0,0.15)' : 'none',
                   }}
+                  title={`Switch to ${mode} mode`}
                 >
                   {mode === 'default' && <Sun size={13} className="shrink-0" />}
                   {mode === 'night' && <Moon size={13} className="shrink-0" />}
                   {mode === 'dark' && <Monitor size={13} className="shrink-0" />}
-                  <span>
+                  <span className="hidden sm:inline">
                     {mode === 'default' ? 'Default' : mode === 'night' ? 'Night' : 'Dark'}
                   </span>
                 </button>
@@ -335,20 +350,22 @@ export function ReaderModeOverlay() {
 
           <div className="h-4 w-px" style={{ background: modeColors.border }} />
 
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-0.5 sm:gap-1">
             <button
               onClick={decreaseFontSize}
               disabled={settings.fontSize === 'small'}
-              className="w-8 h-8 rounded-lg border flex items-center justify-center text-xs font-bold transition-all hover:bg-black/5 cursor-pointer bg-transparent disabled:opacity-40 disabled:cursor-not-allowed"
+              className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg border flex items-center justify-center text-xs font-bold transition-all hover:bg-black/5 cursor-pointer bg-transparent disabled:opacity-40 disabled:cursor-not-allowed"
               style={{ color: modeColors.text, borderColor: modeColors.border }}
+              title="Decrease text size"
             >
               A-
             </button>
             <button
               onClick={increaseFontSize}
               disabled={settings.fontSize === 'large'}
-              className="w-8 h-8 rounded-lg border flex items-center justify-center text-xs font-bold transition-all hover:bg-black/5 cursor-pointer bg-transparent disabled:opacity-40 disabled:cursor-not-allowed"
+              className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg border flex items-center justify-center text-xs font-bold transition-all hover:bg-black/5 cursor-pointer bg-transparent disabled:opacity-40 disabled:cursor-not-allowed"
               style={{ color: modeColors.text, borderColor: modeColors.border }}
+              title="Increase text size"
             >
               A+
             </button>
@@ -359,12 +376,13 @@ export function ReaderModeOverlay() {
           {newsletterId && (
             <button
               onClick={() => toggleSaveArticle(newsletterId)}
-              className="p-2 rounded-lg border transition-all hover:bg-black/5 cursor-pointer bg-transparent"
+              className="p-1.5 sm:p-2 rounded-lg border transition-all hover:bg-black/5 cursor-pointer bg-transparent"
               style={{
                 borderColor: isSaved ? 'var(--nurc-teal)' : modeColors.border,
                 color: isSaved ? 'var(--nurc-teal)' : modeColors.muted,
                 background: isSaved ? 'rgba(0,109,122,0.03)' : 'transparent'
               }}
+              title={isSaved ? 'Remove Bookmark' : 'Save Briefing'}
             >
               <Bookmark size={14} fill={isSaved ? 'currentColor' : 'none'} />
             </button>
@@ -372,16 +390,18 @@ export function ReaderModeOverlay() {
 
           <button
             onClick={handleDownload}
-            className="p-2 rounded-lg border transition-all hover:bg-black/5 cursor-pointer bg-transparent"
+            className="p-1.5 sm:p-2 rounded-lg border transition-all hover:bg-black/5 cursor-pointer bg-transparent"
             style={{ color: modeColors.text, borderColor: modeColors.border }}
+            title="Download text brief"
           >
             <Download size={14} />
           </button>
 
           <button
             onClick={handleShare}
-            className="p-2 rounded-lg border transition-all hover:bg-black/5 cursor-pointer bg-transparent flex items-center gap-1.5 text-xs font-bold"
+            className="p-1.5 sm:p-2 rounded-lg border transition-all hover:bg-black/5 cursor-pointer bg-transparent flex items-center gap-1 sm:gap-1.5 text-xs font-bold"
             style={{ color: modeColors.text, borderColor: modeColors.border }}
+            title="Copy share link"
           >
             <Share2 size={14} />
             <span className="hidden md:inline">{copied ? 'Copied' : 'Share'}</span>
@@ -389,8 +409,9 @@ export function ReaderModeOverlay() {
 
           <button
             onClick={closeReader}
-            className="p-2 rounded-lg transition-opacity hover:opacity-70 cursor-pointer bg-transparent border-0"
+            className="p-1 sm:p-2 rounded-lg transition-opacity hover:opacity-70 cursor-pointer bg-transparent border-0"
             style={{ color: modeColors.muted }}
+            aria-label="Close reader"
           >
             <X size={17} />
           </button>

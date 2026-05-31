@@ -12,8 +12,8 @@ const readingModeColors = {
 };
 
 const fontSizeMap = {
-  small:  '14px',
-  medium: '16px',
+  small:  '15px',
+  medium: '17px',
   large:  '19px',
 };
 
@@ -28,6 +28,7 @@ export function ReaderPage() {
 
   const [copied, setCopied] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [hoveredMode, setHoveredMode] = useState<string | null>(null);
 
   // Track scroll position dynamically with requestAnimationFrame and ResizeObserver
   useEffect(() => {
@@ -244,69 +245,65 @@ export function ReaderPage() {
           style={{ width: `${progress}%`, background: 'var(--nurc-teal)' }}
         />
       </div>
-
       {/* Top Floating Control Bar */}
       <div
-        className="sticky top-16 z-30 border-b print:hidden transition-all duration-300 flex flex-col sm:flex-row sm:items-center justify-between px-5 py-3 gap-3"
+        className="sticky top-16 z-30 border-b print:hidden transition-all duration-300 flex items-center justify-between px-3 sm:px-5 py-3 gap-1.5"
         style={{ borderColor: modeColors.border, background: modeColors.bg }}
       >
-        {/* Left Side: Back & Article Title with scroll completion */}
-        <div className="flex items-center gap-4 min-w-0 flex-1">
-          <button
-            onClick={() => navigate(-1)}
-            className="flex items-center gap-1 text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer shrink-0 bg-transparent"
+        <div className="flex items-center gap-2 min-w-0 flex-1">
+          <Link
+            to="/newsletters"
+            className="flex items-center gap-1 text-sm font-semibold transition-opacity hover:opacity-70 shrink-0 cursor-pointer"
             style={{ color: 'var(--nurc-teal)' }}
+            aria-label="Return to newsletters archive"
           >
-            <ChevronLeft size={14} />
-            <span className="hidden sm:inline">Back</span>
-          </button>
-          <div className="h-4 w-px" style={{ background: modeColors.border }} />
-          <div className="flex items-center gap-2 min-w-0">
-            <BookOpen size={13} className="shrink-0" style={{ color: modeColors.muted }} />
-            <span className="text-sm font-bold truncate" style={{ color: modeColors.text, fontFamily: 'var(--font-heading)' }}>
+            <ArrowLeft size={16} />
+            <span className="hidden sm:inline">Archive</span>
+          </Link>
+          <div className="h-4 w-px hidden sm:block" style={{ background: modeColors.border }} />
+          <div className="flex items-center gap-1.5 min-w-0">
+            <span className="text-xs sm:text-sm font-bold truncate pr-1" style={{ color: modeColors.text, fontFamily: 'var(--font-heading)' }}>
               {newsletter.article.title}
             </span>
-            <span className="text-xs font-semibold shrink-0" style={{ color: modeColors.muted, fontFamily: 'var(--font-heading)' }}>
-              · {Math.round(progress)}% Read
+            <span className="hidden md:inline text-[10px] sm:text-xs font-semibold shrink-0" style={{ color: modeColors.muted, fontFamily: 'var(--font-heading)' }}>
+              · {newsletter.article.readTime} · {Math.round(progress)}% Read
             </span>
           </div>
         </div>
 
-        {/* Right Side: Simple Medium style controls toolbar (Visible at all times!) */}
-        <div className="flex items-center gap-2 shrink-0 self-end sm:self-auto">
-          
-          {/* Reading Comfort Modes Group pills */}
-          <div className="flex items-center bg-[#E5E7EB] p-1 rounded-xl border border-gray-300 transition-all shrink-0">
+        <div className="flex items-center gap-1.5 shrink-0">
+          {/* Segmented comfort modes */}
+          <div className="flex items-center bg-[#E5E7EB] p-0.5 sm:p-1 rounded-lg sm:rounded-xl border border-gray-300 transition-all shrink-0">
             {(['default', 'night', 'dark'] as const).map(mode => {
               const isActive = settings.readingMode === mode;
+              const isHovered = hoveredMode === mode;
               return (
                 <button
                   key={mode}
                   onClick={() => updateSettings({ readingMode: mode })}
-                  className="px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg text-xs transition-all cursor-pointer flex items-center gap-1 sm:gap-1.5 border-0"
+                  onMouseEnter={() => setHoveredMode(mode)}
+                  onMouseLeave={() => setHoveredMode(null)}
+                  className="px-1.5 sm:px-3 py-1 rounded-md sm:rounded-lg text-xs transition-all cursor-pointer flex items-center gap-1 border-0"
                   style={{
-                    backgroundColor: isActive ? '#FFFFFF' : 'transparent',
-                    color: isActive ? '#0A2540' : '#4B5563',
+                    backgroundColor: isActive 
+                      ? '#FFFFFF' 
+                      : isHovered 
+                        ? '#F3F4F6' 
+                        : 'transparent',
+                    color: isActive 
+                      ? '#0A2540' 
+                      : isHovered 
+                        ? '#1F2937' 
+                        : '#4B5563',
                     fontWeight: isActive ? 600 : 500,
                     boxShadow: isActive ? '0 1px 3px rgba(0,0,0,0.15)' : 'none',
                   }}
-                  onMouseEnter={(e) => {
-                    if (!isActive) {
-                      e.currentTarget.style.backgroundColor = '#F3F4F6';
-                      e.currentTarget.style.color = '#1F2937';
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (!isActive) {
-                      e.currentTarget.style.backgroundColor = 'transparent';
-                      e.currentTarget.style.color = '#4B5563';
-                    }
-                  }}
+                  title={`Switch to ${mode} mode`}
                 >
                   {mode === 'default' && <Sun size={13} className="shrink-0" />}
                   {mode === 'night' && <Moon size={13} className="shrink-0" />}
                   {mode === 'dark' && <Monitor size={13} className="shrink-0" />}
-                  <span>
+                  <span className="hidden sm:inline">
                     {mode === 'default' ? 'Default' : mode === 'night' ? 'Night' : 'Dark'}
                   </span>
                 </button>
@@ -316,23 +313,23 @@ export function ReaderPage() {
 
           <div className="h-4 w-px" style={{ background: modeColors.border }} />
 
-          {/* Font size adjustments (A- / A+) */}
-          <div className="flex items-center gap-1">
+          {/* Font Controls */}
+          <div className="flex items-center gap-0.5 sm:gap-1">
             <button
               onClick={decreaseFontSize}
               disabled={settings.fontSize === 'small'}
-              className="w-8 h-8 rounded-lg border flex items-center justify-center text-xs font-bold transition-all hover:bg-black/5 cursor-pointer bg-transparent disabled:opacity-40 disabled:cursor-not-allowed"
+              className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg border flex items-center justify-center text-xs font-bold transition-all hover:bg-black/5 cursor-pointer bg-transparent disabled:opacity-40 disabled:cursor-not-allowed"
               style={{ color: modeColors.text, borderColor: modeColors.border }}
-              title="Decrease Font Size"
+              title="Decrease text size"
             >
               A-
             </button>
             <button
               onClick={increaseFontSize}
               disabled={settings.fontSize === 'large'}
-              className="w-8 h-8 rounded-lg border flex items-center justify-center text-xs font-bold transition-all hover:bg-black/5 cursor-pointer bg-transparent disabled:opacity-40 disabled:cursor-not-allowed"
+              className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg border flex items-center justify-center text-xs font-bold transition-all hover:bg-black/5 cursor-pointer bg-transparent disabled:opacity-40 disabled:cursor-not-allowed"
               style={{ color: modeColors.text, borderColor: modeColors.border }}
-              title="Increase Font Size"
+              title="Increase text size"
             >
               A+
             </button>
@@ -340,47 +337,36 @@ export function ReaderPage() {
 
           <div className="h-4 w-px" style={{ background: modeColors.border }} />
 
-          {/* Save/Bookmark */}
           <button
             onClick={() => toggleSaveArticle(newsletter.id)}
-            className="p-2 rounded-lg border transition-all hover:bg-black/5 cursor-pointer bg-transparent"
+            className="p-1.5 sm:p-2 rounded-lg border transition-all hover:bg-black/5 cursor-pointer bg-transparent"
             style={{
               borderColor: isSaved ? 'var(--nurc-teal)' : modeColors.border,
               color: isSaved ? 'var(--nurc-teal)' : modeColors.muted,
               background: isSaved ? 'rgba(0,109,122,0.03)' : 'transparent'
             }}
-            title={isSaved ? 'Unsave Briefing' : 'Save Briefing'}
+            title={isSaved ? 'Remove Bookmark' : 'Save Briefing'}
           >
             <Bookmark size={14} fill={isSaved ? 'currentColor' : 'none'} />
           </button>
 
-          {/* Download Clean TXT File */}
           <button
             onClick={handleDownload}
-            className="p-2 rounded-lg border transition-all hover:bg-black/5 cursor-pointer bg-transparent"
+            className="p-1.5 sm:p-2 rounded-lg border transition-all hover:bg-black/5 cursor-pointer bg-transparent"
             style={{ color: modeColors.text, borderColor: modeColors.border }}
-            title="Download Clean Text Briefing"
+            title="Download text brief"
           >
             <Download size={14} />
           </button>
 
-          {/* Share Briefing URL */}
           <button
             onClick={handleShare}
-            className="p-2 rounded-lg border transition-all hover:bg-black/5 cursor-pointer bg-transparent flex items-center gap-1.5 text-xs font-bold"
+            className="p-1.5 sm:p-2 rounded-lg border transition-all hover:bg-black/5 cursor-pointer bg-transparent flex items-center gap-1 sm:gap-1.5 text-xs font-bold"
             style={{ color: modeColors.text, borderColor: modeColors.border }}
-            title="Share Briefing URL"
+            title="Copy share link"
           >
             <Share2 size={14} />
             <span className="hidden md:inline">{copied ? 'Copied' : 'Share'}</span>
-          </button>
-
-          <button
-            onClick={() => navigate(-1)}
-            className="p-2 rounded-lg transition-opacity hover:opacity-70 cursor-pointer bg-transparent"
-            style={{ color: modeColors.muted }}
-          >
-            <X size={17} />
           </button>
 
         </div>

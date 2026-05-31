@@ -37,7 +37,7 @@ export function Footer() {
               <li><Link to="/about" className="text-gray-500 hover:text-gray-900 transition-colors">About</Link></li>
               <li><Link to="/pricing" className="text-gray-500 hover:text-gray-900 transition-colors">Pricing</Link></li>
               <li><button onClick={openDemoModal} className="text-gray-500 hover:text-gray-900 transition-colors bg-transparent border-0 p-0 cursor-pointer text-xs font-normal text-left">Schedule Demo</button></li>
-              <li><Link to="/about" className="text-gray-500 hover:text-gray-900 transition-colors">Contact</Link></li>
+              <li><Link to="/contact" className="text-gray-500 hover:text-gray-900 transition-colors">Contact</Link></li>
             </ul>
           </div>
 
