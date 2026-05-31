@@ -43,15 +43,59 @@ export function ReaderModeOverlay() {
     const handleScrollEvent = () => {
       cancelAnimationFrame(frameId);
       frameId = requestAnimationFrame(() => {
-        const { scrollTop, scrollHeight, clientHeight } = el;
-        // Strict boundary check: if user reached bottom, force 100%
-        const isAtBottom = Math.abs(scrollHeight - clientHeight - scrollTop) < 5;
-        const pct = isAtBottom 
-          ? 100 
-          : scrollHeight <= clientHeight 
-            ? 100 
-            : (scrollTop / (scrollHeight - clientHeight)) * 100;
+        const rootEl = document.getElementById('root');
+        
+        const targets = [
+          {
+            name: 'element',
+            scrollTop: el.scrollTop || 0,
+            scrollHeight: el.scrollHeight || 0,
+            clientHeight: el.clientHeight || 0
+          },
+          {
+            name: 'window',
+            scrollTop: window.scrollY || window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0,
+            scrollHeight: document.documentElement.scrollHeight || document.body.scrollHeight || 0,
+            clientHeight: document.documentElement.clientHeight || window.innerHeight || 0
+          },
+          {
+            name: 'root',
+            scrollTop: rootEl?.scrollTop || 0,
+            scrollHeight: rootEl?.scrollHeight || 0,
+            clientHeight: rootEl?.clientHeight || 0
+          }
+        ];
+
+        let bestTarget = targets[0]; // Default to overlay element
+        for (const target of targets) {
+          if (target.scrollHeight > target.clientHeight && target.scrollTop > 0) {
+            bestTarget = target;
+            break;
+          }
+        }
+        if (bestTarget.scrollTop === 0) {
+          const scrollableTargets = targets.filter(t => t.scrollHeight > t.clientHeight + 10);
+          if (scrollableTargets.length > 0) {
+            bestTarget = scrollableTargets[0];
+          }
+        }
+
+        const { scrollTop, scrollHeight, clientHeight } = bestTarget;
+        const scrollableHeight = scrollHeight - clientHeight;
+        
+        let pct = 0;
+        if (scrollableHeight <= 0) {
+          pct = 100; // Fallback Protection
+        } else {
+          const isAtBottom = Math.abs(scrollableHeight - scrollTop) < 10;
+          pct = isAtBottom ? 100 : (scrollTop / scrollableHeight) * 100;
+        }
+
         const roundedPct = Math.min(100, Math.max(0, pct));
+        
+        // Debug Logging
+        console.log(`[ReaderMode Scroll Debug] Target: ${bestTarget.name} | ScrollTop: ${scrollTop} | ScrollHeight: ${scrollHeight} | ClientHeight: ${clientHeight} | ScrollableHeight: ${scrollableHeight} | Progress: ${roundedPct}%`);
+
         setProgress(roundedPct);
         
         localStorage.setItem(`nurc_scroll_pos_${newsletterId}`, scrollTop.toString());
@@ -59,7 +103,8 @@ export function ReaderModeOverlay() {
       });
     };
 
-    el.addEventListener('scroll', handleScrollEvent);
+    el.addEventListener('scroll', handleScrollEvent, { passive: true });
+    window.addEventListener('resize', handleScrollEvent, { passive: true });
 
     // Initial check & auto-restoration
     const savedPos = localStorage.getItem(`nurc_scroll_pos_${newsletterId}`);
@@ -67,7 +112,11 @@ export function ReaderModeOverlay() {
       const scrollTop = parseFloat(savedPos);
       el.scrollTop = scrollTop;
     }
+    
     handleScrollEvent();
+    const t1 = setTimeout(handleScrollEvent, 100);
+    const t2 = setTimeout(handleScrollEvent, 300);
+    const t3 = setTimeout(handleScrollEvent, 600);
 
     // ResizeObserver tracks height shifts due to font-size updates or screen width resizes
     const resizeObserver = new ResizeObserver(() => {
@@ -77,9 +126,15 @@ export function ReaderModeOverlay() {
     if (el.firstElementChild) {
       resizeObserver.observe(el.firstElementChild);
     }
+    const rootEl = document.getElementById('root');
+    if (rootEl) resizeObserver.observe(rootEl);
 
     return () => {
       el.removeEventListener('scroll', handleScrollEvent);
+      window.removeEventListener('resize', handleScrollEvent);
+      clearTimeout(t1);
+      clearTimeout(t2);
+      clearTimeout(t3);
       cancelAnimationFrame(frameId);
       resizeObserver.disconnect();
     };

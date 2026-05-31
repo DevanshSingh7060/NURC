@@ -26,6 +26,8 @@ export function ReaderPage() {
   const { newsletters, currentUser, savedArticles, toggleSaveArticle, setContinueReading } = useApp();
   const { settings, updateSettings } = useReaderMode();
 
+  const newsletter = newsletters.find(n => n.id === id);
+
   const [copied, setCopied] = useState(false);
   const [progress, setProgress] = useState(0);
   const [hoveredMode, setHoveredMode] = useState<string | null>(null);
@@ -37,17 +39,61 @@ export function ReaderPage() {
     const handleScrollEvent = () => {
       cancelAnimationFrame(frameId);
       frameId = requestAnimationFrame(() => {
-        const scrollTop = window.scrollY || document.documentElement.scrollTop;
-        const scrollHeight = document.documentElement.scrollHeight;
-        const clientHeight = document.documentElement.clientHeight;
-        // Strict boundary check: if user reached bottom, force 100%
-        const isAtBottom = Math.abs(scrollHeight - clientHeight - scrollTop) < 10;
-        const pct = isAtBottom 
-          ? 100 
-          : scrollHeight <= clientHeight 
-            ? 100 
-            : (scrollTop / (scrollHeight - clientHeight)) * 100;
+        const rootEl = document.getElementById('root');
+        const wrapperEl = document.getElementById('reader-outer-wrapper');
+
+        const targets = [
+          {
+            name: 'window',
+            scrollTop: window.scrollY || window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0,
+            scrollHeight: document.documentElement.scrollHeight || document.body.scrollHeight || 0,
+            clientHeight: document.documentElement.clientHeight || window.innerHeight || 0
+          },
+          {
+            name: 'root',
+            scrollTop: rootEl?.scrollTop || 0,
+            scrollHeight: rootEl?.scrollHeight || 0,
+            clientHeight: rootEl?.clientHeight || 0
+          },
+          {
+            name: 'wrapper',
+            scrollTop: wrapperEl?.scrollTop || 0,
+            scrollHeight: wrapperEl?.scrollHeight || 0,
+            clientHeight: wrapperEl?.clientHeight || 0
+          }
+        ];
+
+        // Identify which target has active scroll/scrolling bounds
+        let bestTarget = targets[0]; // Default window
+        for (const target of targets) {
+          if (target.scrollHeight > target.clientHeight && target.scrollTop > 0) {
+            bestTarget = target;
+            break;
+          }
+        }
+        if (bestTarget.scrollTop === 0) {
+          const scrollableTargets = targets.filter(t => t.scrollHeight > t.clientHeight + 10);
+          if (scrollableTargets.length > 0) {
+            bestTarget = scrollableTargets[0];
+          }
+        }
+
+        const { scrollTop, scrollHeight, clientHeight } = bestTarget;
+        const scrollableHeight = scrollHeight - clientHeight;
+        
+        let pct = 0;
+        if (scrollableHeight <= 0) {
+          pct = 100; // Fallback Protection
+        } else {
+          const isAtBottom = Math.abs(scrollableHeight - scrollTop) < 10;
+          pct = isAtBottom ? 100 : (scrollTop / scrollableHeight) * 100;
+        }
+
         const roundedPct = Math.min(100, Math.max(0, pct));
+        
+        // Debug Logging
+        console.log(`[ReaderPage Scroll Debug] Target: ${bestTarget.name} | ScrollTop: ${scrollTop} | ScrollHeight: ${scrollHeight} | ClientHeight: ${clientHeight} | ScrollableHeight: ${scrollableHeight} | Progress: ${roundedPct}%`);
+
         setProgress(roundedPct);
         
         if (id) {
@@ -57,23 +103,41 @@ export function ReaderPage() {
       });
     };
 
-    window.addEventListener('scroll', handleScrollEvent);
+    window.addEventListener('scroll', handleScrollEvent, { passive: true });
+    window.addEventListener('resize', handleScrollEvent, { passive: true });
 
-    // Initial check
+    // Handle root or wrapper scrolls as fallback listeners
+    const rootEl = document.getElementById('root');
+    const wrapperEl = document.getElementById('reader-outer-wrapper');
+    if (rootEl) rootEl.addEventListener('scroll', handleScrollEvent, { passive: true });
+    if (wrapperEl) wrapperEl.addEventListener('scroll', handleScrollEvent, { passive: true });
+
+    // Initial triggers & content load adjustments
     handleScrollEvent();
+    const t1 = setTimeout(handleScrollEvent, 100);
+    const t2 = setTimeout(handleScrollEvent, 300);
+    const t3 = setTimeout(handleScrollEvent, 600);
 
-    // ResizeObserver observes document.body to instantly detect size shifts from font scaling or resizing
+    // ResizeObserver observes elements to instantly detect size shifts from font scaling or resizing
     const resizeObserver = new ResizeObserver(() => {
       handleScrollEvent();
     });
     resizeObserver.observe(document.body);
+    if (rootEl) resizeObserver.observe(rootEl);
+    if (wrapperEl) resizeObserver.observe(wrapperEl);
 
     return () => {
       window.removeEventListener('scroll', handleScrollEvent);
+      window.removeEventListener('resize', handleScrollEvent);
+      if (rootEl) rootEl.removeEventListener('scroll', handleScrollEvent);
+      if (wrapperEl) wrapperEl.removeEventListener('scroll', handleScrollEvent);
+      clearTimeout(t1);
+      clearTimeout(t2);
+      clearTimeout(t3);
       cancelAnimationFrame(frameId);
       resizeObserver.disconnect();
     };
-  }, [id, settings.fontSize]);
+  }, [id, settings.fontSize, newsletter?.article]); // Added article dependency for content changes
 
   // Auto-restore reading scroll position on load
   useEffect(() => {
@@ -91,8 +155,6 @@ export function ReaderPage() {
       }
     }
   }, [id, setContinueReading]);
-
-  const newsletter = newsletters.find(n => n.id === id);
 
   if (!newsletter) {
     return (
