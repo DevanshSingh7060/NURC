@@ -1,0 +1,42 @@
+/* Scroll fade-in */
+.fade-in {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 300ms ease, transform 300ms ease;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Mobile font size */
+@media (max-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+/* Marquee */
+@keyframes nurc-marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.nurc-marquee-track {
+  animation: nurc-marquee 38s linear infinite;
+  will-change: transform;
+}
+
+.nurc-marquee-wrap:hover .nurc-marquee-track {
+  animation-play-state: paused;
+}
+
+/* Button hover scale */
+.btn-nurc {
+  transition: transform 200ms ease, opacity 200ms ease, box-shadow 200ms ease;
+}
+
+.btn-nurc:hover {
+  transform: scale(1.02);
+}

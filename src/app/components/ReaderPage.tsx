@@ -1,0 +1,584 @@
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate, Link } from 'react-router';
+import { useApp } from '../context/AppContext';
+import { useReaderMode } from './ReaderModeContext';
+import { NewsletterThemeRenderer } from './NewsletterThemeRenderer';
+import { ArrowLeft, Printer, Download, Bookmark, Share2, ChevronLeft, BookOpen, X, Sun, Moon, Monitor } from 'lucide-react';
+
+const readingModeColors = {
+  default: { bg: '#FAF9F6', text: '#1F2937', card: '#FFFFFF', border: '#E5E7EB', muted: '#4B5563' },
+  night:   { bg: '#F4EAD7', text: '#3D352A', card: '#FAF4EB', border: '#EADFCB', muted: '#7A6D5C' },
+  dark:    { bg: '#111111', text: '#F5F5F5', card: '#1C1C1E', border: '#2C2C2E', muted: '#8E8E93' },
+};
+
+const fontSizeMap = {
+  small:  '14px',
+  medium: '16px',
+  large:  '19px',
+};
+
+// Line spacing is locked to standard/default (controls removed from UI completely)
+const lineHeight = '1.65';
+
+export function ReaderPage() {
+  const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+  const { newsletters, currentUser, savedArticles, toggleSaveArticle, setContinueReading } = useApp();
+  const { settings, updateSettings } = useReaderMode();
+
+  const [copied, setCopied] = useState(false);
+  const [progress, setProgress] = useState(0);
+
+  // Track scroll position dynamically with requestAnimationFrame and ResizeObserver
+  useEffect(() => {
+    let frameId: number;
+
+    const handleScrollEvent = () => {
+      cancelAnimationFrame(frameId);
+      frameId = requestAnimationFrame(() => {
+        const scrollTop = window.scrollY || document.documentElement.scrollTop;
+        const scrollHeight = document.documentElement.scrollHeight;
+        const clientHeight = document.documentElement.clientHeight;
+        // Strict boundary check: if user reached bottom, force 100%
+        const isAtBottom = Math.abs(scrollHeight - clientHeight - scrollTop) < 10;
+        const pct = isAtBottom 
+          ? 100 
+          : scrollHeight <= clientHeight 
+            ? 100 
+            : (scrollTop / (scrollHeight - clientHeight)) * 100;
+        const roundedPct = Math.min(100, Math.max(0, pct));
+        setProgress(roundedPct);
+        
+        if (id) {
+          localStorage.setItem(`nurc_scroll_pos_${id}`, scrollTop.toString());
+          localStorage.setItem(`nurc_scroll_pct_${id}`, roundedPct.toString());
+        }
+      });
+    };
+
+    window.addEventListener('scroll', handleScrollEvent);
+
+    // Initial check
+    handleScrollEvent();
+
+    // ResizeObserver observes document.body to instantly detect size shifts from font scaling or resizing
+    const resizeObserver = new ResizeObserver(() => {
+      handleScrollEvent();
+    });
+    resizeObserver.observe(document.body);
+
+    return () => {
+      window.removeEventListener('scroll', handleScrollEvent);
+      cancelAnimationFrame(frameId);
+      resizeObserver.disconnect();
+    };
+  }, [id, settings.fontSize]);
+
+  // Auto-restore reading scroll position on load
+  useEffect(() => {
+    if (id) {
+      setContinueReading(id);
+      const savedPos = localStorage.getItem(`nurc_scroll_pos_${id}`);
+      if (savedPos) {
+        const scrollTop = parseFloat(savedPos);
+        setTimeout(() => {
+          window.scrollTo({
+            top: scrollTop,
+            behavior: 'auto'
+          });
+        }, 150);
+      }
+    }
+  }, [id, setContinueReading]);
+
+  const newsletter = newsletters.find(n => n.id === id);
+
+  if (!newsletter) {
+    return (
+      <div className="min-h-[calc(100vh-64px)] flex flex-col items-center justify-center p-6 bg-[#FAF9F6] text-[#1F2937]">
+        <h2 className="text-xl font-bold text-red-600 mb-2">Briefing Not Found</h2>
+        <p className="text-muted-foreground mb-4">The newsletter briefing you requested is not active or has been archived.</p>
+        <Link to="/newsletters" className="px-4 py-2 bg-navy text-white rounded-lg text-sm font-semibold" style={{ background: 'var(--nurc-navy)' }}>
+          Return to Archive
+        </Link>
+      </div>
+    );
+  }
+
+  const isSaved = savedArticles.includes(newsletter.id);
+  const activeTheme = currentUser?.theme || 'Original';
+  const modeColors = readingModeColors[settings.readingMode || 'default'];
+  const fontSize = fontSizeMap[settings.fontSize || 'medium'];
+
+  const handleShare = () => {
+    navigator.clipboard?.writeText(window.location.href);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleDownload = () => {
+    let textContent = `NURC MEDIANEXT BRIEFING\n`;
+    textContent += `=========================\n`;
+    textContent += `Title: ${newsletter.article.title}\n`;
+    textContent += `Sector: ${newsletter.category}\n`;
+    textContent += `Issue: ${newsletter.issue} | Date: ${newsletter.date}\n`;
+    textContent += `Read Time: ${newsletter.readTime}\n\n`;
+
+    newsletter.article.content.forEach(block => {
+      if (block.type === 'section') {
+        textContent += `[${block.heading || 'Briefing'} ${block.tag ? ` - ${block.tag}` : ''}]\n`;
+        textContent += `${block.text}\n\n`;
+      } else if (block.type === 'data') {
+        textContent += `[Data Indicators]\n`;
+        block.items?.forEach(item => {
+          textContent += ` - ${item}\n`;
+        });
+        textContent += `\n`;
+      } else if (block.type === 'quote') {
+        textContent += `"${block.text}"\n`;
+        if (block.attribution) {
+          textContent += ` -- ${block.attribution}\n`;
+        }
+        textContent += `\n`;
+      }
+    });
+
+    textContent += `-------------------------\n`;
+    textContent += `NURC MediaNext · Curated Intelligence Since 2002\n`;
+    textContent += `Unauthorised distribution is prohibited. Confidential briefing for active subscribers.`;
+
+    const blob = new Blob([textContent], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `NURC_${newsletter.category}_Issue_${newsletter.issue.replace('#', '')}.txt`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
+  const decreaseFontSize = () => {
+    if (settings.fontSize === 'large') updateSettings({ fontSize: 'medium' });
+    else if (settings.fontSize === 'medium') updateSettings({ fontSize: 'small' });
+  };
+
+  const increaseFontSize = () => {
+    if (settings.fontSize === 'small') updateSettings({ fontSize: 'medium' });
+    else if (settings.fontSize === 'medium') updateSettings({ fontSize: 'large' });
+  };
+
+  return (
+    <div
+      className="min-h-[calc(100vh-64px)] transition-all duration-300 flex flex-col relative"
+      style={{ background: modeColors.bg, fontFamily: 'var(--font-body)', color: modeColors.text }}
+      id="reader-outer-wrapper"
+    >
+      {/* Dynamic Style Injection Override to enforce comfort colors on active themes without reloads */}
+      <style>{`
+        #reader-outer-wrapper {
+          background-color: ${modeColors.bg} !important;
+          color: ${modeColors.text} !important;
+        }
+        #reader-content-wrapper p,
+        #reader-content-wrapper li,
+        #reader-content-wrapper li span,
+        #reader-content-wrapper span,
+        #reader-content-wrapper blockquote,
+        #reader-content-wrapper cite,
+        #reader-content-wrapper font,
+        #reader-content-wrapper strong,
+        #reader-content-wrapper h1,
+        #reader-content-wrapper h2,
+        #reader-content-wrapper h3 {
+          color: ${modeColors.text} !important;
+        }
+        #reader-content-wrapper p {
+          font-size: ${fontSize} !important;
+          line-height: ${lineHeight} !important;
+        }
+        #reader-content-wrapper li span {
+          font-size: ${fontSize} !important;
+          line-height: ${lineHeight} !important;
+        }
+        #reader-content-wrapper li {
+          line-height: ${lineHeight} !important;
+        }
+        #reader-content-wrapper > div {
+          background-color: ${modeColors.bg} !important;
+          border-color: ${modeColors.border} !important;
+          box-shadow: none !important;
+        }
+        #reader-content-wrapper .bg-white,
+        #reader-content-wrapper .bg-gray-50,
+        #reader-content-wrapper .bg-\\[\\#F8F9FA\\],
+        #reader-content-wrapper .bg-\\[\\#FCF8F2\\],
+        #reader-content-wrapper .bg-gradient-to-r {
+          background: ${modeColors.card} !important;
+          color: ${modeColors.text} !important;
+          border-color: ${modeColors.border} !important;
+        }
+        #reader-content-wrapper border,
+        #reader-content-wrapper div {
+          border-color: ${modeColors.border} !important;
+        }
+        #reader-content-wrapper .text-muted-foreground,
+        #reader-content-wrapper .text-gray-500,
+        #reader-content-wrapper .text-gray-600 {
+          color: ${modeColors.muted} !important;
+        }
+        @media (max-width: 640px) {
+          #reader-content-wrapper {
+            padding-left: 16px !important;
+            padding-right: 16px !important;
+            width: 100% !important;
+            max-width: 100% !important;
+          }
+        }
+      `}</style>
+
+      {/* Reading Progress Bar (Fixed top viewport indicator) */}
+      <div className="fixed top-0 left-0 right-0 h-1 shrink-0 z-50 animate-fadeIn" style={{ background: modeColors.border }}>
+        <div
+          className="h-full transition-all duration-150"
+          style={{ width: `${progress}%`, background: 'var(--nurc-teal)' }}
+        />
+      </div>
+
+      {/* Top Floating Control Bar */}
+      <div
+        className="sticky top-16 z-30 border-b print:hidden transition-all duration-300 flex flex-col sm:flex-row sm:items-center justify-between px-5 py-3 gap-3"
+        style={{ borderColor: modeColors.border, background: modeColors.bg }}
+      >
+        {/* Left Side: Back & Article Title with scroll completion */}
+        <div className="flex items-center gap-4 min-w-0 flex-1">
+          <button
+            onClick={() => navigate(-1)}
+            className="flex items-center gap-1 text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer shrink-0 bg-transparent"
+            style={{ color: 'var(--nurc-teal)' }}
+          >
+            <ChevronLeft size={14} />
+            <span className="hidden sm:inline">Back</span>
+          </button>
+          <div className="h-4 w-px" style={{ background: modeColors.border }} />
+          <div className="flex items-center gap-2 min-w-0">
+            <BookOpen size={13} className="shrink-0" style={{ color: modeColors.muted }} />
+            <span className="text-sm font-bold truncate" style={{ color: modeColors.text, fontFamily: 'var(--font-heading)' }}>
+              {newsletter.article.title}
+            </span>
+            <span className="text-xs font-semibold shrink-0" style={{ color: modeColors.muted, fontFamily: 'var(--font-heading)' }}>
+              · {Math.round(progress)}% Read
+            </span>
+          </div>
+        </div>
+
+        {/* Right Side: Simple Medium style controls toolbar (Visible at all times!) */}
+        <div className="flex items-center gap-2 shrink-0 self-end sm:self-auto">
+          
+          {/* Reading Comfort Modes Group pills */}
+          <div className="flex items-center bg-[#E5E7EB] p-1 rounded-xl border border-gray-300 transition-all shrink-0">
+            {(['default', 'night', 'dark'] as const).map(mode => {
+              const isActive = settings.readingMode === mode;
+              return (
+                <button
+                  key={mode}
+                  onClick={() => updateSettings({ readingMode: mode })}
+                  className="px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg text-xs transition-all cursor-pointer flex items-center gap-1 sm:gap-1.5 border-0"
+                  style={{
+                    backgroundColor: isActive ? '#FFFFFF' : 'transparent',
+                    color: isActive ? '#0A2540' : '#4B5563',
+                    fontWeight: isActive ? 600 : 500,
+                    boxShadow: isActive ? '0 1px 3px rgba(0,0,0,0.15)' : 'none',
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!isActive) {
+                      e.currentTarget.style.backgroundColor = '#F3F4F6';
+                      e.currentTarget.style.color = '#1F2937';
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!isActive) {
+                      e.currentTarget.style.backgroundColor = 'transparent';
+                      e.currentTarget.style.color = '#4B5563';
+                    }
+                  }}
+                >
+                  {mode === 'default' && <Sun size={13} className="shrink-0" />}
+                  {mode === 'night' && <Moon size={13} className="shrink-0" />}
+                  {mode === 'dark' && <Monitor size={13} className="shrink-0" />}
+                  <span>
+                    {mode === 'default' ? 'Default' : mode === 'night' ? 'Night' : 'Dark'}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+
+          <div className="h-4 w-px" style={{ background: modeColors.border }} />
+
+          {/* Font size adjustments (A- / A+) */}
+          <div className="flex items-center gap-1">
+            <button
+              onClick={decreaseFontSize}
+              disabled={settings.fontSize === 'small'}
+              className="w-8 h-8 rounded-lg border flex items-center justify-center text-xs font-bold transition-all hover:bg-black/5 cursor-pointer bg-transparent disabled:opacity-40 disabled:cursor-not-allowed"
+              style={{ color: modeColors.text, borderColor: modeColors.border }}
+              title="Decrease Font Size"
+            >
+              A-
+            </button>
+            <button
+              onClick={increaseFontSize}
+              disabled={settings.fontSize === 'large'}
+              className="w-8 h-8 rounded-lg border flex items-center justify-center text-xs font-bold transition-all hover:bg-black/5 cursor-pointer bg-transparent disabled:opacity-40 disabled:cursor-not-allowed"
+              style={{ color: modeColors.text, borderColor: modeColors.border }}
+              title="Increase Font Size"
+            >
+              A+
+            </button>
+          </div>
+
+          <div className="h-4 w-px" style={{ background: modeColors.border }} />
+
+          {/* Save/Bookmark */}
+          <button
+            onClick={() => toggleSaveArticle(newsletter.id)}
+            className="p-2 rounded-lg border transition-all hover:bg-black/5 cursor-pointer bg-transparent"
+            style={{
+              borderColor: isSaved ? 'var(--nurc-teal)' : modeColors.border,
+              color: isSaved ? 'var(--nurc-teal)' : modeColors.muted,
+              background: isSaved ? 'rgba(0,109,122,0.03)' : 'transparent'
+            }}
+            title={isSaved ? 'Unsave Briefing' : 'Save Briefing'}
+          >
+            <Bookmark size={14} fill={isSaved ? 'currentColor' : 'none'} />
+          </button>
+
+          {/* Download Clean TXT File */}
+          <button
+            onClick={handleDownload}
+            className="p-2 rounded-lg border transition-all hover:bg-black/5 cursor-pointer bg-transparent"
+            style={{ color: modeColors.text, borderColor: modeColors.border }}
+            title="Download Clean Text Briefing"
+          >
+            <Download size={14} />
+          </button>
+
+          {/* Share Briefing URL */}
+          <button
+            onClick={handleShare}
+            className="p-2 rounded-lg border transition-all hover:bg-black/5 cursor-pointer bg-transparent flex items-center gap-1.5 text-xs font-bold"
+            style={{ color: modeColors.text, borderColor: modeColors.border }}
+            title="Share Briefing URL"
+          >
+            <Share2 size={14} />
+            <span className="hidden md:inline">{copied ? 'Copied' : 'Share'}</span>
+          </button>
+
+          <button
+            onClick={() => navigate(-1)}
+            className="p-2 rounded-lg transition-opacity hover:opacity-70 cursor-pointer bg-transparent"
+            style={{ color: modeColors.muted }}
+          >
+            <X size={17} />
+          </button>
+
+        </div>
+      </div>
+
+      {/* Reader Layout container */}
+      <div className="py-12 px-6 print:py-0 print:px-0 flex-1" id="reader-content-wrapper">
+        <div className="max-w-[800px] mx-auto">
+          
+          {/* Key Takeaways summary card */}
+          <div 
+            className="rounded-2xl p-6 mb-8 text-left space-y-3.5 border shadow-sm"
+            style={{ 
+              background: settings.readingMode === 'dark' ? '#1C1C1E' : 'rgba(212,183,143,0.06)', 
+              borderColor: settings.readingMode === 'dark' ? '#2C2C2E' : 'var(--nurc-gold)' 
+            }}
+          >
+            <div className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-wider" style={{ color: 'var(--nurc-gold)' }}>
+              ★ Key Intelligence Takeaways
+            </div>
+            <ul className="space-y-2">
+              {highlights.map((h, i) => (
+                <li key={i} className="text-xs font-semibold leading-relaxed flex items-start gap-2 text-gray-800" style={{ color: modeColors.text }}>
+                  <span className="shrink-0 mt-1" style={{ color: 'var(--nurc-gold)' }}>•</span>
+                  <span>{h}</span>
+                </li>
+              ))}
+            </ul>
+            {!isGuest && (
+              <button
+                onClick={() => {
+                  const el = document.getElementById('full-briefing-start');
+                  if (el) el.scrollIntoView({ behavior: 'smooth' });
+                }}
+                className="mt-2 text-xs font-bold hover:underline flex items-center gap-1 bg-transparent border-0 cursor-pointer p-0"
+                style={{ color: 'var(--nurc-teal)' }}
+              >
+                Read Full Intelligence Brief ↓
+              </button>
+            )}
+          </div>
+          <div id="full-briefing-start" />
+
+          {/* Conditional Preview Lock Gate for Guests */}
+          {isGuest ? (
+            <div className="space-y-6">
+              {/* First Section Visible */}
+              <div className="space-y-3 text-left">
+                <h2 className="text-sm font-extrabold uppercase tracking-wider" style={{ color: 'var(--nurc-teal)' }}>
+                  {newsletter.article.content[0]?.heading || '01 · PREVIEW BRIEF'}
+                </h2>
+                <p className="text-sm md:text-base leading-relaxed text-gray-700 font-medium">
+                  {newsletter.article.content[0]?.text || 'India\'s macro economic margins showed a structural expansion...'}
+                </p>
+              </div>
+
+              {/* Locked Zone with soft blurs */}
+              <div className="relative pt-8 pb-24 border-t border-dashed border-gray-200 mt-8">
+                {/* Mock blurred elements */}
+                <div className="select-none pointer-events-none opacity-20 filter blur-[4.5px] space-y-8 text-left">
+                  <div className="space-y-2">
+                    <div className="h-4 bg-gray-300 rounded w-1/3" />
+                    <div className="h-3 bg-gray-300 rounded w-full" />
+                    <div className="h-3 bg-gray-300 rounded w-5/6" />
+                  </div>
+                  <div className="space-y-2 bg-gray-50 p-6 rounded-2xl border">
+                    <div className="h-4 bg-gray-300 rounded w-1/4" />
+                    <div className="h-3 bg-gray-300 rounded w-full" />
+                    <div className="h-3 bg-gray-300 rounded w-full" />
+                  </div>
+                </div>
+
+                {/* Unlock CTA Card Overlay */}
+                <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center bg-gradient-to-t from-transparent via-transparent to-transparent">
+                  <div className="max-w-md space-y-4 bg-white border border-gray-100 p-8 rounded-3xl shadow-2xl relative z-10">
+                    <div className="w-12 h-12 rounded-full bg-teal-50 flex items-center justify-center mx-auto text-[var(--nurc-teal)] shadow-sm">
+                      <span className="font-bold text-lg">🔒</span>
+                    </div>
+                    <div className="space-y-1.5">
+                      <h4 className="font-bold text-sm text-navy uppercase tracking-wider" style={{ color: 'var(--nurc-navy)', fontFamily: 'var(--font-heading)' }}>
+                        Unlock Full Intelligence
+                      </h4>
+                      <p className="text-[11px] text-muted-foreground leading-relaxed max-w-xs mx-auto">
+                        You are viewing a complimentary preview briefing. Subscribe to NURC MediaNext to unlock daily C-Suite editions, full analyst libraries, and custom sector tracking models.
+                      </p>
+                    </div>
+                    <div className="flex gap-2.5 pt-2">
+                      <Link
+                        to="/signup"
+                        className="flex-1 py-2.5 rounded-xl text-xs font-bold text-white text-center cursor-pointer shadow-sm border-0 transition-opacity hover:opacity-90 animate-none"
+                        style={{ background: 'var(--nurc-teal)', fontFamily: 'var(--font-heading)' }}
+                      >
+                        Create Account
+                      </Link>
+                      <Link
+                        to="/pricing"
+                        className="flex-1 py-2.5 border border-border text-navy rounded-xl text-xs font-bold text-center cursor-pointer hover:bg-gray-50 transition-colors"
+                        style={{ color: 'var(--nurc-navy)', fontFamily: 'var(--font-heading)' }}
+                      >
+                        View B2B Plans
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ) : (
+            /* Render Full Newsletter Theme for Subscribed Members */
+            <NewsletterThemeRenderer article={newsletter.article} theme={activeTheme} />
+          )}
+
+        </div>
+      </div>
+
+      {/* Mobile Floating Bottom Action Strip (One-Thumb Quick Access!) */}
+      <div className="sm:hidden fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-gray-200 py-3 px-6 flex items-center justify-around shadow-xl">
+        <button
+          onClick={() => toggleSaveArticle(newsletter.id)}
+          className="flex flex-col items-center gap-0.5 text-[9px] font-bold text-gray-500 hover:text-navy bg-transparent border-0 cursor-pointer"
+        >
+          <Bookmark size={14} fill={isSaved ? 'var(--nurc-teal)' : 'none'} style={{ color: isSaved ? 'var(--nurc-teal)' : 'inherit' }} />
+          <span>{isSaved ? 'Saved' : 'Save'}</span>
+        </button>
+        <button
+          onClick={handleShare}
+          className="flex flex-col items-center gap-0.5 text-[9px] font-bold text-gray-500 hover:text-navy bg-transparent border-0 cursor-pointer"
+        >
+          <Share2 size={14} style={{ color: copied ? 'var(--nurc-teal)' : 'inherit' }} />
+          <span>Share</span>
+        </button>
+        <button
+          onClick={handleDownload}
+          className="flex flex-col items-center gap-0.5 text-[9px] font-bold text-gray-500 hover:text-navy bg-transparent border-0 cursor-pointer"
+        >
+          <Download size={14} />
+          <span>Download</span>
+        </button>
+        <button
+          onClick={() => navigate(-1)}
+          className="flex flex-col items-center gap-0.5 text-[9px] font-bold text-red-500 bg-transparent border-0 cursor-pointer"
+        >
+          <X size={14} />
+          <span>Back</span>
+        </button>
+      </div>
+
+      {/* Floating CTA Card Overlay (Only shown on Desktop for Guests) */}
+      {isGuest && (
+        <div 
+          className="hidden md:flex fixed bottom-6 right-6 z-40 bg-white border border-border rounded-2xl p-5 shadow-2xl items-center justify-between gap-5 max-w-md animate-fadeIn" 
+          style={{ borderLeft: '4px solid var(--nurc-teal)' }}
+        >
+          <div>
+            <h5 className="font-bold text-xs text-navy uppercase tracking-wider" style={{ color: 'var(--nurc-navy)', fontFamily: 'var(--font-heading)' }}>
+              Unlock B2B Intelligence
+            </h5>
+            <p className="text-[10px] text-muted-foreground mt-0.5 leading-normal max-w-[240px]">
+              Subscribe to NURC MediaNext for daily C-Suite industry dispatches across all critical segments.
+            </p>
+          </div>
+          <button
+            onClick={() => {
+              navigate('/subscribe');
+            }}
+            className="px-4 py-2.5 rounded-lg text-xs font-bold text-white shrink-0 cursor-pointer border-0 shadow-sm"
+            style={{ background: 'var(--nurc-teal)', fontFamily: 'var(--font-heading)' }}
+          >
+            Get Started
+          </button>
+        </div>
+      )}
+
+      {/* Printing specific styling rules */}
+      <style>{`
+        @media print {
+          body {
+            background: white !important;
+            color: black !important;
+          }
+          header, .print\\:hidden, footer {
+            display: none !important;
+          }
+          .min-h-\\[calc\\(100vh-64px\\)\\] {
+            min-height: auto !important;
+          }
+          .py-12 {
+            padding: 0 !important;
+          }
+          .max-w-\\[800px\\], .max-w-\\[700px\\] {
+            max-width: 100% !important;
+            width: 100% !important;
+            border: none !important;
+            box-shadow: none !important;
+            padding: 0 !important;
+            background: transparent !important;
+          }
+        }
+      `}</style>
+    </div>
+  );
+}
