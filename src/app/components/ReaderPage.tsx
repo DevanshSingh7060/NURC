@@ -110,6 +110,8 @@ export function ReaderPage() {
   const activeTheme = currentUser?.theme || 'Original';
   const modeColors = readingModeColors[settings.readingMode || 'default'];
   const fontSize = fontSizeMap[settings.fontSize || 'medium'];
+  const DEVELOPMENT_MODE = true;
+  const isGuest = DEVELOPMENT_MODE ? !currentUser : (!currentUser || currentUser.plan === 'None');
 
   const handleShare = () => {
     navigator.clipboard?.writeText(window.location.href);

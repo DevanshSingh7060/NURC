@@ -144,7 +144,8 @@ export function ReaderModeOverlay() {
     'Macroeconomic corporate statistics driving Q3 executive choices.'
   ];
 
-  const isGuest = !currentUser || currentUser.plan === 'None';
+  const DEVELOPMENT_MODE = true;
+  const isGuest = DEVELOPMENT_MODE ? !currentUser : (!currentUser || currentUser.plan === 'None');
 
   const handleShare = () => {
     const url = newsletterId 
