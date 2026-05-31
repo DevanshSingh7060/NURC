@@ -40,47 +40,78 @@ export function ReaderModeOverlay() {
 
     let frameId: number;
 
-    const handleScrollEvent = () => {
+    const handleScrollEvent = (e?: Event) => {
       cancelAnimationFrame(frameId);
       frameId = requestAnimationFrame(() => {
+        let scrollTarget: any = null;
+        
+        if (e && e.target) {
+          scrollTarget = e.target;
+          if (scrollTarget === document) {
+            scrollTarget = document.documentElement || document.body;
+          }
+        }
+
         const rootEl = document.getElementById('root');
         
         const targets = [
           {
             name: 'element',
+            el: el,
             scrollTop: el.scrollTop || 0,
             scrollHeight: el.scrollHeight || 0,
             clientHeight: el.clientHeight || 0
           },
           {
             name: 'window',
+            el: document.documentElement || document.body,
             scrollTop: window.scrollY || window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0,
             scrollHeight: document.documentElement.scrollHeight || document.body.scrollHeight || 0,
             clientHeight: document.documentElement.clientHeight || window.innerHeight || 0
           },
           {
             name: 'root',
+            el: rootEl,
             scrollTop: rootEl?.scrollTop || 0,
             scrollHeight: rootEl?.scrollHeight || 0,
             clientHeight: rootEl?.clientHeight || 0
           }
         ];
 
-        let bestTarget = targets[0]; // Default to overlay element
-        for (const target of targets) {
-          if (target.scrollHeight > target.clientHeight && target.scrollTop > 0) {
-            bestTarget = target;
-            break;
-          }
-        }
-        if (bestTarget.scrollTop === 0) {
-          const scrollableTargets = targets.filter(t => t.scrollHeight > t.clientHeight + 10);
-          if (scrollableTargets.length > 0) {
-            bestTarget = scrollableTargets[0];
+        let activeTarget = null;
+        if (scrollTarget) {
+          if (scrollTarget === el) {
+            activeTarget = targets[0];
+          } else if (scrollTarget === rootEl) {
+            activeTarget = targets[2];
+          } else {
+            activeTarget = {
+              name: scrollTarget.id || scrollTarget.className || 'event-target',
+              el: scrollTarget,
+              scrollTop: scrollTarget.scrollTop || 0,
+              scrollHeight: scrollTarget.scrollHeight || 0,
+              clientHeight: scrollTarget.clientHeight || 0
+            };
           }
         }
 
-        const { scrollTop, scrollHeight, clientHeight } = bestTarget;
+        if (!activeTarget || activeTarget.scrollHeight <= activeTarget.clientHeight) {
+          activeTarget = targets[0]; // Default to element
+          for (const target of targets) {
+            if (target.scrollHeight > target.clientHeight && target.scrollTop > 0) {
+              activeTarget = target;
+              break;
+            }
+          }
+          if (activeTarget.scrollTop === 0) {
+            const scrollableTargets = targets.filter(t => t.scrollHeight > t.clientHeight + 10);
+            if (scrollableTargets.length > 0) {
+              activeTarget = scrollableTargets[0];
+            }
+          }
+        }
+
+        const { scrollTop, scrollHeight, clientHeight } = activeTarget;
         const scrollableHeight = scrollHeight - clientHeight;
         
         let pct = 0;
@@ -94,7 +125,7 @@ export function ReaderModeOverlay() {
         const roundedPct = Math.min(100, Math.max(0, pct));
         
         // Debug Logging
-        console.log(`[ReaderMode Scroll Debug] Target: ${bestTarget.name} | ScrollTop: ${scrollTop} | ScrollHeight: ${scrollHeight} | ClientHeight: ${clientHeight} | ScrollableHeight: ${scrollableHeight} | Progress: ${roundedPct}%`);
+        console.log(`[ReaderMode Scroll Debug] Container: ${activeTarget.name} | ScrollTop: ${scrollTop} | ScrollHeight: ${scrollHeight} | ClientHeight: ${clientHeight} | ScrollableHeight: ${scrollableHeight} | Progress: ${roundedPct}%`);
 
         setProgress(roundedPct);
         
@@ -105,6 +136,11 @@ export function ReaderModeOverlay() {
 
     el.addEventListener('scroll', handleScrollEvent, { passive: true });
     window.addEventListener('resize', handleScrollEvent, { passive: true });
+    document.addEventListener('scroll', handleScrollEvent, { passive: true });
+    if (document.body) document.body.addEventListener('scroll', handleScrollEvent, { passive: true });
+
+    const rootEl = document.getElementById('root');
+    if (rootEl) rootEl.addEventListener('scroll', handleScrollEvent, { passive: true });
 
     // Initial check & auto-restoration
     const savedPos = localStorage.getItem(`nurc_scroll_pos_${newsletterId}`);
@@ -126,12 +162,14 @@ export function ReaderModeOverlay() {
     if (el.firstElementChild) {
       resizeObserver.observe(el.firstElementChild);
     }
-    const rootEl = document.getElementById('root');
     if (rootEl) resizeObserver.observe(rootEl);
 
     return () => {
       el.removeEventListener('scroll', handleScrollEvent);
       window.removeEventListener('resize', handleScrollEvent);
+      document.removeEventListener('scroll', handleScrollEvent);
+      if (document.body) document.body.removeEventListener('scroll', handleScrollEvent);
+      if (rootEl) rootEl.removeEventListener('scroll', handleScrollEvent);
       clearTimeout(t1);
       clearTimeout(t2);
       clearTimeout(t3);

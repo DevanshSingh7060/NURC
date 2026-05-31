@@ -36,49 +36,79 @@ export function ReaderPage() {
   useEffect(() => {
     let frameId: number;
 
-    const handleScrollEvent = () => {
+    const handleScrollEvent = (e?: Event) => {
       cancelAnimationFrame(frameId);
       frameId = requestAnimationFrame(() => {
+        let scrollTarget: any = null;
+        
+        if (e && e.target) {
+          scrollTarget = e.target;
+          if (scrollTarget === document) {
+            scrollTarget = document.documentElement || document.body;
+          }
+        }
+
         const rootEl = document.getElementById('root');
         const wrapperEl = document.getElementById('reader-outer-wrapper');
 
         const targets = [
           {
             name: 'window',
+            el: document.documentElement || document.body,
             scrollTop: window.scrollY || window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0,
             scrollHeight: document.documentElement.scrollHeight || document.body.scrollHeight || 0,
             clientHeight: document.documentElement.clientHeight || window.innerHeight || 0
           },
           {
             name: 'root',
+            el: rootEl,
             scrollTop: rootEl?.scrollTop || 0,
             scrollHeight: rootEl?.scrollHeight || 0,
             clientHeight: rootEl?.clientHeight || 0
           },
           {
             name: 'wrapper',
+            el: wrapperEl,
             scrollTop: wrapperEl?.scrollTop || 0,
             scrollHeight: wrapperEl?.scrollHeight || 0,
             clientHeight: wrapperEl?.clientHeight || 0
           }
         ];
 
-        // Identify which target has active scroll/scrolling bounds
-        let bestTarget = targets[0]; // Default window
-        for (const target of targets) {
-          if (target.scrollHeight > target.clientHeight && target.scrollTop > 0) {
-            bestTarget = target;
-            break;
-          }
-        }
-        if (bestTarget.scrollTop === 0) {
-          const scrollableTargets = targets.filter(t => t.scrollHeight > t.clientHeight + 10);
-          if (scrollableTargets.length > 0) {
-            bestTarget = scrollableTargets[0];
+        let activeTarget = null;
+        if (scrollTarget) {
+          if (scrollTarget === rootEl) {
+            activeTarget = targets[1];
+          } else if (scrollTarget === wrapperEl) {
+            activeTarget = targets[2];
+          } else {
+            activeTarget = {
+              name: scrollTarget.id || scrollTarget.className || 'event-target',
+              el: scrollTarget,
+              scrollTop: scrollTarget.scrollTop || 0,
+              scrollHeight: scrollTarget.scrollHeight || 0,
+              clientHeight: scrollTarget.clientHeight || 0
+            };
           }
         }
 
-        const { scrollTop, scrollHeight, clientHeight } = bestTarget;
+        if (!activeTarget || activeTarget.scrollHeight <= activeTarget.clientHeight) {
+          activeTarget = targets[0]; // Default to window
+          for (const target of targets) {
+            if (target.scrollHeight > target.clientHeight && target.scrollTop > 0) {
+              activeTarget = target;
+              break;
+            }
+          }
+          if (activeTarget.scrollTop === 0) {
+            const scrollableTargets = targets.filter(t => t.scrollHeight > t.clientHeight + 10);
+            if (scrollableTargets.length > 0) {
+              activeTarget = scrollableTargets[0];
+            }
+          }
+        }
+
+        const { scrollTop, scrollHeight, clientHeight } = activeTarget;
         const scrollableHeight = scrollHeight - clientHeight;
         
         let pct = 0;
@@ -92,7 +122,7 @@ export function ReaderPage() {
         const roundedPct = Math.min(100, Math.max(0, pct));
         
         // Debug Logging
-        console.log(`[ReaderPage Scroll Debug] Target: ${bestTarget.name} | ScrollTop: ${scrollTop} | ScrollHeight: ${scrollHeight} | ClientHeight: ${clientHeight} | ScrollableHeight: ${scrollableHeight} | Progress: ${roundedPct}%`);
+        console.log(`[ReaderPage Scroll Debug] Container: ${activeTarget.name} | ScrollTop: ${scrollTop} | ScrollHeight: ${scrollHeight} | ClientHeight: ${clientHeight} | ScrollableHeight: ${scrollableHeight} | Progress: ${roundedPct}%`);
 
         setProgress(roundedPct);
         
@@ -105,6 +135,8 @@ export function ReaderPage() {
 
     window.addEventListener('scroll', handleScrollEvent, { passive: true });
     window.addEventListener('resize', handleScrollEvent, { passive: true });
+    document.addEventListener('scroll', handleScrollEvent, { passive: true });
+    if (document.body) document.body.addEventListener('scroll', handleScrollEvent, { passive: true });
 
     // Handle root or wrapper scrolls as fallback listeners
     const rootEl = document.getElementById('root');
@@ -129,6 +161,8 @@ export function ReaderPage() {
     return () => {
       window.removeEventListener('scroll', handleScrollEvent);
       window.removeEventListener('resize', handleScrollEvent);
+      document.removeEventListener('scroll', handleScrollEvent);
+      if (document.body) document.body.removeEventListener('scroll', handleScrollEvent);
       if (rootEl) rootEl.removeEventListener('scroll', handleScrollEvent);
       if (wrapperEl) wrapperEl.removeEventListener('scroll', handleScrollEvent);
       clearTimeout(t1);
@@ -137,7 +171,7 @@ export function ReaderPage() {
       cancelAnimationFrame(frameId);
       resizeObserver.disconnect();
     };
-  }, [id, settings.fontSize, newsletter?.article]); // Added article dependency for content changes
+  }, [id, settings.fontSize, newsletter?.article]); // Added article dependency for content changes // Added article dependency for content changes
 
   // Auto-restore reading scroll position on load
   useEffect(() => {
