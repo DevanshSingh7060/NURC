@@ -118,7 +118,7 @@ export function LeadModal() {
                   <input
                     type="text"
                     required
-                    placeholder="e.g. Devan Sharma"
+                    placeholder="e.g. Devansh Sharma"
                     value={name}
                     onChange={e => setName(e.target.value)}
                     className="w-full px-3.5 py-2 border border-border bg-input-background rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-xs transition-all"

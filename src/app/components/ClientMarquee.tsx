@@ -62,7 +62,7 @@ export function ClientMarquee({ label = "Trusted by India’s Leading Industry L
         <h3
           className="text-center"
           style={{
-            fontFamily: "Satoshi, 'Geist Sans', var(--font-heading), sans-serif",
+            fontFamily: 'var(--font-heading)',
             fontSize: '19px',
             fontWeight: 600,
             color: '#1F2937',

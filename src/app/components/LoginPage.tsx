@@ -117,7 +117,7 @@ export function LoginPage() {
                 placeholder="you@company.com"
                 value={email}
                 onChange={e => setEmail(e.target.value)}
-                className="w-full px-4 py-2.5 rounded-lg border border-border bg-input-background focus:outline-none focus:ring-2 focus:ring-ring text-sm transition-all"
+                className="w-full h-12 px-4 rounded-xl border border-border bg-input-background focus:outline-none focus:ring-2 focus:ring-ring text-sm transition-all"
               />
             </div>
 
@@ -143,7 +143,7 @@ export function LoginPage() {
                   placeholder="••••••••"
                   value={password}
                   onChange={e => setPassword(e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-lg border border-border bg-input-background focus:outline-none focus:ring-2 focus:ring-ring text-sm transition-all pr-10"
+                  className="w-full h-12 px-4 rounded-xl border border-border bg-input-background focus:outline-none focus:ring-2 focus:ring-ring text-sm transition-all pr-10"
                 />
                 <button
                   type="button"
@@ -173,7 +173,7 @@ export function LoginPage() {
             {/* Action buttons */}
             <button
               type="submit"
-              className="btn-nurc w-full py-3 rounded-lg text-white font-semibold text-sm transition-all focus:outline-none"
+              className="btn-nurc w-full h-12 rounded-xl text-white font-semibold text-sm transition-all focus:outline-none flex items-center justify-center animate-none"
               style={{ background: 'var(--nurc-navy)' }}
             >
               Sign In to Briefings
@@ -188,8 +188,8 @@ export function LoginPage() {
                 Create Free Account
               </Link>{' '}
               or{' '}
-              <Link to="/pricing" className="font-semibold text-teal hover:underline" style={{ color: 'var(--nurc-teal)' }}>
-                View Corporate Plans
+              <Link to="/contact" className="font-semibold text-teal hover:underline" style={{ color: 'var(--nurc-teal)' }}>
+                Get In Touch
               </Link>
             </p>
           </div>

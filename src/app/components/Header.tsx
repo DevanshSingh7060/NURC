@@ -1,25 +1,21 @@
 import { useState, useEffect } from 'react';
 import { NavLink, Link } from 'react-router';
 import { Menu, X, BookOpen, ChevronDown, User, Layout, Briefcase, FileText, Settings, Star, Bookmark, Home, Mail } from 'lucide-react';
-import { useReaderMode } from './ReaderModeContext';
+import { useReaderMode, SAMPLE_AUTO_ARTICLE } from './ReaderModeContext';
 import { useApp } from '../context/AppContext';
 
 const navLinks = [
-  { label: 'Newsletters', to: '/newsletters' },
-  { label: 'Sectors', to: '/sector/auto', hasDropdown: true },
+  { label: 'Home', to: '/' },
+  { label: 'Solutions', to: '#', hasDropdown: true },
   { label: 'Clients', to: '/clients' },
-  { label: 'Pricing', to: '/pricing' },
   { label: 'Resources', to: '/resources' },
   { label: 'About', to: '/about' },
 ];
 
-const sectorLinks = [
-  { label: 'Auto & Mobility', to: '/sector/auto' },
-  { label: 'Banking & Finance', to: '/sector/banking' },
-  { label: 'Infrastructure', to: '/sector/infrastructure' },
-  { label: 'Energy & Power', to: '/sector/energy' },
-  { label: 'Healthcare', to: '/sector/healthcare' },
-  { label: 'FMCG & Retail', to: '/sector/fmcg' },
+const solutionsLinks = [
+  { label: 'Auto', to: '/sector/auto' },
+  { label: 'Banking', to: '/sector/banking' },
+  { label: 'Customized', to: '/contact' },
 ];
 
 export function Header() {
@@ -27,6 +23,7 @@ export function Header() {
   const { openReader, isOpen: readerOpen } = useReaderMode();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [sectorsOpen, setSectorsOpen] = useState(false);
+  const [mobileSectorsOpen, setMobileSectorsOpen] = useState(false);
 
   // Lock body scroll when mobile navigation drawer is active
   useEffect(() => {
@@ -94,11 +91,11 @@ export function Header() {
                 </button>
                 {sectorsOpen && (
                   <div className="absolute top-full left-0 mt-1 w-52 bg-card border border-border rounded-lg shadow-lg py-1 z-50">
-                    {sectorLinks.map(s => (
+                    {solutionsLinks.map(s => (
                       <Link
                         key={s.to}
                         to={s.to}
-                        className="block px-4 py-2 text-sm hover:bg-muted transition-colors text-left"
+                        className="block px-4 py-2 text-sm hover:bg-muted transition-colors text-left font-medium"
                         style={{ color: 'var(--nurc-navy)' }}
                         onClick={() => setSectorsOpen(false)}
                       >
@@ -144,13 +141,22 @@ export function Header() {
                   <User size={14} />
                   Dashboard
                 </Link>
+
+                <button
+                  onClick={() => openReader(SAMPLE_AUTO_ARTICLE)}
+                  className="p-2 rounded-lg hover:bg-muted text-navy hover:text-[var(--nurc-teal)] transition-all cursor-pointer bg-transparent border-0 flex items-center justify-center shrink-0"
+                  style={{ color: 'var(--nurc-navy)' }}
+                  title="Open Reader Mode"
+                >
+                  <BookOpen size={16} />
+                </button>
                 
                 <Link
-                  to="/subscribe"
+                  to="/contact"
                   className="btn-nurc flex items-center px-4 py-2 rounded-lg text-sm font-semibold text-white cursor-pointer"
-                  style={{ background: currentUser.plan === 'None' ? 'var(--nurc-teal)' : 'var(--nurc-navy)' }}
+                  style={{ background: 'var(--nurc-teal)' }}
                 >
-                  {currentUser.plan === 'None' ? 'Get Started' : 'Upgrade Plan'}
+                  Request Demo
                 </Link>
 
                 <button
@@ -161,29 +167,29 @@ export function Header() {
                 </button>
               </div>
             ) : (
-              <div className="flex items-center gap-1.5">
+              <div className="flex items-center gap-3">
                 <Link
                   to="/login"
-                  className="px-3 py-2 rounded text-sm font-semibold hover:bg-muted/60 transition-colors"
+                  className="px-3 py-2 rounded text-sm font-semibold hover:text-[var(--nurc-teal)] transition-colors"
                   style={{ color: 'var(--nurc-navy)' }}
                 >
                   Login
                 </Link>
                 <Link
                   to="/signup"
-                  className="px-3 py-2 rounded text-sm font-semibold hover:bg-muted/60 transition-colors mr-1"
-                  style={{ color: 'var(--nurc-navy)' }}
+                  className="px-4 py-2 bg-[var(--nurc-teal)] text-white text-sm font-semibold rounded-lg hover:opacity-90 transition-all btn-nurc shadow-sm"
+                  style={{ background: 'var(--nurc-teal)' }}
                 >
                   Sign Up
                 </Link>
-                <Link
-                  to="/newsletters"
-                  className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold border transition-all hover:bg-muted"
-                  style={{ borderColor: 'var(--nurc-navy)', color: 'var(--nurc-navy)' }}
+                <button
+                  onClick={() => openReader(SAMPLE_AUTO_ARTICLE)}
+                  className="p-2 rounded-lg hover:bg-muted text-navy hover:text-[var(--nurc-teal)] transition-all cursor-pointer bg-transparent border-0 flex items-center justify-center shrink-0"
+                  style={{ color: 'var(--nurc-navy)' }}
+                  title="Open Reader Mode"
                 >
-                  <BookOpen size={14} />
-                  Request Sample
-                </Link>
+                  <BookOpen size={16} />
+                </button>
               </div>
             )}
           </div>
@@ -274,23 +280,37 @@ export function Header() {
                   Home
                 </Link>
 
-                <Link 
-                  to="/sector/auto" 
-                  className="px-3 py-2 rounded-lg hover:bg-muted transition-colors flex items-center gap-2.5" 
-                  onClick={() => setMobileOpen(false)}
-                >
-                  <Briefcase size={15} className="text-teal" style={{ color: 'var(--nurc-teal)' }} />
-                  Industries
-                </Link>
+                {/* Solutions Collapsible */}
+                <div>
+                  <button 
+                    onClick={() => setMobileSectorsOpen(!mobileSectorsOpen)}
+                    className="w-full px-3 py-2 rounded-lg hover:bg-muted transition-colors flex items-center justify-between text-sm font-bold bg-transparent border-0 cursor-pointer text-left"
+                    style={{ color: 'var(--nurc-navy)', fontFamily: 'var(--font-heading)' }}
+                  >
+                    <span className="flex items-center gap-2.5">
+                      <Briefcase size={15} className="text-teal" style={{ color: 'var(--nurc-teal)' }} />
+                      Solutions
+                    </span>
+                    <ChevronDown size={14} className={`transition-transform duration-200 ${mobileSectorsOpen ? 'rotate-180' : ''}`} />
+                  </button>
+                  {mobileSectorsOpen && (
+                    <div className="pl-8 flex flex-col gap-1.5 mt-1 border-l border-teal/20 ml-5">
+                      {solutionsLinks.map(s => (
+                        <Link 
+                          key={s.to}
+                          to={s.to}
+                          className="px-3 py-1.5 rounded-lg hover:bg-muted transition-colors text-xs text-left font-semibold"
+                          style={{ color: 'var(--nurc-navy)' }}
+                          onClick={() => setMobileOpen(false)}
+                        >
+                          {s.label}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
 
-                <Link 
-                  to="/pricing" 
-                  className="px-3 py-2 rounded-lg hover:bg-muted transition-colors flex items-center gap-2.5" 
-                  onClick={() => setMobileOpen(false)}
-                >
-                  <Star size={15} className="text-teal" style={{ color: 'var(--nurc-teal)' }} />
-                  Pricing
-                </Link>
+
 
                 <Link 
                   to="/resources" 
@@ -341,15 +361,17 @@ export function Header() {
                         Sign Up
                       </Link>
                     </div>
-                    <Link 
-                      to="/newsletters" 
-                      className="px-3 py-2.5 rounded-lg border border-teal text-teal hover:bg-teal/5 transition-all flex items-center justify-center gap-2 text-xs text-center font-bold" 
-                      onClick={() => setMobileOpen(false)}
+                    <button 
+                      onClick={() => {
+                        setMobileOpen(false);
+                        openReader(SAMPLE_AUTO_ARTICLE);
+                      }}
+                      className="px-3 py-2.5 rounded-lg border border-teal text-teal hover:bg-teal/5 transition-all flex items-center justify-center gap-2 text-xs text-center font-bold bg-transparent cursor-pointer"
                       style={{ borderColor: 'var(--nurc-teal)', color: 'var(--nurc-teal)' }}
                     >
                       <BookOpen size={14} />
-                      Request Sample
-                    </Link>
+                      Reader Mode Preview
+                    </button>
                   </div>
                 ) : (
                   <div className="flex flex-col gap-1">

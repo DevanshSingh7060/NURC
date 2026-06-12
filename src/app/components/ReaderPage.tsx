@@ -560,11 +560,11 @@ export function ReaderPage() {
                         Create Account
                       </Link>
                       <Link
-                        to="/pricing"
+                        to="/contact"
                         className="flex-1 py-2.5 border border-border text-navy rounded-xl text-xs font-bold text-center cursor-pointer hover:bg-gray-50 transition-colors"
                         style={{ color: 'var(--nurc-navy)', fontFamily: 'var(--font-heading)' }}
                       >
-                        View B2B Plans
+                        Request Demo
                       </Link>
                     </div>
                   </div>
@@ -625,15 +625,13 @@ export function ReaderPage() {
               Subscribe to NURC MediaNext for daily C-Suite industry dispatches across all critical segments.
             </p>
           </div>
-          <button
-            onClick={() => {
-              navigate('/subscribe');
-            }}
-            className="px-4 py-2.5 rounded-lg text-xs font-bold text-white shrink-0 cursor-pointer border-0 shadow-sm"
-            style={{ background: 'var(--nurc-teal)', fontFamily: 'var(--font-heading)' }}
+          <Link
+            to="/contact"
+            className="px-4 py-2.5 rounded-lg text-xs font-bold text-white shrink-0 cursor-pointer border-0 shadow-sm flex items-center justify-center text-center"
+            style={{ background: 'var(--nurc-teal)', fontFamily: 'var(--font-heading)', textDecoration: 'none' }}
           >
-            Get Started
-          </button>
+            Request Demo
+          </Link>
         </div>
       )}
 

@@ -46,8 +46,8 @@ interface AppContextType {
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 const DEFAULT_SUBSCRIBER: Subscriber = {
-  fullName: 'Devan Sharma',
-  email: 'devan@nurcmedianext.com',
+  fullName: 'Devansh Sharma',
+  email: 'devansh@nurcmedianext.com',
   phone: '+91-9810975257',
   companyName: 'NURC MediaNext',
   industry: 'Automotive',

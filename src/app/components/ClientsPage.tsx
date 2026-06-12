@@ -179,7 +179,7 @@ export function ClientsPage() {
           <h2
             className="text-center mb-10 text-navy font-bold text-lg"
             style={{
-              fontFamily: "Satoshi, 'Geist Sans', var(--font-heading), sans-serif",
+              fontFamily: 'var(--font-heading)',
               color: 'var(--nurc-navy)',
             }}
           >
@@ -208,7 +208,7 @@ export function ClientsPage() {
                 <div
                   className="font-semibold text-center text-xs mb-2"
                   style={{
-                    fontFamily: "Satoshi, 'Geist Sans', var(--font-heading), sans-serif",
+                    fontFamily: 'var(--font-heading)',
                     color: 'var(--nurc-navy)',
                     letterSpacing: '-0.01em',
                   }}
@@ -322,11 +322,11 @@ export function ClientsPage() {
             Request a complimentary sample for your sector and see why India's top executives choose NURC.
           </p>
           <Link
-            to="/pricing"
+            to="/contact"
             className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl font-semibold text-white transition-all hover:opacity-90"
             style={{ background: 'var(--nurc-teal)', fontFamily: 'var(--font-heading)' }}
           >
-            View Subscription Plans
+            Request Demo
             <ArrowRight size={16} />
           </Link>
         </div>

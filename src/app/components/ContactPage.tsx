@@ -144,7 +144,7 @@ export function ContactPage() {
                     <input
                       type="text"
                       required
-                      placeholder="e.g. Devan Singh"
+                      placeholder="e.g. Devansh Singh"
                       value={name}
                       onChange={e => setName(e.target.value)}
                       className="w-full px-4 py-2.5 border border-border bg-[#F9FAFB] rounded-xl focus:outline-none focus:ring-1 focus:ring-teal text-xs transition-all"
@@ -155,7 +155,7 @@ export function ContactPage() {
                     <input
                       type="email"
                       required
-                      placeholder="devan@company.com"
+                      placeholder="devansh@company.com"
                       value={email}
                       onChange={e => setEmail(e.target.value)}
                       className="w-full px-4 py-2.5 border border-border bg-[#F9FAFB] rounded-xl focus:outline-none focus:ring-1 focus:ring-teal text-xs transition-all"

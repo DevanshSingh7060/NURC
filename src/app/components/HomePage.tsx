@@ -1,12 +1,17 @@
 import { Link } from 'react-router';
 import {
   ArrowRight, BookOpen, Shield, Clock, TrendingUp,
-  ChevronRight, Star, Quote, ShieldCheck, HelpCircle
+  ChevronRight, Star, Quote, ShieldCheck, HelpCircle, Settings
 } from 'lucide-react';
 import { useReaderMode, SAMPLE_AUTO_ARTICLE } from './ReaderModeContext';
 import { ClientMarquee } from './ClientMarquee';
 import { useScrollFadeIn } from './useScrollFadeIn';
 import { useLeadModal } from '../context/LeadModalContext';
+
+import mercedesBenzLogo from '../../Logo/Mercedes Benz.png';
+import bmwLogo from '../../Logo/BMW.png';
+import tataLogo from '../../Logo/Tata.png';
+import deutscheBankLogo from '../../Logo/Deutsche Bank.png';
 
 
 
@@ -85,21 +90,21 @@ const testimonials = [
     name: 'Vikram Malhotra',
     title: 'CFO',
     company: 'Leading German OEM, India Operations',
-    initials: 'VM',
+    logo: mercedesBenzLogo,
   },
   {
     quote: 'The depth of competitor intelligence in the banking digest is remarkable. We\'ve used it to sharpen our product strategy twice this quarter.',
     name: 'Priya Raghunathan',
     title: 'Managing Director',
     company: 'Private Sector Bank, Strategy Division',
-    initials: 'PR',
+    logo: deutscheBankLogo,
   },
   {
     quote: 'Since 2002, this has been the single most reliable industry intelligence service in India. No other publication comes close for executive-level depth.',
     name: 'Arun Kapoor',
     title: 'CEO',
     company: 'Infrastructure Conglomerate',
-    initials: 'AK',
+    logo: tataLogo,
   },
 ];
 
@@ -149,47 +154,47 @@ export function HomePage() {
                 className="text-xs font-bold uppercase tracking-widest"
                 style={{ color: 'var(--nurc-gold)', letterSpacing: '0.15em', fontFamily: 'var(--font-heading)' }}
               >
-                Established 2002 · 23 Years of Intelligence
+                Established 2002 · 24 Years of B2B Intelligence
               </span>
             </div>
             <h1
               className="mb-6 text-white"
               style={{
-                fontFamily: 'var(--font-display)',
-                fontSize: 'clamp(36px, 5vw, 58px)',
+                fontFamily: 'var(--font-heading)',
+                fontSize: 'clamp(36px, 5vw, 54px)',
                 fontWeight: 700,
                 lineHeight: 1.15,
+                letterSpacing: '-0.02em',
               }}
             >
-              Curated Intelligence for{' '}
-              <span style={{ color: 'var(--nurc-gold)' }}>India's Industry Leaders</span>
+              Daily Curated Intelligence That Powers India’s Leading Corporations
             </h1>
             <p
               className="mb-10 text-white/70"
               style={{
                 fontFamily: 'var(--font-body)',
-                fontSize: '18px',
+                fontSize: '17px',
                 lineHeight: 1.8,
                 maxWidth: '520px',
               }}
             >
-              NURC MediaNext delivers senior-executive intelligence across 15+ sectors — automotive, banking, infrastructure, energy, and more. Trusted by 500+ C-Suite leaders at India's most consequential corporations.
+              For 24+ years, consequential corporate leaders have relied on our ad-free, high-comfort intelligence briefings delivered straight to their inboxes.
             </p>
             <div className="flex flex-wrap gap-4">
+              <Link
+                to="/contact"
+                className="btn-nurc h-12 flex items-center gap-2 px-6 rounded-xl text-white font-semibold transition-all hover:opacity-90 cursor-pointer text-sm animate-none"
+                style={{ background: 'var(--nurc-teal)', fontFamily: 'var(--font-heading)', textDecoration: 'none' }}
+              >
+                Request Demo
+                <ArrowRight size={16} />
+              </Link>
               <button
                 onClick={() => openReader(SAMPLE_AUTO_ARTICLE)}
-                className="btn-nurc flex items-center gap-2 px-6 py-3.5 rounded-lg text-white font-semibold transition-all hover:opacity-90 border-0 cursor-pointer text-sm"
-                style={{ background: 'var(--nurc-teal)', fontFamily: 'var(--font-heading)' }}
-              >
-                Read Sample Issue
-                <ArrowRight size={16} />
-              </button>
-              <button
-                onClick={openDemoModal}
-                className="flex items-center gap-2 px-6 py-3.5 rounded-lg font-semibold border transition-all hover:bg-white/10 bg-transparent cursor-pointer text-sm"
+                className="h-12 flex items-center gap-2 px-6 rounded-xl font-semibold border transition-all hover:bg-white/10 bg-transparent cursor-pointer text-sm"
                 style={{ color: 'white', borderColor: 'rgba(255,255,255,0.3)', fontFamily: 'var(--font-heading)' }}
               >
-                Schedule B2B Demo
+                Request Sample
               </button>
             </div>
 
@@ -220,7 +225,7 @@ export function HomePage() {
           {/* Hero image card */}
           <div className="hidden lg:block relative">
             <div
-              className="relative rounded-2xl overflow-hidden"
+              className="relative rounded-xl overflow-hidden"
               style={{ boxShadow: '0 32px 64px rgba(0,0,0,0.4)' }}
             >
               <img
@@ -231,12 +236,12 @@ export function HomePage() {
               <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(10,37,64,0.7) 0%, transparent 60%)' }} />
               <div className="absolute bottom-6 left-6 right-6">
                 <div
-                  className="rounded-xl p-4 backdrop-blur-sm"
+                  className="rounded-xl p-6 backdrop-blur-sm"
                   style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.15)' }}
                 >
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: 'var(--nurc-teal)' }}>
-                      <BookOpen size={16} className="text-white" />
+                    <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: 'var(--nurc-teal)' }}>
+                      <BookOpen size={18} className="text-white" />
                     </div>
                     <div>
                       <div className="text-white text-sm font-semibold" style={{ fontFamily: 'var(--font-heading)' }}>
@@ -246,7 +251,7 @@ export function HomePage() {
                     </div>
                     <button
                       onClick={() => openReader(SAMPLE_AUTO_ARTICLE)}
-                      className="ml-auto text-xs font-semibold px-3 py-1.5 rounded-lg text-white transition-opacity hover:opacity-80"
+                      className="ml-auto text-xs font-semibold h-12 flex items-center justify-center px-6 rounded-xl text-white transition-opacity hover:opacity-80 border-0 cursor-pointer"
                       style={{ background: 'var(--nurc-teal)' }}
                     >
                       Read Now
@@ -266,24 +271,24 @@ export function HomePage() {
       <div className="bg-[#FFFFFF] border-b border-[#E5E7EB] py-5">
         <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-around gap-6 text-center">
           <div className="flex items-center gap-2">
-            <span className="font-bold text-[var(--nurc-teal)] text-xl" style={{ fontFamily: "Satoshi, 'Geist Sans', var(--font-heading)" }}>23+</span>
+            <span className="font-bold text-[var(--nurc-teal)] text-xl" style={{ fontFamily: "var(--font-heading)" }}>24+</span>
             <span className="text-sm text-gray-600 font-medium" style={{ fontFamily: 'var(--font-body)' }}>Years of Trust</span>
           </div>
           <div className="hidden md:block h-6 w-px bg-[#E5E7EB]" />
           <div className="flex items-center gap-2">
-            <span className="font-bold text-[var(--nurc-teal)] text-xl" style={{ fontFamily: "Satoshi, 'Geist Sans', var(--font-heading)" }}>500+</span>
-            <span className="text-sm text-gray-600 font-medium" style={{ fontFamily: 'var(--font-body)' }}>Corporate Executives Served</span>
+            <span className="font-bold text-[var(--nurc-teal)] text-xl" style={{ fontFamily: "var(--font-heading)" }}>Daily</span>
+            <span className="text-sm text-gray-600 font-medium" style={{ fontFamily: 'var(--font-body)' }}>Delivery</span>
           </div>
           <div className="hidden md:block h-6 w-px bg-[#E5E7EB]" />
           <div className="flex items-center gap-2">
-            <span className="font-bold text-[var(--nurc-teal)] text-xl" style={{ fontFamily: "Satoshi, 'Geist Sans', var(--font-heading)" }}>Daily</span>
-            <span className="text-sm text-gray-600 font-medium" style={{ fontFamily: 'var(--font-body)' }}>Delivery to Industry Leaders</span>
+            <span className="font-bold text-[var(--nurc-teal)] text-xl" style={{ fontFamily: "var(--font-heading)" }}>500+</span>
+            <span className="text-sm text-gray-600 font-medium" style={{ fontFamily: 'var(--font-body)' }}>Executives Served</span>
           </div>
         </div>
       </div>
 
       {/* Why Leading Companies Trust NURC */}
-      <section ref={valueRef} className="py-24 bg-white border-t border-b border-border">
+      <section ref={valueRef} className="py-12 lg:py-20 bg-white border-t border-b border-border">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
             <div className="flex items-center justify-center gap-3 mb-4">
@@ -295,7 +300,7 @@ export function HomePage() {
             </div>
             <h2
               style={{
-                fontFamily: 'var(--font-display)',
+                fontFamily: 'var(--font-heading)',
                 fontSize: 'clamp(26px, 3.5vw, 38px)',
                 fontWeight: 700,
                 color: 'var(--nurc-navy)',
@@ -305,7 +310,7 @@ export function HomePage() {
               Why Leading Companies Trust NURC
             </h2>
             <p className="text-muted-foreground mx-auto mt-3 max-w-xl" style={{ fontSize: '15px' }}>
-              Zero-noise, curated B2B executive intelligence built to drive strategic C-Suite action and corporate growth.
+              Zero-noise, curated B2B executive intelligence built to drive strategic action and corporate growth.
             </p>
           </div>
 
@@ -313,31 +318,31 @@ export function HomePage() {
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               {
-                icon: Shield,
-                title: '24+ Years of Expertise',
-                description: 'Serving India\'s executive boardrooms since 2002. Fusing historical industry datasets with daily tracking feeds.',
-              },
-              {
                 icon: Clock,
-                title: 'Daily Human Curation',
-                description: 'Compiled entirely by domain specialists. 100% curated, action-focused intelligence with zero noise and zero filler.',
+                title: 'Time Saved',
+                description: 'Get the essential 20% of industry news that drives 80% of business decisions. Zero noise, zero fluff.',
               },
               {
                 icon: TrendingUp,
-                title: 'Industry-Specific Focus',
-                description: 'Deep micro-segment tracking spanning automotive OEMs, banking pipelines, urban infrastructure PPP deals, and renewable tarification.',
+                title: 'Competitive Edge',
+                description: 'Stay ahead of competitor moves, policy shifts, and market opportunities before they land on general news sites.',
               },
               {
-                icon: BookOpen,
-                title: 'Trusted by Enterprise Teams',
-                description: 'Equipped with custom research consultation portals, shared team dashboards, and layout rendering engines for corporate groups.',
+                icon: Settings,
+                title: 'Customized',
+                description: 'Tailor your dashboard to track only the industries, companies, and updates relevant to your corporate focus.',
+              },
+              {
+                icon: ShieldCheck,
+                title: 'Ad-Free',
+                description: 'Experience a premium, ad-free, distraction-free interface built purely for corporate reading and strategic analysis.',
               },
             ].map((prop, i) => {
               const Icon = prop.icon;
               return (
                 <div
                   key={i}
-                  className="rounded-2xl p-7 bg-[#F9FAFB] border border-gray-100 hover:shadow-md hover:-translate-y-1 transition-all duration-300"
+                  className="rounded-xl p-6 bg-[#F9FAFB] border border-gray-100 hover:shadow-md hover:-translate-y-1 transition-all duration-300"
                 >
                   <div
                     className="w-10 h-10 rounded-xl flex items-center justify-center mb-5"
@@ -351,7 +356,7 @@ export function HomePage() {
                   >
                     {prop.title}
                   </h3>
-                  <p className="text-muted-foreground leading-relaxed animate-none" style={{ fontSize: '13px', lineHeight: '1.6' }}>
+                  <p className="text-muted-foreground leading-relaxed animate-none" style={{ fontSize: '13px', lineHeight: '1.65' }}>
                     {prop.description}
                   </p>
                 </div>
@@ -362,7 +367,7 @@ export function HomePage() {
       </section>
 
       {/* Industry Coverage */}
-      <section ref={sectorsRef} className="py-20 bg-background">
+      <section ref={sectorsRef} className="py-12 lg:py-20 bg-background">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-14">
             <div className="flex items-center justify-center gap-3 mb-4">
@@ -374,7 +379,7 @@ export function HomePage() {
             </div>
             <h2
               style={{
-                fontFamily: 'var(--font-display)',
+                fontFamily: 'var(--font-heading)',
                 fontSize: 'clamp(26px, 3.5vw, 36px)',
                 fontWeight: 700,
                 color: 'var(--nurc-navy)',
@@ -385,12 +390,12 @@ export function HomePage() {
             </h2>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="flex overflow-x-auto gap-6 pb-6 scrollbar-none md:grid md:grid-cols-2 lg:grid-cols-3 md:overflow-x-visible md:pb-0">
             {sectors.map((sector, i) => (
               <Link
                 key={i}
                 to={`/sector/${sector.slug}`}
-                className="group rounded-2xl p-7 bg-card border border-border transition-all duration-200 block"
+                className="group rounded-xl p-6 bg-card border border-border transition-all duration-200 block min-w-[290px] md:min-w-0 shrink-0 md:shrink"
                 onMouseEnter={e => {
                   (e.currentTarget as HTMLElement).style.boxShadow = '0 8px 24px rgba(0,0,0,0.08)';
                   (e.currentTarget as HTMLElement).style.transform = 'translateY(-3px)';
@@ -430,82 +435,96 @@ export function HomePage() {
       </section>
 
       {/* Newsletter Preview */}
-      <section ref={sampleRef} className="py-20" style={{ background: '#FFFFFF' }}>
+      <section ref={sampleRef} className="py-12 lg:py-20" style={{ background: '#FFFFFF' }}>
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <div>
-              <div className="flex items-center gap-3 mb-6">
+            
+            {/* Left Side Content Block */}
+            <div className="space-y-6 text-left">
+              <div className="flex items-center gap-3">
                 <div className="h-px w-8" style={{ background: 'var(--nurc-gold)' }} />
                 <span className="text-xs font-bold uppercase tracking-widest" style={{ color: 'var(--nurc-teal)', letterSpacing: '0.14em', fontFamily: 'var(--font-heading)' }}>
                   Sample Issue
                 </span>
               </div>
               <h2
-                className="mb-5"
                 style={{
-                  fontFamily: 'var(--font-display)',
-                  fontSize: 'clamp(26px, 3.5vw, 38px)',
+                  fontFamily: 'var(--font-heading)',
+                  fontSize: 'clamp(24px, 3.5vw, 40px)',
                   fontWeight: 700,
                   color: 'var(--nurc-navy)',
                   lineHeight: 1.2,
+                  maxWidth: '480px',
                 }}
               >
                 See What Your Competitors Are Reading
               </h2>
-              <p className="text-muted-foreground mb-8" style={{ fontSize: '16px', lineHeight: 1.8 }}>
+              <p className="text-muted-foreground" style={{ fontSize: 'clamp(16px, 1.8vw, 18px)', lineHeight: 1.7, maxWidth: '500px', color: '#4B5563' }}>
                 Read a complete sample of our Auto Industry Weekly — the same briefing that lands in the inboxes of CFOs and MDs at India's top automotive corporations every Tuesday morning.
               </p>
               <button
                 onClick={() => openReader(SAMPLE_AUTO_ARTICLE)}
-                className="flex items-center gap-3 px-6 py-3.5 rounded-xl font-semibold text-white transition-all hover:opacity-90 mb-4 cursor-pointer border-0"
-                style={{ background: 'var(--nurc-teal)', fontFamily: 'var(--font-heading)' }}
+                className="flex items-center gap-2 font-semibold text-white transition-all hover:opacity-90 cursor-pointer border-0"
+                style={{
+                  background: 'var(--nurc-teal)',
+                  fontFamily: 'var(--font-heading)',
+                  height: '48px',
+                  paddingLeft: '24px',
+                  paddingRight: '24px',
+                  borderRadius: '12px',
+                }}
               >
                 <BookOpen size={18} />
                 Open in Reader Mode
               </button>
-              <p className="text-xs text-muted-foreground" style={{ fontFamily: 'var(--font-heading)' }}>
-                Full-screen distraction-free reading. Adjust font size, theme, and spacing.
-              </p>
             </div>
 
-            {/* Newsletter Preview Card */}
+            {/* Right Side Newsletter Preview Card (Email Mockup) */}
             <div
-              className="rounded-2xl overflow-hidden border border-border"
+              className="rounded-xl overflow-hidden border border-border bg-white"
               style={{ boxShadow: '0 4px 24px rgba(0,0,0,0.08)' }}
             >
-              {/* Card Header */}
-              <div className="px-6 py-4 flex items-center justify-between" style={{ background: 'var(--nurc-navy)' }}>
-                <div>
-                  <div className="text-white font-bold" style={{ fontFamily: 'var(--font-heading)', fontSize: '14px' }}>
-                    Auto Industry Weekly
-                  </div>
-                  <div className="text-white/50 text-xs mt-0.5">Issue #1,247 · May 27, 2025</div>
+              {/* Premium Email Mockup Header with 24px Padding */}
+              <div className="bg-[#FAF9F6] border-b border-border p-6 text-left space-y-3.5">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-bold uppercase tracking-wider" style={{ color: 'var(--nurc-teal)', fontFamily: 'var(--font-heading)' }}>Corporate Dispatch</span>
+                  <span className="w-2 h-2 rounded-full bg-green-500"></span>
                 </div>
-                <button
-                  onClick={() => openReader(SAMPLE_AUTO_ARTICLE)}
-                  className="flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold text-white transition-opacity hover:opacity-80 cursor-pointer border-0"
-                  style={{ background: 'var(--nurc-teal)', fontFamily: 'var(--font-heading)' }}
-                >
-                  <BookOpen size={13} />
-                  Reader Mode
-                </button>
+                <div className="space-y-3 font-sans">
+                  <div className="grid grid-cols-3 items-center pb-2 border-b border-gray-100">
+                    <span className="text-xs font-medium text-gray-500" style={{ fontSize: '14px' }}>Sender</span>
+                    <span className="col-span-2 text-right font-semibold" style={{ color: 'var(--nurc-navy)', fontSize: '15px', fontWeight: 600 }}>NURC MediaNext Intelligence Desk</span>
+                  </div>
+                  <div className="grid grid-cols-3 items-center pb-2 border-b border-gray-100">
+                    <span className="text-xs font-medium text-gray-500" style={{ fontSize: '14px' }}>Recipient</span>
+                    <span className="col-span-2 text-right font-semibold" style={{ color: 'var(--nurc-navy)', fontSize: '15px', fontWeight: 600 }}>Corporate Subscriber</span>
+                  </div>
+                  <div className="grid grid-cols-3 items-center pb-2 border-b border-gray-100">
+                    <span className="text-xs font-medium text-gray-500" style={{ fontSize: '14px' }}>Published</span>
+                    <span className="col-span-2 text-right font-semibold" style={{ color: 'var(--nurc-navy)', fontSize: '15px', fontWeight: 600 }}>12 June 2026</span>
+                  </div>
+                  <div className="grid grid-cols-3 items-center">
+                    <span className="text-xs font-medium text-gray-500" style={{ fontSize: '14px' }}>Industry</span>
+                    <span className="col-span-2 text-right font-semibold" style={{ color: 'var(--nurc-navy)', fontSize: '15px', fontWeight: 600 }}>Automotive Intelligence Weekly</span>
+                  </div>
+                </div>
               </div>
 
-              {/* Categories */}
-              <div className="border-b border-border bg-muted/30 px-6 py-3 flex gap-2 flex-wrap">
+              {/* Refined Rounded Category Pills */}
+              <div className="border-b border-border bg-[#F9FAFB] px-6 py-4 flex gap-2 flex-wrap items-center">
                 {['Policy Update', 'Industry News', 'Competitor Intel', 'Market Data', 'Editor\'s Note'].map(cat => (
                   <span
                     key={cat}
-                    className="px-2.5 py-1 rounded text-xs font-semibold"
-                    style={{ background: 'white', color: 'var(--nurc-navy)', border: '1px solid var(--border)' }}
+                    className="px-3 py-1 rounded-full text-xs font-semibold tracking-wide"
+                    style={{ background: 'white', color: 'var(--nurc-teal)', border: '1px solid #E5E7EB', fontSize: '11px' }}
                   >
                     {cat}
                   </span>
                 ))}
               </div>
 
-              {/* Preview snippets */}
-              <div className="divide-y divide-border">
+              {/* Clean Dividers and Headline List */}
+              <div className="divide-y divide-gray-100">
                 {[
                   {
                     tag: 'POLICY',
@@ -526,47 +545,50 @@ export function HomePage() {
                     preview: '₹6,000 crore investment; 200,000 unit capacity targeting mid-premium segment...',
                   },
                 ].map((item, i) => (
-                  <div key={i} className="px-6 py-4 bg-card">
-                    <div className="flex items-start gap-3">
-                      <span
-                        className="shrink-0 mt-0.5 px-2 py-0.5 rounded text-xs font-bold uppercase"
-                        style={{ background: `${item.tagColor}15`, color: item.tagColor, letterSpacing: '0.06em', fontSize: '10px' }}
-                      >
-                        {item.tag}
-                      </span>
-                      <div>
-                        <div className="font-semibold mb-1" style={{ fontFamily: 'var(--font-heading)', fontSize: '13px', color: 'var(--nurc-navy)' }}>
-                          {item.title}
-                        </div>
-                        <div className="text-muted-foreground" style={{ fontSize: '12px', lineHeight: 1.6 }}>
-                          {item.preview}
-                        </div>
-                      </div>
-                    </div>
+                  <div key={i} className="px-6 py-5 bg-white text-left space-y-2">
+                    <span
+                      className="px-2.5 py-0.5 rounded text-xs font-bold uppercase tracking-wider animate-none"
+                      style={{ background: `${item.tagColor}10`, color: item.tagColor, fontSize: '12px' }}
+                    >
+                      {item.tag}
+                    </span>
+                    <h4 className="font-bold" style={{ fontFamily: 'var(--font-heading)', fontSize: '18px', color: 'var(--nurc-navy)', lineHeight: '1.3' }}>
+                      {item.title}
+                    </h4>
+                    <p className="text-gray-600 leading-relaxed font-medium" style={{ fontSize: '14px', color: '#4B5563' }}>
+                      {item.preview}
+                    </p>
                   </div>
                 ))}
 
-                <div className="px-6 py-4 bg-muted/30 text-center">
+                {/* Bottom CTA Button */}
+                <div className="px-6 py-5 bg-[#FAF9F6] text-center border-t border-border">
                   <button
                     onClick={() => openReader(SAMPLE_AUTO_ARTICLE)}
-                    className="text-sm font-semibold inline-flex items-center gap-1.5 transition-opacity hover:opacity-70 cursor-pointer border-0 bg-transparent"
-                    style={{ color: 'var(--nurc-teal)', fontFamily: 'var(--font-heading)' }}
+                    className="w-full flex items-center justify-center gap-2 font-bold text-white transition-all hover:opacity-95 cursor-pointer border-0 shadow-sm"
+                    style={{
+                      background: 'var(--nurc-teal)',
+                      fontFamily: 'var(--font-heading)',
+                      height: '48px',
+                      borderRadius: '12px',
+                    }}
                   >
-                    Read full issue in Reader Mode
-                    <ArrowRight size={14} />
+                    <BookOpen size={16} />
+                    Open in Reader Mode
                   </button>
                 </div>
               </div>
             </div>
+
           </div>
         </div>
       </section>
 
       {/* Trust Statistics */}
-      <section className="py-20 bg-white border-t border-b border-border/50">
+      <section className="py-12 lg:py-20 bg-white border-t border-b border-border/50">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-16">
-            <div className="flex items-center justify-center gap-3 mb-4">
+          <div className="text-center mb-10">
+            <div className="flex items-center justify-center gap-3 mb-3">
               <div className="h-px w-12" style={{ background: 'var(--nurc-gold)' }} />
               <span className="text-xs font-bold uppercase tracking-widest" style={{ color: 'var(--nurc-teal)', letterSpacing: '0.14em', fontFamily: 'var(--font-heading)' }}>
                 B2B Trust Metrics
@@ -574,23 +596,22 @@ export function HomePage() {
               <div className="h-px w-12" style={{ background: 'var(--nurc-gold)' }} />
             </div>
             <h2
-              className="text-navy tracking-tight"
               style={{
-                fontFamily: 'var(--font-display)',
-                fontSize: 'clamp(24px, 3vw, 32px)',
+                fontFamily: 'var(--font-heading)',
+                fontSize: 'clamp(24px, 3.5vw, 40px)',
                 fontWeight: 700,
                 color: 'var(--nurc-navy)',
-                lineHeight: 1.25,
+                lineHeight: 1.2,
               }}
             >
               Trusted Industry Intelligence Since 2002
             </h2>
-            <p className="text-muted-foreground text-xs mt-2 max-w-md mx-auto">
+            <p className="text-muted-foreground mt-3 max-w-[500px] mx-auto" style={{ fontSize: 'clamp(16px, 1.8vw, 18px)', color: '#4B5563', lineHeight: '1.6' }}>
               NURC is the definitive intelligence resource for executive leadership across India's primary sectors.
             </p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-5">
             {[
               {
                 stat: '24+',
@@ -619,19 +640,19 @@ export function HomePage() {
             ].map((item, idx) => {
               const Icon = item.icon;
               return (
-                <div key={idx} className="text-center space-y-3 p-4">
-                  <div className="w-8 h-8 rounded-lg bg-teal/5 text-teal flex items-center justify-center mx-auto" style={{ color: 'var(--nurc-teal)' }}>
-                    <Icon size={16} />
+                <div key={idx} className="text-center p-4 space-y-2.5">
+                  <div className="w-10 h-10 rounded-xl bg-teal/5 text-teal flex items-center justify-center mx-auto mb-1.5" style={{ color: 'var(--nurc-teal)' }}>
+                    <Icon size={22} />
                   </div>
                   <div>
-                    <div className="text-3xl font-bold tracking-tight text-navy" style={{ color: 'var(--nurc-navy)', fontFamily: 'var(--font-display)' }}>
+                    <div className="font-bold tracking-tight text-navy" style={{ color: 'var(--nurc-navy)', fontFamily: 'var(--font-heading)', fontSize: '36px', fontWeight: 700, lineHeight: '1.1' }}>
                       {item.stat}
                     </div>
-                    <div className="text-xs font-bold text-slate-800 mt-1" style={{ fontFamily: 'var(--font-heading)' }}>
+                    <div className="font-semibold text-navy mt-1" style={{ fontFamily: 'var(--font-heading)', fontSize: '18px', fontWeight: 600, color: 'var(--nurc-navy)' }}>
                       {item.label}
                     </div>
                   </div>
-                  <p className="text-[11px] text-muted-foreground max-w-[180px] mx-auto leading-relaxed">
+                  <p className="text-muted-foreground max-w-[240px] mx-auto animate-none" style={{ fontSize: '16px', lineHeight: '1.6', color: '#4B5563', fontFamily: 'var(--font-body)' }}>
                     {item.description}
                   </p>
                 </div>
@@ -642,7 +663,7 @@ export function HomePage() {
       </section>
 
       {/* Testimonials */}
-      <section ref={testiRef} className="py-20 bg-background">
+      <section ref={testiRef} className="py-12 lg:py-20 bg-background">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-14">
             <div className="flex items-center justify-center gap-3 mb-4">
@@ -654,7 +675,7 @@ export function HomePage() {
             </div>
             <h2
               style={{
-                fontFamily: 'var(--font-display)',
+                fontFamily: 'var(--font-heading)',
                 fontSize: 'clamp(26px, 3.5vw, 36px)',
                 fontWeight: 700,
                 color: 'var(--nurc-navy)',
@@ -669,14 +690,14 @@ export function HomePage() {
             {testimonials.map((t, i) => (
               <div
                 key={i}
-                className="rounded-2xl p-7 bg-card border border-border"
+                className="rounded-xl p-6 bg-card border border-border"
               >
                 <Quote size={28} style={{ color: 'var(--nurc-gold)', opacity: 0.6, marginBottom: '16px' }} />
                 <p
                   className="mb-6 italic"
                   style={{
-                    fontFamily: 'var(--font-display)',
-                    fontSize: '16px',
+                    fontFamily: 'var(--font-body)',
+                    fontSize: '15px',
                     lineHeight: 1.75,
                     color: 'var(--nurc-navy)',
                   }}
@@ -684,11 +705,12 @@ export function HomePage() {
                   "{t.quote}"
                 </p>
                 <div className="flex items-center gap-3">
-                  <div
-                    className="w-10 h-10 rounded-full flex items-center justify-center text-white text-sm font-bold shrink-0"
-                    style={{ background: 'var(--nurc-navy)', fontFamily: 'var(--font-heading)' }}
-                  >
-                    {t.initials}
+                  <div className="w-12 h-12 rounded-xl bg-[#FAF9F6] border border-border flex items-center justify-center p-1.5 shrink-0">
+                    <img 
+                      src={t.logo} 
+                      alt={`${t.company} logo`} 
+                      className="w-full h-full object-contain"
+                    />
                   </div>
                   <div>
                     <div className="font-semibold" style={{ fontFamily: 'var(--font-heading)', fontSize: '14px', color: 'var(--nurc-navy)' }}>
@@ -712,7 +734,7 @@ export function HomePage() {
 
       {/* Final CTA */}
       <section
-        className="py-24 text-center"
+        className="py-12 lg:py-20 text-center"
         style={{ background: 'var(--nurc-navy)' }}
       >
         <div className="max-w-3xl mx-auto px-6">
@@ -726,7 +748,7 @@ export function HomePage() {
           <h2
             className="text-white mb-5"
             style={{
-              fontFamily: 'var(--font-display)',
+              fontFamily: 'var(--font-heading)',
               fontSize: 'clamp(28px, 4vw, 44px)',
               fontWeight: 700,
               lineHeight: 1.2,
@@ -735,22 +757,22 @@ export function HomePage() {
             Stay Ahead of Every Development That Matters
           </h2>
           <p className="text-white/60 mb-10" style={{ fontSize: '17px', lineHeight: 1.8 }}>
-            Request a complimentary sample issue for your sector. No commitment, no sales call — just exceptional intelligence.
+            Request a complimentary sample issue for your sector or start a free trial license. No commitment, no sales call.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
-            <button
-              onClick={openDemoModal}
-              className="px-8 py-4 rounded-xl font-semibold text-white transition-all hover:opacity-90 border-0 cursor-pointer text-sm"
-              style={{ background: 'var(--nurc-teal)', fontFamily: 'var(--font-heading)' }}
+            <Link
+              to="/contact"
+              className="h-12 flex items-center justify-center px-8 rounded-xl font-semibold text-white transition-all hover:opacity-90 cursor-pointer text-sm animate-none"
+              style={{ background: 'var(--nurc-teal)', fontFamily: 'var(--font-heading)', textDecoration: 'none' }}
             >
-              Schedule B2B Demo
-            </button>
+              Request Demo
+            </Link>
             <button
-              onClick={openCoverageModal}
-              className="px-8 py-4 rounded-xl font-semibold border transition-all hover:bg-white/10 bg-transparent cursor-pointer text-sm"
+              onClick={() => openReader(SAMPLE_AUTO_ARTICLE)}
+              className="h-12 flex items-center justify-center px-8 rounded-xl font-semibold border transition-all hover:bg-white/10 bg-transparent cursor-pointer text-sm"
               style={{ color: 'white', borderColor: 'rgba(255,255,255,0.25)', fontFamily: 'var(--font-heading)' }}
             >
-              Request Custom Coverage
+              Request Sample
             </button>
           </div>
         </div>

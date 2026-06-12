@@ -603,12 +603,12 @@ export function ReaderModeOverlay() {
                         Create Account
                       </Link>
                       <Link
-                        to="/pricing"
+                        to="/contact"
                         onClick={closeReader}
                         className="flex-1 py-2.5 border border-border text-navy rounded-xl text-xs font-bold text-center cursor-pointer hover:bg-gray-50 transition-colors"
                         style={{ color: 'var(--nurc-navy)', fontFamily: 'var(--font-heading)' }}
                       >
-                        View B2B Plans
+                        Request Demo
                       </Link>
                     </div>
                   </div>
@@ -725,13 +725,17 @@ export function SharePromptCard() {
         >
           Copy Sample Link
         </button>
-        <button
-          onClick={dismissSharePrompt}
-          className="btn-nurc w-full py-2 rounded-lg text-sm font-semibold border transition-all cursor-pointer"
-          style={{ borderColor: 'var(--border)', color: 'var(--nurc-navy)', fontFamily: 'var(--font-heading)' }}
+        <Link
+          to="/contact"
+          onClick={() => {
+            closeReader();
+            dismissSharePrompt();
+          }}
+          className="btn-nurc w-full py-2 rounded-lg text-sm font-semibold border transition-all cursor-pointer text-center flex items-center justify-center"
+          style={{ borderColor: 'var(--border)', color: 'var(--nurc-navy)', fontFamily: 'var(--font-heading)', textDecoration: 'none' }}
         >
-          Subscribe Now
-        </button>
+          Request Demo
+        </Link>
       </div>
     </div>
   );

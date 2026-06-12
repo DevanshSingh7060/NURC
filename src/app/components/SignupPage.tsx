@@ -9,13 +9,7 @@ const industriesList = [
   'Technology', 'Manufacturing', 'Infrastructure', 'Custom Industry'
 ];
 
-const themesList = [
-  { value: 'Original', label: 'Original NURC (Default Layout)' },
-  { value: 'Executive', label: 'Executive Brief (McKinsey Minimal)' },
-  { value: 'FT', label: 'Financial Times (Soft Beige Editorial)' },
-  { value: 'Modern', label: 'Modern Intelligence (Morning Brew Cards)' },
-  { value: 'Corporate', label: 'Corporate Digest (Compact Density)' }
-];
+
 
 export function SignupPage() {
   const { signup } = useApp();
@@ -34,7 +28,6 @@ export function SignupPage() {
 
   // Preferences State
   const [selectedIndustries, setSelectedIndustries] = useState<string[]>([]);
-  const [theme, setTheme] = useState<'Original' | 'Executive' | 'FT' | 'Modern' | 'Corporate'>('Original');
 
   // Passwords & Agreement
   const [password, setPassword] = useState('');
@@ -86,7 +79,7 @@ export function SignupPage() {
       designation,
       companySize,
       industries: selectedIndustries,
-      theme,
+      theme: 'Original',
       password
     });
 
@@ -115,7 +108,7 @@ export function SignupPage() {
         </div>
 
         {/* Form Container */}
-        <form onSubmit={handleSubmit} className="bg-card border border-border rounded-2xl shadow-sm overflow-hidden p-8 space-y-8">
+        <form onSubmit={handleSubmit} className="bg-card border border-border rounded-xl shadow-sm overflow-hidden p-8 space-y-8">
           
           {error && (
             <div className="p-4 rounded-lg bg-red-50 border border-red-200 flex items-start gap-3 text-red-800 text-sm">
@@ -145,10 +138,10 @@ export function SignupPage() {
                 <input
                   type="text"
                   required
-                  placeholder="e.g. Devan Sharma"
+                  placeholder="e.g. Devansh Sharma"
                   value={fullName}
                   onChange={e => setFullName(e.target.value)}
-                  className="w-full px-4 py-2 border border-border bg-input-background rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm transition-all"
+                  className="w-full h-12 px-4 border border-border bg-input-background rounded-xl focus:outline-none focus:ring-2 focus:ring-ring text-sm transition-all"
                 />
               </div>
               <div className="space-y-1.5">
@@ -161,7 +154,7 @@ export function SignupPage() {
                   placeholder="you@company.com"
                   value={email}
                   onChange={e => setEmail(e.target.value)}
-                  className="w-full px-4 py-2 border border-border bg-input-background rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm transition-all"
+                  className="w-full h-12 px-4 border border-border bg-input-background rounded-xl focus:outline-none focus:ring-2 focus:ring-ring text-sm transition-all"
                 />
               </div>
               <div className="space-y-1.5 md:col-span-2">
@@ -174,7 +167,7 @@ export function SignupPage() {
                   placeholder="e.g. +91 98109 75257"
                   value={phone}
                   onChange={e => setPhone(e.target.value)}
-                  className="w-full px-4 py-2 border border-border bg-input-background rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm transition-all"
+                  className="w-full h-12 px-4 border border-border bg-input-background rounded-xl focus:outline-none focus:ring-2 focus:ring-ring text-sm transition-all"
                 />
               </div>
             </div>
@@ -197,7 +190,7 @@ export function SignupPage() {
                   placeholder="e.g. Tata Motors"
                   value={companyName}
                   onChange={e => setCompanyName(e.target.value)}
-                  className="w-full px-4 py-2 border border-border bg-input-background rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm transition-all"
+                  className="w-full h-12 px-4 border border-border bg-input-background rounded-xl focus:outline-none focus:ring-2 focus:ring-ring text-sm transition-all"
                 />
               </div>
               <div className="space-y-1.5">
@@ -207,7 +200,7 @@ export function SignupPage() {
                 <select
                   value={industry}
                   onChange={e => setIndustry(e.target.value)}
-                  className="w-full px-4 py-2 border border-border bg-card rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm transition-all h-[38px] cursor-pointer"
+                  className="w-full h-12 px-4 border border-border bg-card rounded-xl focus:outline-none focus:ring-2 focus:ring-ring text-sm transition-all cursor-pointer"
                 >
                   {industriesList.map(ind => (
                     <option key={ind} value={ind}>{ind}</option>
@@ -224,7 +217,7 @@ export function SignupPage() {
                   placeholder="e.g. Industry Analyst"
                   value={designation}
                   onChange={e => setDesignation(e.target.value)}
-                  className="w-full px-4 py-2 border border-border bg-input-background rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm transition-all"
+                  className="w-full h-12 px-4 border border-border bg-input-background rounded-xl focus:outline-none focus:ring-2 focus:ring-ring text-sm transition-all"
                 />
               </div>
               <div className="space-y-1.5">
@@ -234,7 +227,7 @@ export function SignupPage() {
                 <select
                   value={companySize}
                   onChange={e => setCompanySize(e.target.value)}
-                  className="w-full px-4 py-2 border border-border bg-card rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm transition-all h-[38px] cursor-pointer"
+                  className="w-full h-12 px-4 border border-border bg-card rounded-xl focus:outline-none focus:ring-2 focus:ring-ring text-sm transition-all cursor-pointer"
                 >
                   <option value="1-10">1 - 10 employees</option>
                   <option value="10-50">10 - 50 employees</option>
@@ -267,7 +260,7 @@ export function SignupPage() {
                       key={ind}
                       type="button"
                       onClick={() => handleIndustryToggle(ind)}
-                      className="px-4 py-2 text-xs font-semibold rounded-lg text-left transition-all border shrink-0 cursor-pointer flex items-center justify-between"
+                      className="h-12 px-4 text-xs font-semibold rounded-xl text-left transition-all border shrink-0 cursor-pointer flex items-center justify-between"
                       style={{
                         background: selected ? 'var(--nurc-navy)' : 'transparent',
                         color: selected ? '#fff' : 'var(--nurc-navy)',
@@ -282,21 +275,7 @@ export function SignupPage() {
               </div>
             </div>
 
-            {/* Preferred Theme Selection only (No frequency!) */}
-            <div className="mt-6 space-y-1.5">
-              <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground" style={{ letterSpacing: '0.05em' }}>
-                Preferred Appearance Theme
-              </label>
-              <select
-                value={theme}
-                onChange={e => setTheme(e.target.value as any)}
-                className="w-full px-4 py-2 border border-border bg-card rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm transition-all h-[38px] cursor-pointer"
-              >
-                {themesList.map(t => (
-                  <option key={t.value} value={t.value}>{t.label}</option>
-                ))}
-              </select>
-            </div>
+
           </div>
 
           {/* Section 4: Passwords */}
@@ -316,7 +295,7 @@ export function SignupPage() {
                   placeholder="••••••••"
                   value={password}
                   onChange={e => setPassword(e.target.value)}
-                  className="w-full px-4 py-2 border border-border bg-input-background rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm transition-all"
+                  className="w-full h-12 px-4 border border-border bg-input-background rounded-xl focus:outline-none focus:ring-2 focus:ring-ring text-sm transition-all"
                 />
               </div>
               <div className="space-y-1.5">
@@ -329,7 +308,7 @@ export function SignupPage() {
                   placeholder="••••••••"
                   value={confirmPassword}
                   onChange={e => setConfirmPassword(e.target.value)}
-                  className="w-full px-4 py-2 border border-border bg-input-background rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-sm transition-all"
+                  className="w-full h-12 px-4 border border-border bg-input-background rounded-xl focus:outline-none focus:ring-2 focus:ring-ring text-sm transition-all"
                 />
               </div>
             </div>
@@ -355,15 +334,15 @@ export function SignupPage() {
             <div className="flex flex-col sm:flex-row gap-4 pt-2">
               <button
                 type="submit"
-                className="btn-nurc flex-1 py-3 rounded-lg text-white font-semibold text-sm transition-all focus:outline-none cursor-pointer"
+                className="btn-nurc flex-1 h-12 rounded-xl text-white font-semibold text-sm transition-all focus:outline-none cursor-pointer flex items-center justify-center animate-none"
                 style={{ background: 'var(--nurc-navy)' }}
               >
                 Create Subscriber Account
               </button>
               <Link
                 to="/login"
-                className="btn-nurc text-center py-3 px-6 rounded-lg text-sm font-semibold border transition-all hover:bg-muted"
-                style={{ borderColor: 'var(--border)', color: 'var(--nurc-navy)' }}
+                className="btn-nurc text-center h-12 px-6 rounded-xl text-sm font-semibold border transition-all hover:bg-muted flex items-center justify-center animate-none"
+                style={{ borderColor: 'var(--border)', color: 'var(--nurc-navy)', textDecoration: 'none' }}
               >
                 Login Instead
               </Link>

@@ -189,11 +189,11 @@ export function SectorPage() {
               Read Latest Issue
             </button>
             <Link
-              to="/pricing"
-              className="flex items-center gap-2 px-6 py-3 rounded-xl font-semibold border border-white/30 text-white transition-all hover:bg-white/10"
+              to="/contact"
+              className="flex items-center gap-2 px-6 py-3 rounded-xl font-semibold border border-white/30 text-white transition-all hover:bg-white/10 animate-none"
               style={{ fontFamily: 'var(--font-heading)' }}
             >
-              Subscribe
+              Request Demo
               <ArrowRight size={15} />
             </Link>
           </div>

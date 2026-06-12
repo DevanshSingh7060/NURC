@@ -357,11 +357,11 @@ India`}
 
           <div className="mt-12 flex flex-col sm:flex-row items-center gap-4 justify-center">
             <Link
-              to="/pricing"
+              to="/contact"
               className="flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-white transition-all hover:opacity-90 shadow-sm"
               style={{ background: 'var(--nurc-teal)', fontFamily: 'var(--font-heading)' }}
             >
-              Subscribe to Daily Briefings
+              Schedule Consultation
               <ArrowRight size={15} />
             </Link>
           </div>

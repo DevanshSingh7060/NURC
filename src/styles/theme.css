@@ -46,8 +46,8 @@
   --nurc-navy-light: #0F3460;
 
   /* Font families */
-  --font-display: 'Playfair Display', Georgia, serif;
-  --font-heading: 'DM Sans', system-ui, sans-serif;
+  --font-display: 'Inter', system-ui, sans-serif;
+  --font-heading: 'Inter', system-ui, sans-serif;
   --font-body: 'Inter', system-ui, sans-serif;
 }
 
