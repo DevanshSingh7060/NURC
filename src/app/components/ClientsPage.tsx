@@ -1,29 +1,93 @@
 import { useState } from 'react';
 import { Link } from 'react-router';
 import { ArrowRight, Filter } from 'lucide-react';
-import { ClientMarquee } from './ClientMarquee';
 
-const industries = ['All', 'Automotive', 'Banking & Finance', 'Infrastructure', 'Energy', 'Manufacturing'];
+// Import PNG logos from src/Logo
+import mercedesBenzLogo from '../../Logo/Mercedes Benz.png';
+import bmwLogo from '../../Logo/BMW.png';
+import tataLogo from '../../Logo/Tata.png';
+import mahindraLogo from '../../Logo/Mahindra.png';
+
+interface PremiumBrand {
+  name: string;
+  sector: string;
+  logoType: 'image' | 'svg';
+  src?: string;
+  Logo?: React.ComponentType<any>;
+}
+
+const premiumBrands: PremiumBrand[] = [
+  {
+    name: 'Mercedes-Benz',
+    sector: 'Auto',
+    logoType: 'image',
+    src: mercedesBenzLogo,
+  },
+  {
+    name: 'BMW India',
+    sector: 'Auto',
+    logoType: 'image',
+    src: bmwLogo,
+  },
+  {
+    name: 'Tata Motors',
+    sector: 'Auto',
+    logoType: 'image',
+    src: tataLogo,
+  },
+  {
+    name: 'Mahindra',
+    sector: 'Auto',
+    logoType: 'image',
+    src: mahindraLogo,
+  },
+  {
+    name: 'Deutsche Bank',
+    sector: 'Banking',
+    logoType: 'svg',
+    Logo: () => (
+      <svg className="w-auto text-[#0018A8]" style={{ height: '38px' }} viewBox="0 0 160 50" fill="currentColor">
+        <rect x="10" y="10" width="30" height="30" fill="none" stroke="currentColor" strokeWidth="4" />
+        <line x1="16" y1="34" x2="34" y2="16" stroke="currentColor" strokeWidth="4.5" strokeLinecap="round" />
+        <text x="52" y="32" fill="currentColor" fontSize="15" fontWeight="900" fontFamily="Georgia, serif" letterSpacing="0.2">Deutsche Bank</text>
+      </svg>
+    )
+  },
+  {
+    name: 'HDFC Life',
+    sector: 'Banking',
+    logoType: 'svg',
+    Logo: () => (
+      <svg className="w-auto text-[#0054A6]" style={{ height: '38px' }} viewBox="0 0 160 50">
+        <rect x="10" y="8" width="20" height="20" fill="none" stroke="#ED1C24" strokeWidth="3.5" />
+        <rect x="20" y="18" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="3.5" />
+        <text x="50" y="26" fill="#000000" fontSize="15" fontWeight="bold" fontFamily="sans-serif">HDFC Life</text>
+      </svg>
+    )
+  }
+];
+
+const industries = ['All', 'Auto', 'Banking & Finance', 'Insurance', 'Others'];
 
 const clients = [
-  { name: 'Mercedes-Benz India', industry: 'Automotive', since: '2007', type: 'OEM' },
-  { name: 'BMW India', industry: 'Automotive', since: '2009', type: 'OEM' },
-  { name: 'Volvo Auto India', industry: 'Automotive', since: '2011', type: 'OEM' },
-  { name: 'Tata Motors', industry: 'Automotive', since: '2004', type: 'OEM' },
-  { name: 'Mahindra & Mahindra', industry: 'Automotive', since: '2005', type: 'OEM' },
-  { name: 'Bosch India', industry: 'Manufacturing', since: '2006', type: 'Components' },
-  { name: 'Maruti Suzuki', industry: 'Automotive', since: '2003', type: 'OEM' },
-  { name: 'Hyundai India', industry: 'Automotive', since: '2006', type: 'OEM' },
-  { name: 'Honda Cars India', industry: 'Automotive', since: '2008', type: 'OEM' },
-  { name: 'Bajaj Auto', industry: 'Automotive', since: '2004', type: 'OEM' },
-  { name: 'Hero MotoCorp', industry: 'Automotive', since: '2005', type: 'OEM' },
-  { name: 'TVS Motor', industry: 'Automotive', since: '2007', type: 'OEM' },
-  { name: 'Ashok Leyland', industry: 'Automotive', since: '2006', type: 'CV OEM' },
-  { name: 'MG Motor India', industry: 'Automotive', since: '2019', type: 'OEM' },
-  { name: 'Kia India', industry: 'Automotive', since: '2020', type: 'OEM' },
-  { name: 'Volkswagen India', industry: 'Automotive', since: '2010', type: 'OEM' },
-  { name: 'Skoda India', industry: 'Automotive', since: '2010', type: 'OEM' },
-  { name: 'HDFC Life', industry: 'Banking & Finance', since: '2010', type: 'Insurance' },
+  { name: 'Mercedes-Benz India', industry: 'Auto', since: '2007', type: 'OEM' },
+  { name: 'BMW India', industry: 'Auto', since: '2009', type: 'OEM' },
+  { name: 'Volvo Auto India', industry: 'Auto', since: '2011', type: 'OEM' },
+  { name: 'Tata Motors', industry: 'Auto', since: '2004', type: 'OEM' },
+  { name: 'Mahindra & Mahindra', industry: 'Auto', since: '2005', type: 'OEM' },
+  { name: 'Bosch India', industry: 'Auto', since: '2006', type: 'Components' },
+  { name: 'Maruti Suzuki', industry: 'Auto', since: '2003', type: 'OEM' },
+  { name: 'Hyundai India', industry: 'Auto', since: '2006', type: 'OEM' },
+  { name: 'Honda Cars India', industry: 'Auto', since: '2008', type: 'OEM' },
+  { name: 'Bajaj Auto', industry: 'Auto', since: '2004', type: 'OEM' },
+  { name: 'Hero MotoCorp', industry: 'Auto', since: '2005', type: 'OEM' },
+  { name: 'TVS Motor', industry: 'Auto', since: '2007', type: 'OEM' },
+  { name: 'Ashok Leyland', industry: 'Auto', since: '2006', type: 'CV OEM' },
+  { name: 'MG Motor India', industry: 'Auto', since: '2019', type: 'OEM' },
+  { name: 'Kia India', industry: 'Auto', since: '2020', type: 'OEM' },
+  { name: 'Volkswagen India', industry: 'Auto', since: '2010', type: 'OEM' },
+  { name: 'Skoda India', industry: 'Auto', since: '2010', type: 'OEM' },
+  { name: 'HDFC Life', industry: 'Insurance', since: '2010', type: 'Insurance' },
   { name: 'Deutsche Bank India', industry: 'Banking & Finance', since: '2008', type: 'Bank' },
   { name: 'ICICI Bank', industry: 'Banking & Finance', since: '2009', type: 'Bank' },
   { name: 'Kotak Mahindra Bank', industry: 'Banking & Finance', since: '2011', type: 'Bank' },
@@ -32,25 +96,17 @@ const clients = [
   { name: 'SBI Cards', industry: 'Banking & Finance', since: '2015', type: 'NBFC' },
   { name: 'L&T Finance', industry: 'Banking & Finance', since: '2014', type: 'NBFC' },
   { name: 'HDFC Bank', industry: 'Banking & Finance', since: '2016', type: 'Bank' },
-  { name: 'L&T Construction', industry: 'Infrastructure', since: '2008', type: 'EPC' },
-  { name: 'GMR Group', industry: 'Infrastructure', since: '2010', type: 'Conglomerate' },
-  { name: 'GVK Power', industry: 'Infrastructure', since: '2009', type: 'Power' },
-  { name: 'Adani Group', industry: 'Infrastructure', since: '2012', type: 'Conglomerate' },
-  { name: 'TATA Power', industry: 'Energy', since: '2006', type: 'Utility' },
-  { name: 'Greenko Energy', industry: 'Energy', since: '2015', type: 'Renewable' },
-  { name: 'ReNew Power', industry: 'Energy', since: '2014', type: 'Renewable' },
-  { name: 'Sembcorp India', industry: 'Energy', since: '2016', type: 'Utility' },
-  { name: 'Motherson Group', industry: 'Manufacturing', since: '2007', type: 'Auto Ancillary' },
-  { name: 'Sundram Fasteners', industry: 'Manufacturing', since: '2009', type: 'Auto Ancillary' },
+  { name: 'L&T Construction', industry: 'Others', since: '2008', type: 'EPC' },
+  { name: 'GMR Group', industry: 'Others', since: '2010', type: 'Conglomerate' },
+  { name: 'GVK Power', industry: 'Others', since: '2009', type: 'Power' },
+  { name: 'Adani Group', industry: 'Others', since: '2012', type: 'Conglomerate' },
+  { name: 'TATA Power', industry: 'Others', since: '2006', type: 'Utility' },
+  { name: 'Greenko Energy', industry: 'Others', since: '2015', type: 'Renewable' },
+  { name: 'ReNew Power', industry: 'Others', since: '2014', type: 'Renewable' },
+  { name: 'Sembcorp India', industry: 'Others', since: '2016', type: 'Utility' },
+  { name: 'Motherson Group', industry: 'Others', since: '2007', type: 'Auto Ancillary' },
+  { name: 'Sundram Fasteners', industry: 'Others', since: '2009', type: 'Auto Ancillary' },
 ];
-
-const industryColors: Record<string, { bg: string; text: string }> = {
-  Automotive: { bg: '#E8F4F5', text: '#006D7A' },
-  'Banking & Finance': { bg: '#E8EEF4', text: '#0A2540' },
-  Infrastructure: { bg: '#EAF0F4', text: '#3B6E8A' },
-  Energy: { bg: '#EAF2EB', text: '#5B8A5E' },
-  Manufacturing: { bg: '#F2EEE8', text: '#8A6A3B' },
-};
 
 const testimonials = [
   {
@@ -77,9 +133,9 @@ export function ClientsPage() {
     : clients.filter(c => c.industry === activeIndustry);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-[#F8F9FA]">
       {/* Hero */}
-      <section className="py-20 border-b border-border" style={{ background: '#FFFFFF' }}>
+      <section className="py-20 border-b border-border bg-white">
         <div className="max-w-7xl mx-auto px-6 text-center">
           <div className="flex items-center justify-center gap-3 mb-5">
             <div className="h-px w-12" style={{ background: 'var(--nurc-gold)' }} />
@@ -92,15 +148,15 @@ export function ClientsPage() {
             className="mb-5"
             style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(28px, 4.5vw, 50px)', fontWeight: 700, color: 'var(--nurc-navy)', lineHeight: 1.15 }}
           >
-            Trusted by India's Most Consequential Corporations
+            Trusted by India’s Leading Corporations
           </h1>
-          <p className="text-muted-foreground mx-auto mb-8" style={{ fontSize: '17px', lineHeight: 1.8, maxWidth: '600px' }}>
-            From Germany's finest automotive brands to India's largest financial institutions — 36+ of India's most respected corporations trust NURC for sector intelligence.
+          <p className="text-muted-foreground mx-auto mb-8 text-base md:text-lg" style={{ lineHeight: 1.8, maxWidth: '650px' }}>
+            From Germany’s finest auto brands to India’s top financial institutions — the country’s most consequential decision-makers rely on NURC.
           </p>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 max-w-2xl mx-auto">
             {[
               { label: 'Corporations', value: '36+' },
-              { label: 'Industries', value: '5+' },
+              { label: 'Industries', value: '4+' },
               { label: 'Avg. Tenure', value: '11 Yrs' },
               { label: 'C-Suite Readers', value: '500+' },
             ].map((stat, i) => (
@@ -117,18 +173,72 @@ export function ClientsPage() {
         </div>
       </section>
 
-      {/* Marquee — reinforces trust signals */}
-      <ClientMarquee label="" compact={true} />
+      {/* Top Brands Highlight Grid */}
+      <section className="py-16 bg-white border-b border-border">
+        <div className="max-w-7xl mx-auto px-6">
+          <h2
+            className="text-center mb-10 text-navy font-bold text-lg"
+            style={{
+              fontFamily: "Satoshi, 'Geist Sans', var(--font-heading), sans-serif",
+              color: 'var(--nurc-navy)',
+            }}
+          >
+            Key Brand Highlights
+          </h2>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-6 justify-center">
+            {premiumBrands.map((brand, i) => (
+              <div
+                key={i}
+                className="client-card group"
+              >
+                <div className="h-16 flex items-center justify-center mb-3 w-full">
+                  {brand.logoType === 'image' ? (
+                    <img
+                      src={brand.src}
+                      alt={`${brand.name} logo`}
+                      className="max-h-[60px] w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+                      draggable={false}
+                    />
+                  ) : (
+                    <div className="transition-transform duration-300 group-hover:scale-105 flex items-center justify-center w-full">
+                      {brand.Logo && <brand.Logo />}
+                    </div>
+                  )}
+                </div>
+                <div
+                  className="font-semibold text-center text-xs mb-2"
+                  style={{
+                    fontFamily: "Satoshi, 'Geist Sans', var(--font-heading), sans-serif",
+                    color: 'var(--nurc-navy)',
+                    letterSpacing: '-0.01em',
+                  }}
+                >
+                  {brand.name}
+                </div>
+                <div
+                  className="px-2.5 py-0.5 rounded-full text-[9px] font-bold tracking-wider uppercase"
+                  style={{
+                    background: 'rgba(0,109,122,0.08)',
+                    color: 'var(--nurc-teal)',
+                  }}
+                >
+                  {brand.sector}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-      {/* Filter */}
-      <section className="py-5 border-b border-border bg-card sticky top-16 z-30">
+      {/* Filter Tabs Bar */}
+      <section className="py-5 border-b border-border bg-white sticky top-16 z-30 shadow-xs">
         <div className="max-w-7xl mx-auto px-6 flex items-center gap-3 overflow-x-auto">
           <Filter size={15} style={{ color: 'var(--nurc-navy)', opacity: 0.5, flexShrink: 0 }} />
           {industries.map(ind => (
             <button
               key={ind}
               onClick={() => setActiveIndustry(ind)}
-              className="shrink-0 px-4 py-1.5 rounded-full text-sm font-semibold transition-all"
+              className="shrink-0 px-4 py-1.5 rounded-full text-sm font-semibold transition-all cursor-pointer"
               style={{
                 background: activeIndustry === ind ? 'var(--nurc-navy)' : 'transparent',
                 color: activeIndustry === ind ? '#fff' : 'var(--nurc-navy)',
@@ -142,55 +252,28 @@ export function ClientsPage() {
         </div>
       </section>
 
-      {/* Client Grid */}
-      <section className="py-12">
+      {/* Text-Only Full Client List */}
+      <section className="py-12 bg-[#F8F9FA]">
         <div className="max-w-7xl mx-auto px-6">
           <p className="text-muted-foreground text-sm mb-6" style={{ fontFamily: 'var(--font-heading)' }}>
             Showing {filtered.length} of {clients.length} client relationships
           </p>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
-            {filtered.map((client, i) => {
-              const colors = industryColors[client.industry] || { bg: '#F3F4F6', text: '#4B5563' };
-              return (
-                <div
-                  key={i}
-                  className="rounded-xl bg-card border border-border p-4 flex flex-col justify-between transition-all duration-200"
-                  style={{ minHeight: '110px' }}
-                  onMouseEnter={e => {
-                    (e.currentTarget as HTMLElement).style.boxShadow = '0 6px 20px rgba(0,0,0,0.10)';
-                    (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
-                  }}
-                  onMouseLeave={e => {
-                    (e.currentTarget as HTMLElement).style.boxShadow = 'none';
-                    (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
-                  }}
-                >
-                  <div
-                    className="font-bold leading-tight mb-2"
-                    style={{ fontFamily: 'var(--font-heading)', fontSize: '12px', color: 'var(--nurc-navy)' }}
-                  >
-                    {client.name}
-                  </div>
-                  <div className="flex flex-col gap-1.5">
-                    <span
-                      className="inline-block px-2 py-0.5 rounded-full text-center"
-                      style={{ fontSize: '9px', fontFamily: 'var(--font-heading)', fontWeight: 700, background: colors.bg, color: colors.text }}
-                    >
-                      {client.type}
-                    </span>
-                    <span className="text-xs text-muted-foreground" style={{ fontSize: '10px' }}>
-                      Client since {client.since}
-                    </span>
-                  </div>
-                </div>
-              );
-            })}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+            {filtered.map((client, i) => (
+              <div
+                key={i}
+                className="flex items-center justify-between p-4 bg-white border border-gray-100 rounded-xl shadow-xs transition-all duration-200 hover:shadow-sm hover:border-gray-200"
+              >
+                <span className="font-semibold text-gray-800 text-sm">{client.name}</span>
+                <span className="text-xs text-[var(--nurc-teal)] font-semibold shrink-0 ml-2">→ {client.industry}</span>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
       {/* Testimonials */}
-      <section className="py-16 border-t border-border" style={{ background: '#FFFFFF' }}>
+      <section className="py-16 border-t border-border bg-white">
         <div className="max-w-7xl mx-auto px-6">
           <h2
             className="text-center mb-10"
@@ -200,7 +283,7 @@ export function ClientsPage() {
           </h2>
           <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
             {testimonials.map((t, i) => (
-              <div key={i} className="rounded-2xl p-7 bg-background border border-border">
+              <div key={i} className="rounded-2xl p-7 bg-[#F8F9FA] border border-border">
                 <p
                   className="italic mb-6"
                   style={{ fontFamily: 'var(--font-display)', fontSize: '17px', lineHeight: 1.75, color: 'var(--nurc-navy)' }}
@@ -230,7 +313,7 @@ export function ClientsPage() {
       </section>
 
       {/* CTA */}
-      <section className="py-16" style={{ background: 'var(--nurc-navy)' }}>
+      <section className="py-16 animate-none" style={{ background: 'var(--nurc-navy)' }}>
         <div className="max-w-3xl mx-auto px-6 text-center">
           <h2 className="text-white mb-4" style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(24px, 3.5vw, 36px)', fontWeight: 700, lineHeight: 1.2 }}>
             Join India's Most Trusted Intelligence Network

@@ -8,106 +8,8 @@ import { ClientMarquee } from './ClientMarquee';
 import { useScrollFadeIn } from './useScrollFadeIn';
 import { useLeadModal } from '../context/LeadModalContext';
 
-const keyClients = [
-  {
-    name: 'Mercedes-Benz',
-    sector: 'Auto',
-    Logo: () => (
-      <svg className="h-6 w-auto text-[var(--nurc-navy)] shrink-0" viewBox="0 0 100 100" fill="currentColor">
-        <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" strokeWidth="3" />
-        <path d="M50,7.5 L50,50 L13.2,71.2 L50,50 L86.8,71.2 Z" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
-        <circle cx="50" cy="50" r="2.5" fill="currentColor" />
-      </svg>
-    )
-  },
-  {
-    name: 'BMW India',
-    sector: 'Auto',
-    Logo: () => (
-      <svg className="h-6 w-auto shrink-0" viewBox="0 0 100 100">
-        <circle cx="50" cy="50" r="48" fill="#1A1A1A" stroke="#FFFFFF" strokeWidth="2" />
-        <circle cx="50" cy="50" r="32" fill="#FFFFFF" />
-        <path d="M50,18 A32,32 0 0,0 18,50 L50,50 Z" fill="#0066B2" />
-        <path d="M50,50 L82,50 A32,32 0 0,0 50,18 Z" fill="#FFFFFF" />
-        <path d="M50,50 L50,82 A32,32 0 0,0 82,50 Z" fill="#0066B2" />
-        <path d="M18,50 A32,32 0 0,0 50,82 L50,50 Z" fill="#FFFFFF" />
-        <text x="31" y="14" fill="#FFFFFF" fontSize="9" fontWeight="bold" fontFamily="sans-serif" transform="rotate(-40 31 14)">B</text>
-        <text x="47" y="11" fill="#FFFFFF" fontSize="9" fontWeight="bold" fontFamily="sans-serif">M</text>
-        <text x="63" y="14" fill="#FFFFFF" fontSize="9" fontWeight="bold" fontFamily="sans-serif" transform="rotate(40 63 14)">W</text>
-      </svg>
-    )
-  },
-  {
-    name: 'Tata Motors',
-    sector: 'Auto',
-    Logo: () => (
-      <svg className="h-5 w-auto shrink-0" viewBox="0 0 150 60">
-        <ellipse cx="75" cy="30" rx="42" ry="25" fill="none" stroke="#00529B" strokeWidth="4.5" />
-        <path d="M52,18 C65,18 70,36 75,46 C80,36 85,18 98,18 C83,18 80,32 75,41 C70,32 67,18 52,18 Z" fill="#00529B" />
-        <text x="75" y="56" fill="#00529B" fontSize="9" fontWeight="bold" fontFamily="sans-serif" textAnchor="middle" letterSpacing="1.5">TATA</text>
-      </svg>
-    )
-  },
-  {
-    name: 'Mahindra',
-    sector: 'Auto',
-    Logo: () => (
-      <svg className="h-5 w-auto shrink-0" viewBox="0 0 150 50">
-        <path d="M25,45 L15,10 L30,30 L45,10 L35,45" fill="none" stroke="#E31837" strokeWidth="6.5" strokeLinecap="round" strokeLinejoin="round" />
-        <text x="56" y="38" fill="#E31837" fontSize="21" fontWeight="900" fontFamily="sans-serif" letterSpacing="1">Mahindra</text>
-      </svg>
-    )
-  },
-  {
-    name: 'Deutsche Bank',
-    sector: 'Banking',
-    Logo: () => (
-      <svg className="h-6 w-auto shrink-0" viewBox="0 0 160 50">
-        <rect x="10" y="10" width="30" height="30" fill="none" stroke="#0018A8" strokeWidth="4" />
-        <line x1="16" y1="34" x2="34" y2="16" stroke="#0018A8" strokeWidth="4.5" strokeLinecap="round" />
-        <text x="52" y="32" fill="#0018A8" fontSize="15" fontWeight="900" fontFamily="Georgia, serif" letterSpacing="0.2">Deutsche Bank</text>
-      </svg>
-    )
-  },
-  {
-    name: 'HDFC Life',
-    sector: 'Banking',
-    Logo: () => (
-      <svg className="h-6 w-auto shrink-0" viewBox="0 0 160 50">
-        <rect x="10" y="8" width="20" height="20" fill="none" stroke="#ED1C24" strokeWidth="3.5" />
-        <rect x="20" y="18" width="20" height="20" fill="none" stroke="#0054A6" strokeWidth="3.5" />
-        <text x="50" y="26" fill="#000000" fontSize="15" fontWeight="bold" fontFamily="sans-serif">HDFC Life</text>
-      </svg>
-    )
-  }
-];
 
-const clientLogos = [
-  { name: 'Mercedes-Benz', sector: 'Auto' },
-  { name: 'BMW India', sector: 'Auto' },
-  { name: 'Volvo', sector: 'Auto' },
-  { name: 'Tata Motors', sector: 'Auto' },
-  { name: 'Mahindra', sector: 'Auto' },
-  { name: 'Bosch India', sector: 'Auto' },
-  { name: 'Maruti Suzuki', sector: 'Auto' },
-  { name: 'Hyundai India', sector: 'Auto' },
-  { name: 'Honda Cars', sector: 'Auto' },
-  { name: 'Bajaj Auto', sector: 'Auto' },
-  { name: 'Hero MotoCorp', sector: 'Auto' },
-  { name: 'TVS Motor', sector: 'Auto' },
-  { name: 'Ashok Leyland', sector: 'Auto' },
-  { name: 'MG Motor', sector: 'Auto' },
-  { name: 'Kia India', sector: 'Auto' },
-  { name: 'Volkswagen', sector: 'Auto' },
-  { name: 'HDFC Life', sector: 'Banking' },
-  { name: 'Deutsche Bank', sector: 'Banking' },
-  { name: 'ICICI Bank', sector: 'Banking' },
-  { name: 'Kotak Mahindra', sector: 'Banking' },
-  { name: 'Axis Bank', sector: 'Banking' },
-  { name: 'Crisil', sector: 'Finance' },
-  { name: 'SBI Cards', sector: 'Banking' },
-  { name: 'Skoda India', sector: 'Auto' },
-];
+
 
 const sectors = [
   {
@@ -360,82 +262,25 @@ export function HomePage() {
       {/* Client Marquee — immediately after hero */}
       <ClientMarquee />
 
-      {/* Client Logos Static Grid */}
-      <section className="py-20" style={{ background: '#FFFFFF' }}>
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-14">
-            <div className="flex items-center justify-center gap-3 mb-4">
-              <div className="h-px w-12" style={{ background: 'var(--nurc-gold)' }} />
-              <span
-                className="text-xs font-bold uppercase tracking-widest"
-                style={{ color: 'var(--nurc-teal)', letterSpacing: '0.14em', fontFamily: 'var(--font-heading)' }}
-              >
-                Trusted By
-              </span>
-              <div className="h-px w-12" style={{ background: 'var(--nurc-gold)' }} />
-            </div>
-            <h2
-              className="mb-4"
-              style={{
-                fontFamily: 'var(--font-display)',
-                fontSize: 'clamp(26px, 3.5vw, 38px)',
-                fontWeight: 700,
-                color: 'var(--nurc-navy)',
-                lineHeight: 1.2,
-              }}
-            >
-              Trusted by India's Leading Corporations
-            </h2>
-            <p className="text-muted-foreground mx-auto" style={{ maxWidth: '500px', lineHeight: 1.7, fontSize: '16px' }}>
-              From Germany's finest auto brands to India's top financial institutions — the country's most consequential decision-makers rely on NURC.
-            </p>
+      {/* Compact Stats Row */}
+      <div className="bg-[#FFFFFF] border-b border-[#E5E7EB] py-5">
+        <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-around gap-6 text-center">
+          <div className="flex items-center gap-2">
+            <span className="font-bold text-[var(--nurc-teal)] text-xl" style={{ fontFamily: "Satoshi, 'Geist Sans', var(--font-heading)" }}>23+</span>
+            <span className="text-sm text-gray-600 font-medium" style={{ fontFamily: 'var(--font-body)' }}>Years of Trust</span>
           </div>
-
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-6 justify-center items-center">
-            {keyClients.map((client, i) => (
-              <div
-                key={i}
-                className="flex flex-col items-center justify-center rounded-2xl p-5 border transition-all duration-300 bg-white shadow-sm border-gray-100 hover:shadow-md hover:-translate-y-0.5"
-                style={{ minHeight: '110px' }}
-              >
-                <div className="h-10 flex items-center justify-center mb-3">
-                  <client.Logo />
-                </div>
-                <div
-                  className="font-bold text-center text-[10px]"
-                  style={{
-                    fontFamily: 'var(--font-heading)',
-                    color: 'var(--nurc-navy)',
-                    letterSpacing: '-0.01em',
-                  }}
-                >
-                  {client.name}
-                </div>
-                <div
-                  className="mt-1 px-2 py-0.5 rounded-full text-center text-[8px] font-bold tracking-widest"
-                  style={{
-                    background: sectorColors[client.sector] || '#F3F4F6',
-                    color: sectorTextColors[client.sector] || '#4B5563',
-                  }}
-                >
-                  {client.sector}
-                </div>
-              </div>
-            ))}
+          <div className="hidden md:block h-6 w-px bg-[#E5E7EB]" />
+          <div className="flex items-center gap-2">
+            <span className="font-bold text-[var(--nurc-teal)] text-xl" style={{ fontFamily: "Satoshi, 'Geist Sans', var(--font-heading)" }}>500+</span>
+            <span className="text-sm text-gray-600 font-medium" style={{ fontFamily: 'var(--font-body)' }}>Corporate Executives Served</span>
           </div>
-
-          <div className="mt-10 text-center">
-            <Link
-              to="/clients"
-              className="inline-flex items-center gap-2 text-sm font-semibold transition-colors hover:opacity-70"
-              style={{ color: 'var(--nurc-teal)', fontFamily: 'var(--font-heading)' }}
-            >
-              View all client relationships
-              <ArrowRight size={15} />
-            </Link>
+          <div className="hidden md:block h-6 w-px bg-[#E5E7EB]" />
+          <div className="flex items-center gap-2">
+            <span className="font-bold text-[var(--nurc-teal)] text-xl" style={{ fontFamily: "Satoshi, 'Geist Sans', var(--font-heading)" }}>Daily</span>
+            <span className="text-sm text-gray-600 font-medium" style={{ fontFamily: 'var(--font-body)' }}>Delivery to Industry Leaders</span>
           </div>
         </div>
-      </section>
+      </div>
 
       {/* Why Leading Companies Trust NURC */}
       <section ref={valueRef} className="py-24 bg-white border-t border-b border-border">
