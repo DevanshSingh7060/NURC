@@ -36,9 +36,12 @@ export function ReaderModeOverlay() {
   // Track scroll position dynamically with requestAnimationFrame and ResizeObserver
   useEffect(() => {
     const el = contentRef.current;
-    if (!el || !isOpen || !newsletterId) return;
+    if (!el || !isOpen) return;
 
     let frameId: number;
+
+    const storageKey = newsletterId ? `nurc_scroll_pos_${newsletterId}` : (article ? `nurc_scroll_pos_sample_${article.title}` : null);
+    const storagePctKey = newsletterId ? `nurc_scroll_pct_${newsletterId}` : (article ? `nurc_scroll_pct_sample_${article.title}` : null);
 
     const handleScrollEvent = (e?: Event) => {
       cancelAnimationFrame(frameId);
@@ -129,8 +132,12 @@ export function ReaderModeOverlay() {
 
         setProgress(roundedPct);
         
-        localStorage.setItem(`nurc_scroll_pos_${newsletterId}`, scrollTop.toString());
-        localStorage.setItem(`nurc_scroll_pct_${newsletterId}`, roundedPct.toString());
+        if (storageKey) {
+          localStorage.setItem(storageKey, scrollTop.toString());
+        }
+        if (storagePctKey) {
+          localStorage.setItem(storagePctKey, roundedPct.toString());
+        }
       });
     };
 
@@ -143,10 +150,12 @@ export function ReaderModeOverlay() {
     if (rootEl) rootEl.addEventListener('scroll', handleScrollEvent, { passive: true });
 
     // Initial check & auto-restoration
-    const savedPos = localStorage.getItem(`nurc_scroll_pos_${newsletterId}`);
-    if (savedPos) {
-      const scrollTop = parseFloat(savedPos);
-      el.scrollTop = scrollTop;
+    if (storageKey) {
+      const savedPos = localStorage.getItem(storageKey);
+      if (savedPos) {
+        const scrollTop = parseFloat(savedPos);
+        el.scrollTop = scrollTop;
+      }
     }
     
     handleScrollEvent();
@@ -176,7 +185,7 @@ export function ReaderModeOverlay() {
       cancelAnimationFrame(frameId);
       resizeObserver.disconnect();
     };
-  }, [isOpen, newsletterId, settings.fontSize, article]);
+  }, [isOpen, newsletterId, settings.fontSize, settings.readingMode, currentUser?.theme, article]);
 
   // Set continue reading indicators on mount/activation
   useEffect(() => {
