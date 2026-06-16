@@ -5,6 +5,7 @@ import { HomePage } from './components/HomePage';
 import { NewsletterPage } from './components/NewsletterPage';
 import { SectorPage } from './components/SectorPage';
 import { ClientsPage } from './components/ClientsPage';
+import { AllClientsPage } from './components/AllClientsPage';
 import { AboutPage } from './components/AboutPage';
 import { ContactPage } from './components/ContactPage';
 import { ResourcesPage } from './components/ResourcesPage';
@@ -27,6 +28,7 @@ export const router = createBrowserRouter([
       { path: 'newsletter', Component: NewsletterPage },
       { path: 'sector/:slug', Component: SectorPage },
       { path: 'clients', Component: ClientsPage },
+      { path: 'clients/all', Component: AllClientsPage },
       { path: 'pricing', Component: RedirectToContact },
       { path: 'about', Component: AboutPage },
       { path: 'contact', Component: ContactPage },
