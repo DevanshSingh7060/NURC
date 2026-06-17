@@ -3,6 +3,7 @@ import { BookOpen, ArrowRight, Filter, Search, Download, Bookmark, Share2, Clock
 import { useApp } from '../context/AppContext';
 import { useReaderMode } from './ReaderModeContext';
 import { Link, useSearchParams } from 'react-router';
+import { SEOHead } from './shared/SEOHead';
 
 const categories = ['All', 'Automotive', 'Banking', 'Finance', 'Insurance', 'Healthcare', 'Energy', 'Technology', 'Infrastructure'];
 const years = ['All', '2026', '2025'];
@@ -155,6 +156,11 @@ export function NewsletterPage() {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead
+        title="Newsletter Archive | NURC MediaNext"
+        description="Browse the complete archive of NURC MediaNext intelligence dispatches across automotive, banking, infrastructure, energy, healthcare, and technology sectors."
+        canonicalUrl="/newsletters"
+      />
       
       {/* Archive Hero Section */}
       <section className="py-16 border-b border-border" style={{ background: '#FFFFFF' }}>

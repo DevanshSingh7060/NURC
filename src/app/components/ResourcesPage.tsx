@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { BookOpen, Clock, ArrowRight, Search } from 'lucide-react';
 import { useReaderMode, SAMPLE_AUTO_ARTICLE, SAMPLE_BANKING_ARTICLE } from './ReaderModeContext';
+import { SEOHead } from './shared/SEOHead';
 
 const categories = ['All', 'Strategy', 'Market Analysis', 'Policy & Regulation', 'Technology', 'Leadership'];
 
@@ -83,6 +84,11 @@ export function ResourcesPage() {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead
+        title="Insights & Research | NURC MediaNext"
+        description="Deep-read analysis from NURC's editorial team. Strategic intelligence across automotive, banking, infrastructure, energy, and healthcare sectors."
+        canonicalUrl="/insights"
+      />
       {/* Hero */}
       <section className="py-16 border-b border-border" style={{ background: '#FFFFFF' }}>
         <div className="max-w-7xl mx-auto px-6">

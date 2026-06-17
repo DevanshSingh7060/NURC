@@ -5,10 +5,10 @@ export function Footer() {
   const { openDemoModal } = useLeadModal();
 
   return (
-    <footer style={{ background: '#FFFFFF', borderTop: '1px solid #E5E7EB', fontFamily: 'var(--font-heading)' }}>
+    <footer role="contentinfo" style={{ background: '#FFFFFF', borderTop: '1px solid #E5E7EB', fontFamily: 'var(--font-heading)' }}>
       <div className="max-w-7xl mx-auto px-6 py-10">
         {/* Top Section: 3 Columns on desktop, stacked on mobile */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pb-8 border-b border-gray-100">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 pb-8 border-b border-gray-100">
           
           {/* Column 1: Brand */}
           <div className="space-y-3">
@@ -22,25 +22,43 @@ export function Footer() {
               </div>
             </div>
             <p className="text-xs" style={{ color: '#4B5563', lineHeight: '1.6' }}>
-              Curated Intelligence for Industry Leaders Since 2002
+              Daily Curated News Intelligence for Industry Leaders Since 2002
+            </p>
+            <p className="text-[11px] text-gray-400 leading-relaxed">
+              N.U.R.C. MediaNext Pvt. Ltd. — Holding company for N.U.R.C. India
             </p>
           </div>
 
-          {/* Column 2: Quick Links */}
+          {/* Column 2: Company */}
           <div className="space-y-3">
             <h4 className="font-bold uppercase tracking-wider text-[10px]" style={{ color: 'var(--nurc-navy)', letterSpacing: '0.1em' }}>
-              Quick Links
+              Company
             </h4>
             <ul className="space-y-2 text-xs">
               <li><Link to="/" className="text-gray-500 hover:text-gray-900 transition-colors">Home</Link></li>
-              <li><Link to="/newsletters" className="text-gray-500 hover:text-gray-900 transition-colors">Industries</Link></li>
-              <li><Link to="/about" className="text-gray-500 hover:text-gray-900 transition-colors">About</Link></li>
-              <li><button onClick={openDemoModal} className="text-gray-500 hover:text-gray-900 transition-colors bg-transparent border-0 p-0 cursor-pointer text-xs font-normal text-left">Schedule Demo</button></li>
-              <li><Link to="/contact" className="text-gray-500 hover:text-gray-900 transition-colors">Contact</Link></li>
+              <li><Link to="/about" className="text-gray-500 hover:text-gray-900 transition-colors">About Us</Link></li>
+              <li><Link to="/services" className="text-gray-500 hover:text-gray-900 transition-colors">Services</Link></li>
+              <li><Link to="/clients" className="text-gray-500 hover:text-gray-900 transition-colors">Clients</Link></li>
+              <li><Link to="/industries/auto" className="text-gray-500 hover:text-gray-900 transition-colors">Industries</Link></li>
+              <li><Link to="/insights" className="text-gray-500 hover:text-gray-900 transition-colors">Insights</Link></li>
             </ul>
           </div>
 
-          {/* Column 3: Contact */}
+          {/* Column 3: Services */}
+          <div className="space-y-3">
+            <h4 className="font-bold uppercase tracking-wider text-[10px]" style={{ color: 'var(--nurc-navy)', letterSpacing: '0.1em' }}>
+              Services
+            </h4>
+            <ul className="space-y-2 text-xs">
+              <li><Link to="/services" className="text-gray-500 hover:text-gray-900 transition-colors">Daily News Updates</Link></li>
+              <li><Link to="/services" className="text-gray-500 hover:text-gray-900 transition-colors">Searchable Archives</Link></li>
+              <li><Link to="/services" className="text-gray-500 hover:text-gray-900 transition-colors">Custom Intelligence</Link></li>
+              <li><Link to="/contact?intent=trial" className="text-gray-500 hover:text-gray-900 transition-colors font-semibold">15-Day Free Trial</Link></li>
+              <li><button onClick={openDemoModal} className="text-gray-500 hover:text-gray-900 transition-colors bg-transparent border-0 p-0 cursor-pointer text-xs font-normal text-left">Schedule Demo</button></li>
+            </ul>
+          </div>
+
+          {/* Column 4: Contact */}
           <div className="space-y-3 text-xs text-gray-500">
             <h4 className="font-bold uppercase tracking-wider text-[10px]" style={{ color: 'var(--nurc-navy)', letterSpacing: '0.1em' }}>
               Contact
@@ -57,6 +75,10 @@ export function Footer() {
                 <a href="tel:+919810975257" className="hover:text-gray-900 transition-colors">+91-9810975257</a>
                 {' · '}
                 <a href="tel:+919958949710" className="hover:text-gray-900 transition-colors">+91-9958949710</a>
+              </p>
+              <p>
+                <span className="font-semibold text-gray-700">Landline:</span>{' '}
+                <a href="tel:+911149849324" className="hover:text-gray-900 transition-colors">+91-11-49849324</a>
               </p>
             </div>
             <div className="pt-2 border-t border-gray-100">

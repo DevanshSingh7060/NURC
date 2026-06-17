@@ -5,6 +5,7 @@ import { useReaderMode } from './ReaderModeContext';
 import { useLeadModal } from '../context/LeadModalContext';
 import { NewsletterThemeRenderer } from './NewsletterThemeRenderer';
 import { User, Briefcase, FileText, Settings, Bookmark, CheckCircle, Bell, ArrowRight, Star, RefreshCw, BookOpen, Clock, Layout, HelpCircle } from 'lucide-react';
+import { SEOHead } from './shared/SEOHead';
 
 const SAMPLE_PREVIEW_ARTICLE = {
   title: 'India Macro Intelligence Briefing',
@@ -203,6 +204,12 @@ export function DashboardPage() {
 
   return (
     <div className="min-h-[calc(100vh-64px)] bg-[#F8F9FA] pb-12">
+      <SEOHead
+        title="Dashboard | NURC MediaNext"
+        description="Your personalized NURC MediaNext dashboard with curated intelligence, saved articles, and subscription management."
+        canonicalUrl="/dashboard"
+        noindex={true}
+      />
       
       {/* Dashboard Top Banner */}
       <div className="bg-white border-b border-border py-8">

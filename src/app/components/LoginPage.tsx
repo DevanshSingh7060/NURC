@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router';
 import { useApp } from '../context/AppContext';
 import { Eye, EyeOff, ShieldAlert, CheckCircle2 } from 'lucide-react';
+import { SEOHead } from './shared/SEOHead';
 
 export function LoginPage() {
   const { login } = useApp();
@@ -37,6 +38,12 @@ export function LoginPage() {
 
   return (
     <div className="min-h-[calc(100vh-64px)] grid lg:grid-cols-2 bg-background">
+      <SEOHead
+        title="Login | NURC MediaNext"
+        description="Access your NURC MediaNext dashboard for curated industry intelligence, newsletter archive, and personalized sector coverage."
+        canonicalUrl="/login"
+        noindex={true}
+      />
       {/* Left panel - Editorial Quote */}
       <div 
         className="hidden lg:flex flex-col justify-between p-12 text-white relative overflow-hidden"

@@ -1,5 +1,6 @@
 import { Outlet, useLocation } from 'react-router';
-import { useEffect } from 'react';
+import { useEffect, Suspense } from 'react';
+import { HelmetProvider } from 'react-helmet-async';
 import { ThemeProvider } from 'next-themes';
 import { Header } from './Header';
 import { Footer } from './Footer';
@@ -8,6 +9,9 @@ import { ReaderModeProvider } from './ReaderModeContext';
 import { AppProvider } from '../context/AppContext';
 import { LeadModalProvider } from '../context/LeadModalContext';
 import { LeadModal } from './LeadModal';
+import { SkipToContent } from './shared/SkipToContent';
+import { StructuredData, ORGANIZATION_SCHEMA, WEBSITE_SCHEMA } from './shared/StructuredData';
+import { PageLoadingFallback } from './shared/PageLoadingFallback';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -19,25 +23,31 @@ function ScrollToTop() {
 
 export function Root() {
   return (
-    <AppProvider>
-      <ThemeProvider attribute="class" defaultTheme="light" forcedTheme="light" enableSystem={false}>
-        <LeadModalProvider>
-          <ReaderModeProvider>
-            <div className="min-h-screen flex flex-col bg-background text-foreground">
-              <ScrollToTop />
-              <Header />
-              <main className="flex-1">
-                <Outlet />
-              </main>
-              <Footer />
-              <ReaderModeOverlay />
-              <SharePromptCard />
-              <LeadModal />
-            </div>
-          </ReaderModeProvider>
-        </LeadModalProvider>
-      </ThemeProvider>
-    </AppProvider>
+    <HelmetProvider>
+      <AppProvider>
+        <ThemeProvider attribute="class" defaultTheme="light" forcedTheme="light" enableSystem={false}>
+          <LeadModalProvider>
+            <ReaderModeProvider>
+              <div className="min-h-screen flex flex-col bg-background text-foreground">
+                <SkipToContent />
+                <StructuredData data={[ORGANIZATION_SCHEMA, WEBSITE_SCHEMA]} />
+                <ScrollToTop />
+                <Header />
+                <main id="main-content" role="main" className="flex-1">
+                  <Suspense fallback={<PageLoadingFallback />}>
+                    <Outlet />
+                  </Suspense>
+                </main>
+                <Footer />
+                <ReaderModeOverlay />
+                <SharePromptCard />
+                <LeadModal />
+              </div>
+            </ReaderModeProvider>
+          </LeadModalProvider>
+        </ThemeProvider>
+      </AppProvider>
+    </HelmetProvider>
   );
 }
 

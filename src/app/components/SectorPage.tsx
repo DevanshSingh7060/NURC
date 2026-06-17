@@ -1,6 +1,7 @@
 import { useParams, Link } from 'react-router';
 import { BookOpen, ArrowRight, TrendingUp, BarChart2, FileText } from 'lucide-react';
 import { useReaderMode, SAMPLE_AUTO_ARTICLE, SAMPLE_BANKING_ARTICLE } from './ReaderModeContext';
+import { SEOHead } from './shared/SEOHead';
 
 const sectorData: Record<string, {
   title: string;
@@ -153,13 +154,19 @@ export function SectorPage() {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead
+        title={`${sector.title} | NURC MediaNext`}
+        description={sector.description}
+        canonicalUrl={`/industries/${slug || 'auto'}`}
+      />
       {/* Hero */}
       <section className="relative overflow-hidden" style={{ background: sector.color }}>
         <div className="absolute inset-0">
           <img
             src={sector.image}
-            alt={sector.title}
+            alt={`${sector.title} background`}
             className="w-full h-full object-cover opacity-20"
+            loading="lazy"
           />
           <div className="absolute inset-0" style={{ background: `linear-gradient(to right, ${sector.color} 40%, ${sector.color}80 100%)` }} />
         </div>

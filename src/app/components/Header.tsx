@@ -6,16 +6,21 @@ import { useApp } from '../context/AppContext';
 
 const navLinks = [
   { label: 'Home', to: '/' },
-  { label: 'Solutions', to: '#', hasDropdown: true },
+  { label: 'Industries', to: '#', hasDropdown: true },
+  { label: 'Services', to: '/services' },
   { label: 'Clients', to: '/clients' },
-  { label: 'Resources', to: '/resources' },
+  { label: 'Resources', to: '/insights' },
   { label: 'About', to: '/about' },
 ];
 
 const solutionsLinks = [
-  { label: 'Auto', to: '/sector/auto' },
-  { label: 'Banking', to: '/sector/banking' },
-  { label: 'Customized', to: '/contact' },
+  { label: 'Automobiles', to: '/industries/auto' },
+  { label: 'Banking', to: '/industries/banking' },
+  { label: 'Insurance', to: '/industries/insurance' },
+  { label: 'Mutual Funds', to: '/industries/mutual-funds' },
+  { label: 'Infrastructure', to: '/industries/infrastructure' },
+  { label: 'Energy', to: '/industries/energy' },
+  { label: 'Metals & Minerals', to: '/industries/metals-minerals' },
 ];
 
 export function Header() {
@@ -52,6 +57,7 @@ export function Header() {
 
   return (
     <header
+      role="banner"
       className={`sticky top-0 border-b border-border bg-card/95 backdrop-blur-sm transition-all duration-200 ${
         mobileOpen ? 'z-[9999]' : 'z-40'
       }`}
@@ -78,7 +84,7 @@ export function Header() {
         </Link>
 
         {/* Desktop Nav */}
-        <nav className="hidden lg:flex items-center gap-1">
+        <nav className="hidden lg:flex items-center gap-1" aria-label="Main navigation">
           {navLinks.map(link =>
             link.hasDropdown ? (
               <div key={link.label} className="relative" onMouseEnter={() => setSectorsOpen(true)} onMouseLeave={() => setSectorsOpen(false)}>
@@ -270,7 +276,7 @@ export function Header() {
               </div>
 
               {/* Links drawer list */}
-              <nav className="flex flex-col gap-1 text-sm font-bold text-left" style={{ color: 'var(--nurc-navy)' }}>
+              <nav className="flex flex-col gap-1 text-sm font-bold text-left" style={{ color: 'var(--nurc-navy)' }} aria-label="Mobile navigation">
                 <Link 
                   to="/" 
                   className="px-3 py-2 rounded-lg hover:bg-muted transition-colors flex items-center gap-2.5" 
@@ -313,7 +319,16 @@ export function Header() {
 
 
                 <Link 
-                  to="/resources" 
+                  to="/services" 
+                  className="px-3 py-2 rounded-lg hover:bg-muted transition-colors flex items-center gap-2.5" 
+                  onClick={() => setMobileOpen(false)}
+                >
+                  <Settings size={15} className="text-teal" style={{ color: 'var(--nurc-teal)' }} />
+                  Services
+                </Link>
+
+                <Link 
+                  to="/insights" 
                   className="px-3 py-2 rounded-lg hover:bg-muted transition-colors flex items-center gap-2.5" 
                   onClick={() => setMobileOpen(false)}
                 >

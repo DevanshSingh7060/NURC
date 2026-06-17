@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Mail, Phone, MapPin, ShieldCheck, CheckCircle2, ArrowRight } from 'lucide-react';
+import { SEOHead } from './shared/SEOHead';
 
 export function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
@@ -39,6 +40,11 @@ export function ContactPage() {
 
   return (
     <div className="min-h-screen bg-background pb-20">
+      <SEOHead
+        title="Contact Us | NURC MediaNext"
+        description="Connect with NURC MediaNext's intelligence team for enterprise licensing, custom research, or consultation. Delhi corporate office: +91-9810975257."
+        canonicalUrl="/contact"
+      />
       
       {/* Contact Hero */}
       <section className="py-16 border-b border-border bg-white">

@@ -7,6 +7,7 @@ import { useReaderMode, SAMPLE_AUTO_ARTICLE } from './ReaderModeContext';
 import { ClientMarquee } from './ClientMarquee';
 import { useScrollFadeIn } from './useScrollFadeIn';
 import { useLeadModal } from '../context/LeadModalContext';
+import { SEOHead } from './shared/SEOHead';
 
 import mercedesBenzLogo from '../../Logo/Mercedes Benz.png';
 import bmwLogo from '../../Logo/BMW.png';
@@ -18,46 +19,53 @@ import deutscheBankLogo from '../../Logo/Deutsche Bank.png';
 
 const sectors = [
   {
-    title: 'Auto & Mobility',
+    title: 'Automobiles',
     description: 'Policy shifts, OEM strategy, EV transitions, component supply chains, and market dynamics.',
     color: '#006D7A',
     slug: 'auto',
-    stats: '16 OEMs tracked',
+    stats: 'Daily coverage',
   },
   {
-    title: 'Banking & Finance',
+    title: 'Banking',
     description: 'RBI policy, credit cycles, NBFC landscape, digital banking, and capital market intelligence.',
     color: '#0A2540',
     slug: 'banking',
-    stats: '40+ institutions',
+    stats: 'Daily coverage',
+  },
+  {
+    title: 'Insurance',
+    description: 'Regulatory shifts, premium growth trends, health/life sector dynamics, and distribution strategies.',
+    color: '#5B8A5E',
+    slug: 'insurance',
+    stats: 'Daily coverage',
+  },
+  {
+    title: 'Mutual Funds',
+    description: 'AUM trends, regulatory updates, fund performance analysis, and retail inflow tracking.',
+    color: '#8A6A3B',
+    slug: 'mutual-funds',
+    stats: 'Daily coverage',
   },
   {
     title: 'Infrastructure',
     description: 'NHAI project pipeline, urban development, PPP deal flow, and construction sector dynamics.',
     color: '#3B6E8A',
     slug: 'infrastructure',
-    stats: '₹11L Cr tracked',
+    stats: 'Daily coverage',
   },
   {
-    title: 'Energy & Power',
+    title: 'Energy',
     description: 'Renewables capacity, power procurement, coal-to-clean transitions, and tariff intelligence.',
-    color: '#5B8A5E',
-    slug: 'energy',
-    stats: '180 GW pipeline',
-  },
-  {
-    title: 'Healthcare',
-    description: 'Hospital group strategy, pharma policy, medical devices, and public health procurement.',
     color: '#7B5C8A',
-    slug: 'healthcare',
-    stats: '35 groups tracked',
+    slug: 'energy',
+    stats: 'Daily coverage',
   },
   {
-    title: 'FMCG & Retail',
-    description: 'D2C disruption, modern trade dynamics, rural penetration, and pricing strategy shifts.',
-    color: '#8A6A3B',
-    slug: 'fmcg',
-    stats: '50+ brands',
+    title: 'Metals & Minerals',
+    description: 'Global pricing trends, domestic mining policy, steel capacity utilization, and raw material supply.',
+    color: '#5B4A7B',
+    slug: 'metals-minerals',
+    stats: 'Daily coverage',
   },
 ];
 
@@ -130,6 +138,11 @@ export function HomePage() {
   return (
     <div>
       {/* MARKER-MAKE-KIT-INVOKED */}
+      <SEOHead
+        title="India's Trusted Media Monitoring & Industry Intelligence Platform"
+        description="Delivering curated industry news, media monitoring, market intelligence, and decision-ready insights to organizations across multiple sectors. Trusted by 500+ C-Suite executives since 2002."
+        canonicalUrl="/"
+      />
       {/* Hero Section */}
       <section
         className="relative overflow-hidden"
@@ -178,7 +191,7 @@ export function HomePage() {
                 maxWidth: '520px',
               }}
             >
-              For 24+ years, consequential corporate leaders have relied on our ad-free, high-comfort intelligence briefings delivered straight to their inboxes.
+              For 24 years, Fortune 500 organizations and growing Indian companies have relied on "The N.U.R.C. News Update" — our daily curated news collation service delivered straight to corporate inboxes.
             </p>
             <div className="flex flex-wrap gap-4">
               <Link
@@ -201,23 +214,23 @@ export function HomePage() {
             {/* Social proof strip */}
             <div className="flex flex-wrap items-center gap-6 mt-12">
               <div className="text-center">
-                <div className="font-bold text-white" style={{ fontFamily: 'var(--font-display)', fontSize: '28px' }}>500+</div>
-                <div className="text-xs text-white/50 uppercase tracking-wider mt-0.5">C-Suite Readers</div>
+                <div className="font-bold text-white" style={{ fontFamily: 'var(--font-display)', fontSize: '28px' }}>Daily</div>
+                <div className="text-xs text-white/50 uppercase tracking-wider mt-0.5">Email Delivery</div>
               </div>
               <div className="h-8 w-px bg-white/10" />
               <div className="text-center">
-                <div className="font-bold text-white" style={{ fontFamily: 'var(--font-display)', fontSize: '28px' }}>15+</div>
+                <div className="font-bold text-white" style={{ fontFamily: 'var(--font-display)', fontSize: '28px' }}>7</div>
                 <div className="text-xs text-white/50 uppercase tracking-wider mt-0.5">Sectors Covered</div>
               </div>
               <div className="h-8 w-px bg-white/10" />
               <div className="text-center">
-                <div className="font-bold text-white" style={{ fontFamily: 'var(--font-display)', fontSize: '28px' }}>23</div>
+                <div className="font-bold text-white" style={{ fontFamily: 'var(--font-display)', fontSize: '28px' }}>24</div>
                 <div className="text-xs text-white/50 uppercase tracking-wider mt-0.5">Years of Trust</div>
               </div>
               <div className="h-8 w-px bg-white/10" />
               <div className="text-center">
-                <div className="font-bold text-white" style={{ fontFamily: 'var(--font-display)', fontSize: '28px' }}>52</div>
-                <div className="text-xs text-white/50 uppercase tracking-wider mt-0.5">Issues per Year</div>
+                <div className="font-bold text-white" style={{ fontFamily: 'var(--font-display)', fontSize: '28px' }}>15</div>
+                <div className="text-xs text-white/50 uppercase tracking-wider mt-0.5">Days Free Trial</div>
               </div>
             </div>
           </div>
@@ -230,8 +243,10 @@ export function HomePage() {
             >
               <img
                 src="https://images.unsplash.com/photo-1729551610680-c6ea05b08937?w=700&h=500&fit=crop&auto=format"
-                alt="Executive conference room"
+                alt="Executive conference room representing corporate intelligence briefings"
                 className="w-full h-[420px] object-cover"
+                width={700}
+                height={500}
               />
               <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(10,37,64,0.7) 0%, transparent 60%)' }} />
               <div className="absolute bottom-6 left-6 right-6">
@@ -264,6 +279,64 @@ export function HomePage() {
         </div>
       </section>
 
+      {/* What NURC Does Section (New) */}
+      <section className="py-16 bg-[#F9FAFB] border-b border-[#E5E7EB]">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-12">
+            <h2
+              style={{
+                fontFamily: 'var(--font-heading)',
+                fontSize: 'clamp(26px, 3.5vw, 38px)',
+                fontWeight: 700,
+                color: 'var(--nurc-navy)',
+                lineHeight: 1.25,
+              }}
+            >
+              The N.U.R.C. News Update
+            </h2>
+            <p className="text-muted-foreground mx-auto mt-3 max-w-2xl" style={{ fontSize: '15px' }}>
+              We provide a subscription-based, daily news intelligence service tailored for corporate executives, decision-makers, and communication teams.
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              {
+                title: 'Daily News Updates',
+                description: 'We collate industry-specific news stories from credible print and online sources and email them directly to your corporate inbox every morning.',
+                icon: BookOpen
+              },
+              {
+                title: 'Searchable Archives',
+                description: 'Subscribers get free access to our comprehensive online archives, fully searchable by newspaper, category, and company.',
+                icon: Star
+              },
+              {
+                title: 'Corporate Distribution',
+                description: 'There is no limit to the number of employees within your organization who can receive our updates via intranet or direct mailing.',
+                icon: Shield
+              },
+              {
+                title: 'Custom Intelligence',
+                description: 'If our standard sector coverage does not meet your specific requirements, we can create tailored, customized updates for your organization.',
+                icon: Settings
+              }
+            ].map((feature, idx) => {
+              const Icon = feature.icon;
+              return (
+                <div key={idx} className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
+                  <div className="w-10 h-10 rounded-xl bg-[var(--nurc-teal)]/10 text-[var(--nurc-teal)] flex items-center justify-center mb-4">
+                    <Icon size={20} />
+                  </div>
+                  <h3 className="font-bold text-[var(--nurc-navy)] mb-2" style={{ fontFamily: 'var(--font-heading)', fontSize: '16px' }}>{feature.title}</h3>
+                  <p className="text-gray-500 text-sm leading-relaxed">{feature.description}</p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
       {/* Client Marquee — immediately after hero */}
       <ClientMarquee />
 
@@ -271,18 +344,18 @@ export function HomePage() {
       <div className="bg-[#FFFFFF] border-b border-[#E5E7EB] py-5">
         <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-around gap-6 text-center">
           <div className="flex items-center gap-2">
-            <span className="font-bold text-[var(--nurc-teal)] text-xl" style={{ fontFamily: "var(--font-heading)" }}>24+</span>
+            <span className="font-bold text-[var(--nurc-teal)] text-xl" style={{ fontFamily: "var(--font-heading)" }}>24</span>
             <span className="text-sm text-gray-600 font-medium" style={{ fontFamily: 'var(--font-body)' }}>Years of Trust</span>
           </div>
           <div className="hidden md:block h-6 w-px bg-[#E5E7EB]" />
           <div className="flex items-center gap-2">
             <span className="font-bold text-[var(--nurc-teal)] text-xl" style={{ fontFamily: "var(--font-heading)" }}>Daily</span>
-            <span className="text-sm text-gray-600 font-medium" style={{ fontFamily: 'var(--font-body)' }}>Delivery</span>
+            <span className="text-sm text-gray-600 font-medium" style={{ fontFamily: 'var(--font-body)' }}>Email Delivery</span>
           </div>
           <div className="hidden md:block h-6 w-px bg-[#E5E7EB]" />
           <div className="flex items-center gap-2">
-            <span className="font-bold text-[var(--nurc-teal)] text-xl" style={{ fontFamily: "var(--font-heading)" }}>500+</span>
-            <span className="text-sm text-gray-600 font-medium" style={{ fontFamily: 'var(--font-body)' }}>Executives Served</span>
+            <span className="font-bold text-[var(--nurc-teal)] text-xl" style={{ fontFamily: "var(--font-heading)" }}>Unlimited</span>
+            <span className="text-sm text-gray-600 font-medium" style={{ fontFamily: 'var(--font-body)' }}>Corporate Distribution</span>
           </div>
         </div>
       </div>
@@ -319,23 +392,23 @@ export function HomePage() {
             {[
               {
                 icon: Clock,
-                title: 'Time Saved',
-                description: 'Get the essential 20% of industry news that drives 80% of business decisions. Zero noise, zero fluff.',
+                title: 'Daily Consistency',
+                description: 'Industry-specific news collated from credible print and online sources, delivered every single morning to your corporate ID.',
               },
               {
                 icon: TrendingUp,
-                title: 'Competitive Edge',
-                description: 'Stay ahead of competitor moves, policy shifts, and market opportunities before they land on general news sites.',
+                title: 'Fortune 500 Trust',
+                description: 'For over 18 years, our esteemed clients—ranging from top MNCs to growing Indian companies—have trusted our service.',
               },
               {
                 icon: Settings,
-                title: 'Customized',
-                description: 'Tailor your dashboard to track only the industries, companies, and updates relevant to your corporate focus.',
+                title: 'Customized Coverage',
+                description: 'Beyond our standard sectors, we offer tailored news intelligence updates designed for your organization\'s unique requirements.',
               },
               {
                 icon: ShieldCheck,
-                title: 'Ad-Free',
-                description: 'Experience a premium, ad-free, distraction-free interface built purely for corporate reading and strategic analysis.',
+                title: 'Corporate-Wide Access',
+                description: 'Subscribe once and distribute freely. We place no limits on the number of employees who can receive updates via intranet or email.',
               },
             ].map((prop, i) => {
               const Icon = prop.icon;
@@ -584,6 +657,30 @@ export function HomePage() {
         </div>
       </section>
 
+      {/* Free Trial Section (New) */}
+      <section className="py-20" style={{ background: 'var(--nurc-navy)' }}>
+        <div className="max-w-4xl mx-auto px-6 text-center">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-white/90 text-xs font-bold uppercase tracking-wider mb-6" style={{ fontFamily: 'var(--font-heading)' }}>
+            No Commitment Required
+          </div>
+          <h2 className="text-white mb-6" style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(28px, 4vw, 42px)', fontWeight: 700, lineHeight: 1.2 }}>
+            Experience The N.U.R.C. News Update
+          </h2>
+          <p className="text-white/70 mb-10 text-lg mx-auto" style={{ maxWidth: '600px', lineHeight: 1.7 }}>
+            Sign up for a 15-day free trial. Allow multiple users from your organization to evaluate our daily sector-specific intelligence updates with absolutely no obligation to subscribe.
+          </p>
+          <div className="flex flex-wrap items-center justify-center gap-4">
+            <Link
+              to="/contact?intent=trial"
+              className="px-8 py-4 bg-[var(--nurc-teal)] hover:bg-[var(--nurc-teal)]/90 text-white rounded-xl font-bold text-lg transition-all"
+              style={{ fontFamily: 'var(--font-heading)' }}
+            >
+              Start Your 15-Day Free Trial
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* Trust Statistics */}
       <section className="py-12 lg:py-20 bg-white border-t border-b border-border/50">
         <div className="max-w-7xl mx-auto px-6">
@@ -614,27 +711,27 @@ export function HomePage() {
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-5">
             {[
               {
-                stat: '24+',
-                label: 'Years of Coverage',
-                description: 'Providing comprehensive historical sector datasets.',
+                stat: '24',
+                label: 'Years of Trust',
+                description: 'Providing comprehensive historical sector datasets since 2002.',
                 icon: Clock,
               },
               {
-                stat: '10+',
-                label: 'Industry Sectors',
+                stat: '7',
+                label: 'Core Sectors',
                 description: 'Deep analytical dispatches on key B2B areas.',
                 icon: BookOpen,
               },
               {
                 stat: 'Daily',
-                label: 'Curated Intelligence',
-                description: 'Zero automated noise, zero unverified reports.',
+                label: 'Email Delivery',
+                description: 'Curated intelligence delivered every morning.',
                 icon: ShieldCheck,
               },
               {
-                stat: 'Enterprise',
-                label: 'Trusted Platform',
-                description: 'Dedicated workspaces for major B2B teams.',
+                stat: 'Unlimited',
+                label: 'Corporate Distribution',
+                description: 'No per-seat licensing limits for subscribers.',
                 icon: Star,
               },
             ].map((item, idx) => {

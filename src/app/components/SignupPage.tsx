@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router';
 import { useApp } from '../context/AppContext';
 import { ShieldAlert, CheckCircle2 } from 'lucide-react';
+import { SEOHead } from './shared/SEOHead';
 
 const industriesList = [
   'Automotive', 'Banking', 'Finance', 'Insurance',
@@ -91,6 +92,12 @@ export function SignupPage() {
 
   return (
     <div className="min-h-screen bg-background py-12 px-6">
+      <SEOHead
+        title="Sign Up | NURC MediaNext"
+        description="Create your NURC MediaNext account to access curated industry intelligence across automotive, banking, infrastructure, and more."
+        canonicalUrl="/signup"
+        noindex={true}
+      />
       <div className="max-w-3xl mx-auto">
         
         {/* Brand Banner */}

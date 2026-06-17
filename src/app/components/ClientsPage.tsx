@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
+import { ArrowRight, Filter } from 'lucide-react';
+import { SEOHead } from './shared/SEOHead';
 
 // Import PNG logos from src/Logo
 import mercedesBenzLogo from '../../Logo/Mercedes Benz.png';
@@ -168,8 +170,13 @@ const testimonials = [
 export function ClientsPage() {
   return (
     <div className="min-h-screen bg-[#F8F9FA]">
-      {/* Compact Hero Section */}
-      <section className="py-12 border-b border-border bg-white">
+      <SEOHead
+        title="Our Clients | NURC MediaNext"
+        description="Trusted by Fortune 500 organizations and leading Indian companies for over 18 years. Discover why India's top MNCs rely on NURC for daily industry news intelligence."
+        canonicalUrl="/clients"
+      />
+      {/* Hero */}
+      <section className="py-20 border-b border-border bg-white">
         <div className="max-w-7xl mx-auto px-6 text-center">
           <div className="flex items-center justify-center gap-3 mb-4">
             <div className="h-px w-12" style={{ background: 'var(--nurc-gold)' }} />
@@ -184,9 +191,26 @@ export function ClientsPage() {
           >
             Trusted by India’s Leading Corporations
           </h1>
-          <p className="text-muted-foreground mx-auto text-sm md:text-base max-w-xl" style={{ lineHeight: 1.6 }}>
-            From Germany’s finest auto brands to India’s top financial institutions — the country’s most consequential decision-makers rely on NURC.
+          <p className="text-muted-foreground mx-auto mb-8 text-base md:text-lg" style={{ lineHeight: 1.8, maxWidth: '650px' }}>
+            From Fortune 500 organizations to growing Indian companies — many of our esteemed clients have trusted our daily intelligence service for over 18 years.
           </p>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 max-w-2xl mx-auto">
+            {[
+              { label: 'Sectors Covered', value: '7' },
+              { label: 'Delivery', value: 'Daily' },
+              { label: 'Client Tenure', value: '18+ Yrs' },
+              { label: 'Free Trial', value: '15 Days' },
+            ].map((stat, i) => (
+              <div key={i} className="text-center">
+                <div className="font-bold" style={{ fontFamily: 'var(--font-display)', fontSize: '28px', color: 'var(--nurc-navy)' }}>
+                  {stat.value}
+                </div>
+                <div className="text-muted-foreground text-xs mt-0.5" style={{ fontFamily: 'var(--font-heading)' }}>
+                  {stat.label}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -291,7 +315,7 @@ export function ClientsPage() {
       </section>
 
       {/* CTA */}
-      <section className="py-12 style={{ background: 'var(--nurc-navy)' }}" style={{ background: 'var(--nurc-navy)' }}>
+      <section className="py-12" style={{ background: 'var(--nurc-navy)' }}>
         <div className="max-w-3xl mx-auto px-6 text-center">
           <h2 className="text-white mb-3" style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(22px, 3vw, 30px)', fontWeight: 700, lineHeight: 1.2 }}>
             Join India's Most Trusted Intelligence Network

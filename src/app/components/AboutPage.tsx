@@ -1,5 +1,6 @@
 import { Link } from 'react-router';
 import { ArrowRight, MapPin, Mail, Phone } from 'lucide-react';
+import { SEOHead } from './shared/SEOHead';
 
 const timeline = [
   {
@@ -79,6 +80,11 @@ const team = [
 export function AboutPage() {
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead
+        title="About NURC MediaNext | 24 Years of Industry Intelligence"
+        description="Founded in 2002, N.U.R.C. MediaNext Private Ltd. provides daily curated news intelligence to Fortune 500 organizations and leading Indian corporations across 7 industry sectors."
+        canonicalUrl="/about"
+      />
       {/* Hero */}
       <section className="py-20 border-b border-border" style={{ background: '#FFFFFF' }}>
         <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
@@ -93,13 +99,13 @@ export function AboutPage() {
               className="mb-6"
               style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(28px, 4vw, 48px)', fontWeight: 700, color: 'var(--nurc-navy)', lineHeight: 1.15 }}
             >
-              23 Years of Curated Intelligence for India's Industry Leaders
+              24 Years of Curated Intelligence for India's Industry Leaders
             </h1>
             <p className="text-muted-foreground mb-6" style={{ fontSize: '17px', lineHeight: 1.85 }}>
-              NURC MediaNext was founded in Mumbai in 2002 with a simple conviction: India's senior corporate executives deserved a better quality of sector intelligence. Not wire-service rewrites, not opinion masquerading as analysis — but deeply researched, expertly curated, and impeccably timed intelligence that could sharpen decisions and narrow blind spots.
+              N.U.R.C. MediaNext Private Ltd. — the holding company for N.U.R.C. India — was established in 2002 with a clear purpose: to provide India's corporate decision-makers with a better quality of sector-specific news intelligence. Not wire-service rewrites, not opinion masquerading as analysis — but carefully collated, credibly sourced, daily news updates delivered directly to corporate inboxes.
             </p>
             <p className="text-muted-foreground mb-8" style={{ fontSize: '17px', lineHeight: 1.85 }}>
-              Twenty-three years later, that conviction is unchanged. Our editorial team of 40+ domain specialists covers 15+ sectors, serving 500+ C-Suite readers at India's most consequential corporations — from German luxury OEMs to India's largest private banks.
+              For over 24 years, "The N.U.R.C. News Update" has been the daily intelligence resource for Fortune 500 organizations, top MNCs, and growing Indian companies. We cover 7 core sectors — Automobiles, Banking, Insurance, Mutual Funds, Infrastructure, Energy, and Metals & Minerals — with many esteemed clients trusting our service for over 18 years.
             </p>
             <Link
               to="/newsletters"
@@ -114,19 +120,22 @@ export function AboutPage() {
           <div className="relative">
             <img
               src="https://images.unsplash.com/photo-1571624436279-b272aff752b5?w=700&h=500&fit=crop&auto=format"
-              alt="NURC editorial team"
+              alt="NURC editorial team at work"
               className="rounded-2xl w-full object-cover"
               style={{ height: '400px' }}
+              loading="lazy"
+              width={700}
+              height={500}
             />
             <div
               className="absolute -bottom-4 -left-4 rounded-2xl px-6 py-4 bg-card border border-border"
               style={{ boxShadow: '0 8px 32px rgba(0,0,0,0.12)' }}
             >
               <div className="font-bold" style={{ fontFamily: 'var(--font-display)', fontSize: '24px', color: 'var(--nurc-navy)' }}>
-                40+
+                24
               </div>
               <div className="text-muted-foreground text-xs mt-0.5" style={{ fontFamily: 'var(--font-heading)' }}>
-                Domain Specialists
+                Years of Service
               </div>
             </div>
           </div>
@@ -138,34 +147,34 @@ export function AboutPage() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-12">
             <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(22px, 3vw, 34px)', fontWeight: 700, color: 'var(--nurc-navy)' }}>
-              Our Editorial Principles
+              What Sets Us Apart
             </h2>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
               {
-                title: 'Zero Noise',
-                description: 'Every sentence in every brief must earn its place. If a piece of information doesn\'t change the picture, it doesn\'t get published.',
+                title: 'Daily Delivery',
+                description: 'Industry-specific news stories collated from credible print and online sources, delivered to your corporate inbox every single morning.',
               },
               {
-                title: 'Primary Source Priority',
-                description: 'We read government gazettes, regulatory filings, earnings transcripts, and court judgements — not secondary press summaries.',
+                title: 'Credible Sources',
+                description: 'We curate from verified print publications and established online sources — not social media chatter or unverified wire reports.',
               },
               {
-                title: 'Forward-Looking',
-                description: 'We analyse what developments mean for your sector, your competitors, and your decisions — not just what happened.',
+                title: 'Corporate-Wide Access',
+                description: 'There is no limit to the number of employees within a subscribing organization who can receive updates via intranet or direct mailing.',
               },
               {
-                title: 'Domain Expertise',
-                description: 'Our automotive writers have worked in the automotive industry. Our banking analysts have worked in banking. We hire expertise.',
+                title: 'Searchable Archives',
+                description: 'Subscribers receive free access to comprehensive online archives, fully searchable by newspaper, industry vertical, and company name.',
               },
               {
-                title: 'Independence',
-                description: 'No advertising. No sponsored content. No vendor relationships that could colour our analysis. Our only obligation is to our subscribers.',
+                title: 'Customization',
+                description: 'If our standard sector coverage does not meet your specific requirements, we offer tailored, customized updates for your organization.',
               },
               {
-                title: 'Punctuality',
-                description: '23 years. 52 issues per year per sector. Delivered by 7 AM on publication day. We have never missed a deadline.',
+                title: '15-Day Free Trial',
+                description: 'Evaluate our daily intelligence service for 15 days with no commitment. Multiple users from your organization can join the trial.',
               },
             ].map((principle, i) => (
               <div
