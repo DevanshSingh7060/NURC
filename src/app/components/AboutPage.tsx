@@ -194,55 +194,58 @@ export function AboutPage() {
         </div>
       </section>
 
-      {/* Timeline */}
-      <section className="py-16 border-t border-border" style={{ background: '#FFFFFF' }}>
-        <div className="max-w-4xl mx-auto px-6">
-          <div className="text-center mb-12">
-            <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(22px, 3vw, 34px)', fontWeight: 700, color: 'var(--nurc-navy)' }}>
-              Our Journey Since 2002
-            </h2>
-          </div>
-          <div className="relative">
-            {/* Timeline line */}
-            <div
-              className="absolute left-6 top-0 bottom-0 w-0.5"
-              style={{ background: 'var(--nurc-gold)', opacity: 0.3 }}
-            />
-            <div className="space-y-8">
-              {timeline.map((item, i) => (
-                <div key={i} className="flex gap-6 items-start relative">
-                  <div
-                    className="w-12 h-12 rounded-full flex items-center justify-center shrink-0 z-10 border-2"
-                    style={{
-                      background: i === timeline.length - 1 ? 'var(--nurc-navy)' : '#FFFFFF',
-                      borderColor: 'var(--nurc-gold)',
-                    }}
-                  >
-                    <span
-                      className="font-bold"
+      {/* Timeline (Hidden) */}
+      {false && (
+        <section className="py-16 border-t border-border" style={{ background: '#FFFFFF' }}>
+          <div className="max-w-4xl mx-auto px-6">
+            <div className="text-center mb-12">
+              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(22px, 3vw, 34px)', fontWeight: 700, color: 'var(--nurc-navy)' }}>
+                Our Journey Since 2002
+              </h2>
+            </div>
+            <div className="relative">
+              {/* Timeline line */}
+              <div
+                className="absolute left-6 top-0 bottom-0 w-0.5"
+                style={{ background: 'var(--nurc-gold)', opacity: 0.3 }}
+              >
+                </div>
+              <div className="space-y-8">
+                {timeline.map((item, i) => (
+                  <div key={i} className="flex gap-6 items-start relative">
+                    <div
+                      className="w-12 h-12 rounded-full flex items-center justify-center shrink-0 z-10 border-2"
                       style={{
-                        fontFamily: 'var(--font-heading)',
-                        fontSize: '10px',
-                        color: i === timeline.length - 1 ? 'var(--nurc-gold)' : 'var(--nurc-navy)',
+                        background: i === timeline.length - 1 ? 'var(--nurc-navy)' : '#FFFFFF',
+                        borderColor: 'var(--nurc-gold)',
                       }}
                     >
-                      {item.year}
-                    </span>
+                      <span
+                        className="font-bold"
+                        style={{
+                          fontFamily: 'var(--font-heading)',
+                          fontSize: '10px',
+                          color: i === timeline.length - 1 ? 'var(--nurc-gold)' : 'var(--nurc-navy)',
+                        }}
+                      >
+                        {item.year}
+                      </span>
+                    </div>
+                    <div className="pt-2 pb-2">
+                      <h3 className="font-bold mb-1" style={{ fontFamily: 'var(--font-heading)', fontSize: '16px', color: 'var(--nurc-navy)' }}>
+                        {item.title}
+                      </h3>
+                      <p className="text-muted-foreground" style={{ fontSize: '14px', lineHeight: 1.7 }}>
+                        {item.description}
+                      </p>
+                    </div>
                   </div>
-                  <div className="pt-2 pb-2">
-                    <h3 className="font-bold mb-1" style={{ fontFamily: 'var(--font-heading)', fontSize: '16px', color: 'var(--nurc-navy)' }}>
-                      {item.title}
-                    </h3>
-                    <p className="text-muted-foreground" style={{ fontSize: '14px', lineHeight: 1.7 }}>
-                      {item.description}
-                    </p>
-                  </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* Team */}
       <section className="py-16 bg-background">

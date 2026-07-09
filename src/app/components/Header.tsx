@@ -3,6 +3,7 @@ import { NavLink, Link } from 'react-router';
 import { Menu, X, BookOpen, ChevronDown, User, Layout, Briefcase, FileText, Settings, Star, Bookmark, Home, Mail } from 'lucide-react';
 import { useReaderMode, SAMPLE_AUTO_ARTICLE } from './ReaderModeContext';
 import { useApp } from '../context/AppContext';
+import nurcLogo from '../../Logo/nurc-logo.png';
 
 const navLinks = [
   { label: 'Home', to: '/' },
@@ -66,21 +67,14 @@ export function Header() {
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between h-16 relative">
         
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-2 shrink-0" onClick={() => setMobileOpen(false)}>
-          <div
-            className="w-8 h-8 rounded flex items-center justify-center text-white text-xs font-bold"
-            style={{ background: 'var(--nurc-navy)', fontFamily: 'var(--font-display)' }}
-          >
-            N
-          </div>
-          <div className="leading-none text-left">
-            <div className="font-bold tracking-tight" style={{ color: 'var(--nurc-navy)', fontSize: '15px' }}>
-              NURC
-            </div>
-            <div className="font-medium tracking-widest uppercase" style={{ fontSize: '9px', color: 'var(--nurc-teal)', letterSpacing: '0.15em' }}>
-              MediaNext
-            </div>
-          </div>
+        <Link to="/" className="flex items-center shrink-0" onClick={() => setMobileOpen(false)} aria-label="NURC Media Next — Home">
+          <img
+            src={nurcLogo}
+            alt="NURC Media Next — 26 Years of Trust & Service"
+            className="h-9 sm:h-10 w-auto"
+            width={320}
+            height={102}
+          />
         </Link>
 
         {/* Desktop Nav */}

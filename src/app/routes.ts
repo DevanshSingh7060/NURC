@@ -16,6 +16,22 @@ import { SignupPage } from './components/SignupPage';
 import { DashboardPage } from './components/DashboardPage';
 import { ReaderPage } from './components/ReaderPage';
 
+// Admin console (no public header/footer, no auth)
+import { AdminRoot } from './admin/AdminLayout';
+import { AdminDashboard } from './admin/pages/Dashboard';
+import { SectionsView, SectionsAdd } from './admin/pages/Sections';
+import { StoriesView, StoriesAdd, StoriesShortcuts } from './admin/pages/Stories';
+import { ClientsView, ClientsAdd } from './admin/pages/Clients';
+import { SourcesView, SourcesAdd } from './admin/pages/Sources';
+import { AgenciesView, AgenciesAdd } from './admin/pages/Agencies';
+import { CompaniesView, CompaniesAdd } from './admin/pages/Companies';
+import { CitiesView, CitiesAdd } from './admin/pages/Cities';
+import { VehiclesView, VehiclesAdd } from './admin/pages/Vehicles';
+import { MasterFormView, MasterFormAdd } from './admin/pages/MasterForms';
+import { UpdatesView, UpdatesAdd, UpdatesPublish } from './admin/pages/Updates';
+import { FormCaptionsView, FormCaptionsAdd } from './admin/pages/FormCaptions';
+import { SendNewslettersView, NewslettersSend } from './admin/pages/Newsletters';
+
 // Redirect components
 const RedirectToContact = () => React.createElement(Navigate, { to: '/contact', replace: true });
 const RedirectToInsights = () => React.createElement(Navigate, { to: '/insights', replace: true });
@@ -60,6 +76,40 @@ export const router = createBrowserRouter([
       { path: 'subscribe', Component: RedirectToContact },
       { path: 'dashboard', Component: DashboardPage },
       { path: 'reader/:id', Component: ReaderPage },
+      { path: '*', Component: NotFoundPage },
+    ],
+  },
+  {
+    path: '/admin',
+    Component: AdminRoot,
+    children: [
+      { index: true, Component: AdminDashboard },
+      { path: 'updates', Component: UpdatesView },
+      { path: 'updates/add', Component: UpdatesAdd },
+      { path: 'updates/publish', Component: UpdatesPublish },
+      { path: 'sections', Component: SectionsView },
+      { path: 'sections/add', Component: SectionsAdd },
+      { path: 'stories', Component: StoriesView },
+      { path: 'stories/add', Component: StoriesAdd },
+      { path: 'stories/shortcuts', Component: StoriesShortcuts },
+      { path: 'clients', Component: ClientsView },
+      { path: 'clients/add', Component: ClientsAdd },
+      { path: 'newsletters', Component: SendNewslettersView },
+      { path: 'newsletters/send', Component: NewslettersSend },
+      { path: 'sources', Component: SourcesView },
+      { path: 'sources/add', Component: SourcesAdd },
+      { path: 'news-agencies', Component: AgenciesView },
+      { path: 'news-agencies/add', Component: AgenciesAdd },
+      { path: 'companies', Component: CompaniesView },
+      { path: 'companies/add', Component: CompaniesAdd },
+      { path: 'cities', Component: CitiesView },
+      { path: 'cities/add', Component: CitiesAdd },
+      { path: 'vehicles', Component: VehiclesView },
+      { path: 'vehicles/add', Component: VehiclesAdd },
+      { path: 'master-forms', Component: MasterFormView },
+      { path: 'master-forms/add', Component: MasterFormAdd },
+      { path: 'form-captions', Component: FormCaptionsView },
+      { path: 'form-captions/add', Component: FormCaptionsAdd },
       { path: '*', Component: NotFoundPage },
     ],
   },
