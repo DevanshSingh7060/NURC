@@ -95,25 +95,18 @@ const values = [
 
 const testimonials = [
   {
-    quote: 'NURC\'s auto intelligence brief is the first thing I read every Tuesday morning. It\'s saved us from two major misjudgements in the past year alone.',
-    name: 'Vikram Malhotra',
-    title: 'CFO',
-    company: 'Leading German OEM, India Operations',
+    quote: 'NURC\'s Morning and Afternoon Newsletters stands out for its accuracy, comprehensiveness, and high consistency. The team tracks industry news accurately, which remains valuable source of information for automotive industry updates.',
+    name: 'Shekhar Das Chowdhury',
+    title: 'Head, Corporate Communications',
+    company: 'Mercedes-Benz India',
     logo: mercedesBenzLogo,
   },
   {
-    quote: 'The depth of competitor intelligence in the banking digest is remarkable. We\'ve used it to sharpen our product strategy twice this quarter.',
-    name: 'Priya Raghunathan',
-    title: 'Managing Director',
-    company: 'Private Sector Bank, Strategy Division',
-    logo: deutscheBankLogo,
-  },
-  {
-    quote: 'Since 2002, this has been the single most reliable industry intelligence service in India. No other publication comes close for executive-level depth.',
-    name: 'Arun Kapoor',
-    title: 'CEO',
-    company: 'Infrastructure Conglomerate',
-    logo: tataLogo,
+    quote: 'For us, staying informed with credible, timely, and relevant industry intelligence is an essential part of our communications and business updates. NURC MediaNext\'s Daily Newsletter has consistently been a dependable source of curated news, concisely presented and links, helping us keep pace with important developments.\n\nWhat sets the newsletter apart is the comprehensive coverage, combined with the ease of access, enables our team to quickly identify key trends, track industry movements, and stay connected with the evolving media landscape—all without having to sift through multiple sources.\n\nWe sincerely appreciate the professionalism, consistency, and commitment demonstrated by the NURC MediaNext team in delivering this service every day. We wish the entire team continued success and look forward to many more years of this excellent partnership.',
+    name: 'Ajit Srinivasan',
+    title: 'Deputy General Manager, Corporate Communications & PR',
+    company: 'Isuzu India',
+    logo: null,
   },
 ];
 
@@ -791,8 +784,8 @@ export function HomePage() {
                 className="rounded-xl p-6 bg-card border border-border"
               >
                 <Quote size={28} style={{ color: 'var(--nurc-gold)', opacity: 0.6, marginBottom: '16px' }} />
-                <p
-                  className="mb-6 italic"
+                <div
+                  className="mb-6 italic space-y-3"
                   style={{
                     fontFamily: 'var(--font-body)',
                     fontSize: '15px',
@@ -800,16 +793,24 @@ export function HomePage() {
                     color: 'var(--nurc-navy)',
                   }}
                 >
-                  "{t.quote}"
-                </p>
+                  {t.quote.split('\n\n').map((para, pi) => (
+                    <p key={pi}>"{para}"</p>
+                  ))}
+                </div>
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-xl bg-[#FAF9F6] border border-border flex items-center justify-center p-1.5 shrink-0">
-                    <img 
-                      src={t.logo} 
-                      alt={`${t.company} logo`} 
-                      className="w-full h-full object-contain"
-                    />
-                  </div>
+                  {t.logo ? (
+                    <div className="w-12 h-12 rounded-xl bg-[#FAF9F6] border border-border flex items-center justify-center p-1.5 shrink-0">
+                      <img 
+                        src={t.logo} 
+                        alt={`${t.company} logo`} 
+                        className="w-full h-full object-contain"
+                      />
+                    </div>
+                  ) : (
+                    <div className="w-12 h-12 rounded-xl flex items-center justify-center text-white font-bold text-sm shrink-0" style={{ background: 'var(--nurc-navy)' }}>
+                      {t.name.split(' ').map(w => w[0]).slice(0, 2).join('')}
+                    </div>
+                  )}
                   <div>
                     <div className="font-semibold" style={{ fontFamily: 'var(--font-heading)', fontSize: '14px', color: 'var(--nurc-navy)' }}>
                       {t.name}

@@ -152,18 +152,18 @@ const sectorsData: Sector[] = [
 
 const testimonials = [
   {
-    quote: "We've relied on NURC's auto intelligence for 18 years. It's part of our weekly executive reporting rhythm.",
-    name: 'R. Krishnamurthy',
-    title: 'Head of Strategy',
-    company: 'Major German OEM, India',
-    initials: 'RK',
+    quote: "NURC's Morning and Afternoon Newsletters stands out for its accuracy, comprehensiveness, and high consistency. The team tracks industry news accurately, which remains valuable source of information for automotive industry updates.",
+    name: 'Shekhar Das Chowdhury',
+    title: 'Head, Corporate Communications',
+    company: 'Mercedes-Benz India',
+    initials: 'SC',
   },
   {
-    quote: 'The depth of banking sector analysis is unmatched. Our management team considers it essential reading.',
-    name: 'S. Venkataraman',
-    title: 'Chief Risk Officer',
-    company: 'Leading Private Bank',
-    initials: 'SV',
+    quote: "For us, staying informed with credible, timely, and relevant industry intelligence is an essential part of our communications and business updates. NURC MediaNext's Daily Newsletter has consistently been a dependable source of curated news, concisely presented and links, helping us keep pace with important developments.\n\nWhat sets the newsletter apart is the comprehensive coverage, combined with the ease of access, enables our team to quickly identify key trends, track industry movements, and stay connected with the evolving media landscape—all without having to sift through multiple sources.\n\nWe sincerely appreciate the professionalism, consistency, and commitment demonstrated by the NURC MediaNext team in delivering this service every day. We wish the entire team continued success and look forward to many more years of this excellent partnership.",
+    name: 'Ajit Srinivasan',
+    title: 'Deputy General Manager, Corporate Communications & PR',
+    company: 'Isuzu India',
+    initials: 'AS',
   },
 ];
 
@@ -286,12 +286,14 @@ export function ClientsPage() {
           <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
             {testimonials.map((t, i) => (
               <div key={i} className="rounded-2xl p-6 bg-[#F8F9FA] border border-border">
-                <p
-                  className="italic mb-4 text-sm md:text-base"
+                <div
+                  className="italic mb-4 text-sm md:text-base space-y-2"
                   style={{ fontFamily: 'var(--font-display)', lineHeight: 1.7, color: 'var(--nurc-navy)' }}
                 >
-                  "{t.quote}"
-                </p>
+                  {t.quote.split('\n\n').map((para, pi) => (
+                    <p key={pi}>"{para}"</p>
+                  ))}
+                </div>
                 <div className="flex items-center gap-3">
                   <div
                     className="w-9 h-9 rounded-full flex items-center justify-center text-white text-xs font-bold shrink-0"
