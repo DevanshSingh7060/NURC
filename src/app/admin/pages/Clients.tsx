@@ -40,9 +40,9 @@ export function ClientsView() {
         </Select>
       ),
     },
-    { key: 'telephoneNumber', header: 'Phone', render: (r) => <span className="text-sm">{r.telephoneNumber}</span> },
-    { key: 'addDate', header: 'Add Date', sortValue: (r) => r.addDate, render: (r) => fmtDate(r.addDate) },
-    { key: 'lastUpdated', header: 'Last Updated', sortValue: (r) => r.lastUpdated, render: (r) => fmtDate(r.lastUpdated) },
+    { key: 'telephoneNumber', hideBelow: 'md', header: 'Phone', render: (r) => <span className="text-sm">{r.telephoneNumber}</span> },
+    { key: 'addDate', hideBelow: 'md', header: 'Add Date', sortValue: (r) => r.addDate, render: (r) => fmtDate(r.addDate) },
+    { key: 'lastUpdated', hideBelow: 'lg', header: 'Last Updated', sortValue: (r) => r.lastUpdated, render: (r) => fmtDate(r.lastUpdated) },
     {
       key: 'actions', header: '', className: 'text-right',
       render: (r) => (

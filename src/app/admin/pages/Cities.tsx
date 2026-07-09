@@ -13,9 +13,9 @@ export function CitiesView() {
   const columns: Column<City>[] = [
     { key: 'name', header: 'City Name', sortValue: (r) => r.name.toLowerCase(),
       render: (r) => <span className="font-medium text-[var(--nurc-navy)]">{r.name}</span> },
-    { key: 'shortName', header: 'Popularly Known As', render: (r) => r.shortName },
-    { key: 'country', header: 'Country', sortValue: (r) => r.country, render: (r) => r.country },
-    { key: 'lastUpdated', header: 'Last Update', sortValue: (r) => r.lastUpdated, render: (r) => fmtDate(r.lastUpdated) },
+    { key: 'shortName', hideBelow: 'sm', header: 'Popularly Known As', render: (r) => r.shortName },
+    { key: 'country', hideBelow: 'md', header: 'Country', sortValue: (r) => r.country, render: (r) => r.country },
+    { key: 'lastUpdated', hideBelow: 'lg', header: 'Last Update', sortValue: (r) => r.lastUpdated, render: (r) => fmtDate(r.lastUpdated) },
     {
       key: 'actions', header: '', className: 'text-right',
       render: (r) => (

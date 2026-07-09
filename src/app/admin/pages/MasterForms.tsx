@@ -15,7 +15,7 @@ export function MasterFormView() {
   const columns: Column<MasterForm>[] = [
     { key: 'formName', header: 'Form Name', sortValue: (r) => r.formName.toLowerCase(),
       render: (r) => <span className="font-medium text-[var(--nurc-navy)]">{r.formName}</span> },
-    { key: 'fields', header: 'Captions',
+    { key: 'fields', hideBelow: 'md', header: 'Captions',
       render: (r) => (
         <div className="flex flex-wrap gap-1">
           {r.formCaption.split('\n').map((c) => c.trim()).filter(Boolean).slice(0, 5).map((c, i) => (
@@ -23,8 +23,8 @@ export function MasterFormView() {
           ))}
         </div>
       ) },
-    { key: 'addDate', header: 'Add Date', sortValue: (r) => r.addDate, render: (r) => fmtDate(r.addDate) },
-    { key: 'lastUpdated', header: 'Last Updated', sortValue: (r) => r.lastUpdated, render: (r) => fmtDate(r.lastUpdated) },
+    { key: 'addDate', hideBelow: 'md', header: 'Add Date', sortValue: (r) => r.addDate, render: (r) => fmtDate(r.addDate) },
+    { key: 'lastUpdated', hideBelow: 'lg', header: 'Last Updated', sortValue: (r) => r.lastUpdated, render: (r) => fmtDate(r.lastUpdated) },
     {
       key: 'actions', header: '', className: 'text-right',
       render: (r) => (

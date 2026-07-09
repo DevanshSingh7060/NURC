@@ -102,6 +102,8 @@ export interface Column<T> {
   render?: (row: T) => React.ReactNode;
   sortValue?: (row: T) => string | number;
   className?: string;
+  /** Hide this column below the given Tailwind breakpoint (mobile-friendly tables). */
+  hideBelow?: 'sm' | 'md' | 'lg';
 }
 
 export function DataTable<T extends { id: string }>({
@@ -152,6 +154,12 @@ export function DataTable<T extends { id: string }>({
     else { setSortKey(key); setSortDir('asc'); }
   };
 
+  const hideClass = (c: Column<T>) =>
+    c.hideBelow === 'sm' ? 'hidden sm:table-cell'
+    : c.hideBelow === 'md' ? 'hidden md:table-cell'
+    : c.hideBelow === 'lg' ? 'hidden lg:table-cell'
+    : '';
+
   return (
     <Card className="overflow-hidden p-0">
       <div className="flex flex-col gap-3 border-b bg-muted/30 p-4 sm:flex-row sm:items-center sm:justify-between">
@@ -173,7 +181,7 @@ export function DataTable<T extends { id: string }>({
         <TableHeader>
           <TableRow className="bg-muted/40 hover:bg-muted/40">
             {columns.map((c) => (
-              <TableHead key={c.key} className={cn('text-xs uppercase tracking-wide text-muted-foreground', c.className)}>
+              <TableHead key={c.key} className={cn('text-xs uppercase tracking-wide text-muted-foreground', hideClass(c), c.className)}>
                 {c.sortValue || getRowValue ? (
                   <button
                     type="button"
@@ -202,7 +210,7 @@ export function DataTable<T extends { id: string }>({
             paged.map((row) => (
               <TableRow key={row.id} className="hover:bg-[var(--nurc-sage)]/30">
                 {columns.map((c) => (
-                  <TableCell key={c.key} className={cn('py-3', c.className)}>
+                  <TableCell key={c.key} className={cn('py-3', hideClass(c), c.className)}>
                     {c.render ? c.render(row) : String((row as Record<string, unknown>)[c.key] ?? '')}
                   </TableCell>
                 ))}

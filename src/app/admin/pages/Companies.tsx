@@ -24,9 +24,9 @@ export function CompaniesView() {
           <p className="text-xs text-muted-foreground">Known as {r.shortName}</p>
         </div>
       ) },
-    { key: 'updateId', header: 'Update Section', render: (r) => <Badge variant="secondary">{updateName(r.updateId)}</Badge> },
-    { key: 'country', header: 'Country', sortValue: (r) => r.country, render: (r) => r.country },
-    { key: 'lastUpdated', header: 'Last Update', sortValue: (r) => r.lastUpdated, render: (r) => fmtDate(r.lastUpdated) },
+    { key: 'updateId', hideBelow: 'md', header: 'Update Section', render: (r) => <Badge variant="secondary">{updateName(r.updateId)}</Badge> },
+    { key: 'country', hideBelow: 'sm', header: 'Country', sortValue: (r) => r.country, render: (r) => r.country },
+    { key: 'lastUpdated', hideBelow: 'lg', header: 'Last Update', sortValue: (r) => r.lastUpdated, render: (r) => fmtDate(r.lastUpdated) },
     {
       key: 'actions', header: '', className: 'text-right',
       render: (r) => (

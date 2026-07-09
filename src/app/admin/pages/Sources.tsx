@@ -13,8 +13,8 @@ export function SourcesView() {
   const columns: Column<Source>[] = [
     { key: 'source', header: 'Source', sortValue: (r) => r.source.toLowerCase(),
       render: (r) => <span className="font-medium text-[var(--nurc-navy)]">{r.source}</span> },
-    { key: 'addDate', header: 'Add Date', sortValue: (r) => r.addDate, render: (r) => fmtDate(r.addDate) },
-    { key: 'lastUpdated', header: 'Last Updated', sortValue: (r) => r.lastUpdated, render: (r) => fmtDate(r.lastUpdated) },
+    { key: 'addDate', hideBelow: 'md', header: 'Add Date', sortValue: (r) => r.addDate, render: (r) => fmtDate(r.addDate) },
+    { key: 'lastUpdated', hideBelow: 'lg', header: 'Last Updated', sortValue: (r) => r.lastUpdated, render: (r) => fmtDate(r.lastUpdated) },
     {
       key: 'actions', header: '', className: 'text-right',
       render: (r) => (

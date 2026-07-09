@@ -36,8 +36,8 @@ export function SectionsView() {
       render: (r) => <Badge variant="secondary">{r.displayPosition}</Badge> },
     { key: 'stories', header: 'Stories', sortValue: (r) => storyCount(r.id),
       render: (r) => <span className="tabular-nums">{storyCount(r.id)}</span> },
-    { key: 'addDate', header: 'Add Date', sortValue: (r) => r.addDate, render: (r) => fmtDate(r.addDate) },
-    { key: 'lastUpdated', header: 'Last Updated', sortValue: (r) => r.lastUpdated, render: (r) => fmtDate(r.lastUpdated) },
+    { key: 'addDate', hideBelow: 'lg', header: 'Add Date', sortValue: (r) => r.addDate, render: (r) => fmtDate(r.addDate) },
+    { key: 'lastUpdated', hideBelow: 'lg', header: 'Last Updated', sortValue: (r) => r.lastUpdated, render: (r) => fmtDate(r.lastUpdated) },
     {
       key: 'actions', header: '', className: 'text-right',
       render: (r) => (

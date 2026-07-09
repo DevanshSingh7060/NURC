@@ -1,3 +1,10 @@
+/* Prevent horizontal page scroll caused by off-canvas panels (e.g. mobile
+   nav drawer) that are parked off-screen. `clip` clips the overflow without
+   creating a scroll container, so `position: sticky` (header) keeps working. */
+html {
+  overflow-x: clip;
+}
+
 /* Scroll fade-in */
 .fade-in {
   opacity: 0;

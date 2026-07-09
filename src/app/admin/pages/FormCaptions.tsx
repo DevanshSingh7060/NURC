@@ -23,8 +23,8 @@ export function FormCaptionsView() {
       render: (r) => <code className="rounded bg-muted px-1.5 py-0.5 text-xs">{r.keyword}</code> },
     { key: 'caption', header: 'Caption', sortValue: (r) => r.caption.toLowerCase(),
       render: (r) => <span className="font-medium text-[var(--nurc-navy)]">{r.caption}</span> },
-    { key: 'form', header: 'Master Form', render: (r) => <Badge variant="secondary">{formName(r.masterFormId)}</Badge> },
-    { key: 'lastUpdated', header: 'Last Updated', sortValue: (r) => r.lastUpdated, render: (r) => fmtDate(r.lastUpdated) },
+    { key: 'form', hideBelow: 'sm', header: 'Master Form', render: (r) => <Badge variant="secondary">{formName(r.masterFormId)}</Badge> },
+    { key: 'lastUpdated', hideBelow: 'lg', header: 'Last Updated', sortValue: (r) => r.lastUpdated, render: (r) => fmtDate(r.lastUpdated) },
     {
       key: 'actions', header: '', className: 'text-right',
       render: (r) => (

@@ -33,9 +33,9 @@ export function VehiclesView() {
         </div>
       ) },
     { key: 'manufacturer', header: 'Manufacturer', sortValue: (r) => r.manufacturer, render: (r) => r.manufacturer },
-    { key: 'vehicleType', header: 'Type', render: (r) => <Badge variant="secondary" className="capitalize">{r.vehicleType}</Badge> },
-    { key: 'launchYear', header: 'Launch', sortValue: (r) => r.launchYear, render: (r) => `${r.launchMonth} ${r.launchYear}` },
-    { key: 'lastUpdated', header: 'Last Update', sortValue: (r) => r.lastUpdated, render: (r) => fmtDate(r.lastUpdated) },
+    { key: 'vehicleType', hideBelow: 'md', header: 'Type', render: (r) => <Badge variant="secondary" className="capitalize">{r.vehicleType}</Badge> },
+    { key: 'launchYear', hideBelow: 'md', header: 'Launch', sortValue: (r) => r.launchYear, render: (r) => `${r.launchMonth} ${r.launchYear}` },
+    { key: 'lastUpdated', hideBelow: 'lg', header: 'Last Update', sortValue: (r) => r.lastUpdated, render: (r) => fmtDate(r.lastUpdated) },
     {
       key: 'actions', header: '', className: 'text-right',
       render: (r) => (

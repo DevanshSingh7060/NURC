@@ -44,16 +44,16 @@ export function StoriesView() {
         </div>
       ),
     },
-    { key: 'client', header: 'Client', render: (r) => <span className="text-sm">{name('clients', r.clientId)}</span> },
-    { key: 'source', header: 'Agency / Source',
+    { key: 'client', hideBelow: 'md', header: 'Client', render: (r) => <span className="text-sm">{name('clients', r.clientId)}</span> },
+    { key: 'source', hideBelow: 'lg', header: 'Agency / Source',
       render: (r) => (
         <div className="text-xs text-muted-foreground">
           <div>{name('agencies', r.newsAgencyId)}</div>
           <div>{name('sources', r.storySourceId)}</div>
         </div>
       ) },
-    { key: 'storyDate', header: 'Story Date', sortValue: (r) => r.storyDate, render: (r) => fmtDate(r.storyDate) },
-    { key: 'lastUpdated', header: 'Last Updated', sortValue: (r) => r.lastUpdated, render: (r) => fmtDate(r.lastUpdated) },
+    { key: 'storyDate', hideBelow: 'md', header: 'Story Date', sortValue: (r) => r.storyDate, render: (r) => fmtDate(r.storyDate) },
+    { key: 'lastUpdated', hideBelow: 'lg', header: 'Last Updated', sortValue: (r) => r.lastUpdated, render: (r) => fmtDate(r.lastUpdated) },
     {
       key: 'actions', header: '', className: 'text-right',
       render: (r) => (

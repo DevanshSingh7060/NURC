@@ -74,7 +74,7 @@ export function SendNewslettersView() {
         </div>
       ),
     },
-    { key: 'updateId', header: 'Update', render: (r) => <Badge variant="secondary">{updateName(r.updateId)}</Badge> },
+    { key: 'updateId', hideBelow: 'sm', header: 'Update', render: (r) => <Badge variant="secondary">{updateName(r.updateId)}</Badge> },
     {
       key: 'status', header: 'Status', sortValue: (r) => r.status,
       render: (r) => (
@@ -83,8 +83,8 @@ export function SendNewslettersView() {
         </span>
       ),
     },
-    { key: 'sentDate', header: 'Sent Date', sortValue: (r) => r.sentDate, render: (r) => fmtDate(r.sentDate) },
-    { key: 'archived', header: 'Archived', render: (r) => (r.archived ? <Badge variant="outline">Archived</Badge> : <span className="text-muted-foreground">—</span>) },
+    { key: 'sentDate', hideBelow: 'md', header: 'Sent Date', sortValue: (r) => r.sentDate, render: (r) => fmtDate(r.sentDate) },
+    { key: 'archived', hideBelow: 'lg', header: 'Archived', render: (r) => (r.archived ? <Badge variant="outline">Archived</Badge> : <span className="text-muted-foreground">—</span>) },
     {
       key: 'actions', header: '', className: 'text-right',
       render: (r) => (

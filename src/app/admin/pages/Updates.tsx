@@ -35,11 +35,11 @@ export function UpdatesView() {
       render: (r) => <Badge variant={r.type === 'SPECIAL' ? 'default' : 'secondary'}>{r.type}</Badge> },
     { key: 'sections', header: 'Sections', sortValue: (r) => sectionCount(r.id),
       render: (r) => <span className="tabular-nums">{sectionCount(r.id)}</span> },
-    { key: 'stories', header: 'Stories', sortValue: (r) => storyCount(r.id),
+    { key: 'stories', hideBelow: 'sm', header: 'Stories', sortValue: (r) => storyCount(r.id),
       render: (r) => <span className="tabular-nums">{storyCount(r.id)}</span> },
-    { key: 'subs', header: 'Publications', sortValue: (r) => subCount(r.id),
+    { key: 'subs', hideBelow: 'md', header: 'Publications', sortValue: (r) => subCount(r.id),
       render: (r) => <span className="tabular-nums">{subCount(r.id)}</span> },
-    { key: 'lastUpdated', header: 'Last Updated', sortValue: (r) => r.lastUpdated, render: (r) => fmtDate(r.lastUpdated) },
+    { key: 'lastUpdated', hideBelow: 'lg', header: 'Last Updated', sortValue: (r) => r.lastUpdated, render: (r) => fmtDate(r.lastUpdated) },
     {
       key: 'actions', header: '', className: 'text-right',
       render: (r) => (
