@@ -22,10 +22,10 @@ export function Footer() {
               </div>
             </div>
             <p className="text-xs" style={{ color: '#4B5563', lineHeight: '1.6' }}>
-              Daily Curated News Intelligence for Industry Leaders Since 2002
+              Daily Curated News Intelligence for Industry Leaders Since 2000
             </p>
             <p className="text-[11px] text-gray-400 leading-relaxed">
-              N.U.R.C. MediaNext Pvt. Ltd. — Holding company for N.U.R.C. India
+              NURC MediaNext Pvt. Ltd. — Holding company for NURC India
             </p>
           </div>
 
@@ -93,7 +93,7 @@ export function Footer() {
 
         {/* Bottom Section: Very thin bottom bar */}
         <div className="pt-6 flex flex-col md:flex-row items-center justify-between gap-4 text-[11px] text-gray-400">
-          <span>© N.U.R.C. MediaNext Private Ltd.</span>
+          <span>© NURC MediaNext Private Ltd.</span>
           <div className="flex items-center gap-3">
             <Link to="/" className="hover:text-gray-600 transition-colors">Privacy Policy</Link>
             <span className="text-gray-200">|</span>

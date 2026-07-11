@@ -72,7 +72,7 @@ export function LoginPage() {
 
         {/* Footer info */}
         <div className="relative z-10 text-xs text-muted-foreground flex items-center justify-between border-t border-white/10 pt-6">
-          <span>Curated B2B Briefings Since 2002</span>
+          <span>Curated B2B Briefings Since 2000</span>
           <span>Security Certified TLS 1.3</span>
         </div>
       </div>

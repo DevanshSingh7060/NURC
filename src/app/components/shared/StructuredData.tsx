@@ -25,7 +25,7 @@ export const ORGANIZATION_SCHEMA = {
   '@type': 'Organization',
   name: 'NURC MediaNext Private Limited',
   url: 'https://nurcmedianext.com',
-  foundingDate: '2002',
+  foundingDate: '2000',
   description:
     "India's trusted media monitoring and industry intelligence platform delivering curated news, market intelligence, and decision-ready insights to organizations across multiple sectors.",
   address: {

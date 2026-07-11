@@ -4,7 +4,7 @@ import { SEOHead } from './shared/SEOHead';
 
 const timeline = [
   {
-    year: '2002',
+    year: '2000',
     title: 'Founded in Mumbai',
     description: 'NURC was established with a single newsletter covering the Indian automotive sector, serving 12 subscribers at launch.',
   },
@@ -46,7 +46,7 @@ const timeline = [
   {
     year: '2025',
     title: '500+ C-Suite Readers',
-    description: 'Celebrating 23 years of uninterrupted intelligence. Trusted by 500+ C-Suite executives across 36 leading corporations.',
+    description: 'Celebrating 25 years of uninterrupted intelligence. Trusted by 500+ C-Suite executives across 36 leading corporations.',
   },
 ];
 
@@ -54,7 +54,7 @@ const team = [
   {
     name: 'Deepak Nair',
     title: 'Founder & Editor-in-Chief',
-    bio: 'Former automotive journalist at Business Standard. 30+ years in business intelligence. Established NURC in 2002.',
+    bio: 'Former automotive journalist at Business Standard. 30+ years in business intelligence. Established NURC in 2000.',
     initials: 'DN',
   },
   {
@@ -81,8 +81,8 @@ export function AboutPage() {
   return (
     <div className="min-h-screen bg-background">
       <SEOHead
-        title="About NURC MediaNext | 24 Years of Industry Intelligence"
-        description="Founded in 2002, N.U.R.C. MediaNext Private Ltd. provides daily curated news intelligence to Fortune 500 organizations and leading Indian corporations across 7 industry sectors."
+        title="About NURC MediaNext | 26 years of Industry Intelligence"
+        description="Founded in 2000, NURC MediaNext Private Ltd. provides daily curated news intelligence to Fortune 500 organizations and leading Indian corporations across 7 industry sectors."
         canonicalUrl="/about"
       />
       {/* Hero */}
@@ -99,13 +99,13 @@ export function AboutPage() {
               className="mb-6"
               style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(28px, 4vw, 48px)', fontWeight: 700, color: 'var(--nurc-navy)', lineHeight: 1.15 }}
             >
-              24 Years of Curated Intelligence for India's Industry Leaders
+              26 years of Curated Intelligence for India's Industry Leaders
             </h1>
             <p className="text-muted-foreground mb-6" style={{ fontSize: '17px', lineHeight: 1.85 }}>
-              N.U.R.C. MediaNext Private Ltd. — the holding company for N.U.R.C. India — was established in 2002 with a clear purpose: to provide India's corporate decision-makers with a better quality of sector-specific news intelligence. Not wire-service rewrites, not opinion masquerading as analysis — but carefully collated, credibly sourced, daily news updates delivered directly to corporate inboxes.
+              NURC MediaNext Private Ltd. — the holding company for NURC India — was established in 2000 with a clear purpose: to provide India's corporate decision-makers with a better quality of sector-specific news intelligence. Not wire-service rewrites, not opinion masquerading as analysis — but carefully collated, credibly sourced, daily news updates delivered directly to corporate inboxes.
             </p>
             <p className="text-muted-foreground mb-8" style={{ fontSize: '17px', lineHeight: 1.85 }}>
-              For over 24 years, "The N.U.R.C. News Update" has been the daily intelligence resource for Fortune 500 organizations, top MNCs, and growing Indian companies. We cover 7 core sectors — Automobiles, Banking, Insurance, Mutual Funds, Infrastructure, Energy, and Metals & Minerals — with many esteemed clients trusting our service for over 18 years.
+              For over 26 years, "The NURC News Update" has been the daily intelligence resource for Fortune 500 organizations, top MNCs, and growing Indian companies. We cover 7 core sectors — Automobiles, Banking, Insurance, Mutual Funds, Infrastructure, Energy, and Metals & Minerals — with many esteemed clients trusting our service for over 18 years.
             </p>
             <Link
               to="/newsletters"
@@ -132,7 +132,7 @@ export function AboutPage() {
               style={{ boxShadow: '0 8px 32px rgba(0,0,0,0.12)' }}
             >
               <div className="font-bold" style={{ fontFamily: 'var(--font-display)', fontSize: '24px', color: 'var(--nurc-navy)' }}>
-                24
+                26
               </div>
               <div className="text-muted-foreground text-xs mt-0.5" style={{ fontFamily: 'var(--font-heading)' }}>
                 Years of Service
@@ -200,7 +200,7 @@ export function AboutPage() {
           <div className="max-w-4xl mx-auto px-6">
             <div className="text-center mb-12">
               <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(22px, 3vw, 34px)', fontWeight: 700, color: 'var(--nurc-navy)' }}>
-                Our Journey Since 2002
+                Our Journey Since 2000
               </h2>
             </div>
             <div className="relative">
@@ -209,7 +209,7 @@ export function AboutPage() {
                 className="absolute left-6 top-0 bottom-0 w-0.5"
                 style={{ background: 'var(--nurc-gold)', opacity: 0.3 }}
               >
-                </div>
+              </div>
               <div className="space-y-8">
                 {timeline.map((item, i) => (
                   <div key={i} className="flex gap-6 items-start relative">
@@ -302,7 +302,7 @@ export function AboutPage() {
                   Corporate Office
                 </h3>
                 <p className="text-muted-foreground leading-relaxed whitespace-pre-line" style={{ fontSize: '14px' }}>
-                  {`N.U.R.C. MediaNext Private Ltd.
+                  {`NURC MediaNext Private Ltd.
 
 9A, Pocket-B
 SFS Flats

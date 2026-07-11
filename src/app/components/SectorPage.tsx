@@ -5,20 +5,23 @@ import { SEOHead } from './shared/SEOHead';
 
 const sectorData: Record<string, {
   title: string;
-  subtitle: string;
+  subtitle?: string;
   description: string;
   color: string;
   image: string;
+  imageOpacity?: number;
+  overlayGradient?: string;
   stats: { label: string; value: string }[];
   benefits: string[];
   article: typeof SAMPLE_AUTO_ARTICLE;
 }> = {
   auto: {
-    title: 'Auto & Mobility Intelligence',
-    subtitle: 'Weekly · 16 OEMs · Policy to Showroom Floor',
-    description: 'NURC\'s automotive intelligence covers the full value chain — from government policy and OEM strategy to dealer economics and used car markets. Trusted by CFOs and strategy heads at Mercedes-Benz, Tata Motors, Bosch India, and 30+ auto sector leaders.',
+    title: 'Auto & Mobility',
+    description: 'NURC\'s automotive & mobility covers the full value chain — from government policy and OEM strategy to dealer economics and used car markets. Trusted by CFOs and strategy heads at Mercedes-Benz, Tata Motors, Bosch India, and 30+ auto sector leaders.',
     color: '#006D7A',
-    image: 'https://images.unsplash.com/photo-1767339736233-f4b02c41ee4a?w=1200&h=500&fit=crop&auto=format',
+    image: 'https://images.unsplash.com/photo-1565043666747-69f6646db940?w=1600&h=600&fit=crop&auto=format',
+    imageOpacity: 0.6,
+    overlayGradient: 'linear-gradient(to right, #006D7Acc 0%, #006D7A80 55%, #006D7A33 100%)',
     stats: [
       { label: 'OEMs Tracked', value: '16+' },
       { label: 'Policy Sources', value: '40+' },
@@ -165,18 +168,21 @@ export function SectorPage() {
           <img
             src={sector.image}
             alt={`${sector.title} background`}
-            className="w-full h-full object-cover opacity-20"
+            className="w-full h-full object-cover"
+            style={{ opacity: sector.imageOpacity ?? 0.2 }}
             loading="lazy"
           />
-          <div className="absolute inset-0" style={{ background: `linear-gradient(to right, ${sector.color} 40%, ${sector.color}80 100%)` }} />
+          <div className="absolute inset-0" style={{ background: sector.overlayGradient ?? `linear-gradient(to right, ${sector.color} 40%, ${sector.color}80 100%)` }} />
         </div>
         <div className="relative max-w-7xl mx-auto px-6 py-20">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="h-px w-8 bg-white/40" />
-            <span className="text-xs font-bold uppercase tracking-widest text-white/70" style={{ letterSpacing: '0.14em', fontFamily: 'var(--font-heading)' }}>
-              {sector.subtitle}
-            </span>
-          </div>
+          {sector.subtitle && (
+            <div className="flex items-center gap-3 mb-6">
+              <div className="h-px w-8 bg-white/40" />
+              <span className="text-xs font-bold uppercase tracking-widest text-white/70" style={{ letterSpacing: '0.14em', fontFamily: 'var(--font-heading)' }}>
+                {sector.subtitle}
+              </span>
+            </div>
+          )}
           <h1
             className="text-white mb-5"
             style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(28px, 4vw, 48px)', fontWeight: 700, lineHeight: 1.2, maxWidth: '700px' }}

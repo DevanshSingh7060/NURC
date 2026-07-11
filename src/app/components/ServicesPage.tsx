@@ -5,7 +5,7 @@ import { SEOHead } from './shared/SEOHead';
 const services = [
   {
     icon: BookOpen,
-    title: 'The N.U.R.C. News Update',
+    title: 'The NURC News Update',
     subtitle: 'Our Core Product',
     description:
       'A daily emailed newsletter that collates industry-specific news stories from credible print and online sources. Every morning, subscribers receive a reader-friendly digest covering developments relevant to their sector, organization, and competition.',
@@ -76,7 +76,7 @@ export function ServicesPage() {
     <div className="min-h-screen bg-background">
       <SEOHead
         title="Services | NURC MediaNext — Daily Industry News Intelligence"
-        description="N.U.R.C. MediaNext provides daily emailed news intelligence updates, searchable archives, custom reports, and corporate-wide distribution for Fortune 500 and leading Indian companies."
+        description="NURC MediaNext provides daily emailed news intelligence updates, searchable archives, custom reports, and corporate-wide distribution for Fortune 500 and leading Indian companies."
         canonicalUrl="/services"
       />
 
@@ -109,7 +109,7 @@ export function ServicesPage() {
             className="text-muted-foreground mb-8"
             style={{ fontSize: '17px', lineHeight: 1.85, maxWidth: '620px' }}
           >
-            For over 24 years, N.U.R.C. MediaNext has provided subscription-based daily news intelligence to Fortune 500 organizations, top MNCs, and growing Indian companies. Our service keeps executives, decision-makers, and corporate communications teams informed about their industry, organization, and competition.
+            For over 26 years, NURC MediaNext has provided subscription-based daily news intelligence to Fortune 500 organizations, top MNCs, and growing Indian companies. Our service keeps executives, decision-makers, and corporate communications teams informed about their industry, organization, and competition.
           </p>
           <div className="flex flex-wrap gap-4">
             <Link

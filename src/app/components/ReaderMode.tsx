@@ -288,7 +288,7 @@ export function ReaderModeOverlay() {
     });
 
     textContent += `-------------------------\n`;
-    textContent += `NURC MediaNext · Curated Intelligence Since 2002\n`;
+    textContent += `NURC MediaNext · Curated Intelligence Since 2000\n`;
     textContent += `Unauthorised distribution is prohibited. Confidential briefing for active subscribers.`;
 
     const blob = new Blob([textContent], { type: 'text/plain;charset=utf-8' });

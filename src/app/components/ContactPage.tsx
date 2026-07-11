@@ -79,7 +79,7 @@ export function ContactPage() {
                 <div>
                   <span className="block text-xs font-bold uppercase text-muted-foreground tracking-wider">Corporate Office</span>
                   <span className="block text-sm font-semibold text-navy mt-1 leading-relaxed" style={{ color: 'var(--nurc-navy)' }}>
-                    N.U.R.C. MediaNext Private Ltd.<br />
+                    NURC MediaNext Private Ltd.<br />
                     9A, Pocket-B, SFS Flats<br />
                     Mayur Vihar Phase-III<br />
                     Delhi - 110096, India

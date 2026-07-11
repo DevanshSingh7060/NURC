@@ -1,7 +1,8 @@
+import { useState } from 'react';
 import { Link } from 'react-router';
 import {
   ArrowRight, BookOpen, Shield, Clock, TrendingUp,
-  ChevronRight, Star, Quote, ShieldCheck, HelpCircle, Settings
+  ChevronRight, Star, Quote, ShieldCheck, HelpCircle, Settings, ChevronDown
 } from 'lucide-react';
 import { useReaderMode, SAMPLE_AUTO_ARTICLE } from './ReaderModeContext';
 import { ClientMarquee } from './ClientMarquee';
@@ -121,20 +122,94 @@ const sectorTextColors: Record<string, string> = {
   Finance: '#5B4A7B',
 };
 
+function TestimonialCard({ t }: { t: typeof testimonials[number] }) {
+  const [expanded, setExpanded] = useState(false);
+  const paragraphs = t.quote.split('\n\n');
+  // Long testimonials get collapsed into a compact preview with a "Read more" toggle.
+  const isLong = t.quote.length > 300;
+
+  return (
+    <div className="rounded-xl p-6 bg-card border border-border">
+      <Quote size={28} style={{ color: 'var(--nurc-gold)', opacity: 0.6, marginBottom: '16px' }} />
+      <div
+        className="italic space-y-3"
+        style={{
+          fontFamily: 'var(--font-body)',
+          fontSize: '15px',
+          lineHeight: 1.75,
+          color: 'var(--nurc-navy)',
+        }}
+      >
+        {!isLong || expanded ? (
+          paragraphs.map((para, pi) => <p key={pi}>"{para}"</p>)
+        ) : (
+          <p className="line-clamp-4">"{paragraphs[0]}"</p>
+        )}
+      </div>
+
+      {isLong && (
+        <button
+          type="button"
+          onClick={() => setExpanded(v => !v)}
+          className="mt-2 inline-flex items-center gap-1 text-xs font-semibold transition-opacity hover:opacity-70 cursor-pointer bg-transparent border-0 p-0"
+          style={{ color: 'var(--nurc-teal)', fontFamily: 'var(--font-heading)' }}
+          aria-expanded={expanded}
+        >
+          {expanded ? 'Read less' : 'Read more'}
+          <ChevronDown
+            size={14}
+            className="transition-transform duration-200"
+            style={{ transform: expanded ? 'rotate(180deg)' : 'none' }}
+          />
+        </button>
+      )}
+
+      <div className="flex items-center gap-3 mt-6">
+        {t.logo ? (
+          <div className="w-12 h-12 rounded-xl bg-[#FAF9F6] border border-border flex items-center justify-center p-1.5 shrink-0">
+            <img
+              src={t.logo}
+              alt={`${t.company} logo`}
+              className="w-full h-full object-contain"
+            />
+          </div>
+        ) : (
+          <div className="w-12 h-12 rounded-xl flex items-center justify-center text-white font-bold text-sm shrink-0" style={{ background: 'var(--nurc-navy)' }}>
+            {t.name.split(' ').map(w => w[0]).slice(0, 2).join('')}
+          </div>
+        )}
+        <div>
+          <div className="font-semibold" style={{ fontFamily: 'var(--font-heading)', fontSize: '14px', color: 'var(--nurc-navy)' }}>
+            {t.name}
+          </div>
+          <div className="text-xs text-muted-foreground mt-0.5">
+            {t.title} · {t.company}
+          </div>
+        </div>
+      </div>
+      <div className="flex gap-0.5 mt-4">
+        {[...Array(5)].map((_, si) => (
+          <Star key={si} size={12} fill="var(--nurc-gold)" style={{ color: 'var(--nurc-gold)' }} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export function HomePage() {
   const { openReader } = useReaderMode();
   const { openDemoModal, openCoverageModal } = useLeadModal();
-  const valueRef  = useScrollFadeIn();
+  const valueRef = useScrollFadeIn();
   const sectorsRef = useScrollFadeIn();
-  const sampleRef  = useScrollFadeIn();
-  const testiRef   = useScrollFadeIn();
+  const sampleRef = useScrollFadeIn();
+  const testiRef = useScrollFadeIn();
 
   return (
     <div>
       {/* MARKER-MAKE-KIT-INVOKED */}
       <SEOHead
         title="India's Trusted Media Monitoring & Industry Intelligence Platform"
-        description="Delivering curated industry news, media monitoring, market intelligence, and decision-ready insights to organizations across multiple sectors. Trusted by 500+ C-Suite executives since 2002."
+        description="Delivering curated industry news, media monitoring, market intelligence, and decision-ready insights to organizations across multiple sectors. Trusted by 500+ C-Suite executives since 2000."
         canonicalUrl="/"
       />
       {/* Hero Section */}
@@ -161,7 +236,7 @@ export function HomePage() {
                 className="text-xs font-bold uppercase tracking-widest"
                 style={{ color: 'var(--nurc-gold)', letterSpacing: '0.15em', fontFamily: 'var(--font-heading)' }}
               >
-                Established 2002 · 24 Years of B2B Intelligence
+                Established 2000 · 26 years of B2B Intelligence
               </span>
             </div>
             <h1
@@ -185,7 +260,7 @@ export function HomePage() {
                 maxWidth: '520px',
               }}
             >
-              For 24 years, Fortune 500 organizations and growing Indian companies have relied on "The N.U.R.C. News Update" — our daily curated news collation service delivered straight to corporate inboxes.
+              For 26 years, Fortune 500 organizations and growing Indian companies have relied on "The NURC News Update" — our daily curated news collation service delivered straight to corporate inboxes.
             </p>
             <div className="flex flex-wrap gap-4">
               <Link
@@ -208,19 +283,19 @@ export function HomePage() {
             {/* Social proof strip */}
             <div className="flex flex-wrap items-center gap-6 mt-12">
               <div className="text-center">
-                <div className="font-bold text-white" style={{ fontFamily: 'var(--font-display)', fontSize: '28px' }}>Daily</div>
+                <div className="font-bold text-white" style={{ fontFamily: 'var(--font-display)', fontSize: '28px' }}>Mon - Sat</div>
                 <div className="text-xs text-white/50 uppercase tracking-wider mt-0.5">Email Delivery</div>
               </div>
-              <div className="h-8 w-px bg-white/10" />
-              <div className="text-center">
+              {/* <div className="h-8 w-px bg-white/10" /> */}
+              {/* <div className="text-center">
                 <div className="font-bold text-white" style={{ fontFamily: 'var(--font-display)', fontSize: '28px' }}>7</div>
                 <div className="text-xs text-white/50 uppercase tracking-wider mt-0.5">Sectors Covered</div>
-              </div>
-              <div className="h-8 w-px bg-white/10" />
-              <div className="text-center">
+              </div> */}
+              {/* <div className="h-8 w-px bg-white/10" /> */}
+              {/* <div className="text-center">
                 <div className="font-bold text-white" style={{ fontFamily: 'var(--font-display)', fontSize: '28px' }}>24</div>
                 <div className="text-xs text-white/50 uppercase tracking-wider mt-0.5">Years of Trust</div>
-              </div>
+              </div> */}
               <div className="h-8 w-px bg-white/10" />
               <div className="text-center">
                 <div className="font-bold text-white" style={{ fontFamily: 'var(--font-display)', fontSize: '28px' }}>15</div>
@@ -286,13 +361,13 @@ export function HomePage() {
                 lineHeight: 1.25,
               }}
             >
-              The N.U.R.C. News Update
+              The NURC News Update
             </h2>
             <p className="text-muted-foreground mx-auto mt-3 max-w-2xl" style={{ fontSize: '15px' }}>
-              We provide a subscription-based, daily news intelligence service tailored for corporate executives, decision-makers, and communication teams.
+              We provide a subscription-based, daily news information service tailored for corporate executives, decision-makers, PR and communication teams.
             </p>
           </div>
-          
+
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               {
@@ -334,25 +409,6 @@ export function HomePage() {
       {/* Client Marquee — immediately after hero */}
       <ClientMarquee />
 
-      {/* Compact Stats Row */}
-      <div className="bg-[#FFFFFF] border-b border-[#E5E7EB] py-5">
-        <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-around gap-6 text-center">
-          <div className="flex items-center gap-2">
-            <span className="font-bold text-[var(--nurc-teal)] text-xl" style={{ fontFamily: "var(--font-heading)" }}>24</span>
-            <span className="text-sm text-gray-600 font-medium" style={{ fontFamily: 'var(--font-body)' }}>Years of Trust</span>
-          </div>
-          <div className="hidden md:block h-6 w-px bg-[#E5E7EB]" />
-          <div className="flex items-center gap-2">
-            <span className="font-bold text-[var(--nurc-teal)] text-xl" style={{ fontFamily: "var(--font-heading)" }}>Daily</span>
-            <span className="text-sm text-gray-600 font-medium" style={{ fontFamily: 'var(--font-body)' }}>Email Delivery</span>
-          </div>
-          <div className="hidden md:block h-6 w-px bg-[#E5E7EB]" />
-          <div className="flex items-center gap-2">
-            <span className="font-bold text-[var(--nurc-teal)] text-xl" style={{ fontFamily: "var(--font-heading)" }}>Unlimited</span>
-            <span className="text-sm text-gray-600 font-medium" style={{ fontFamily: 'var(--font-body)' }}>Corporate Distribution</span>
-          </div>
-        </div>
-      </div>
 
       {/* Why Leading Companies Trust NURC */}
       <section ref={valueRef} className="py-12 lg:py-20 bg-white border-t border-b border-border">
@@ -386,13 +442,13 @@ export function HomePage() {
             {[
               {
                 icon: Clock,
-                title: 'Daily Consistency',
+                title: 'Daily Punctual',
                 description: 'Industry-specific news collated from credible print and online sources, delivered every single morning to your corporate ID.',
               },
               {
                 icon: TrendingUp,
                 title: 'Fortune 500 Trust',
-                description: 'For over 18 years, our esteemed clients—ranging from top MNCs to growing Indian companies—have trusted our service.',
+                description: 'For over 26 years, our esteemed clients—ranging from top MNCs to growing Indian companies—have trusted our service.',
               },
               {
                 icon: Settings,
@@ -434,9 +490,9 @@ export function HomePage() {
       </section>
 
       {/* Industry Coverage */}
-      <section ref={sectorsRef} className="py-12 lg:py-20 bg-background">
+      <section ref={sectorsRef} className="py-12 lg:py-16 bg-background">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-14">
+          <div className="text-center mb-10">
             <div className="flex items-center justify-center gap-3 mb-4">
               <div className="h-px w-12" style={{ background: 'var(--nurc-gold)' }} />
               <span className="text-xs font-bold uppercase tracking-widest" style={{ color: 'var(--nurc-teal)', letterSpacing: '0.14em', fontFamily: 'var(--font-heading)' }}>
@@ -457,12 +513,12 @@ export function HomePage() {
             </h2>
           </div>
 
-          <div className="flex overflow-x-auto gap-6 pb-6 scrollbar-none md:grid md:grid-cols-2 lg:grid-cols-3 md:overflow-x-visible md:pb-0">
+          <div className="flex overflow-x-auto gap-4 pb-6 scrollbar-none md:grid md:grid-cols-2 lg:grid-cols-4 md:overflow-x-visible md:pb-0">
             {sectors.map((sector, i) => (
               <Link
                 key={i}
                 to={`/sector/${sector.slug}`}
-                className="group rounded-xl p-6 bg-card border border-border transition-all duration-200 block min-w-[290px] md:min-w-0 shrink-0 md:shrink"
+                className="group rounded-xl p-5 bg-card border border-border transition-all duration-200 block min-w-[260px] md:min-w-0 shrink-0 md:shrink"
                 onMouseEnter={e => {
                   (e.currentTarget as HTMLElement).style.boxShadow = '0 8px 24px rgba(0,0,0,0.08)';
                   (e.currentTarget as HTMLElement).style.transform = 'translateY(-3px)';
@@ -473,11 +529,11 @@ export function HomePage() {
                 }}
               >
                 <div
-                  className="w-2 h-8 rounded-full mb-5"
+                  className="w-1.5 h-6 rounded-full mb-3"
                   style={{ background: sector.color }}
                 />
-                <div className="flex items-start justify-between mb-3">
-                  <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '17px', fontWeight: 700, color: 'var(--nurc-navy)' }}>
+                <div className="flex items-start justify-between mb-2">
+                  <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '16px', fontWeight: 700, color: 'var(--nurc-navy)' }}>
                     {sector.title}
                   </h3>
                   <ArrowRight
@@ -486,7 +542,7 @@ export function HomePage() {
                     style={{ color: sector.color }}
                   />
                 </div>
-                <p className="text-muted-foreground mb-4" style={{ fontSize: '14px', lineHeight: 1.7 }}>
+                <p className="text-muted-foreground mb-3" style={{ fontSize: '13px', lineHeight: 1.6 }}>
                   {sector.description}
                 </p>
                 <div
@@ -505,7 +561,7 @@ export function HomePage() {
       <section ref={sampleRef} className="py-12 lg:py-20" style={{ background: '#FFFFFF' }}>
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
-            
+
             {/* Left Side Content Block */}
             <div className="space-y-6 text-left">
               <div className="flex items-center gap-3">
@@ -654,11 +710,11 @@ export function HomePage() {
       {/* Free Trial Section (New) */}
       <section className="py-20" style={{ background: 'var(--nurc-navy)' }}>
         <div className="max-w-4xl mx-auto px-6 text-center">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-white/90 text-xs font-bold uppercase tracking-wider mb-6" style={{ fontFamily: 'var(--font-heading)' }}>
+          {/* <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-white/90 text-xs font-bold uppercase tracking-wider mb-6" style={{ fontFamily: 'var(--font-heading)' }}>
             No Commitment Required
-          </div>
+          </div> */}
           <h2 className="text-white mb-6" style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(28px, 4vw, 42px)', fontWeight: 700, lineHeight: 1.2 }}>
-            Experience The N.U.R.C. News Update
+            Experience The NURC News Update
           </h2>
           <p className="text-white/70 mb-10 text-lg mx-auto" style={{ maxWidth: '600px', lineHeight: 1.7 }}>
             Sign up for a 15-day free trial. Allow multiple users from your organization to evaluate our daily sector-specific intelligence updates with absolutely no obligation to subscribe.
@@ -675,83 +731,6 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* Trust Statistics */}
-      <section className="py-12 lg:py-20 bg-white border-t border-b border-border/50">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-10">
-            <div className="flex items-center justify-center gap-3 mb-3">
-              <div className="h-px w-12" style={{ background: 'var(--nurc-gold)' }} />
-              <span className="text-xs font-bold uppercase tracking-widest" style={{ color: 'var(--nurc-teal)', letterSpacing: '0.14em', fontFamily: 'var(--font-heading)' }}>
-                B2B Trust Metrics
-              </span>
-              <div className="h-px w-12" style={{ background: 'var(--nurc-gold)' }} />
-            </div>
-            <h2
-              style={{
-                fontFamily: 'var(--font-heading)',
-                fontSize: 'clamp(24px, 3.5vw, 40px)',
-                fontWeight: 700,
-                color: 'var(--nurc-navy)',
-                lineHeight: 1.2,
-              }}
-            >
-              Trusted Industry Intelligence Since 2002
-            </h2>
-            <p className="text-muted-foreground mt-3 max-w-[500px] mx-auto" style={{ fontSize: 'clamp(16px, 1.8vw, 18px)', color: '#4B5563', lineHeight: '1.6' }}>
-              NURC is the definitive intelligence resource for executive leadership across India's primary sectors.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-5">
-            {[
-              {
-                stat: '24',
-                label: 'Years of Trust',
-                description: 'Providing comprehensive historical sector datasets since 2002.',
-                icon: Clock,
-              },
-              {
-                stat: '7',
-                label: 'Core Sectors',
-                description: 'Deep analytical dispatches on key B2B areas.',
-                icon: BookOpen,
-              },
-              {
-                stat: 'Daily',
-                label: 'Email Delivery',
-                description: 'Curated intelligence delivered every morning.',
-                icon: ShieldCheck,
-              },
-              {
-                stat: 'Unlimited',
-                label: 'Corporate Distribution',
-                description: 'No per-seat licensing limits for subscribers.',
-                icon: Star,
-              },
-            ].map((item, idx) => {
-              const Icon = item.icon;
-              return (
-                <div key={idx} className="text-center p-4 space-y-2.5">
-                  <div className="w-10 h-10 rounded-xl bg-teal/5 text-teal flex items-center justify-center mx-auto mb-1.5" style={{ color: 'var(--nurc-teal)' }}>
-                    <Icon size={22} />
-                  </div>
-                  <div>
-                    <div className="font-bold tracking-tight text-navy" style={{ color: 'var(--nurc-navy)', fontFamily: 'var(--font-heading)', fontSize: '36px', fontWeight: 700, lineHeight: '1.1' }}>
-                      {item.stat}
-                    </div>
-                    <div className="font-semibold text-navy mt-1" style={{ fontFamily: 'var(--font-heading)', fontSize: '18px', fontWeight: 600, color: 'var(--nurc-navy)' }}>
-                      {item.label}
-                    </div>
-                  </div>
-                  <p className="text-muted-foreground max-w-[240px] mx-auto animate-none" style={{ fontSize: '16px', lineHeight: '1.6', color: '#4B5563', fontFamily: 'var(--font-body)' }}>
-                    {item.description}
-                  </p>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
 
       {/* Testimonials */}
       <section ref={testiRef} className="py-12 lg:py-20 bg-background">
@@ -777,105 +756,14 @@ export function HomePage() {
             </h2>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-3 gap-6 items-start">
             {testimonials.map((t, i) => (
-              <div
-                key={i}
-                className="rounded-xl p-6 bg-card border border-border"
-              >
-                <Quote size={28} style={{ color: 'var(--nurc-gold)', opacity: 0.6, marginBottom: '16px' }} />
-                <div
-                  className="mb-6 italic space-y-3"
-                  style={{
-                    fontFamily: 'var(--font-body)',
-                    fontSize: '15px',
-                    lineHeight: 1.75,
-                    color: 'var(--nurc-navy)',
-                  }}
-                >
-                  {t.quote.split('\n\n').map((para, pi) => (
-                    <p key={pi}>"{para}"</p>
-                  ))}
-                </div>
-                <div className="flex items-center gap-3">
-                  {t.logo ? (
-                    <div className="w-12 h-12 rounded-xl bg-[#FAF9F6] border border-border flex items-center justify-center p-1.5 shrink-0">
-                      <img 
-                        src={t.logo} 
-                        alt={`${t.company} logo`} 
-                        className="w-full h-full object-contain"
-                      />
-                    </div>
-                  ) : (
-                    <div className="w-12 h-12 rounded-xl flex items-center justify-center text-white font-bold text-sm shrink-0" style={{ background: 'var(--nurc-navy)' }}>
-                      {t.name.split(' ').map(w => w[0]).slice(0, 2).join('')}
-                    </div>
-                  )}
-                  <div>
-                    <div className="font-semibold" style={{ fontFamily: 'var(--font-heading)', fontSize: '14px', color: 'var(--nurc-navy)' }}>
-                      {t.name}
-                    </div>
-                    <div className="text-xs text-muted-foreground mt-0.5">
-                      {t.title} · {t.company}
-                    </div>
-                  </div>
-                </div>
-                <div className="flex gap-0.5 mt-4">
-                  {[...Array(5)].map((_, si) => (
-                    <Star key={si} size={12} fill="var(--nurc-gold)" style={{ color: 'var(--nurc-gold)' }} />
-                  ))}
-                </div>
-              </div>
+              <TestimonialCard key={i} t={t} />
             ))}
           </div>
         </div>
       </section>
 
-      {/* Final CTA */}
-      <section
-        className="py-12 lg:py-20 text-center"
-        style={{ background: 'var(--nurc-navy)' }}
-      >
-        <div className="max-w-3xl mx-auto px-6">
-          <div className="flex items-center justify-center gap-3 mb-6">
-            <div className="h-px w-12" style={{ background: 'var(--nurc-gold)' }} />
-            <span className="text-xs font-bold uppercase tracking-widest" style={{ color: 'var(--nurc-gold)', letterSpacing: '0.15em', fontFamily: 'var(--font-heading)' }}>
-              Join 500+ Leaders
-            </span>
-            <div className="h-px w-12" style={{ background: 'var(--nurc-gold)' }} />
-          </div>
-          <h2
-            className="text-white mb-5"
-            style={{
-              fontFamily: 'var(--font-heading)',
-              fontSize: 'clamp(28px, 4vw, 44px)',
-              fontWeight: 700,
-              lineHeight: 1.2,
-            }}
-          >
-            Stay Ahead of Every Development That Matters
-          </h2>
-          <p className="text-white/60 mb-10" style={{ fontSize: '17px', lineHeight: 1.8 }}>
-            Request a complimentary sample issue for your sector or start a free trial license. No commitment, no sales call.
-          </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <Link
-              to="/contact"
-              className="h-12 flex items-center justify-center px-8 rounded-xl font-semibold text-white transition-all hover:opacity-90 cursor-pointer text-sm animate-none"
-              style={{ background: 'var(--nurc-teal)', fontFamily: 'var(--font-heading)', textDecoration: 'none' }}
-            >
-              Request Demo
-            </Link>
-            <button
-              onClick={() => openReader(SAMPLE_AUTO_ARTICLE)}
-              className="h-12 flex items-center justify-center px-8 rounded-xl font-semibold border transition-all hover:bg-white/10 bg-transparent cursor-pointer text-sm"
-              style={{ color: 'white', borderColor: 'rgba(255,255,255,0.25)', fontFamily: 'var(--font-heading)' }}
-            >
-              Request Sample
-            </button>
-          </div>
-        </div>
-      </section>
 
       {/* MSME / Udyam Registration Credential */}
       <section className="py-8 bg-[#F9FAFB] border-t border-[#E5E7EB]">
