@@ -15,6 +15,7 @@ const services = [
       'Reader-friendly format designed for executive consumption',
       'Covers 7 core industry sectors',
     ],
+    image: 'https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=800&h=900&fit=crop&auto=format',
     color: '#006D7A',
   },
   {
@@ -29,6 +30,7 @@ const services = [
       'Spans multiple industry verticals',
       'Historical data across all covered sectors',
     ],
+    image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&h=900&fit=crop&auto=format',
     color: '#0A2540',
   },
   {
@@ -43,6 +45,7 @@ const services = [
       'Flexible scope — from single-topic to multi-sector',
       'Dedicated editorial support for configuration',
     ],
+    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=900&fit=crop&auto=format',
     color: '#3B6E8A',
   },
   {
@@ -57,6 +60,7 @@ const services = [
       'No additional per-seat licensing costs',
       'Ideal for large corporate teams and departments',
     ],
+    image: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=800&h=900&fit=crop&auto=format',
     color: '#5B8A5E',
   },
 ];
@@ -83,6 +87,8 @@ export function ServicesPage() {
       {/* Hero */}
       <section className="py-20 border-b border-border" style={{ background: '#FFFFFF' }}>
         <div className="max-w-7xl mx-auto px-6">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div>
           <div className="flex items-center gap-3 mb-6">
             <div className="h-px w-8" style={{ background: 'var(--nurc-gold)' }} />
             <span
@@ -103,7 +109,7 @@ export function ServicesPage() {
               maxWidth: '700px',
             }}
           >
-            Daily Curated News Intelligence for Corporate India
+            Daily Curated News & Information for Corporate India
           </h1>
           <p
             className="text-muted-foreground mb-8"
@@ -128,6 +134,20 @@ export function ServicesPage() {
               Contact Us
             </Link>
           </div>
+            </div>
+
+            {/* Hero image window */}
+            <div className="w-full max-w-md mx-auto lg:mx-0 lg:ml-auto">
+              <div className="relative aspect-square rounded-2xl overflow-hidden border border-border shadow-xl">
+                <img
+                  src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=900&h=900&fit=crop&auto=format"
+                  alt="Curated world business news — daily intelligence briefings"
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                />
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -145,29 +165,42 @@ export function ServicesPage() {
                   <div className="grid lg:grid-cols-5 gap-0">
                     {/* Left panel */}
                     <div
-                      className="lg:col-span-2 p-8 flex flex-col justify-center"
+                      className="lg:col-span-2 p-8 flex flex-col justify-center relative overflow-hidden min-h-[220px]"
                       style={{ background: service.color }}
                     >
-                      <div className="w-12 h-12 rounded-xl bg-white/15 flex items-center justify-center mb-5">
-                        <Icon size={22} className="text-white" />
-                      </div>
+                      <img
+                        src={service.image}
+                        alt=""
+                        aria-hidden="true"
+                        className="absolute inset-0 w-full h-full object-cover opacity-80"
+                        loading="lazy"
+                      />
                       <div
-                        className="text-xs font-bold uppercase tracking-widest text-white/60 mb-2"
-                        style={{ letterSpacing: '0.12em', fontFamily: 'var(--font-heading)' }}
-                      >
-                        {service.subtitle}
+                        className="absolute inset-0"
+                        style={{ background: `linear-gradient(135deg, ${service.color}d9 0%, ${service.color}59 100%)` }}
+                      />
+                      <div className="relative" style={{ textShadow: '0 1px 4px rgba(0,0,0,0.45)' }}>
+                        <div className="w-12 h-12 rounded-xl bg-white/15 flex items-center justify-center mb-5">
+                          <Icon size={22} className="text-white" />
+                        </div>
+                        <div
+                          className="text-xs font-bold uppercase tracking-widest text-white/60 mb-2"
+                          style={{ letterSpacing: '0.12em', fontFamily: 'var(--font-heading)' }}
+                        >
+                          {service.subtitle}
+                        </div>
+                        <h3
+                          className="text-white mb-3"
+                          style={{
+                            fontFamily: 'var(--font-display)',
+                            fontSize: 'clamp(20px, 2.5vw, 26px)',
+                            fontWeight: 700,
+                            lineHeight: 1.25,
+                          }}
+                        >
+                          {service.title}
+                        </h3>
                       </div>
-                      <h3
-                        className="text-white mb-3"
-                        style={{
-                          fontFamily: 'var(--font-display)',
-                          fontSize: 'clamp(20px, 2.5vw, 26px)',
-                          fontWeight: 700,
-                          lineHeight: 1.25,
-                        }}
-                      >
-                        {service.title}
-                      </h3>
                     </div>
 
                     {/* Right panel */}

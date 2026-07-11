@@ -249,7 +249,7 @@ export function HomePage() {
                 letterSpacing: '-0.02em',
               }}
             >
-              Daily Curated Intelligence That Powers India’s Leading Corporations
+              Daily Curated Information That Powers India’s Leading Corporations
             </h1>
             <p
               className="mb-10 text-white/70"
