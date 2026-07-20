@@ -61,6 +61,13 @@ export function NewsletterPage() {
   const [activeRange, setActiveRange] = useState('all');
   const [activeImportance, setActiveImportance] = useState('All');
   const [copiedId, setCopiedId] = useState<string | null>(null);
+  const PAGE_SIZE = 9;
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
+
+  // Reset pagination whenever the active filters change.
+  useEffect(() => {
+    setVisibleCount(PAGE_SIZE);
+  }, [searchQuery, activeCategory, activeYear, activeMonth, activeRange, activeImportance]);
 
   const getNewsletterImportance = (nl: any) => {
     return nl.id === 'nl-auto-1247' || nl.id === 'nl-banking-892' || nl.category === 'Energy'
@@ -390,121 +397,133 @@ export function NewsletterPage() {
               </button>
             </div>
           ) : (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 animate-fadeIn">
-              {filtered.map((nl) => {
-                const isSaved = savedArticles.includes(nl.id);
-                const isHighImpact = getNewsletterImportance(nl) === 'High Impact';
-                return (
-                  <div
-                    key={nl.id}
-                    className="bg-card border border-border rounded-2xl overflow-hidden flex flex-col justify-between transition-all duration-200 hover:shadow-[0_10px_24px_rgba(0,0,0,0.06)] hover:-translate-y-0.5"
-                  >
-                    <div>
-                      {/* Accent strip */}
-                      <div className="h-1" style={{ background: nl.color }} />
-                      <div className="p-6">
-                        <div className="flex items-center justify-between mb-3.5">
-                          <span
-                            className="text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded text-white shrink-0"
-                            style={{ background: nl.color }}
-                          >
-                            {nl.category}
-                          </span>
-
-                          {/* Importance Badge */}
-                          <span
-                            className={`text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 rounded ${
-                              isHighImpact
-                                ? 'bg-amber-50 text-amber-700 border border-amber-200'
-                                : 'bg-slate-50 text-slate-600 border border-slate-200'
-                            }`}
-                          >
-                            {isHighImpact ? '🔥 High Impact' : '📋 Briefing'}
-                          </span>
-                        </div>
-
-                        <h3 className="font-bold text-base tracking-tight mb-2 line-clamp-1 text-nurc-navy font-heading">
-                          {nl.title}
-                        </h3>
-
-                        <div className="flex items-center gap-2.5 text-[10px] text-muted-foreground font-semibold mb-4">
-                          <span>{nl.date}</span>
-                          <span>•</span>
-                          <span>Issue {nl.issue}</span>
-                          <span>•</span>
-                          <span className="flex items-center gap-1 text-nurc-teal">
-                            <Clock size={11} />
-                            {nl.readTime} read
-                          </span>
-                        </div>
-
-                        <p className="text-xs text-muted-foreground leading-relaxed mb-4 line-clamp-3">
-                          {nl.summary}
-                        </p>
-
-                        <div className="space-y-1.5 mb-5 border-t border-border/50 pt-3">
-                          {nl.highlights.slice(0, 2).map((h, hi) => (
-                            <div
-                              key={hi}
-                              className="flex items-center gap-1.5 text-[11px] text-foreground font-medium"
+            <>
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 animate-fadeIn">
+                {filtered.slice(0, visibleCount).map((nl) => {
+                  const isSaved = savedArticles.includes(nl.id);
+                  const isHighImpact = getNewsletterImportance(nl) === 'High Impact';
+                  return (
+                    <div
+                      key={nl.id}
+                      className="bg-card border border-border rounded-2xl overflow-hidden flex flex-col justify-between transition-all duration-200 hover:shadow-[0_10px_24px_rgba(0,0,0,0.06)] hover:-translate-y-0.5"
+                    >
+                      <div>
+                        {/* Accent strip */}
+                        <div className="h-1" style={{ background: nl.color }} />
+                        <div className="p-6">
+                          <div className="flex items-center justify-between mb-3.5">
+                            <span
+                              className="text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded text-white shrink-0"
+                              style={{ background: nl.color }}
                             >
+                              {nl.category}
+                            </span>
+
+                            {/* Importance Badge */}
+                            <span
+                              className={`text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 rounded ${
+                                isHighImpact
+                                  ? 'bg-amber-50 text-amber-700 border border-amber-200'
+                                  : 'bg-slate-50 text-slate-600 border border-slate-200'
+                              }`}
+                            >
+                              {isHighImpact ? '🔥 High Impact' : '📋 Briefing'}
+                            </span>
+                          </div>
+
+                          <h3 className="font-bold text-base tracking-tight mb-2 line-clamp-1 text-nurc-navy font-heading">
+                            {nl.title}
+                          </h3>
+
+                          <div className="flex items-center gap-2.5 text-[10px] text-muted-foreground font-semibold mb-4">
+                            <span>{nl.date}</span>
+                            <span>•</span>
+                            <span>Issue {nl.issue}</span>
+                            <span>•</span>
+                            <span className="flex items-center gap-1 text-nurc-teal">
+                              <Clock size={11} />
+                              {nl.readTime} read
+                            </span>
+                          </div>
+
+                          <p className="text-xs text-muted-foreground leading-relaxed mb-4 line-clamp-3">
+                            {nl.summary}
+                          </p>
+
+                          <div className="space-y-1.5 mb-5 border-t border-border/50 pt-3">
+                            {nl.highlights.slice(0, 2).map((h, hi) => (
                               <div
-                                className="w-1.5 h-1.5 rounded-full shrink-0"
-                                style={{ background: nl.color }}
-                              />
-                              <span className="truncate">{h}</span>
-                            </div>
-                          ))}
+                                key={hi}
+                                className="flex items-center gap-1.5 text-[11px] text-foreground font-medium"
+                              >
+                                <div
+                                  className="w-1.5 h-1.5 rounded-full shrink-0"
+                                  style={{ background: nl.color }}
+                                />
+                                <span className="truncate">{h}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Bottom action drawer */}
+                      <div className="px-6 pb-6 pt-4 border-t border-border bg-muted/40 flex items-center justify-between gap-2">
+                        <button
+                          onClick={() => openReader(nl.article, nl.id)}
+                          className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg text-xs font-bold text-white transition-opacity hover:opacity-90 shrink-0 cursor-pointer font-heading"
+                          style={{ background: nl.color }}
+                        >
+                          <BookOpen size={13} />
+                          Read Briefing
+                        </button>
+
+                        <div className="flex gap-1">
+                          <button
+                            onClick={() => toggleSaveArticle(nl.id)}
+                            className="p-2 border border-border rounded-lg text-muted-foreground hover:text-navy hover:bg-muted transition-all cursor-pointer bg-white"
+                            title={isSaved ? 'Remove from bookmarks' : 'Save briefing'}
+                          >
+                            <Bookmark
+                              size={13}
+                              fill={isSaved ? 'currentColor' : 'none'}
+                              style={{ color: isSaved ? 'var(--nurc-teal)' : 'inherit' }}
+                            />
+                          </button>
+                          <button
+                            onClick={() => handleShare(nl.id)}
+                            className="p-2 border border-border rounded-lg text-muted-foreground hover:text-navy hover:bg-muted transition-all cursor-pointer bg-white"
+                            title="Copy share link"
+                          >
+                            <Share2
+                              size={13}
+                              style={{ color: copiedId === nl.id ? 'var(--nurc-teal)' : 'inherit' }}
+                            />
+                          </button>
+                          <button
+                            onClick={() => handleDownload(nl.id)}
+                            className="p-2 border border-border rounded-lg text-muted-foreground hover:text-navy hover:bg-muted transition-all cursor-pointer bg-white"
+                            title="Download briefing file"
+                          >
+                            <Download size={13} />
+                          </button>
                         </div>
                       </div>
                     </div>
-
-                    {/* Bottom action drawer */}
-                    <div className="px-6 pb-6 pt-4 border-t border-border bg-muted/40 flex items-center justify-between gap-2">
-                      <button
-                        onClick={() => openReader(nl.article, nl.id)}
-                        className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg text-xs font-bold text-white transition-opacity hover:opacity-90 shrink-0 cursor-pointer font-heading"
-                        style={{ background: nl.color }}
-                      >
-                        <BookOpen size={13} />
-                        Read Briefing
-                      </button>
-
-                      <div className="flex gap-1">
-                        <button
-                          onClick={() => toggleSaveArticle(nl.id)}
-                          className="p-2 border border-border rounded-lg text-muted-foreground hover:text-navy hover:bg-muted transition-all cursor-pointer bg-white"
-                          title={isSaved ? 'Remove from bookmarks' : 'Save briefing'}
-                        >
-                          <Bookmark
-                            size={13}
-                            fill={isSaved ? 'currentColor' : 'none'}
-                            style={{ color: isSaved ? 'var(--nurc-teal)' : 'inherit' }}
-                          />
-                        </button>
-                        <button
-                          onClick={() => handleShare(nl.id)}
-                          className="p-2 border border-border rounded-lg text-muted-foreground hover:text-navy hover:bg-muted transition-all cursor-pointer bg-white"
-                          title="Copy share link"
-                        >
-                          <Share2
-                            size={13}
-                            style={{ color: copiedId === nl.id ? 'var(--nurc-teal)' : 'inherit' }}
-                          />
-                        </button>
-                        <button
-                          onClick={() => handleDownload(nl.id)}
-                          className="p-2 border border-border rounded-lg text-muted-foreground hover:text-navy hover:bg-muted transition-all cursor-pointer bg-white"
-                          title="Download briefing file"
-                        >
-                          <Download size={13} />
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
+                  );
+                })}
+              </div>
+              {visibleCount < filtered.length && (
+                <div className="mt-8 flex justify-center">
+                  <button
+                    onClick={() => setVisibleCount((c) => c + PAGE_SIZE)}
+                    className="px-6 py-2.5 rounded-xl border border-border text-sm font-semibold text-nurc-navy hover:bg-muted transition-colors cursor-pointer font-heading"
+                  >
+                    Load more ({filtered.length - visibleCount} remaining)
+                  </button>
+                </div>
+              )}
+            </>
           )}
         </div>
       </section>

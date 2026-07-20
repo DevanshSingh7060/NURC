@@ -193,7 +193,12 @@ function TestimonialCard({ t }: { t: (typeof testimonials)[number] }) {
       <div className="flex items-center gap-3 mt-6">
         {t.logo ? (
           <div className="w-12 h-12 rounded-xl bg-[#FAF9F6] border border-border flex items-center justify-center p-1.5 shrink-0">
-            <img src={t.logo} alt={`${t.company} logo`} className="w-full h-full object-contain" />
+            <img
+              src={t.logo}
+              alt={`${t.company} logo`}
+              className="w-full h-full object-contain"
+              loading="lazy"
+            />
           </div>
         ) : (
           <div className="w-12 h-12 rounded-xl flex items-center justify-center text-white font-bold text-sm shrink-0 bg-nurc-navy">

@@ -176,6 +176,9 @@ export function ResourcesPage() {
                   src={featured.image}
                   alt={featured.title}
                   className="w-full h-full object-cover"
+                  width={600}
+                  height={300}
+                  loading="lazy"
                 />
                 <div className="absolute top-4 left-4">
                   <span className="px-3 py-1 rounded-full text-xs font-bold text-white uppercase bg-nurc-teal tracking-[0.1em] font-heading">
@@ -222,6 +225,9 @@ export function ResourcesPage() {
                     src={article.image}
                     alt={article.title}
                     className="w-full h-full object-cover"
+                    width={600}
+                    height={300}
+                    loading="lazy"
                   />
                 </div>
                 <div className="p-5">

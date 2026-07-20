@@ -81,6 +81,7 @@ export function Root() {
                         className="flex-shrink-0 h-24 w-auto"
                         width={204}
                         height={200}
+                        loading="lazy"
                       />
                     </div>
                   </div>
