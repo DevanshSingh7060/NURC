@@ -30,10 +30,17 @@ interface AppContextType {
   signup: (userData: Omit<Subscriber, 'plan' | 'renewalDate' | 'status' | 'frequency'>) => void;
   logout: () => void;
   updateProfile: (data: Partial<Pick<Subscriber, 'fullName' | 'phone'>>) => void;
-  updateCompany: (data: Partial<Pick<Subscriber, 'companyName' | 'designation' | 'industry'>>) => void;
+  updateCompany: (
+    data: Partial<Pick<Subscriber, 'companyName' | 'designation' | 'industry'>>,
+  ) => void;
   updatePreferences: (industries: string[]) => void;
   updateTheme: (theme: Subscriber['theme']) => void;
-  updateSubscription: (plan: Subscriber['plan'], industries: string[], theme: Subscriber['theme'], businessInfo?: Partial<Subscriber>) => void;
+  updateSubscription: (
+    plan: Subscriber['plan'],
+    industries: string[],
+    theme: Subscriber['theme'],
+    businessInfo?: Partial<Subscriber>,
+  ) => void;
   toggleSaveArticle: (id: string) => void;
   markAsRead: (id: string) => void;
   setContinueReading: (id: string | null) => void;
@@ -45,6 +52,9 @@ interface AppContextType {
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
+// DEV/DEMO SEED ONLY — this subscriber is seeded into localStorage on first load so the
+// demo login works locally. Its password comes from VITE_DEV_SEED_PASSWORD (see .env.example),
+// never a hardcoded shippable value. Leave the env var unset in production.
 const DEFAULT_SUBSCRIBER: Subscriber = {
   fullName: 'Devansh Sharma',
   email: 'devansh@nurcmedianext.com',
@@ -56,11 +66,11 @@ const DEFAULT_SUBSCRIBER: Subscriber = {
   industries: ['Automotive', 'Banking', 'Healthcare'],
   frequency: 'Daily',
   theme: 'Original',
-  password: 'password123',
+  password: import.meta.env.VITE_DEV_SEED_PASSWORD ?? '',
   plan: 'Executive',
   renewalDate: 'May 30, 2027',
   status: 'Active',
-  companyWebsite: 'https://nurcmedianext.com'
+  companyWebsite: 'https://nurcmedianext.com',
 };
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -129,7 +139,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   // Auth Operations
   const login = (email: string, password: string): boolean => {
-    const found = subscribers.find(s => s.email.toLowerCase() === email.toLowerCase() && s.password === password);
+    // Reject blank credentials — prevents matching a seed whose password is unset in production.
+    if (!email || !password) return false;
+    const found = subscribers.find(
+      (s) => s.email.toLowerCase() === email.toLowerCase() && s.password === password,
+    );
     if (found) {
       setCurrentUser(found);
       return true;
@@ -143,10 +157,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       frequency: 'Daily',
       plan: 'None',
       renewalDate: 'Not Subscribed',
-      status: 'Pending'
+      status: 'Pending',
     };
-    setSubscribers(prev => {
-      const filtered = prev.filter(s => s.email.toLowerCase() !== userData.email.toLowerCase());
+    setSubscribers((prev) => {
+      const filtered = prev.filter((s) => s.email.toLowerCase() !== userData.email.toLowerCase());
       return [...filtered, newSub];
     });
     setCurrentUser(newSub);
@@ -162,40 +176,54 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     if (!currentUser) return;
     const updated = { ...currentUser, ...data };
     setCurrentUser(updated);
-    setSubscribers(prev => prev.map(s => s.email.toLowerCase() === currentUser.email.toLowerCase() ? updated : s));
+    setSubscribers((prev) =>
+      prev.map((s) => (s.email.toLowerCase() === currentUser.email.toLowerCase() ? updated : s)),
+    );
   };
 
-  const updateCompany = (data: Partial<Pick<Subscriber, 'companyName' | 'designation' | 'industry'>>) => {
+  const updateCompany = (
+    data: Partial<Pick<Subscriber, 'companyName' | 'designation' | 'industry'>>,
+  ) => {
     if (!currentUser) return;
     const updated = { ...currentUser, ...data };
     setCurrentUser(updated);
-    setSubscribers(prev => prev.map(s => s.email.toLowerCase() === currentUser.email.toLowerCase() ? updated : s));
+    setSubscribers((prev) =>
+      prev.map((s) => (s.email.toLowerCase() === currentUser.email.toLowerCase() ? updated : s)),
+    );
   };
 
   const updatePreferences = (industries: string[]) => {
     if (!currentUser) return;
     const updated = { ...currentUser, industries, frequency: 'Daily' as const };
     setCurrentUser(updated);
-    setSubscribers(prev => prev.map(s => s.email.toLowerCase() === currentUser.email.toLowerCase() ? updated : s));
+    setSubscribers((prev) =>
+      prev.map((s) => (s.email.toLowerCase() === currentUser.email.toLowerCase() ? updated : s)),
+    );
   };
 
   const updateTheme = (theme: Subscriber['theme']) => {
     if (!currentUser) return;
     const updated = { ...currentUser, theme };
     setCurrentUser(updated);
-    setSubscribers(prev => prev.map(s => s.email.toLowerCase() === currentUser.email.toLowerCase() ? updated : s));
+    setSubscribers((prev) =>
+      prev.map((s) => (s.email.toLowerCase() === currentUser.email.toLowerCase() ? updated : s)),
+    );
   };
 
   const updateSubscription = (
     plan: Subscriber['plan'],
     industries: string[],
     theme: Subscriber['theme'],
-    businessInfo?: Partial<Subscriber>
+    businessInfo?: Partial<Subscriber>,
   ) => {
     if (!currentUser) return;
     const oneYearFromNow = new Date();
     oneYearFromNow.setFullYear(oneYearFromNow.getFullYear() + 1);
-    const renewalString = oneYearFromNow.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    const renewalString = oneYearFromNow.toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+    });
 
     const updated: Subscriber = {
       ...currentUser,
@@ -205,23 +233,21 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       renewalDate: renewalString,
       status: 'Active',
       frequency: 'Daily',
-      ...businessInfo
+      ...businessInfo,
     };
     setCurrentUser(updated);
-    setSubscribers(prev => prev.map(s => s.email.toLowerCase() === currentUser.email.toLowerCase() ? updated : s));
+    setSubscribers((prev) =>
+      prev.map((s) => (s.email.toLowerCase() === currentUser.email.toLowerCase() ? updated : s)),
+    );
   };
 
   // Interactions
   const toggleSaveArticle = (id: string) => {
-    setSavedArticles(prev =>
-      prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]
-    );
+    setSavedArticles((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
   };
 
   const markAsRead = (id: string) => {
-    setReadArticles(prev =>
-      prev.includes(id) ? prev : [...prev, id]
-    );
+    setReadArticles((prev) => (prev.includes(id) ? prev : [...prev, id]));
   };
 
   const setContinueReading = (id: string | null) => {
@@ -230,24 +256,26 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   // Admin capabilities
   const addNewsletter = (nl: Newsletter) => {
-    setNewsletters(prev => [nl, ...prev]);
+    setNewsletters((prev) => [nl, ...prev]);
   };
 
   const deleteNewsletter = (id: string) => {
-    setNewsletters(prev => prev.filter(nl => nl.id !== id));
+    setNewsletters((prev) => prev.filter((nl) => nl.id !== id));
   };
 
   const updateSubscriberAdmin = (email: string, data: Partial<Subscriber>) => {
-    setSubscribers(prev => prev.map(s => {
-      if (s.email.toLowerCase() === email.toLowerCase()) {
-        const updated = { ...s, ...data };
-        if (currentUser && currentUser.email.toLowerCase() === email.toLowerCase()) {
-          setCurrentUser(updated);
+    setSubscribers((prev) =>
+      prev.map((s) => {
+        if (s.email.toLowerCase() === email.toLowerCase()) {
+          const updated = { ...s, ...data };
+          if (currentUser && currentUser.email.toLowerCase() === email.toLowerCase()) {
+            setCurrentUser(updated);
+          }
+          return updated;
         }
-        return updated;
-      }
-      return s;
-    }));
+        return s;
+      }),
+    );
   };
 
   return (
@@ -272,7 +300,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         setContinueReading,
         addNewsletter,
         deleteNewsletter,
-        updateSubscriberAdmin
+        updateSubscriberAdmin,
       }}
     >
       {children}
