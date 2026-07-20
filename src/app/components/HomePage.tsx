@@ -506,11 +506,11 @@ export function HomePage() {
             </h2>
           </div>
 
-          <div className="flex overflow-x-auto gap-4 pb-6 scrollbar-none md:grid md:grid-cols-2 lg:grid-cols-4 md:overflow-x-visible md:pb-0">
+          <div className="flex overflow-x-auto gap-4 pb-6 scrollbar-none md:grid md:grid-cols-2 lg:grid-cols-4 md:overflow-x-visible md:pb-0 max-md:[mask-image:linear-gradient(to_right,#000_85%,transparent)]">
             {sectors.map((sector, i) => (
               <Link
                 key={i}
-                to={`/sector/${sector.slug}`}
+                to={`/industries/${sector.slug}`}
                 className="group rounded-xl p-5 bg-card border border-border transition-all duration-200 block min-w-[260px] md:min-w-0 shrink-0 md:shrink hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] hover:-translate-y-[3px]"
               >
                 <div className="w-1.5 h-6 rounded-full mb-3" style={{ background: sector.color }} />

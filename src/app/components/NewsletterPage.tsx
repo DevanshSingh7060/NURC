@@ -219,7 +219,7 @@ export function NewsletterPage() {
               </p>
             </div>
             <Link
-              to="/subscribe"
+              to="/contact"
               className="shrink-0 flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-white transition-all hover:opacity-90 text-sm cursor-pointer bg-nurc-teal font-heading"
             >
               Subscribe for Full Access

@@ -364,7 +364,7 @@ export function DashboardPage() {
             <div className="space-y-8 animate-fadeIn">
               {/* Premium Reading Analytics Grid */}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div className="bg-white border border-border p-6 rounded-xl shadow-sm flex flex-col justify-between">
+                <div className="bg-white border border-border p-4 sm:p-6 rounded-xl shadow-sm flex flex-col justify-between">
                   <div className="flex items-center justify-between text-muted-foreground mb-2">
                     <span className="text-[10px] font-bold uppercase tracking-wider">
                       Consumed Briefings
@@ -381,7 +381,7 @@ export function DashboardPage() {
                   </div>
                 </div>
 
-                <div className="bg-white border border-border p-6 rounded-xl shadow-sm flex flex-col justify-between">
+                <div className="bg-white border border-border p-4 sm:p-6 rounded-xl shadow-sm flex flex-col justify-between">
                   <div className="flex items-center justify-between text-muted-foreground mb-2">
                     <span className="text-[10px] font-bold uppercase tracking-wider">
                       Saved Briefings
@@ -398,7 +398,7 @@ export function DashboardPage() {
                   </div>
                 </div>
 
-                <div className="bg-white border border-border p-6 rounded-xl shadow-sm flex flex-col justify-between">
+                <div className="bg-white border border-border p-4 sm:p-6 rounded-xl shadow-sm flex flex-col justify-between">
                   <div className="flex items-center justify-between text-muted-foreground mb-2">
                     <span className="text-[10px] font-bold uppercase tracking-wider">
                       Followed Channels
@@ -415,7 +415,7 @@ export function DashboardPage() {
                   </div>
                 </div>
 
-                <div className="bg-white border border-border p-6 rounded-xl shadow-sm flex flex-col justify-between">
+                <div className="bg-white border border-border p-4 sm:p-6 rounded-xl shadow-sm flex flex-col justify-between">
                   <div className="flex items-center justify-between text-muted-foreground mb-2">
                     <span className="text-[10px] font-bold uppercase tracking-wider">
                       Reading Time

@@ -182,8 +182,10 @@ export function Header() {
                 key={link.to}
                 to={link.to}
                 className={({ isActive }) =>
-                  `px-3 py-2 rounded text-sm font-medium transition-colors text-nurc-navy ${
-                    isActive ? 'bg-muted' : 'hover:bg-muted/60'
+                  `px-3 py-2 rounded text-sm transition-colors ${
+                    isActive
+                      ? 'bg-nurc-teal/10 text-nurc-teal font-bold'
+                      : 'text-nurc-navy font-medium hover:bg-muted/60'
                   }`
                 }
               >
@@ -219,7 +221,7 @@ export function Header() {
             <img
               src={nurcLogo}
               alt="NURC Media Next — 26 Years of Trust & Service"
-              className="h-12 sm:h-16 w-auto"
+              className="h-10 sm:h-16 w-auto max-w-[150px] sm:max-w-none"
               width={320}
               height={102}
             />
