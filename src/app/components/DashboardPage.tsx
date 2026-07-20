@@ -4,7 +4,23 @@ import { useApp, Subscriber } from '../context/AppContext';
 import { useReaderMode } from './ReaderModeContext';
 import { useLeadModal } from '../context/LeadModalContext';
 import { NewsletterThemeRenderer } from './NewsletterThemeRenderer';
-import { User, Briefcase, FileText, Settings, Bookmark, CheckCircle, Bell, ArrowRight, Star, RefreshCw, BookOpen, Clock, Layout, HelpCircle } from 'lucide-react';
+import {
+  User,
+  Briefcase,
+  FileText,
+  Settings,
+  Bookmark,
+  CheckCircle,
+  Bell,
+  ArrowRight,
+  Star,
+  RefreshCw,
+  BookOpen,
+  Clock,
+  Layout,
+  HelpCircle,
+} from 'lucide-react';
+import { toast } from 'sonner';
 import { SEOHead } from './shared/SEOHead';
 
 const SAMPLE_PREVIEW_ARTICLE = {
@@ -18,7 +34,7 @@ const SAMPLE_PREVIEW_ARTICLE = {
       type: 'section' as const,
       heading: 'EXECUTIVE SUMMARY',
       tag: 'Market Dynamics',
-      text: `India's corporate margins showed a structural expansion of +120 basis points in Q1 FY26. The improvement was driven by softer commodity input prices, optimized domestic logistics operations, and steady volume gains in core middle-income urban markets.`
+      text: `India's corporate margins showed a structural expansion of +120 basis points in Q1 FY26. The improvement was driven by softer commodity input prices, optimized domestic logistics operations, and steady volume gains in core middle-income urban markets.`,
     },
     {
       type: 'data' as const,
@@ -27,15 +43,15 @@ const SAMPLE_PREVIEW_ARTICLE = {
       items: [
         'Urban consumption growth: +8.4% YoY',
         'Private investment growth: +11.2% YoY',
-        'Core inflation baseline: 4.8% held steady'
-      ]
+        'Core inflation baseline: 4.8% held steady',
+      ],
     },
     {
       type: 'quote' as const,
       text: 'The tailwinds supporting domestic earnings remain strong. High-single-digit volume growth will likely sustain across consumer products, financial services, and mobility sectors through Q3.',
-      attribution: 'NURC Global Research Board, Macroeconomics Division'
-    }
-  ]
+      attribution: 'NURC Global Research Board, Macroeconomics Division',
+    },
+  ],
 };
 
 export function DashboardPage() {
@@ -52,15 +68,20 @@ export function DashboardPage() {
     updatePreferences,
     updateTheme,
     updateSubscription,
-    toggleSaveArticle
+    toggleSaveArticle,
   } = useApp();
   const navigate = useNavigate();
 
   const [searchParams, setSearchParams] = useSearchParams();
   const activeTabParam = searchParams.get('tab');
-  const activeTab = (activeTabParam === 'today' || activeTabParam === 'archive' || activeTabParam === 'subscriptions' || activeTabParam === 'preferences' || activeTabParam === 'account')
-    ? activeTabParam
-    : 'today';
+  const activeTab =
+    activeTabParam === 'today' ||
+    activeTabParam === 'archive' ||
+    activeTabParam === 'subscriptions' ||
+    activeTabParam === 'preferences' ||
+    activeTabParam === 'account'
+      ? activeTabParam
+      : 'today';
 
   const setActiveTab = (tab: 'today' | 'archive' | 'subscriptions' | 'preferences' | 'account') => {
     setSearchParams({ tab });
@@ -96,15 +117,29 @@ export function DashboardPage() {
       <div className="min-h-[calc(100vh-64px)] flex flex-col items-center justify-center p-6 bg-[#F8F9FA]">
         <div className="max-w-md w-full bg-white border border-border rounded-xl p-6 text-center space-y-4 shadow-sm">
           <User size={40} className="mx-auto text-muted-foreground" />
-          <h2 className="text-xl font-bold text-navy" style={{ color: 'var(--nurc-navy)', fontFamily: 'var(--font-heading)' }}>Subscribers Only</h2>
+          <h2
+            className="text-xl font-bold text-navy"
+            style={{ color: 'var(--nurc-navy)', fontFamily: 'var(--font-heading)' }}
+          >
+            Subscribers Only
+          </h2>
           <p className="text-muted-foreground text-sm leading-relaxed">
-            Please log in or register a corporate subscription to access the NURC subscriber dashboard.
+            Please log in or register a corporate subscription to access the NURC subscriber
+            dashboard.
           </p>
           <div className="flex gap-3 pt-2">
-            <Link to="/login" className="flex-1 h-12 flex items-center justify-center bg-navy text-white text-sm font-semibold rounded-xl text-center" style={{ background: 'var(--nurc-navy)', textDecoration: 'none' }}>
+            <Link
+              to="/login"
+              className="flex-1 h-12 flex items-center justify-center bg-navy text-white text-sm font-semibold rounded-xl text-center"
+              style={{ background: 'var(--nurc-navy)', textDecoration: 'none' }}
+            >
               Log In
             </Link>
-            <Link to="/signup" className="flex-1 h-12 flex items-center justify-center border border-border text-navy text-sm font-semibold rounded-xl text-center" style={{ color: 'var(--nurc-navy)', textDecoration: 'none' }}>
+            <Link
+              to="/signup"
+              className="flex-1 h-12 flex items-center justify-center border border-border text-navy text-sm font-semibold rounded-xl text-center"
+              style={{ color: 'var(--nurc-navy)', textDecoration: 'none' }}
+            >
               Register
             </Link>
           </div>
@@ -114,18 +149,19 @@ export function DashboardPage() {
   }
 
   // Filter newsletters based on the active switcher sector tag
-  const filteredNewsletters = (newsletters ?? []).filter(nl => {
+  const filteredNewsletters = (newsletters ?? []).filter((nl) => {
     if (activeSectorFilter === 'All') return true;
-    return nl.category && (
-      nl.category.toLowerCase() === activeSectorFilter.toLowerCase() ||
-      nl.category.toLowerCase().includes(activeSectorFilter.toLowerCase()) ||
-      activeSectorFilter.toLowerCase().includes(nl.category.toLowerCase())
+    return (
+      nl.category &&
+      (nl.category.toLowerCase() === activeSectorFilter.toLowerCase() ||
+        nl.category.toLowerCase().includes(activeSectorFilter.toLowerCase()) ||
+        activeSectorFilter.toLowerCase().includes(nl.category.toLowerCase()))
     );
   });
 
   // Today's Newsletter (first briefing of filtered list)
   const todayNewsletter = filteredNewsletters?.[0];
-  
+
   // Yesterday's Newsletter (second briefing of filtered list)
   const yesterdayNewsletter = filteredNewsletters?.[1];
 
@@ -133,12 +169,14 @@ export function DashboardPage() {
   const previousEditions = filteredNewsletters.slice(2);
 
   // Resume / Continue Reading Briefing
-  const resumeBrief = continueReading ? (newsletters ?? []).find(n => n.id === continueReading) : null;
+  const resumeBrief = continueReading
+    ? (newsletters ?? []).find((n) => n.id === continueReading)
+    : null;
   const resumePct = resumeBrief ? localStorage.getItem(`nurc_scroll_pct_${resumeBrief.id}`) : null;
   const resumePctNum = resumePct ? Math.round(parseFloat(resumePct)) : 0;
 
   // Saved Briefings list for bookmark rendering
-  const savedBriefs = (newsletters ?? []).filter(nl => (savedArticles ?? []).includes(nl.id));
+  const savedBriefs = (newsletters ?? []).filter((nl) => (savedArticles ?? []).includes(nl.id));
 
   const handleProfileSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -160,7 +198,7 @@ export function DashboardPage() {
     e.preventDefault();
     setPrefSuccess('');
     if (prefIndustries.length === 0) {
-      alert('Please select at least one industry sector.');
+      toast.error('Please select at least one industry sector.');
       return;
     }
     updatePreferences(prefIndustries);
@@ -169,38 +207,53 @@ export function DashboardPage() {
   };
 
   const handlePrefIndustryToggle = (ind: string) => {
-    setPrefIndustries(prev =>
-      prev.includes(ind) ? prev.filter(x => x !== ind) : [...prev, ind]
+    setPrefIndustries((prev) =>
+      prev.includes(ind) ? prev.filter((x) => x !== ind) : [...prev, ind],
     );
   };
 
   const handleSubscriptionUpgrade = () => {
     if (currentUser.plan === 'Essential') {
       updateSubscription('Executive', currentUser.industries, currentUser.theme);
-      alert('Your subscription has been successfully upgraded to Executive Access!');
+      toast.success('Your subscription has been upgraded to Executive Access.');
     } else if (currentUser.plan === 'Executive') {
       updateSubscription('Enterprise', currentUser.industries, currentUser.theme);
-      alert('Your subscription has been successfully upgraded to Enterprise Access!');
+      toast.success('Your subscription has been upgraded to Enterprise Access.');
     } else {
-      alert('For custom licensing or renewal changes, please contact your account manager at contact@nurcmedianext.com.');
+      toast.info(
+        'For custom licensing or renewal changes, contact your account manager at contact@nurcmedianext.com.',
+      );
     }
   };
 
   const handleSubscriptionDowngrade = () => {
     if (currentUser.plan === 'Enterprise') {
       updateSubscription('Executive', currentUser.industries, currentUser.theme);
-      alert('Your subscription has been set to downgrade to Executive at the end of the current billing cycle.');
+      toast.success(
+        'Your subscription will downgrade to Executive at the end of the current billing cycle.',
+      );
     } else if (currentUser.plan === 'Executive') {
       updateSubscription('Essential', currentUser.industries, currentUser.theme);
-      alert('Your subscription has been set to downgrade to Essential at the end of the current billing cycle.');
+      toast.success(
+        'Your subscription will downgrade to Essential at the end of the current billing cycle.',
+      );
     } else {
-      alert('No downgrades available for Essential. Contact support to cancel.');
+      toast.info('No downgrades available for Essential. Contact support to cancel.');
     }
   };
 
-  const allIndustriesOptions = ['Automotive', 'Banking', 'Finance', 'Insurance', 'Healthcare', 'Energy', 'Metals', 'Pharma', 'Technology', 'Infrastructure'];
-  
-
+  const allIndustriesOptions = [
+    'Automotive',
+    'Banking',
+    'Finance',
+    'Insurance',
+    'Healthcare',
+    'Energy',
+    'Metals',
+    'Pharma',
+    'Technology',
+    'Infrastructure',
+  ];
 
   return (
     <div className="min-h-[calc(100vh-64px)] bg-[#F8F9FA] pb-12">
@@ -210,35 +263,52 @@ export function DashboardPage() {
         canonicalUrl="/dashboard"
         noindex={true}
       />
-      
+
       {/* Dashboard Top Banner */}
       <div className="bg-white border-b border-border py-8">
         <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-2 mb-1.5">
-              <span className="text-xs font-bold uppercase tracking-widest text-[#006D7A]" style={{ letterSpacing: '0.12em', fontFamily: 'var(--font-heading)' }}>
+              <span
+                className="text-xs font-bold uppercase tracking-widest text-[#006D7A]"
+                style={{ letterSpacing: '0.12em', fontFamily: 'var(--font-heading)' }}
+              >
                 Intelligence Workspace
               </span>
               <div className="h-px w-8 bg-border" />
             </div>
-            <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-navy" style={{ color: 'var(--nurc-navy)', fontFamily: 'var(--font-heading)' }}>
+            <h1
+              className="text-2xl md:text-3xl font-bold tracking-tight text-navy"
+              style={{ color: 'var(--nurc-navy)', fontFamily: 'var(--font-heading)' }}
+            >
               Welcome back, {currentUser.fullName}
             </h1>
             <p className="text-xs text-muted-foreground mt-1">
-              Account Status: <span className="text-green-600 font-bold uppercase">{currentUser.status}</span> · Dispatch Schedule: <span className="text-navy font-bold uppercase">DAILY EDITION</span>
+              Account Status:{' '}
+              <span className="text-green-600 font-bold uppercase">{currentUser.status}</span> ·
+              Dispatch Schedule:{' '}
+              <span className="text-navy font-bold uppercase">DAILY EDITION</span>
             </p>
           </div>
 
           {/* Quick Stats Pill */}
           <div className="bg-muted px-4 py-2.5 rounded-xl border border-border flex items-center gap-4 text-xs font-semibold shrink-0">
             <div>
-              <span className="text-muted-foreground block text-[10px] uppercase font-bold tracking-wider">Plan License</span>
-              <span className="text-navy" style={{ color: 'var(--nurc-navy)' }}>{currentUser.plan} Access</span>
+              <span className="text-muted-foreground block text-[10px] uppercase font-bold tracking-wider">
+                Plan License
+              </span>
+              <span className="text-navy" style={{ color: 'var(--nurc-navy)' }}>
+                {currentUser.plan} Access
+              </span>
             </div>
             <div className="w-px h-6 bg-border" />
             <div>
-              <span className="text-muted-foreground block text-[10px] uppercase font-bold tracking-wider">Renewal Date</span>
-              <span className="text-navy" style={{ color: 'var(--nurc-navy)' }}>{currentUser.renewalDate}</span>
+              <span className="text-muted-foreground block text-[10px] uppercase font-bold tracking-wider">
+                Renewal Date
+              </span>
+              <span className="text-navy" style={{ color: 'var(--nurc-navy)' }}>
+                {currentUser.renewalDate}
+              </span>
             </div>
           </div>
         </div>
@@ -246,7 +316,6 @@ export function DashboardPage() {
 
       {/* Dashboard Body */}
       <div className="max-w-7xl mx-auto px-6 py-10 grid lg:grid-cols-4 gap-8">
-        
         {/* Sidebar Nav */}
         <div className="lg:col-span-1 space-y-2">
           <button
@@ -259,13 +328,13 @@ export function DashboardPage() {
             style={{
               background: activeTab === 'today' ? 'var(--nurc-navy)' : '#FFF',
               borderColor: activeTab === 'today' ? 'var(--nurc-navy)' : 'var(--border)',
-              color: activeTab === 'today' ? '#FFF' : 'var(--nurc-navy)'
+              color: activeTab === 'today' ? '#FFF' : 'var(--nurc-navy)',
             }}
           >
             <BookOpen size={14} />
             Today's Newsletter
           </button>
-          
+
           <button
             onClick={() => setActiveTab('archive')}
             className={`w-full flex items-center gap-2.5 px-4 py-3 rounded-xl text-xs font-bold transition-all text-left cursor-pointer border ${
@@ -276,7 +345,7 @@ export function DashboardPage() {
             style={{
               background: activeTab === 'archive' ? 'var(--nurc-navy)' : '#FFF',
               borderColor: activeTab === 'archive' ? 'var(--nurc-navy)' : 'var(--border)',
-              color: activeTab === 'archive' ? '#FFF' : 'var(--nurc-navy)'
+              color: activeTab === 'archive' ? '#FFF' : 'var(--nurc-navy)',
             }}
           >
             <FileText size={14} />
@@ -293,7 +362,7 @@ export function DashboardPage() {
             style={{
               background: activeTab === 'subscriptions' ? 'var(--nurc-navy)' : '#FFF',
               borderColor: activeTab === 'subscriptions' ? 'var(--nurc-navy)' : 'var(--border)',
-              color: activeTab === 'subscriptions' ? '#FFF' : 'var(--nurc-navy)'
+              color: activeTab === 'subscriptions' ? '#FFF' : 'var(--nurc-navy)',
             }}
           >
             <Layout size={14} />
@@ -310,7 +379,7 @@ export function DashboardPage() {
             style={{
               background: activeTab === 'preferences' ? 'var(--nurc-navy)' : '#FFF',
               borderColor: activeTab === 'preferences' ? 'var(--nurc-navy)' : 'var(--border)',
-              color: activeTab === 'preferences' ? '#FFF' : 'var(--nurc-navy)'
+              color: activeTab === 'preferences' ? '#FFF' : 'var(--nurc-navy)',
             }}
           >
             <Settings size={14} />
@@ -327,7 +396,7 @@ export function DashboardPage() {
             style={{
               background: activeTab === 'account' ? 'var(--nurc-navy)' : '#FFF',
               borderColor: activeTab === 'account' ? 'var(--nurc-navy)' : 'var(--border)',
-              color: activeTab === 'account' ? '#FFF' : 'var(--nurc-navy)'
+              color: activeTab === 'account' ? '#FFF' : 'var(--nurc-navy)',
             }}
           >
             <User size={14} />
@@ -337,7 +406,6 @@ export function DashboardPage() {
 
         {/* Tab Contents */}
         <div className="lg:col-span-3 space-y-8">
-          
           {/* TAB 1: TODAY'S NEWSLETTER */}
           {activeTab === 'today' && (
             <div className="space-y-8 animate-fadeIn">
@@ -345,53 +413,81 @@ export function DashboardPage() {
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div className="bg-white border border-border p-6 rounded-xl shadow-sm flex flex-col justify-between">
                   <div className="flex items-center justify-between text-muted-foreground mb-2">
-                    <span className="text-[10px] font-bold uppercase tracking-wider">Consumed Briefings</span>
+                    <span className="text-[10px] font-bold uppercase tracking-wider">
+                      Consumed Briefings
+                    </span>
                     <BookOpen size={16} className="text-[#006D7A]" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold text-navy leading-none" style={{ color: 'var(--nurc-navy)' }}>
+                    <h3
+                      className="text-xl font-bold text-navy leading-none"
+                      style={{ color: 'var(--nurc-navy)' }}
+                    >
                       {Math.max(5, (readArticles ?? []).length)}
                     </h3>
-                    <p className="text-[10px] text-muted-foreground mt-1">Briefings fully analyzed</p>
+                    <p className="text-[10px] text-muted-foreground mt-1">
+                      Briefings fully analyzed
+                    </p>
                   </div>
                 </div>
 
                 <div className="bg-white border border-border p-6 rounded-xl shadow-sm flex flex-col justify-between">
                   <div className="flex items-center justify-between text-muted-foreground mb-2">
-                    <span className="text-[10px] font-bold uppercase tracking-wider">Saved Briefings</span>
+                    <span className="text-[10px] font-bold uppercase tracking-wider">
+                      Saved Briefings
+                    </span>
                     <Bookmark size={16} className="text-amber-500" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold text-navy leading-none" style={{ color: 'var(--nurc-navy)' }}>
+                    <h3
+                      className="text-xl font-bold text-navy leading-none"
+                      style={{ color: 'var(--nurc-navy)' }}
+                    >
                       {(savedArticles ?? []).length}
                     </h3>
-                    <p className="text-[10px] text-muted-foreground mt-1">Archived for team review</p>
+                    <p className="text-[10px] text-muted-foreground mt-1">
+                      Archived for team review
+                    </p>
                   </div>
                 </div>
 
                 <div className="bg-white border border-border p-6 rounded-xl shadow-sm flex flex-col justify-between">
                   <div className="flex items-center justify-between text-muted-foreground mb-2">
-                    <span className="text-[10px] font-bold uppercase tracking-wider">Followed Channels</span>
+                    <span className="text-[10px] font-bold uppercase tracking-wider">
+                      Followed Channels
+                    </span>
                     <Layout size={16} className="text-blue-500" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold text-navy leading-none" style={{ color: 'var(--nurc-navy)' }}>
+                    <h3
+                      className="text-xl font-bold text-navy leading-none"
+                      style={{ color: 'var(--nurc-navy)' }}
+                    >
                       {(currentUser.industries ?? []).length}
                     </h3>
-                    <p className="text-[10px] text-muted-foreground mt-1">Sectors tailored in real-time</p>
+                    <p className="text-[10px] text-muted-foreground mt-1">
+                      Sectors tailored in real-time
+                    </p>
                   </div>
                 </div>
 
                 <div className="bg-white border border-border p-6 rounded-xl shadow-sm flex flex-col justify-between">
                   <div className="flex items-center justify-between text-muted-foreground mb-2">
-                    <span className="text-[10px] font-bold uppercase tracking-wider">Reading Time</span>
+                    <span className="text-[10px] font-bold uppercase tracking-wider">
+                      Reading Time
+                    </span>
                     <Clock size={16} className="text-indigo-500" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold text-navy leading-none" style={{ color: 'var(--nurc-navy)' }}>
-                      {Math.max(45, (readArticles ?? []).length * 8) + " Mins"}
+                    <h3
+                      className="text-xl font-bold text-navy leading-none"
+                      style={{ color: 'var(--nurc-navy)' }}
+                    >
+                      {Math.max(45, (readArticles ?? []).length * 8) + ' Mins'}
                     </h3>
-                    <p className="text-[10px] text-muted-foreground mt-1">Monthly platform duration</p>
+                    <p className="text-[10px] text-muted-foreground mt-1">
+                      Monthly platform duration
+                    </p>
                   </div>
                 </div>
               </div>
@@ -403,10 +499,18 @@ export function DashboardPage() {
                     <span className="text-[9px] font-bold text-amber-800 uppercase tracking-widest block">
                       Continue Reading ({resumePctNum}% Read)
                     </span>
-                    <h4 className="font-bold text-sm text-navy" style={{ color: 'var(--nurc-navy)' }}>
-                      {resumeBrief.title} <span className="text-xs text-muted-foreground font-semibold">({resumeBrief.category})</span>
+                    <h4
+                      className="font-bold text-sm text-navy"
+                      style={{ color: 'var(--nurc-navy)' }}
+                    >
+                      {resumeBrief.title}{' '}
+                      <span className="text-xs text-muted-foreground font-semibold">
+                        ({resumeBrief.category})
+                      </span>
                     </h4>
-                    <p className="text-xs text-muted-foreground">Pick up where you left off. Every opened briefing is tracked automatically.</p>
+                    <p className="text-xs text-muted-foreground">
+                      Pick up where you left off. Every opened briefing is tracked automatically.
+                    </p>
                   </div>
                   <button
                     onClick={() => openReader(resumeBrief.article, resumeBrief.id)}
@@ -424,7 +528,10 @@ export function DashboardPage() {
                   <div className="p-6">
                     <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
                       <div className="inline-flex items-center gap-2">
-                        <span className="px-2.5 py-0.5 rounded text-[9px] font-extrabold uppercase tracking-widest text-white shrink-0" style={{ background: todayNewsletter.color }}>
+                        <span
+                          className="px-2.5 py-0.5 rounded text-[9px] font-extrabold uppercase tracking-widest text-white shrink-0"
+                          style={{ background: todayNewsletter.color }}
+                        >
                           {todayNewsletter.category}
                         </span>
                         <span className="text-[10px] text-red-600 font-extrabold uppercase tracking-widest shrink-0 animate-pulse bg-red-50 px-2 py-0.5 rounded">
@@ -433,23 +540,37 @@ export function DashboardPage() {
                       </div>
                       <div className="flex items-center gap-1.5 text-xs text-muted-foreground font-semibold">
                         <Clock size={12} />
-                        <span>{todayNewsletter.readTime} read · {todayNewsletter.date}</span>
+                        <span>
+                          {todayNewsletter.readTime} read · {todayNewsletter.date}
+                        </span>
                       </div>
                     </div>
-                    
-                    <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-navy mb-3" style={{ color: 'var(--nurc-navy)', fontFamily: 'var(--font-heading)' }}>
+
+                    <h2
+                      className="text-2xl md:text-3xl font-bold tracking-tight text-navy mb-3"
+                      style={{ color: 'var(--nurc-navy)', fontFamily: 'var(--font-heading)' }}
+                    >
                       {todayNewsletter.title}
                     </h2>
-                    
+
                     <p className="text-sm text-muted-foreground leading-relaxed mb-6">
                       {todayNewsletter.summary}
                     </p>
-                    
+
                     <div className="space-y-2 mb-6 bg-muted/30 p-4 rounded-xl border border-border/40">
-                      <div className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-2">Today's Core Highlights</div>
+                      <div className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-2">
+                        Today's Core Highlights
+                      </div>
                       {todayNewsletter.highlights.map((h, i) => (
-                        <div key={i} className="flex items-start gap-2 text-xs font-semibold text-navy" style={{ color: 'var(--nurc-navy)' }}>
-                          <div className="w-1.5 h-1.5 rounded-full mt-2 shrink-0" style={{ background: todayNewsletter.color }} />
+                        <div
+                          key={i}
+                          className="flex items-start gap-2 text-xs font-semibold text-navy"
+                          style={{ color: 'var(--nurc-navy)' }}
+                        >
+                          <div
+                            className="w-1.5 h-1.5 rounded-full mt-2 shrink-0"
+                            style={{ background: todayNewsletter.color }}
+                          />
                           <span>{h}</span>
                         </div>
                       ))}
@@ -469,7 +590,17 @@ export function DashboardPage() {
                         className="w-12 h-12 flex items-center justify-center border border-border rounded-xl text-muted-foreground hover:text-navy hover:bg-muted transition-all cursor-pointer bg-white"
                         title="Save to bookmarks"
                       >
-                        <Bookmark size={14} fill={savedArticles.includes(todayNewsletter.id) ? 'currentColor' : 'none'} style={{ color: savedArticles.includes(todayNewsletter.id) ? 'var(--nurc-teal)' : 'inherit' }} />
+                        <Bookmark
+                          size={14}
+                          fill={
+                            savedArticles.includes(todayNewsletter.id) ? 'currentColor' : 'none'
+                          }
+                          style={{
+                            color: savedArticles.includes(todayNewsletter.id)
+                              ? 'var(--nurc-teal)'
+                              : 'inherit',
+                          }}
+                        />
                       </button>
                     </div>
                   </div>
@@ -477,8 +608,13 @@ export function DashboardPage() {
               ) : (
                 <div className="bg-white border border-border rounded-xl p-6 text-center space-y-3 shadow-sm">
                   <BookOpen className="mx-auto text-muted-foreground" size={32} />
-                  <h4 className="font-bold text-navy" style={{ color: 'var(--nurc-navy)' }}>No briefings found</h4>
-                  <p className="text-xs text-muted-foreground">Check your sector preferences to make sure you are subscribed to active newsletter channels.</p>
+                  <h4 className="font-bold text-navy" style={{ color: 'var(--nurc-navy)' }}>
+                    No briefings found
+                  </h4>
+                  <p className="text-xs text-muted-foreground">
+                    Check your sector preferences to make sure you are subscribed to active
+                    newsletter channels.
+                  </p>
                 </div>
               )}
             </div>
@@ -489,44 +625,58 @@ export function DashboardPage() {
             <div className="space-y-6 animate-fadeIn">
               <div className="bg-white border border-border rounded-xl p-6 shadow-sm space-y-4">
                 <div>
-                  <h3 className="text-base font-bold text-navy" style={{ color: 'var(--nurc-navy)', fontFamily: 'var(--font-heading)' }}>
+                  <h3
+                    className="text-base font-bold text-navy"
+                    style={{ color: 'var(--nurc-navy)', fontFamily: 'var(--font-heading)' }}
+                  >
                     Historical Briefing Archives
                   </h3>
-                  <p className="text-xs text-muted-foreground mt-0.5">Search and filter all previous daily dispatches across your licensed sector channels.</p>
+                  <p className="text-xs text-muted-foreground mt-0.5">
+                    Search and filter all previous daily dispatches across your licensed sector
+                    channels.
+                  </p>
                 </div>
 
                 {/* Filters Row */}
                 <div className="grid sm:grid-cols-3 gap-4 pt-2">
                   <div className="space-y-1">
-                    <label className="block text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Search Title/Content</label>
+                    <label className="block text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
+                      Search Title/Content
+                    </label>
                     <input
                       type="text"
                       placeholder="e.g. FAME, RBI, GDP..."
                       value={archiveSearch}
-                      onChange={e => setArchiveSearch(e.target.value)}
+                      onChange={(e) => setArchiveSearch(e.target.value)}
                       className="w-full px-3 py-2 border border-border bg-input-background rounded-lg text-xs"
                     />
                   </div>
 
                   <div className="space-y-1">
-                    <label className="block text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Filter by Sector</label>
+                    <label className="block text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
+                      Filter by Sector
+                    </label>
                     <select
                       value={archiveSector}
-                      onChange={e => setArchiveSector(e.target.value)}
+                      onChange={(e) => setArchiveSector(e.target.value)}
                       className="w-full px-3 py-2 border border-border bg-card rounded-lg text-xs h-[34px] cursor-pointer"
                     >
                       <option value="All">All Sectors</option>
-                      {currentUser.industries.map(ind => (
-                        <option key={ind} value={ind}>{ind}</option>
+                      {currentUser.industries.map((ind) => (
+                        <option key={ind} value={ind}>
+                          {ind}
+                        </option>
                       ))}
                     </select>
                   </div>
 
                   <div className="space-y-1">
-                    <label className="block text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Filter by Date</label>
+                    <label className="block text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
+                      Filter by Date
+                    </label>
                     <select
                       value={archiveDate}
-                      onChange={e => setArchiveDate(e.target.value)}
+                      onChange={(e) => setArchiveDate(e.target.value)}
                       className="w-full px-3 py-2 border border-border bg-card rounded-lg text-xs h-[34px] cursor-pointer"
                     >
                       <option value="All">All Dates</option>
@@ -540,11 +690,14 @@ export function DashboardPage() {
               {/* Archive Results Grid */}
               <div className="space-y-4">
                 {(() => {
-                  const filtered = (newsletters ?? []).filter(nl => {
-                    const matchSearch = archiveSearch === '' || 
-                      nl.title.toLowerCase().includes(archiveSearch.toLowerCase()) || 
-                      (nl.summary && nl.summary.toLowerCase().includes(archiveSearch.toLowerCase()));
-                    const matchSector = archiveSector === 'All' || 
+                  const filtered = (newsletters ?? []).filter((nl) => {
+                    const matchSearch =
+                      archiveSearch === '' ||
+                      nl.title.toLowerCase().includes(archiveSearch.toLowerCase()) ||
+                      (nl.summary &&
+                        nl.summary.toLowerCase().includes(archiveSearch.toLowerCase()));
+                    const matchSector =
+                      archiveSector === 'All' ||
                       nl.category.toLowerCase().includes(archiveSector.toLowerCase()) ||
                       archiveSector.toLowerCase().includes(nl.category.toLowerCase());
                     const matchDate = archiveDate === 'All' || nl.date.includes(archiveDate);
@@ -555,27 +708,48 @@ export function DashboardPage() {
                     return (
                       <div className="bg-white border border-border rounded-xl p-6 text-center space-y-2 shadow-sm">
                         <FileText className="mx-auto text-muted-foreground" size={30} />
-                        <h4 className="font-bold text-navy" style={{ color: 'var(--nurc-navy)' }}>No archived briefings match filters</h4>
-                        <p className="text-xs text-muted-foreground">Try broadening your search keywords or adjusting the sector filter settings.</p>
+                        <h4 className="font-bold text-navy" style={{ color: 'var(--nurc-navy)' }}>
+                          No archived briefings match filters
+                        </h4>
+                        <p className="text-xs text-muted-foreground">
+                          Try broadening your search keywords or adjusting the sector filter
+                          settings.
+                        </p>
                       </div>
                     );
                   }
 
                   return (
                     <div className="bg-white border border-border rounded-xl shadow-sm divide-y divide-border/40 overflow-hidden">
-                      {filtered.map(nl => (
-                        <div key={nl.id} className="p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:bg-muted/10 transition-colors">
+                      {filtered.map((nl) => (
+                        <div
+                          key={nl.id}
+                          className="p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:bg-muted/10 transition-colors"
+                        >
                           <div className="space-y-1 text-left">
                             <div className="flex items-center gap-2 flex-wrap">
-                              <span className="px-2 py-0.5 rounded text-[8px] font-extrabold uppercase tracking-widest text-white" style={{ background: nl.color }}>
+                              <span
+                                className="px-2 py-0.5 rounded text-[8px] font-extrabold uppercase tracking-widest text-white"
+                                style={{ background: nl.color }}
+                              >
                                 {nl.category}
                               </span>
-                              <span className="text-[10px] text-muted-foreground font-semibold">{nl.date}</span>
+                              <span className="text-[10px] text-muted-foreground font-semibold">
+                                {nl.date}
+                              </span>
                             </div>
-                            <h4 className="font-bold text-navy text-sm" style={{ color: 'var(--nurc-navy)', fontFamily: 'var(--font-heading)' }}>
+                            <h4
+                              className="font-bold text-navy text-sm"
+                              style={{
+                                color: 'var(--nurc-navy)',
+                                fontFamily: 'var(--font-heading)',
+                              }}
+                            >
                               {nl.title}
                             </h4>
-                            <p className="text-xs text-muted-foreground line-clamp-1 max-w-xl">{nl.summary}</p>
+                            <p className="text-xs text-muted-foreground line-clamp-1 max-w-xl">
+                              {nl.summary}
+                            </p>
                           </div>
                           <div className="flex items-center gap-2.5 shrink-0">
                             <button
@@ -589,7 +763,15 @@ export function DashboardPage() {
                               onClick={() => toggleSaveArticle(nl.id)}
                               className="w-12 h-12 flex items-center justify-center border border-border rounded-xl text-muted-foreground hover:text-navy hover:bg-muted transition-colors bg-white cursor-pointer"
                             >
-                              <Bookmark size={13} fill={savedArticles.includes(nl.id) ? 'currentColor' : 'none'} style={{ color: savedArticles.includes(nl.id) ? 'var(--nurc-teal)' : 'inherit' }} />
+                              <Bookmark
+                                size={13}
+                                fill={savedArticles.includes(nl.id) ? 'currentColor' : 'none'}
+                                style={{
+                                  color: savedArticles.includes(nl.id)
+                                    ? 'var(--nurc-teal)'
+                                    : 'inherit',
+                                }}
+                              />
                             </button>
                           </div>
                         </div>
@@ -607,24 +789,44 @@ export function DashboardPage() {
               {/* Plan Information Card */}
               <div className="bg-white border border-border rounded-xl p-6 space-y-6 shadow-sm">
                 <div>
-                  <h3 className="text-base font-bold text-navy pb-2 border-b border-border" style={{ color: 'var(--nurc-navy)', fontFamily: 'var(--font-heading)' }}>
+                  <h3
+                    className="text-base font-bold text-navy pb-2 border-b border-border"
+                    style={{ color: 'var(--nurc-navy)', fontFamily: 'var(--font-heading)' }}
+                  >
                     Active Subscription License Details
                   </h3>
-                  <p className="text-xs text-muted-foreground mt-1.5">Manage billing renewal dates, licence tiers, and upgrade limits below.</p>
+                  <p className="text-xs text-muted-foreground mt-1.5">
+                    Manage billing renewal dates, licence tiers, and upgrade limits below.
+                  </p>
                 </div>
 
                 <div className="p-6 bg-muted/40 border border-border/80 rounded-xl grid sm:grid-cols-3 gap-5 text-xs">
                   <div>
-                    <span className="text-muted-foreground block text-[10px] uppercase font-bold tracking-wider mb-1">License Plan Type</span>
-                    <span className="font-bold text-navy text-sm" style={{ color: 'var(--nurc-navy)' }}>{currentUser.plan} Access</span>
+                    <span className="text-muted-foreground block text-[10px] uppercase font-bold tracking-wider mb-1">
+                      License Plan Type
+                    </span>
+                    <span
+                      className="font-bold text-navy text-sm"
+                      style={{ color: 'var(--nurc-navy)' }}
+                    >
+                      {currentUser.plan} Access
+                    </span>
                   </div>
                   <div>
-                    <span className="text-muted-foreground block text-[10px] uppercase font-bold tracking-wider mb-1">Assigned Channels</span>
-                    <span className="font-semibold text-gray-800 text-sm">{currentUser.industries.join(', ')}</span>
+                    <span className="text-muted-foreground block text-[10px] uppercase font-bold tracking-wider mb-1">
+                      Assigned Channels
+                    </span>
+                    <span className="font-semibold text-gray-800 text-sm">
+                      {currentUser.industries.join(', ')}
+                    </span>
                   </div>
                   <div>
-                    <span className="text-muted-foreground block text-[10px] uppercase font-bold tracking-wider mb-1">Renewal Status</span>
-                    <span className="text-green-600 font-bold uppercase text-sm">Active through {currentUser.renewalDate}</span>
+                    <span className="text-muted-foreground block text-[10px] uppercase font-bold tracking-wider mb-1">
+                      Renewal Status
+                    </span>
+                    <span className="text-green-600 font-bold uppercase text-sm">
+                      Active through {currentUser.renewalDate}
+                    </span>
                   </div>
                 </div>
 
@@ -646,7 +848,11 @@ export function DashboardPage() {
                   <Link
                     to="/contact"
                     className="btn-nurc flex-1 h-12 border border-border text-[#006D7A] hover:bg-teal-50/30 text-xs font-bold rounded-xl cursor-pointer bg-white text-center flex items-center justify-center animate-none"
-                    style={{ color: 'var(--nurc-teal)', borderColor: 'var(--nurc-teal)', textDecoration: 'none' }}
+                    style={{
+                      color: 'var(--nurc-teal)',
+                      borderColor: 'var(--nurc-teal)',
+                      textDecoration: 'none',
+                    }}
                   >
                     Schedule Consultation
                   </Link>
@@ -654,12 +860,23 @@ export function DashboardPage() {
               </div>
 
               {/* B2B Workspace widgets */}
-              <div className="bg-[#0A2540] text-white rounded-xl p-6 shadow-md flex flex-col md:flex-row md:items-center justify-between gap-6 border-l-4 border-teal animate-fadeIn" style={{ borderLeftColor: 'var(--nurc-teal)' }}>
+              <div
+                className="bg-[#0A2540] text-white rounded-xl p-6 shadow-md flex flex-col md:flex-row md:items-center justify-between gap-6 border-l-4 border-teal animate-fadeIn"
+                style={{ borderLeftColor: 'var(--nurc-teal)' }}
+              >
                 <div className="space-y-1 text-left">
-                  <span className="text-[9px] font-bold text-teal-400 uppercase tracking-widest block">Corporate Account Portal</span>
-                  <h4 className="text-sm font-bold font-heading" style={{ fontFamily: 'var(--font-heading)' }}>Establish Dedicated Sub-Workspaces for Team Members</h4>
+                  <span className="text-[9px] font-bold text-teal-400 uppercase tracking-widest block">
+                    Corporate Account Portal
+                  </span>
+                  <h4
+                    className="text-sm font-bold font-heading"
+                    style={{ fontFamily: 'var(--font-heading)' }}
+                  >
+                    Establish Dedicated Sub-Workspaces for Team Members
+                  </h4>
                   <p className="text-xs text-slate-300 max-w-xl">
-                    Share critical intelligence briefs, custom sector reports, and enjoy multi-user seat discounting under enterprise licensing.
+                    Share critical intelligence briefs, custom sector reports, and enjoy multi-user
+                    seat discounting under enterprise licensing.
                   </p>
                 </div>
                 <button
@@ -670,20 +887,27 @@ export function DashboardPage() {
                   Schedule B2B Demo
                 </button>
               </div>
-
-
             </div>
           )}
 
           {/* TAB 4: PREFERENCES */}
           {activeTab === 'preferences' && (
             <div className="space-y-6 animate-fadeIn">
-              <form onSubmit={handlePrefSubmit} className="bg-white border border-border rounded-xl p-6 space-y-6 shadow-sm">
+              <form
+                onSubmit={handlePrefSubmit}
+                className="bg-white border border-border rounded-xl p-6 space-y-6 shadow-sm"
+              >
                 <div>
-                  <h3 className="text-base font-bold text-navy" style={{ color: 'var(--nurc-navy)', fontFamily: 'var(--font-heading)' }}>
+                  <h3
+                    className="text-base font-bold text-navy"
+                    style={{ color: 'var(--nurc-navy)', fontFamily: 'var(--font-heading)' }}
+                  >
                     Newsletter Sector Preferences
                   </h3>
-                  <p className="text-xs text-muted-foreground mt-0.5">Subscribe or unsubscribe from core industries. Feeds are mirrored instantly on your dashboard.</p>
+                  <p className="text-xs text-muted-foreground mt-0.5">
+                    Subscribe or unsubscribe from core industries. Feeds are mirrored instantly on
+                    your dashboard.
+                  </p>
                 </div>
 
                 {prefSuccess && (
@@ -694,7 +918,7 @@ export function DashboardPage() {
                 )}
 
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                  {allIndustriesOptions.map(ind => {
+                  {allIndustriesOptions.map((ind) => {
                     const active = prefIndustries.includes(ind);
                     return (
                       <button
@@ -705,7 +929,7 @@ export function DashboardPage() {
                         style={{
                           background: active ? 'var(--nurc-navy)' : 'transparent',
                           color: active ? '#fff' : 'var(--nurc-navy)',
-                          borderColor: active ? 'var(--nurc-navy)' : 'var(--border)'
+                          borderColor: active ? 'var(--nurc-navy)' : 'var(--border)',
                         }}
                       >
                         <span>{ind}</span>
@@ -730,8 +954,14 @@ export function DashboardPage() {
           {activeTab === 'account' && (
             <div className="space-y-6 animate-fadeIn">
               {/* Profile Details */}
-              <form onSubmit={handleProfileSubmit} className="bg-white border border-border rounded-xl p-6 space-y-4 shadow-sm">
-                <h3 className="text-base font-bold pb-2 border-b border-border text-navy" style={{ color: 'var(--nurc-navy)', fontFamily: 'var(--font-heading)' }}>
+              <form
+                onSubmit={handleProfileSubmit}
+                className="bg-white border border-border rounded-xl p-6 space-y-4 shadow-sm"
+              >
+                <h3
+                  className="text-base font-bold pb-2 border-b border-border text-navy"
+                  style={{ color: 'var(--nurc-navy)', fontFamily: 'var(--font-heading)' }}
+                >
                   Personal Profile Details
                 </h3>
 
@@ -744,17 +974,21 @@ export function DashboardPage() {
 
                 <div className="grid md:grid-cols-2 gap-4">
                   <div className="space-y-1">
-                    <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground">Full Name</label>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                      Full Name
+                    </label>
                     <input
                       type="text"
                       required
                       value={fullName}
-                      onChange={e => setFullName(e.target.value)}
+                      onChange={(e) => setFullName(e.target.value)}
                       className="w-full px-4 py-2 border border-border bg-input-background rounded-lg text-xs"
                     />
                   </div>
                   <div className="space-y-1">
-                    <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground">Business Email Address (Login)</label>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                      Business Email Address (Login)
+                    </label>
                     <input
                       type="email"
                       disabled
@@ -763,12 +997,14 @@ export function DashboardPage() {
                     />
                   </div>
                   <div className="space-y-1 md:col-span-2">
-                    <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground">Contact Phone</label>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                      Contact Phone
+                    </label>
                     <input
                       type="tel"
                       required
                       value={phone}
-                      onChange={e => setPhone(e.target.value)}
+                      onChange={(e) => setPhone(e.target.value)}
                       className="w-full px-4 py-2 border border-border bg-input-background rounded-lg text-xs"
                     />
                   </div>
@@ -784,8 +1020,14 @@ export function DashboardPage() {
               </form>
 
               {/* Company Details */}
-              <form onSubmit={handleCompanySubmit} className="bg-white border border-border rounded-xl p-6 space-y-4 shadow-sm">
-                <h3 className="text-base font-bold pb-2 border-b border-border text-navy" style={{ color: 'var(--nurc-navy)', fontFamily: 'var(--font-heading)' }}>
+              <form
+                onSubmit={handleCompanySubmit}
+                className="bg-white border border-border rounded-xl p-6 space-y-4 shadow-sm"
+              >
+                <h3
+                  className="text-base font-bold pb-2 border-b border-border text-navy"
+                  style={{ color: 'var(--nurc-navy)', fontFamily: 'var(--font-heading)' }}
+                >
                   Corporate Company Particulars
                 </h3>
 
@@ -798,41 +1040,49 @@ export function DashboardPage() {
 
                 <div className="grid md:grid-cols-2 gap-4">
                   <div className="space-y-1">
-                    <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground">Company Name</label>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                      Company Name
+                    </label>
                     <input
                       type="text"
                       required
                       value={companyName}
-                      onChange={e => setCompanyName(e.target.value)}
+                      onChange={(e) => setCompanyName(e.target.value)}
                       className="w-full px-4 py-2 border border-border bg-input-background rounded-lg text-xs"
                     />
                   </div>
                   <div className="space-y-1">
-                    <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground">Designation / Role</label>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                      Designation / Role
+                    </label>
                     <input
                       type="text"
                       required
                       value={designation}
-                      onChange={e => setDesignation(e.target.value)}
+                      onChange={(e) => setDesignation(e.target.value)}
                       className="w-full px-4 py-2 border border-border bg-input-background rounded-lg text-xs"
                     />
                   </div>
                   <div className="space-y-1">
-                    <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground">Company Primary Industry</label>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                      Company Primary Industry
+                    </label>
                     <input
                       type="text"
                       required
                       value={companyIndustry}
-                      onChange={e => setCompanyIndustry(e.target.value)}
+                      onChange={(e) => setCompanyIndustry(e.target.value)}
                       className="w-full px-4 py-2 border border-border bg-input-background rounded-lg text-xs"
                     />
                   </div>
                   <div className="space-y-1">
-                    <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground">Corporate Website</label>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                      Corporate Website
+                    </label>
                     <input
                       type="url"
                       value={companyWebsite}
-                      onChange={e => setCompanyWebsite(e.target.value)}
+                      onChange={(e) => setCompanyWebsite(e.target.value)}
                       className="w-full px-4 py-2 border border-border bg-input-background rounded-lg text-xs"
                     />
                   </div>
@@ -848,9 +1098,7 @@ export function DashboardPage() {
               </form>
             </div>
           )}
-
         </div>
-
       </div>
     </div>
   );

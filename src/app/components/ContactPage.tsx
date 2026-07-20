@@ -1,42 +1,61 @@
-import React, { useState } from 'react';
-import { Mail, Phone, MapPin, ShieldCheck, CheckCircle2, ArrowRight } from 'lucide-react';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { toast } from 'sonner';
+import { Mail, Phone, MapPin, ShieldCheck, CheckCircle2, Loader2 } from 'lucide-react';
 import { SEOHead } from './shared/SEOHead';
+import { contactSchema, type ContactInput } from '../lib/validation';
+import { api, ApiError } from '../lib/apiClient';
+
+const industrySectors = [
+  'Automotive',
+  'Banking & Finance',
+  'Infrastructure',
+  'Energy & Power',
+  'Healthcare',
+  'FMCG & Retail',
+  'Insurance',
+  'Technology',
+  'Metals & Mining',
+];
+
+const inputClass =
+  'w-full px-4 py-2.5 border border-border bg-[#F9FAFB] rounded-xl focus:outline-none focus:ring-1 focus:ring-teal text-xs transition-all';
+const labelClass = 'block text-[10px] font-bold uppercase tracking-wider text-muted-foreground';
+const errorClass = 'text-[11px] font-semibold text-red-600 mt-1';
 
 export function ContactPage() {
-  const [submitted, setSubmitted] = useState(false);
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
-  const [company, setCompany] = useState('');
-  const [sector, setSector] = useState('Automotive');
-  const [message, setMessage] = useState('');
+  const [submittedInfo, setSubmittedInfo] = useState<{ name: string; email: string } | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setSubmitted(true);
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<ContactInput>({
+    resolver: zodResolver(contactSchema),
+    defaultValues: {
+      name: '',
+      email: '',
+      phone: '',
+      company: '',
+      sector: 'Automotive',
+      message: '',
+    },
+  });
+
+  const onSubmit = async (data: ContactInput) => {
+    try {
+      await api.submitContact(data);
+      setSubmittedInfo({ name: data.name, email: data.email });
+      reset();
+      toast.success('Message sent. Our corporate relations desk will be in touch shortly.');
+    } catch (err) {
+      toast.error(
+        err instanceof ApiError ? err.message : 'Something went wrong. Please try again.',
+      );
+    }
   };
-
-  const handleReset = () => {
-    setSubmitted(false);
-    setName('');
-    setEmail('');
-    setPhone('');
-    setCompany('');
-    setSector('Automotive');
-    setMessage('');
-  };
-
-  const industrySectors = [
-    'Automotive',
-    'Banking & Finance',
-    'Infrastructure',
-    'Energy & Power',
-    'Healthcare',
-    'FMCG & Retail',
-    'Insurance',
-    'Technology',
-    'Metals & Mining'
-  ];
 
   return (
     <div className="min-h-screen bg-background pb-20">
@@ -45,57 +64,99 @@ export function ContactPage() {
         description="Connect with NURC MediaNext's intelligence team for enterprise licensing, custom research, or consultation. Delhi corporate office: +91-9810975257."
         canonicalUrl="/contact"
       />
-      
+
       {/* Contact Hero */}
       <section className="py-16 border-b border-border bg-white">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex items-center gap-3 mb-5">
-            <div className="h-px w-8 bg-[var(--nurc-gold)]" style={{ background: 'var(--nurc-gold)' }} />
-            <span className="text-xs font-bold uppercase tracking-widest text-[#006D7A]" style={{ letterSpacing: '0.14em', fontFamily: 'var(--font-heading)' }}>
+            <div
+              className="h-px w-8 bg-[var(--nurc-gold)]"
+              style={{ background: 'var(--nurc-gold)' }}
+            />
+            <span
+              className="text-xs font-bold uppercase tracking-widest text-[#006D7A]"
+              style={{ letterSpacing: '0.14em', fontFamily: 'var(--font-heading)' }}
+            >
               Corporate Relations Desk
             </span>
           </div>
-          <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-navy" style={{ fontFamily: 'var(--font-display)', color: 'var(--nurc-navy)', lineHeight: 1.2 }}>
+          <h1
+            className="text-3xl md:text-5xl font-bold tracking-tight text-navy"
+            style={{
+              fontFamily: 'var(--font-display)',
+              color: 'var(--nurc-navy)',
+              lineHeight: 1.2,
+            }}
+          >
             Connect with our Intelligence Team
           </h1>
           <p className="text-muted-foreground text-sm leading-relaxed max-w-xl mt-3">
-            For custom research configurations, enterprise licensing inquiries, or direct feedback on our analyst dispatches, reach our Mayur Vihar Delhi offices.
+            For custom research configurations, enterprise licensing inquiries, or direct feedback
+            on our analyst dispatches, reach our Mayur Vihar Delhi offices.
           </p>
         </div>
       </section>
 
       {/* Main Content Grid */}
       <section className="max-w-7xl mx-auto px-6 py-12 grid lg:grid-cols-12 gap-12">
-        
         {/* Left Side: Corporate Details (5 Cols) */}
         <div className="lg:col-span-5 space-y-8">
           <div>
-            <h3 className="text-lg font-bold text-navy mb-4" style={{ fontFamily: 'var(--font-heading)', color: 'var(--nurc-navy)' }}>
+            <h3
+              className="text-lg font-bold text-navy mb-4"
+              style={{ fontFamily: 'var(--font-heading)', color: 'var(--nurc-navy)' }}
+            >
               Delhi Corporate HQ
             </h3>
             <div className="space-y-6">
               <div className="flex gap-4">
-                <MapPin className="text-teal shrink-0 mt-1" size={18} style={{ color: 'var(--nurc-teal)' }} />
+                <MapPin
+                  className="text-teal shrink-0 mt-1"
+                  size={18}
+                  style={{ color: 'var(--nurc-teal)' }}
+                />
                 <div>
-                  <span className="block text-xs font-bold uppercase text-muted-foreground tracking-wider">Corporate Office</span>
-                  <span className="block text-sm font-semibold text-navy mt-1 leading-relaxed" style={{ color: 'var(--nurc-navy)' }}>
-                    NURC MediaNext Private Ltd.<br />
-                    9A, Pocket-B, SFS Flats<br />
-                    Mayur Vihar Phase-III<br />
+                  <span className="block text-xs font-bold uppercase text-muted-foreground tracking-wider">
+                    Corporate Office
+                  </span>
+                  <span
+                    className="block text-sm font-semibold text-navy mt-1 leading-relaxed"
+                    style={{ color: 'var(--nurc-navy)' }}
+                  >
+                    NURC MediaNext Private Ltd.
+                    <br />
+                    9A, Pocket-B, SFS Flats
+                    <br />
+                    Mayur Vihar Phase-III
+                    <br />
                     Delhi - 110096, India
                   </span>
                 </div>
               </div>
 
               <div className="flex gap-4">
-                <Phone className="text-teal shrink-0 mt-1" size={18} style={{ color: 'var(--nurc-teal)' }} />
+                <Phone
+                  className="text-teal shrink-0 mt-1"
+                  size={18}
+                  style={{ color: 'var(--nurc-teal)' }}
+                />
                 <div>
-                  <span className="block text-xs font-bold uppercase text-muted-foreground tracking-wider">Telephone Targets</span>
+                  <span className="block text-xs font-bold uppercase text-muted-foreground tracking-wider">
+                    Telephone Targets
+                  </span>
                   <div className="space-y-1 mt-1">
-                    <a href="tel:+919810975257" className="block text-sm font-semibold text-navy hover:underline" style={{ color: 'var(--nurc-navy)' }}>
+                    <a
+                      href="tel:+919810975257"
+                      className="block text-sm font-semibold text-navy hover:underline"
+                      style={{ color: 'var(--nurc-navy)' }}
+                    >
                       +91-9810975257 (Primary)
                     </a>
-                    <a href="tel:+919958949710" className="block text-sm font-semibold text-navy hover:underline" style={{ color: 'var(--nurc-navy)' }}>
+                    <a
+                      href="tel:+919958949710"
+                      className="block text-sm font-semibold text-navy hover:underline"
+                      style={{ color: 'var(--nurc-navy)' }}
+                    >
                       +91-9958949710 (Secondary)
                     </a>
                   </div>
@@ -103,17 +164,35 @@ export function ContactPage() {
               </div>
 
               <div className="flex gap-4">
-                <Mail className="text-teal shrink-0 mt-1" size={18} style={{ color: 'var(--nurc-teal)' }} />
+                <Mail
+                  className="text-teal shrink-0 mt-1"
+                  size={18}
+                  style={{ color: 'var(--nurc-teal)' }}
+                />
                 <div>
-                  <span className="block text-xs font-bold uppercase text-muted-foreground tracking-wider">Secure Email Dispatches</span>
+                  <span className="block text-xs font-bold uppercase text-muted-foreground tracking-wider">
+                    Secure Email Dispatches
+                  </span>
                   <div className="space-y-1 mt-1">
-                    <a href="mailto:contact@nurcmedianext.com" className="block text-sm font-semibold text-teal hover:underline" style={{ color: 'var(--nurc-teal)' }}>
+                    <a
+                      href="mailto:contact@nurcmedianext.com"
+                      className="block text-sm font-semibold text-teal hover:underline"
+                      style={{ color: 'var(--nurc-teal)' }}
+                    >
                       contact@nurcmedianext.com
                     </a>
-                    <a href="mailto:nurcmnx@gmail.com" className="block text-sm font-semibold text-teal hover:underline text-xs" style={{ color: 'var(--nurc-teal)' }}>
+                    <a
+                      href="mailto:nurcmnx@gmail.com"
+                      className="block text-sm font-semibold text-teal hover:underline text-xs"
+                      style={{ color: 'var(--nurc-teal)' }}
+                    >
                       nurcmnx@gmail.com
                     </a>
-                    <a href="mailto:nurcmedianext@gmail.com" className="block text-sm font-semibold text-teal hover:underline text-xs" style={{ color: 'var(--nurc-teal)' }}>
+                    <a
+                      href="mailto:nurcmedianext@gmail.com"
+                      className="block text-sm font-semibold text-teal hover:underline text-xs"
+                      style={{ color: 'var(--nurc-teal)' }}
+                    >
                       nurcmedianext@gmail.com
                     </a>
                   </div>
@@ -123,9 +202,15 @@ export function ContactPage() {
           </div>
 
           <div className="p-5 bg-teal/5 border border-teal-100 rounded-2xl space-y-2.5">
-            <h4 className="text-xs font-bold uppercase text-teal tracking-wider" style={{ color: 'var(--nurc-teal)' }}>Analyst Coverage Scope</h4>
+            <h4
+              className="text-xs font-bold uppercase text-teal tracking-wider"
+              style={{ color: 'var(--nurc-teal)' }}
+            >
+              Analyst Coverage Scope
+            </h4>
             <p className="text-xs text-muted-foreground leading-relaxed">
-              We track daily macro developments, OEM pricing sheets, SEBI/RBI circulars, and public-private partnership tender indices to curate highly specialized dispatches.
+              We track daily macro developments, OEM pricing sheets, SEBI/RBI circulars, and
+              public-private partnership tender indices to curate highly specialized dispatches.
             </p>
           </div>
         </div>
@@ -133,10 +218,13 @@ export function ContactPage() {
         {/* Right Side: Interactive B2B Form (7 Cols) */}
         <div className="lg:col-span-7">
           <div className="bg-white border border-border rounded-3xl p-8 shadow-sm">
-            {!submitted ? (
-              <form onSubmit={handleSubmit} className="space-y-5">
+            {!submittedInfo ? (
+              <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-5">
                 <div>
-                  <h3 className="text-lg font-bold text-navy" style={{ fontFamily: 'var(--font-heading)', color: 'var(--nurc-navy)' }}>
+                  <h3
+                    className="text-lg font-bold text-navy"
+                    style={{ fontFamily: 'var(--font-heading)', color: 'var(--nurc-navy)' }}
+                  >
                     Transmit Message
                   </h3>
                   <p className="text-xs text-muted-foreground mt-0.5">
@@ -146,86 +234,138 @@ export function ContactPage() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-1">
-                    <label className="block text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Full Name *</label>
+                    <label htmlFor="contact-name" className={labelClass}>
+                      Full Name <span className="text-red-500">*</span>
+                    </label>
                     <input
+                      id="contact-name"
                       type="text"
-                      required
+                      autoComplete="name"
                       placeholder="e.g. Devansh Singh"
-                      value={name}
-                      onChange={e => setName(e.target.value)}
-                      className="w-full px-4 py-2.5 border border-border bg-[#F9FAFB] rounded-xl focus:outline-none focus:ring-1 focus:ring-teal text-xs transition-all"
+                      aria-invalid={!!errors.name}
+                      aria-describedby={errors.name ? 'contact-name-error' : undefined}
+                      className={inputClass}
+                      {...register('name')}
                     />
+                    {errors.name && (
+                      <p id="contact-name-error" className={errorClass}>
+                        {errors.name.message}
+                      </p>
+                    )}
                   </div>
                   <div className="space-y-1">
-                    <label className="block text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Corporate Email *</label>
+                    <label htmlFor="contact-email" className={labelClass}>
+                      Corporate Email <span className="text-red-500">*</span>
+                    </label>
                     <input
+                      id="contact-email"
                       type="email"
-                      required
+                      autoComplete="email"
+                      inputMode="email"
                       placeholder="devansh@company.com"
-                      value={email}
-                      onChange={e => setEmail(e.target.value)}
-                      className="w-full px-4 py-2.5 border border-border bg-[#F9FAFB] rounded-xl focus:outline-none focus:ring-1 focus:ring-teal text-xs transition-all"
+                      aria-invalid={!!errors.email}
+                      aria-describedby={errors.email ? 'contact-email-error' : undefined}
+                      className={inputClass}
+                      {...register('email')}
                     />
+                    {errors.email && (
+                      <p id="contact-email-error" className={errorClass}>
+                        {errors.email.message}
+                      </p>
+                    )}
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-1">
-                    <label className="block text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Corporate Phone *</label>
+                    <label htmlFor="contact-phone" className={labelClass}>
+                      Corporate Phone <span className="text-red-500">*</span>
+                    </label>
                     <input
+                      id="contact-phone"
                       type="tel"
-                      required
+                      autoComplete="tel"
+                      inputMode="tel"
                       placeholder="e.g. +91 98109 75257"
-                      value={phone}
-                      onChange={e => setPhone(e.target.value)}
-                      className="w-full px-4 py-2.5 border border-border bg-[#F9FAFB] rounded-xl focus:outline-none focus:ring-1 focus:ring-teal text-xs transition-all"
+                      aria-invalid={!!errors.phone}
+                      aria-describedby={errors.phone ? 'contact-phone-error' : undefined}
+                      className={inputClass}
+                      {...register('phone')}
                     />
+                    {errors.phone && (
+                      <p id="contact-phone-error" className={errorClass}>
+                        {errors.phone.message}
+                      </p>
+                    )}
                   </div>
                   <div className="space-y-1">
-                    <label className="block text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Company Name *</label>
+                    <label htmlFor="contact-company" className={labelClass}>
+                      Company Name <span className="text-red-500">*</span>
+                    </label>
                     <input
+                      id="contact-company"
                       type="text"
-                      required
+                      autoComplete="organization"
                       placeholder="e.g. Tata Motors"
-                      value={company}
-                      onChange={e => setCompany(e.target.value)}
-                      className="w-full px-4 py-2.5 border border-border bg-[#F9FAFB] rounded-xl focus:outline-none focus:ring-1 focus:ring-teal text-xs transition-all"
+                      aria-invalid={!!errors.company}
+                      aria-describedby={errors.company ? 'contact-company-error' : undefined}
+                      className={inputClass}
+                      {...register('company')}
                     />
+                    {errors.company && (
+                      <p id="contact-company-error" className={errorClass}>
+                        {errors.company.message}
+                      </p>
+                    )}
                   </div>
                 </div>
 
                 <div className="space-y-1">
-                  <label className="block text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Target Sector</label>
+                  <label htmlFor="contact-sector" className={labelClass}>
+                    Target Sector
+                  </label>
                   <select
-                    value={sector}
-                    onChange={e => setSector(e.target.value)}
+                    id="contact-sector"
                     className="w-full px-4 py-2.5 border border-border bg-[#F9FAFB] rounded-xl focus:outline-none focus:ring-1 focus:ring-teal text-xs font-semibold cursor-pointer"
+                    {...register('sector')}
                   >
-                    {industrySectors.map(ind => (
-                      <option key={ind} value={ind}>{ind}</option>
+                    {industrySectors.map((ind) => (
+                      <option key={ind} value={ind}>
+                        {ind}
+                      </option>
                     ))}
                   </select>
                 </div>
 
                 <div className="space-y-1">
-                  <label className="block text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Message Body *</label>
+                  <label htmlFor="contact-message" className={labelClass}>
+                    Message Body <span className="text-red-500">*</span>
+                  </label>
                   <textarea
-                    required
+                    id="contact-message"
                     rows={4}
                     placeholder="Provide details about your query or custom intelligence briefing needs..."
-                    value={message}
-                    onChange={e => setMessage(e.target.value)}
+                    aria-invalid={!!errors.message}
+                    aria-describedby={errors.message ? 'contact-message-error' : undefined}
                     className="w-full px-4 py-2.5 border border-border bg-[#F9FAFB] rounded-xl focus:outline-none focus:ring-1 focus:ring-teal text-xs resize-none transition-all"
+                    {...register('message')}
                   />
+                  {errors.message && (
+                    <p id="contact-message-error" className={errorClass}>
+                      {errors.message.message}
+                    </p>
+                  )}
                 </div>
 
                 <div className="pt-2">
                   <button
                     type="submit"
-                    className="w-full py-3 bg-[var(--nurc-navy)] hover:opacity-95 text-white font-bold rounded-xl text-xs shadow-md cursor-pointer transition-all border-0"
+                    disabled={isSubmitting}
+                    className="w-full py-3 bg-[var(--nurc-navy)] hover:opacity-95 text-white font-bold rounded-xl text-xs shadow-md cursor-pointer transition-all border-0 flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
                     style={{ background: 'var(--nurc-navy)' }}
                   >
-                    Transmit Information Securely
+                    {isSubmitting && <Loader2 size={14} className="animate-spin" />}
+                    {isSubmitting ? 'Transmitting…' : 'Transmit Information Securely'}
                   </button>
                 </div>
 
@@ -240,13 +380,17 @@ export function ContactPage() {
                   <CheckCircle2 size={32} />
                 </div>
                 <div className="space-y-2">
-                  <h4 className="font-bold text-navy text-lg" style={{ color: 'var(--nurc-navy)' }}>Message Transmitted Successfully</h4>
+                  <h4 className="font-bold text-navy text-lg" style={{ color: 'var(--nurc-navy)' }}>
+                    Message Transmitted Successfully
+                  </h4>
                   <p className="text-xs text-muted-foreground leading-relaxed max-w-sm mx-auto">
-                    Thank you, {name}. Your inquiry has been routed to our C-Suite liaison. Our corporate relations desk will contact you at {email} within 2 business hours.
+                    Thank you, {submittedInfo.name}. Your inquiry has been routed to our C-Suite
+                    liaison. Our corporate relations desk will contact you at {submittedInfo.email}{' '}
+                    within 2 business hours.
                   </p>
                 </div>
                 <button
-                  onClick={handleReset}
+                  onClick={() => setSubmittedInfo(null)}
                   className="px-6 py-2 border border-border text-navy rounded-lg text-xs font-bold hover:bg-muted transition-colors cursor-pointer"
                   style={{ color: 'var(--nurc-navy)' }}
                 >
@@ -256,9 +400,7 @@ export function ContactPage() {
             )}
           </div>
         </div>
-
       </section>
-
     </div>
   );
 }
