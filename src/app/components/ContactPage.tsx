@@ -202,10 +202,7 @@ export function ContactPage() {
           </div>
 
           <div className="p-5 bg-teal/5 border border-teal-100 rounded-2xl space-y-2.5">
-            <h4
-              className="text-xs font-bold uppercase text-teal tracking-wider"
-              style={{ color: 'var(--nurc-teal)' }}
-            >
+            <h4 className="text-xs font-bold uppercase tracking-wider" style={{ color: '#0A5560' }}>
               Analyst Coverage Scope
             </h4>
             <p className="text-xs text-muted-foreground leading-relaxed">

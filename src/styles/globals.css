@@ -9,7 +9,9 @@ html {
 .fade-in {
   opacity: 0;
   transform: translateY(18px);
-  transition: opacity 300ms ease, transform 300ms ease;
+  transition:
+    opacity 300ms ease,
+    transform 300ms ease;
 }
 
 .fade-in.visible {
@@ -26,8 +28,12 @@ html {
 
 /* Marquee */
 @keyframes nurc-marquee {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
 }
 
 .nurc-marquee-wrap {
@@ -35,9 +41,9 @@ html {
   width: 100%;
   display: flex;
   align-items: center;
-  background-color: #FFFFFF;
-  border-top: 1px solid #E5E7EB;
-  border-bottom: 1px solid #E5E7EB;
+  background-color: #ffffff;
+  border-top: 1px solid #e5e7eb;
+  border-bottom: 1px solid #e5e7eb;
   height: 110px;
 }
 
@@ -79,7 +85,9 @@ html {
   max-width: 140px;
   width: auto;
   object-fit: contain;
-  transition: transform 0.3s ease, filter 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    filter 0.3s ease;
   user-select: none;
   pointer-events: auto;
 }
@@ -138,7 +146,10 @@ html {
   font-weight: 600;
   white-space: nowrap;
   text-decoration: none;
-  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
 }
 
 .nurc-sector-pill:hover {
@@ -177,7 +188,10 @@ html {
 
 /* Button hover scale */
 .btn-nurc {
-  transition: transform 200ms ease, opacity 200ms ease, box-shadow 200ms ease;
+  transition:
+    transform 200ms ease,
+    opacity 200ms ease,
+    box-shadow 200ms ease;
 }
 
 .btn-nurc:hover {
@@ -186,8 +200,8 @@ html {
 
 /* Client Card styling */
 .client-card {
-  background-color: #FFFFFF;
-  border: 1px solid #F3F4F6;
+  background-color: #ffffff;
+  border: 1px solid #f3f4f6;
   border-radius: 16px;
   padding: 1.5rem;
   display: flex;
@@ -224,4 +238,19 @@ html {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* Visible keyboard focus for interactive elements (article links, sector pills,
+   client cards, and any custom clickable element). shadcn/ui primitives define
+   their own focus-visible rings; this is the baseline for everything else.
+   :focus-visible only triggers for keyboard/AT navigation, not mouse clicks. */
+a:focus-visible,
+button:focus-visible,
+[role='button']:focus-visible,
+[tabindex]:focus-visible,
+.client-card:focus-visible,
+.nurc-sector-pill:focus-visible {
+  outline: 2px solid var(--nurc-teal);
+  outline-offset: 2px;
+  border-radius: 6px;
 }
