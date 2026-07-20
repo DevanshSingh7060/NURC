@@ -11,6 +11,7 @@ import { AppProvider } from '../context/AppContext';
 import { LeadModalProvider } from '../context/LeadModalContext';
 import { LeadModal } from './LeadModal';
 import { SkipToContent } from './shared/SkipToContent';
+import { Toaster } from './ui/sonner';
 import { StructuredData, ORGANIZATION_SCHEMA, WEBSITE_SCHEMA } from './shared/StructuredData';
 import { PageLoadingFallback } from './shared/PageLoadingFallback';
 
@@ -29,7 +30,12 @@ export function Root() {
   return (
     <HelmetProvider>
       <AppProvider>
-        <ThemeProvider attribute="class" defaultTheme="light" forcedTheme="light" enableSystem={false}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="light"
+          forcedTheme="light"
+          enableSystem={false}
+        >
           <LeadModalProvider>
             <ReaderModeProvider>
               <div className="min-h-screen flex flex-col bg-background text-foreground">
@@ -59,14 +65,24 @@ export function Root() {
                           <div className="flex items-center justify-center sm:justify-start gap-2 mb-1">
                             <span
                               className="text-[11px] font-bold uppercase tracking-widest"
-                              style={{ color: 'var(--nurc-teal)', letterSpacing: '0.12em', fontFamily: 'var(--font-heading)' }}
+                              style={{
+                                color: 'var(--nurc-teal)',
+                                letterSpacing: '0.12em',
+                                fontFamily: 'var(--font-heading)',
+                              }}
                             >
                               Government of India · Udyam Registered
                             </span>
                           </div>
-                          <p className="text-[#374151]" style={{ fontSize: '15px', lineHeight: 1.7 }}>
-                            <span className="font-semibold text-[var(--nurc-navy)]">NURC Media Next Pvt. Ltd.</span> is a Government of India
-                            registered Micro, Small and Medium Enterprise (MSME) under the Udyam Registration scheme.
+                          <p
+                            className="text-[#374151]"
+                            style={{ fontSize: '15px', lineHeight: 1.7 }}
+                          >
+                            <span className="font-semibold text-[var(--nurc-navy)]">
+                              NURC Media Next Pvt. Ltd.
+                            </span>{' '}
+                            is a Government of India registered Micro, Small and Medium Enterprise
+                            (MSME) under the Udyam Registration scheme.
                           </p>
                         </div>
                       </div>
@@ -85,6 +101,7 @@ export function Root() {
                 <ReaderModeOverlay />
                 <SharePromptCard />
                 <LeadModal />
+                <Toaster position="top-right" richColors closeButton />
               </div>
             </ReaderModeProvider>
           </LeadModalProvider>
@@ -93,4 +110,3 @@ export function Root() {
     </HelmetProvider>
   );
 }
-
