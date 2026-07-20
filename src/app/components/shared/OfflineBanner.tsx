@@ -27,8 +27,7 @@ export function OfflineBanner() {
     <div
       role="status"
       aria-live="polite"
-      className="fixed top-0 inset-x-0 z-[60] flex items-center justify-center gap-2 px-4 py-2 text-xs font-semibold text-white"
-      style={{ background: '#B85C44' }}
+      className="fixed top-0 inset-x-0 z-[60] flex items-center justify-center gap-2 px-4 py-2 text-xs font-semibold text-white bg-[#B85C44]"
     >
       <WifiOff size={14} />
       You're offline — some features may be unavailable until your connection returns.

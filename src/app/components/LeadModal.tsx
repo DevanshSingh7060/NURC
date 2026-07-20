@@ -97,11 +97,10 @@ export function LeadModal() {
         aria-modal="true"
         aria-labelledby="lead-modal-title"
         tabIndex={-1}
-        className="relative bg-white w-full max-w-lg rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-10 transition-all transform duration-300 animate-fadeIn focus:outline-none"
-        style={{ fontFamily: 'var(--font-heading)' }}
+        className="relative bg-white w-full max-w-lg rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-10 transition-all transform duration-300 animate-fadeIn focus:outline-none font-heading"
       >
         {/* Header Ribbon */}
-        <div className="h-1.5" style={{ background: 'var(--nurc-teal)' }} />
+        <div className="h-1.5 bg-nurc-teal" />
 
         {/* Close Button */}
         <button

@@ -24,8 +24,8 @@ const allSectorsClients: SectorList[] = [
       'ISUZU Motors',
       'Volvo Group India',
       'TVS Motor',
-      'Force Motors'
-    ]
+      'Force Motors',
+    ],
   },
   {
     title: 'Auto Components & Engineering',
@@ -44,8 +44,8 @@ const allSectorsClients: SectorList[] = [
       'Lear Automotive',
       'Magna Automotive',
       'Nexteer Automotive',
-      'Sundaram Clayton'
-    ]
+      'Sundaram Clayton',
+    ],
   },
   {
     title: 'Insurance',
@@ -58,8 +58,8 @@ const allSectorsClients: SectorList[] = [
       'Star Union Dai-ichi',
       'Ageas Federal Life',
       'Universal Sompo',
-      'Munich RE'
-    ]
+      'Munich RE',
+    ],
   },
   {
     title: 'Banking & Finance',
@@ -70,8 +70,8 @@ const allSectorsClients: SectorList[] = [
       'Mahindra Finance',
       'AVANSE Financial Services',
       'Sun Life Global Solutions',
-      'Milliman India'
-    ]
+      'Milliman India',
+    ],
   },
   {
     title: 'Industrial / Manufacturing / Others',
@@ -83,22 +83,20 @@ const allSectorsClients: SectorList[] = [
       'National Engineering Industries',
       'AVL India',
       'Boston Consulting Group',
-      'Eberspaecher Suetrak'
-    ]
-  }
+      'Eberspaecher Suetrak',
+    ],
+  },
 ];
 
 export function AllClientsPage() {
   return (
     <div className="min-h-screen bg-[#F8F9FA] py-12">
       <div className="max-w-4xl mx-auto px-6">
-        
         {/* Navigation Link back */}
         <div className="mb-8 text-left">
           <Link
             to="/clients"
-            className="inline-flex items-center gap-2 text-sm font-semibold text-[var(--nurc-teal)] hover:opacity-85 transition-opacity"
-            style={{ fontFamily: 'var(--font-heading)' }}
+            className="inline-flex items-center gap-2 text-sm font-semibold text-nurc-teal hover:opacity-85 transition-opacity font-heading"
           >
             <ArrowLeft size={16} />
             Back to Clients
@@ -107,10 +105,7 @@ export function AllClientsPage() {
 
         {/* Header Section */}
         <div className="border-b border-gray-200 pb-6 mb-10 text-left">
-          <h1
-            className="text-3xl font-bold text-[var(--nurc-navy)] mb-2"
-            style={{ fontFamily: 'var(--font-display)' }}
-          >
+          <h1 className="text-3xl font-bold text-nurc-navy mb-2 font-display">
             All Client Relationships
           </h1>
           <p className="text-gray-500 text-sm">
@@ -121,11 +116,11 @@ export function AllClientsPage() {
         {/* Sectors list */}
         <div className="space-y-10">
           {allSectorsClients.map((sector, idx) => (
-            <div key={idx} className="bg-white border border-gray-100 rounded-2xl p-8 shadow-xs text-left">
-              <h2
-                className="text-xs font-bold uppercase tracking-wider text-[var(--nurc-navy)] mb-6 pb-2 border-b border-gray-100"
-                style={{ fontFamily: 'var(--font-heading)' }}
-              >
+            <div
+              key={idx}
+              className="bg-white border border-gray-100 rounded-2xl p-8 shadow-xs text-left"
+            >
+              <h2 className="text-xs font-bold uppercase tracking-wider text-nurc-navy mb-6 pb-2 border-b border-gray-100 font-heading">
                 {sector.title}
               </h2>
               <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3 pl-4 list-disc text-gray-600 text-sm font-medium leading-relaxed">
@@ -138,7 +133,6 @@ export function AllClientsPage() {
             </div>
           ))}
         </div>
-
       </div>
     </div>
   );

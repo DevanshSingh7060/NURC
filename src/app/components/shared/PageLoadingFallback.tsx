@@ -9,13 +9,8 @@ export function PageLoadingFallback() {
       aria-label="Loading page"
     >
       <div className="flex flex-col items-center gap-3">
-        <div
-          className="w-8 h-8 rounded-full border-2 border-t-transparent animate-spin"
-          style={{ borderColor: 'var(--nurc-teal)', borderTopColor: 'transparent' }}
-        />
-        <span className="text-xs text-muted-foreground font-medium" style={{ fontFamily: 'var(--font-heading)' }}>
-          Loading...
-        </span>
+        <div className="w-8 h-8 rounded-full border-2 border-nurc-teal border-t-transparent animate-spin" />
+        <span className="text-xs text-muted-foreground font-medium font-heading">Loading...</span>
       </div>
     </div>
   );

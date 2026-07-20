@@ -20,16 +20,8 @@ const sectors: Sector[] = [
 
 function SectorPill({ sector }: { sector: Sector }) {
   return (
-    <Link
-      to={`/industries/${sector.slug}`}
-      className="nurc-sector-pill"
-      style={{ fontFamily: 'var(--font-heading)' }}
-    >
-      <span
-        className="nurc-sector-dot"
-        style={{ background: sector.color }}
-        aria-hidden="true"
-      />
+    <Link to={`/industries/${sector.slug}`} className="nurc-sector-pill font-heading">
+      <span className="nurc-sector-dot" style={{ background: sector.color }} aria-hidden="true" />
       {sector.title}
     </Link>
   );
@@ -44,20 +36,12 @@ export function SectorMarquee({ label = 'Sectors We Cover' }: Props) {
   const items = [...sectors, ...sectors];
 
   return (
-    <section className="bg-card select-none py-10 border-t border-border" aria-label="Sectors we cover">
+    <section
+      className="bg-card select-none py-10 border-t border-border"
+      aria-label="Sectors we cover"
+    >
       {label && (
-        <h3
-          className="text-center"
-          style={{
-            fontFamily: 'var(--font-heading)',
-            fontSize: '13px',
-            fontWeight: 700,
-            textTransform: 'uppercase',
-            letterSpacing: '0.14em',
-            color: 'var(--nurc-teal)',
-            marginBottom: '1.5rem',
-          }}
-        >
+        <h3 className="text-center font-heading text-[13px] font-bold uppercase tracking-[0.14em] text-nurc-teal mb-6">
           {label}
         </h3>
       )}
