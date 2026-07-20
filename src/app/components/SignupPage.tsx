@@ -413,8 +413,7 @@ export function SignupPage() {
                 type="checkbox"
                 aria-invalid={!!errors.agreeTerms}
                 aria-describedby={errors.agreeTerms ? 'su-agree-error' : undefined}
-                className="h-4 w-4 rounded border-border text-teal focus:ring-teal mt-0.5 cursor-pointer"
-                style={{ accentColor: 'var(--nurc-teal)' }}
+                className="h-4 w-4 rounded border-border text-teal focus:ring-teal mt-0.5 cursor-pointer accent-[var(--nurc-teal)]"
                 {...register('agreeTerms')}
               />
               <label

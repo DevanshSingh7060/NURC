@@ -786,10 +786,7 @@ export function DashboardPage() {
                   <span className="text-[9px] font-bold text-teal-400 uppercase tracking-widest block">
                     Corporate Account Portal
                   </span>
-                  <h4
-                    className="text-sm font-bold font-heading"
-                    style={{ fontFamily: 'var(--font-heading)' }}
-                  >
+                  <h4 className="text-sm font-bold font-heading">
                     Establish Dedicated Sub-Workspaces for Team Members
                   </h4>
                   <p className="text-xs text-slate-300 max-w-xl">

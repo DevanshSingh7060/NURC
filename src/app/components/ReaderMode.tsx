@@ -586,10 +586,7 @@ export function ReaderModeOverlay() {
       </div>
 
       {isGuest && (
-        <div
-          className="hidden md:flex fixed bottom-6 right-6 z-40 bg-white border border-border rounded-2xl p-5 shadow-2xl items-center justify-between gap-5 max-w-md animate-fadeIn"
-          style={{ borderLeft: '4px solid var(--nurc-teal)' }}
-        >
+        <div className="hidden md:flex fixed bottom-6 right-6 z-40 bg-white border border-border rounded-2xl p-5 shadow-2xl items-center justify-between gap-5 max-w-md animate-fadeIn border-l-4 border-l-nurc-teal">
           <div>
             <h5 className="font-bold text-xs uppercase tracking-wider text-nurc-navy font-heading">
               Unlock B2B Intelligence

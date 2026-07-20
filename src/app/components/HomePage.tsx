@@ -292,12 +292,12 @@ export function HomePage() {
               </div>
               {/* <div className="h-8 w-px bg-white/10" /> */}
               {/* <div className="text-center">
-                <div className="font-bold text-white" style={{ fontFamily: 'var(--font-display)', fontSize: '28px' }}>7</div>
+                <div className="font-bold text-white font-display text-[28px]">7</div>
                 <div className="text-xs text-white/50 uppercase tracking-wider mt-0.5">Sectors Covered</div>
               </div> */}
               {/* <div className="h-8 w-px bg-white/10" /> */}
               {/* <div className="text-center">
-                <div className="font-bold text-white" style={{ fontFamily: 'var(--font-display)', fontSize: '28px' }}>24</div>
+                <div className="font-bold text-white font-display text-[28px]">24</div>
                 <div className="text-xs text-white/50 uppercase tracking-wider mt-0.5">Years of Trust</div>
               </div> */}
               <div className="h-8 w-px bg-white/10" />

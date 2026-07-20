@@ -484,8 +484,7 @@ export function ReaderPage() {
                       </Link>
                       <Link
                         to="/contact"
-                        className="flex-1 py-2.5 border border-border text-navy rounded-xl text-xs font-bold text-center cursor-pointer hover:bg-gray-50 transition-colors"
-                        style={{ color: 'var(--nurc-navy)', fontFamily: 'var(--font-heading)' }}
+                        className="flex-1 py-2.5 border border-border text-navy rounded-xl text-xs font-bold text-center cursor-pointer hover:bg-gray-50 transition-colors text-nurc-navy font-heading"
                       >
                         Request Demo
                       </Link>
@@ -539,15 +538,9 @@ export function ReaderPage() {
 
       {/* Floating CTA Card Overlay (Only shown on Desktop for Guests) */}
       {isGuest && (
-        <div
-          className="hidden md:flex fixed bottom-6 right-6 z-40 bg-white border border-border rounded-2xl p-5 shadow-2xl items-center justify-between gap-5 max-w-md animate-fadeIn"
-          style={{ borderLeft: '4px solid var(--nurc-teal)' }}
-        >
+        <div className="hidden md:flex fixed bottom-6 right-6 z-40 bg-white border border-border rounded-2xl p-5 shadow-2xl items-center justify-between gap-5 max-w-md animate-fadeIn border-l-4 border-l-nurc-teal">
           <div>
-            <h5
-              className="font-bold text-xs text-navy uppercase tracking-wider"
-              style={{ color: 'var(--nurc-navy)', fontFamily: 'var(--font-heading)' }}
-            >
+            <h5 className="font-bold text-xs text-navy uppercase tracking-wider text-nurc-navy font-heading">
               Unlock B2B Intelligence
             </h5>
             <p className="text-[10px] text-muted-foreground mt-0.5 leading-normal max-w-[240px]">

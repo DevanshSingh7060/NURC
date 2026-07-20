@@ -168,10 +168,7 @@ export function ServicesPage() {
                           background: `linear-gradient(135deg, ${service.color}d9 0%, ${service.color}59 100%)`,
                         }}
                       />
-                      <div
-                        className="relative"
-                        style={{ textShadow: '0 1px 4px rgba(0,0,0,0.45)' }}
-                      >
+                      <div className="relative [text-shadow:0_1px_4px_rgba(0,0,0,0.45)]">
                         <div className="w-12 h-12 rounded-xl bg-white/15 flex items-center justify-center mb-5">
                           <Icon size={22} className="text-white" />
                         </div>

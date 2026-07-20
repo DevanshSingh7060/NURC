@@ -308,8 +308,7 @@ export function LoginPage() {
                   </div>
                   <button
                     onClick={backToLogin}
-                    className="btn-nurc w-full h-12 rounded-xl text-white font-semibold text-sm animate-none"
-                    style={{ background: 'var(--nurc-navy)' }}
+                    className="btn-nurc w-full h-12 rounded-xl text-white font-semibold text-sm animate-none bg-nurc-navy"
                   >
                     Return to Sign In
                   </button>
@@ -317,10 +316,7 @@ export function LoginPage() {
               ) : (
                 <>
                   <div>
-                    <h2
-                      className="text-2xl font-bold tracking-tight"
-                      style={{ color: 'var(--nurc-navy)', fontFamily: 'var(--font-heading)' }}
-                    >
+                    <h2 className="text-2xl font-bold tracking-tight text-nurc-navy font-heading">
                       Reset your password
                     </h2>
                     <p className="mt-2 text-sm text-muted-foreground">
@@ -336,8 +332,7 @@ export function LoginPage() {
                     <div className="space-y-1.5">
                       <label
                         htmlFor="forgot-email"
-                        className="block text-sm font-semibold"
-                        style={{ color: 'var(--nurc-navy)' }}
+                        className="block text-sm font-semibold text-nurc-navy"
                       >
                         Business Email Address
                       </label>
@@ -363,8 +358,7 @@ export function LoginPage() {
                     <button
                       type="submit"
                       disabled={forgotForm.formState.isSubmitting}
-                      className="btn-nurc w-full h-12 rounded-xl text-white font-semibold text-sm flex items-center justify-center gap-2 animate-none disabled:opacity-60 disabled:cursor-not-allowed"
-                      style={{ background: 'var(--nurc-navy)' }}
+                      className="btn-nurc w-full h-12 rounded-xl text-white font-semibold text-sm flex items-center justify-center gap-2 animate-none disabled:opacity-60 disabled:cursor-not-allowed bg-nurc-navy"
                     >
                       {forgotForm.formState.isSubmitting && (
                         <Loader2 size={16} className="animate-spin" />

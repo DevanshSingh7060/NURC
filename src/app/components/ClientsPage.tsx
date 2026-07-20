@@ -313,10 +313,10 @@ export function ClientsPage() {
               { label: 'Free Trial', value: '15 Days' },
             ].map((stat, i) => (
               <div key={i} className="text-center">
-                <div className="font-bold" style={{ fontFamily: 'var(--font-display)', fontSize: '28px', color: 'var(--nurc-navy)' }}>
+                <div className="font-bold font-display text-[28px] text-nurc-navy">
                   {stat.value}
                 </div>
-                <div className="text-muted-foreground text-xs mt-0.5" style={{ fontFamily: 'var(--font-heading)' }}>
+                <div className="text-muted-foreground text-xs mt-0.5 font-heading">
                   {stat.label}
                 </div>
               </div>
