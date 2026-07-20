@@ -130,7 +130,7 @@ const sectorData: Record<string, {
     title: 'FMCG & Retail Intelligence',
     subtitle: 'Weekly · 50+ Brands · D2C to Kirana',
     description: 'Intelligence on India\'s fast-moving consumer goods and retail landscape — D2C disruption, modern trade dynamics, rural distribution, pricing strategies, and regulatory developments.',
-    color: '#8A6A3B',
+    color: '#B85C44',
     image: 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=1200&h=500&fit=crop&auto=format',
     stats: [
       { label: 'Brands Tracked', value: '50+' },

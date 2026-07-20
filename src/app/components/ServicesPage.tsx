@@ -73,6 +73,7 @@ const sectors = [
   { name: 'Infrastructure', slug: 'infrastructure', color: '#3B6E8A' },
   { name: 'Energy', slug: 'energy', color: '#7B5C8A' },
   { name: 'Metals & Minerals', slug: 'metals-minerals', color: '#5B4A7B' },
+  { name: 'FMCG', slug: 'fmcg', color: '#B85C44' },
 ];
 
 export function ServicesPage() {

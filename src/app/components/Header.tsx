@@ -22,6 +22,7 @@ const solutionsLinks = [
   { label: 'Infrastructure', to: '/industries/infrastructure' },
   { label: 'Energy', to: '/industries/energy' },
   { label: 'Metals & Minerals', to: '/industries/metals-minerals' },
+  { label: 'FMCG', to: '/industries/fmcg' },
 ];
 
 export function Header() {
@@ -64,69 +65,12 @@ export function Header() {
       }`}
       style={{ fontFamily: 'var(--font-heading)' }}
     >
-      <div className="max-w-7xl mx-auto px-6 flex items-center justify-between h-16 relative">
-        
-        {/* Logo */}
-        <Link to="/" className="flex items-center shrink-0" onClick={() => setMobileOpen(false)} aria-label="NURC Media Next — Home">
-          <img
-            src={nurcLogo}
-            alt="NURC Media Next — 26 Years of Trust & Service"
-            className="h-9 sm:h-10 w-auto"
-            width={320}
-            height={102}
-          />
-        </Link>
+      {/* Single merged header bar */}
+      <div className="max-w-7xl mx-auto px-6 flex items-center justify-between h-16 sm:h-20 relative">
 
-        {/* Desktop Nav */}
-        <nav className="hidden lg:flex items-center gap-1" aria-label="Main navigation">
-          {navLinks.map(link =>
-            link.hasDropdown ? (
-              <div key={link.label} className="relative" onMouseEnter={() => setSectorsOpen(true)} onMouseLeave={() => setSectorsOpen(false)}>
-                <button
-                  className="flex items-center gap-1 px-3 py-2 rounded text-sm font-medium transition-colors cursor-pointer"
-                  style={{ color: 'var(--nurc-navy)' }}
-                >
-                  {link.label}
-                  <ChevronDown size={14} />
-                </button>
-                {sectorsOpen && (
-                  <div className="absolute top-full left-0 mt-1 w-52 bg-card border border-border rounded-lg shadow-lg py-1 z-50">
-                    {solutionsLinks.map(s => (
-                      <Link
-                        key={s.to}
-                        to={s.to}
-                        className="block px-4 py-2 text-sm hover:bg-muted transition-colors text-left font-medium"
-                        style={{ color: 'var(--nurc-navy)' }}
-                        onClick={() => setSectorsOpen(false)}
-                      >
-                        {s.label}
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ) : (
-              <NavLink
-                key={link.to}
-                to={link.to}
-                className={({ isActive }) =>
-                  `px-3 py-2 rounded text-sm font-medium transition-colors ${
-                    isActive
-                      ? 'bg-muted'
-                      : 'hover:bg-muted/60'
-                  }`
-                }
-                style={{ color: 'var(--nurc-navy)' }}
-              >
-                {link.label}
-              </NavLink>
-            )
-          )}
-        </nav>
-
-        {/* Right actions */}
-        <div className="flex items-center gap-2">
-          {/* Desktop-only Actions */}
+        {/* Left side: Auth actions */}
+        <div className="flex items-center gap-2 shrink-0">
+          {/* Desktop-only Auth Actions */}
           <div className="hidden lg:flex items-center gap-2">
             {currentUser ? (
               <div className="flex items-center gap-2">
@@ -193,8 +137,58 @@ export function Header() {
               </div>
             )}
           </div>
+        </div>
 
-          {/* Mobile hamburger menu toggle in Top Right Corner */}
+        {/* Center: Desktop Nav */}
+        <nav className="hidden lg:flex items-center gap-1 absolute left-1/2 -translate-x-1/2" aria-label="Main navigation">
+          {navLinks.map(link =>
+            link.hasDropdown ? (
+              <div key={link.label} className="relative" onMouseEnter={() => setSectorsOpen(true)} onMouseLeave={() => setSectorsOpen(false)}>
+                <button
+                  className="flex items-center gap-1 px-3 py-2 rounded text-sm font-medium transition-colors cursor-pointer"
+                  style={{ color: 'var(--nurc-navy)' }}
+                >
+                  {link.label}
+                  <ChevronDown size={14} />
+                </button>
+                {sectorsOpen && (
+                  <div className="absolute top-full left-0 mt-1 w-52 bg-card border border-border rounded-lg shadow-lg py-1 z-50">
+                    {solutionsLinks.map(s => (
+                      <Link
+                        key={s.to}
+                        to={s.to}
+                        className="block px-4 py-2 text-sm hover:bg-muted transition-colors text-left font-medium"
+                        style={{ color: 'var(--nurc-navy)' }}
+                        onClick={() => setSectorsOpen(false)}
+                      >
+                        {s.label}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ) : (
+              <NavLink
+                key={link.to}
+                to={link.to}
+                className={({ isActive }) =>
+                  `px-3 py-2 rounded text-sm font-medium transition-colors ${
+                    isActive
+                      ? 'bg-muted'
+                      : 'hover:bg-muted/60'
+                  }`
+                }
+                style={{ color: 'var(--nurc-navy)' }}
+              >
+                {link.label}
+              </NavLink>
+            )
+          )}
+        </nav>
+
+        {/* Right side: Hamburger (mobile) + Logo */}
+        <div className="flex items-center gap-3 shrink-0">
+          {/* Mobile hamburger menu toggle */}
           <button
             className="lg:hidden p-2 rounded-lg hover:bg-muted transition-colors shrink-0 cursor-pointer"
             onClick={() => setMobileOpen(!mobileOpen)}
@@ -203,6 +197,22 @@ export function Header() {
           >
             {mobileOpen ? <X size={20} style={{ color: 'var(--nurc-navy)' }} /> : <Menu size={20} style={{ color: 'var(--nurc-navy)' }} />}
           </button>
+
+          {/* Company logo */}
+          <Link
+            to="/"
+            className="flex items-center shrink-0"
+            onClick={() => setMobileOpen(false)}
+            aria-label="NURC Media Next — Home"
+          >
+            <img
+              src={nurcLogo}
+              alt="NURC Media Next — 26 Years of Trust & Service"
+              className="h-12 sm:h-16 w-auto"
+              width={320}
+              height={102}
+            />
+          </Link>
         </div>
       </div>
 

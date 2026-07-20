@@ -9,7 +9,7 @@ import { ClientMarquee } from './ClientMarquee';
 import { useScrollFadeIn } from './useScrollFadeIn';
 import { useLeadModal } from '../context/LeadModalContext';
 import { SEOHead } from './shared/SEOHead';
-import trustBadge from '../../Logo/26-years-trust.png';
+
 
 import mercedesBenzLogo from '../../Logo/Mercedes Benz.png';
 import bmwLogo from '../../Logo/BMW.png';
@@ -69,6 +69,13 @@ const sectors = [
     slug: 'metals-minerals',
     stats: 'Daily coverage',
   },
+  {
+    title: 'FMCG',
+    description: 'D2C disruption, modern trade dynamics, rural distribution, pricing strategy, and consumer demand trends.',
+    color: '#B85C44',
+    slug: 'fmcg',
+    stats: 'Daily coverage',
+  },
 ];
 
 const values = [
@@ -107,6 +114,13 @@ const testimonials = [
     name: 'Ajit Srinivasan',
     title: 'Deputy General Manager, Corporate Communications & PR',
     company: 'Isuzu India',
+    logo: null,
+  },
+  {
+    quote: "NURC MediaNext has been a valuable news update partner for BMW Group India, providing timely, relevant and well-curated automotive and industry updates. Their daily newsletter and Synoptic Auto Update offer a crisp, easy-to-consume view of key developments, helping our teams stay informed in a fast-moving media and business environment. We appreciate their consistency, responsiveness and understanding of our information needs, and value NURC as a dependable source for structured news intelligence.",
+    name: 'Satchit Gayakwad',
+    title: 'Marketing, Network Performance and Customer Support Communication',
+    company: 'Press and Corporate Affairs',
     logo: null,
   },
 ];
@@ -260,7 +274,7 @@ export function HomePage() {
                 maxWidth: '520px',
               }}
             >
-              For 26 years, Fortune 500 organizations and growing Indian companies have relied on "The NURC News Update" — our daily curated news collation service delivered straight to corporate inboxes.
+              For 26 years, Fortune have relied on the credible information provided by NURC News Updates -- the advertisement-free news collation service delivered daily to inboxes at the start of the day.
             </p>
             <div className="flex flex-wrap gap-4">
               <Link
@@ -298,8 +312,8 @@ export function HomePage() {
               </div> */}
               <div className="h-8 w-px bg-white/10" />
               <div className="text-center">
-                <div className="font-bold text-white" style={{ fontFamily: 'var(--font-display)', fontSize: '28px' }}>15</div>
-                <div className="text-xs text-white/50 uppercase tracking-wider mt-0.5">Days Free Trial</div>
+                <div className="font-bold text-white" style={{ fontFamily: 'var(--font-display)', fontSize: '28px' }}>15 Days</div>
+                <div className="text-xs text-white/50 uppercase tracking-wider mt-0.5">Free Trial</div>
               </div>
             </div>
           </div>
@@ -311,8 +325,8 @@ export function HomePage() {
               style={{ boxShadow: '0 32px 64px rgba(0,0,0,0.4)' }}
             >
               <img
-                src="https://images.unsplash.com/photo-1729551610680-c6ea05b08937?w=700&h=500&fit=crop&auto=format"
-                alt="Executive conference room representing corporate intelligence briefings"
+                src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=700&h=500&fit=crop&auto=format"
+                alt="Corporate skyscrapers representing India's leading corporations served by NURC intelligence"
                 className="w-full h-[420px] object-cover"
                 width={700}
                 height={500}
@@ -364,7 +378,7 @@ export function HomePage() {
               The NURC News Update
             </h2>
             <p className="text-muted-foreground mx-auto mt-3 max-w-2xl" style={{ fontSize: '15px' }}>
-              We provide a subscription-based, daily news information service tailored for corporate executives, decision-makers, PR and communication teams.
+              is a subscription-based, daily news information service tailored for corporate executives, decision-makers, PR and communication teams.
             </p>
           </div>
 
@@ -442,7 +456,7 @@ export function HomePage() {
             {[
               {
                 icon: Clock,
-                title: 'Daily Punctual',
+                title: 'Consistently Punctual',
                 description: 'Industry-specific news collated from credible print and online sources, delivered every single morning to your corporate ID.',
               },
               {
@@ -760,44 +774,6 @@ export function HomePage() {
             {testimonials.map((t, i) => (
               <TestimonialCard key={i} t={t} />
             ))}
-          </div>
-        </div>
-      </section>
-
-
-      {/* MSME / Udyam Registration Credential */}
-      <section className="py-8 bg-[#F9FAFB] border-t border-[#E5E7EB]">
-        <div className="max-w-4xl mx-auto px-6">
-          <div className="flex flex-col sm:flex-row items-center gap-5 sm:gap-6 text-center sm:text-left sm:justify-between">
-            <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-5">
-              <div
-                className="flex-shrink-0 flex items-center justify-center rounded-2xl"
-                style={{ width: 56, height: 56, background: 'var(--nurc-sage)' }}
-              >
-                <ShieldCheck className="w-7 h-7" style={{ color: 'var(--nurc-teal)' }} />
-              </div>
-              <div>
-                <div className="flex items-center justify-center sm:justify-start gap-2 mb-1">
-                  <span
-                    className="text-[11px] font-bold uppercase tracking-widest"
-                    style={{ color: 'var(--nurc-teal)', letterSpacing: '0.12em', fontFamily: 'var(--font-heading)' }}
-                  >
-                    Government of India · Udyam Registered
-                  </span>
-                </div>
-                <p className="text-[#374151]" style={{ fontSize: '15px', lineHeight: 1.7 }}>
-                  <span className="font-semibold text-[var(--nurc-navy)]">NURC Media Next Pvt. Ltd.</span> is a Government of India
-                  registered Micro, Small and Medium Enterprise (MSME) under the Udyam Registration scheme.
-                </p>
-              </div>
-            </div>
-            <img
-              src={trustBadge}
-              alt="26 Years of Trust & Service"
-              className="flex-shrink-0 h-24 w-auto"
-              width={204}
-              height={200}
-            />
           </div>
         </div>
       </section>

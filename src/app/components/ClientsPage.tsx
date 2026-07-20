@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router';
-import { ArrowRight, Filter } from 'lucide-react';
+import { ArrowRight, Filter, Quote, Star, ChevronDown } from 'lucide-react';
 import { SEOHead } from './shared/SEOHead';
 
 // Import PNG logos from src/Logo
@@ -165,7 +165,77 @@ const testimonials = [
     company: 'Isuzu India',
     initials: 'AS',
   },
+  {
+    quote: "NURC MediaNext has been a valuable news update partner for BMW Group India, providing timely, relevant and well-curated automotive and industry updates. Their daily newsletter and Synoptic Auto Update offer a crisp, easy-to-consume view of key developments, helping our teams stay informed in a fast-moving media and business environment. We appreciate their consistency, responsiveness and understanding of our information needs, and value NURC as a dependable source for structured news intelligence.",
+    name: 'Satchit Gayakwad',
+    title: 'Marketing, Network Performance and Customer Support Communication',
+    company: 'Press and Corporate Affairs',
+    initials: 'SG',
+  },
 ];
+
+function TestimonialCard({ t }: { t: typeof testimonials[number] }) {
+  const [expanded, setExpanded] = useState(false);
+  const paragraphs = t.quote.split('\n\n');
+  const isLong = t.quote.length > 300;
+
+  return (
+    <div className="rounded-xl p-6 bg-card border border-border">
+      <Quote size={28} style={{ color: 'var(--nurc-gold)', opacity: 0.6, marginBottom: '16px' }} />
+      <div
+        className="italic space-y-3"
+        style={{
+          fontFamily: 'var(--font-body)',
+          fontSize: '15px',
+          lineHeight: 1.75,
+          color: 'var(--nurc-navy)',
+        }}
+      >
+        {!isLong || expanded ? (
+          paragraphs.map((para, pi) => <p key={pi}>"{para}"</p>)
+        ) : (
+          <p className="line-clamp-4">"{paragraphs[0]}"</p>
+        )}
+      </div>
+
+      {isLong && (
+        <button
+          type="button"
+          onClick={() => setExpanded(v => !v)}
+          className="mt-2 inline-flex items-center gap-1 text-xs font-semibold transition-opacity hover:opacity-70 cursor-pointer bg-transparent border-0 p-0"
+          style={{ color: 'var(--nurc-teal)', fontFamily: 'var(--font-heading)' }}
+          aria-expanded={expanded}
+        >
+          {expanded ? 'Read less' : 'Read more'}
+          <ChevronDown
+            size={14}
+            className="transition-transform duration-200"
+            style={{ transform: expanded ? 'rotate(180deg)' : 'none' }}
+          />
+        </button>
+      )}
+
+      <div className="flex items-center gap-3 mt-6">
+        <div className="w-12 h-12 rounded-xl flex items-center justify-center text-white font-bold text-sm shrink-0" style={{ background: 'var(--nurc-navy)' }}>
+          {t.initials}
+        </div>
+        <div>
+          <div className="font-semibold" style={{ fontFamily: 'var(--font-heading)', fontSize: '14px', color: 'var(--nurc-navy)' }}>
+            {t.name}
+          </div>
+          <div className="text-xs text-muted-foreground mt-0.5">
+            {t.title} · {t.company}
+          </div>
+        </div>
+      </div>
+      <div className="flex gap-0.5 mt-4">
+        {[...Array(5)].map((_, si) => (
+          <Star key={si} size={12} fill="var(--nurc-gold)" style={{ color: 'var(--nurc-gold)' }} />
+        ))}
+      </div>
+    </div>
+  );
+}
 
 export function ClientsPage() {
   return (
@@ -181,7 +251,7 @@ export function ClientsPage() {
           <div className="flex items-center justify-center gap-3 mb-4">
             <div className="h-px w-12" style={{ background: 'var(--nurc-gold)' }} />
             <span className="text-xs font-bold uppercase tracking-widest text-[var(--nurc-teal)]" style={{ letterSpacing: '0.14em', fontFamily: 'var(--font-heading)' }}>
-              Our Clients
+              Our Esteemed Clients
             </span>
             <div className="h-px w-12" style={{ background: 'var(--nurc-gold)' }} />
           </div>
@@ -194,7 +264,7 @@ export function ClientsPage() {
           <p className="text-muted-foreground mx-auto mb-8 text-base md:text-lg" style={{ lineHeight: 1.8, maxWidth: '650px' }}>
             From Fortune 500 organizations to growing Indian companies — many of our esteemed clients have trusted our daily intelligence service for over 18 years.
           </p>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 max-w-2xl mx-auto">
+          {/* <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 max-w-2xl mx-auto">
             {[
               { label: 'Sectors Covered', value: '7' },
               { label: 'Delivery', value: 'Daily' },
@@ -209,8 +279,8 @@ export function ClientsPage() {
                   {stat.label}
                 </div>
               </div>
-            ))}
-          </div>
+            ))} */}
+          {/* </div> */}
         </div>
       </section>
 
@@ -229,7 +299,7 @@ export function ClientsPage() {
                 >
                   {sector.title}
                 </h3>
-                
+
                 {/* Top logos */}
                 <div className="flex items-center gap-4 justify-start py-2 mb-4 min-h-[48px] overflow-hidden">
                   {sector.topLogos.map((logo, lIdx) => (
@@ -248,7 +318,7 @@ export function ClientsPage() {
                     </div>
                   ))}
                 </div>
-                
+
                 {/* Bullet list of remaining companies */}
                 <ul className="text-left space-y-1.5 pl-4 list-disc text-gray-500 text-xs font-medium leading-relaxed flex-1">
                   {sector.remainingCompanies.map((company, cIdx) => (
@@ -275,42 +345,32 @@ export function ClientsPage() {
       </section>
 
       {/* Testimonials */}
-      <section className="py-12 border-t border-border bg-white">
+      <section className="py-12 lg:py-20 bg-background">
         <div className="max-w-7xl mx-auto px-6">
-          <h2
-            className="text-center mb-8"
-            style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(20px, 3vw, 28px)', fontWeight: 700, color: 'var(--nurc-navy)' }}
-          >
-            What Our Clients Say
-          </h2>
-          <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+          <div className="text-center mb-14">
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <div className="h-px w-12" style={{ background: 'var(--nurc-gold)' }} />
+              <span className="text-xs font-bold uppercase tracking-widest" style={{ color: 'var(--nurc-teal)', letterSpacing: '0.14em', fontFamily: 'var(--font-heading)' }}>
+                Testimonials
+              </span>
+              <div className="h-px w-12" style={{ background: 'var(--nurc-gold)' }} />
+            </div>
+            <h2
+              style={{
+                fontFamily: 'var(--font-heading)',
+                fontSize: 'clamp(26px, 3.5vw, 36px)',
+                fontWeight: 700,
+                color: 'var(--nurc-navy)',
+                lineHeight: 1.25,
+              }}
+            >
+              What Industry Leaders Say
+            </h2>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6 items-start">
             {testimonials.map((t, i) => (
-              <div key={i} className="rounded-2xl p-6 bg-[#F8F9FA] border border-border">
-                <div
-                  className="italic mb-4 text-sm md:text-base space-y-2"
-                  style={{ fontFamily: 'var(--font-display)', lineHeight: 1.7, color: 'var(--nurc-navy)' }}
-                >
-                  {t.quote.split('\n\n').map((para, pi) => (
-                    <p key={pi}>"{para}"</p>
-                  ))}
-                </div>
-                <div className="flex items-center gap-3">
-                  <div
-                    className="w-9 h-9 rounded-full flex items-center justify-center text-white text-xs font-bold shrink-0"
-                    style={{ background: 'var(--nurc-navy)', fontFamily: 'var(--font-heading)' }}
-                  >
-                    {t.initials}
-                  </div>
-                  <div>
-                    <div className="font-semibold text-xs md:text-sm" style={{ fontFamily: 'var(--font-heading)', color: 'var(--nurc-navy)' }}>
-                      {t.name}
-                    </div>
-                    <div className="text-[11px] text-muted-foreground mt-0.5">
-                      {t.title} · {t.company}
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <TestimonialCard key={i} t={t} />
             ))}
           </div>
         </div>

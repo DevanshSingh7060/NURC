@@ -7,3 +7,4 @@ dist/
 credentials
 reference-admin-pages/
 scrape-admin.mjs
+audit.md
