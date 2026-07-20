@@ -200,45 +200,29 @@ export function SectorPage() {
           {sector.subtitle && (
             <div className="flex items-center gap-3 mb-6">
               <div className="h-px w-8 bg-white/40" />
-              <span
-                className="text-xs font-bold uppercase tracking-widest text-white/70"
-                style={{ letterSpacing: '0.14em', fontFamily: 'var(--font-heading)' }}
-              >
+              <span className="text-xs font-bold uppercase text-white/70 tracking-[0.14em] font-heading">
                 {sector.subtitle}
               </span>
             </div>
           )}
-          <h1
-            className="text-white mb-5"
-            style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: 'clamp(28px, 4vw, 48px)',
-              fontWeight: 700,
-              lineHeight: 1.2,
-              maxWidth: '700px',
-            }}
-          >
+          <h1 className="text-white mb-5 font-display text-[clamp(28px,4vw,48px)] font-bold leading-[1.2] max-w-[700px]">
             {sector.title}
           </h1>
-          <p
-            className="text-white/80 mb-10"
-            style={{ fontSize: '17px', lineHeight: 1.8, maxWidth: '580px' }}
-          >
+          <p className="text-white/80 mb-10 text-[17px] leading-[1.8] max-w-[580px]">
             {sector.description}
           </p>
           <div className="flex flex-wrap gap-4">
             <button
               onClick={() => openReader(sector.article)}
-              className="flex items-center gap-2 px-6 py-3 rounded-xl font-semibold bg-white transition-all hover:opacity-90"
-              style={{ color: sector.color, fontFamily: 'var(--font-heading)' }}
+              className="flex items-center gap-2 px-6 py-3 rounded-xl font-semibold bg-white transition-all hover:opacity-90 font-heading"
+              style={{ color: sector.color }}
             >
               <BookOpen size={16} />
               Read Latest Issue
             </button>
             <Link
               to="/contact"
-              className="flex items-center gap-2 px-6 py-3 rounded-xl font-semibold border border-white/30 text-white transition-all hover:bg-white/10 animate-none"
-              style={{ fontFamily: 'var(--font-heading)' }}
+              className="flex items-center gap-2 px-6 py-3 rounded-xl font-semibold border border-white/30 text-white transition-all hover:bg-white/10 animate-none font-heading"
             >
               Request Demo
               <ArrowRight size={15} />
@@ -254,21 +238,12 @@ export function SectorPage() {
             {sector.stats.map((stat, i) => (
               <div key={i} className="text-center">
                 <div
-                  className="font-bold mb-1"
-                  style={{
-                    fontFamily: 'var(--font-display)',
-                    fontSize: '32px',
-                    color: sector.color,
-                  }}
+                  className="font-bold mb-1 font-display text-[32px]"
+                  style={{ color: sector.color }}
                 >
                   {stat.value}
                 </div>
-                <div
-                  className="text-muted-foreground text-sm"
-                  style={{ fontFamily: 'var(--font-heading)' }}
-                >
-                  {stat.label}
-                </div>
+                <div className="text-muted-foreground text-sm font-heading">{stat.label}</div>
               </div>
             ))}
           </div>
@@ -279,16 +254,7 @@ export function SectorPage() {
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16">
           <div>
-            <h2
-              className="mb-8"
-              style={{
-                fontFamily: 'var(--font-display)',
-                fontSize: 'clamp(22px, 3vw, 32px)',
-                fontWeight: 700,
-                color: 'var(--nurc-navy)',
-                lineHeight: 1.3,
-              }}
-            >
+            <h2 className="mb-8 font-display text-[clamp(22px,3vw,32px)] font-bold text-nurc-navy leading-[1.3]">
               What's Inside Every Issue
             </h2>
             <div className="space-y-4">
@@ -303,14 +269,7 @@ export function SectorPage() {
                       style={{ background: sector.color }}
                     />
                   </div>
-                  <span
-                    style={{
-                      fontSize: '15px',
-                      lineHeight: 1.65,
-                      color: 'var(--foreground)',
-                      fontFamily: 'var(--font-body)',
-                    }}
-                  >
+                  <span className="text-[15px] leading-[1.65] text-foreground font-body">
                     {benefit}
                   </span>
                 </div>
@@ -319,16 +278,7 @@ export function SectorPage() {
           </div>
 
           <div className="space-y-4">
-            <h2
-              className="mb-6"
-              style={{
-                fontFamily: 'var(--font-display)',
-                fontSize: 'clamp(22px, 3vw, 32px)',
-                fontWeight: 700,
-                color: 'var(--nurc-navy)',
-                lineHeight: 1.3,
-              }}
-            >
+            <h2 className="mb-6 font-display text-[clamp(22px,3vw,32px)] font-bold text-nurc-navy leading-[1.3]">
               Recent Issues
             </h2>
             {[
@@ -348,28 +298,18 @@ export function SectorPage() {
                 className="rounded-xl p-5 bg-card border border-border transition-all duration-200 hover:shadow-[0_4px_16px_rgba(0,0,0,0.08)]"
               >
                 <div className="flex items-start justify-between mb-2">
-                  <div
-                    className="font-semibold"
-                    style={{
-                      fontFamily: 'var(--font-heading)',
-                      fontSize: '14px',
-                      color: 'var(--nurc-navy)',
-                    }}
-                  >
+                  <div className="font-semibold font-heading text-[14px] text-nurc-navy">
                     {sector.article.title} — {item.title}
                   </div>
                   <span className="text-xs text-muted-foreground shrink-0 ml-4">{item.date}</span>
                 </div>
-                <p
-                  className="text-muted-foreground mb-4"
-                  style={{ fontSize: '13px', lineHeight: 1.65 }}
-                >
+                <p className="text-muted-foreground mb-4 text-[13px] leading-[1.65]">
                   {item.summary}
                 </p>
                 <button
                   onClick={() => openReader(sector.article)}
-                  className="flex items-center gap-1.5 text-xs font-semibold transition-opacity hover:opacity-70"
-                  style={{ color: sector.color, fontFamily: 'var(--font-heading)' }}
+                  className="flex items-center gap-1.5 text-xs font-semibold transition-opacity hover:opacity-70 font-heading"
+                  style={{ color: sector.color }}
                 >
                   <BookOpen size={13} />
                   Open in Reader Mode
@@ -379,8 +319,8 @@ export function SectorPage() {
 
             <Link
               to="/newsletters"
-              className="flex items-center gap-2 text-sm font-semibold mt-4 transition-opacity hover:opacity-70"
-              style={{ color: sector.color, fontFamily: 'var(--font-heading)' }}
+              className="flex items-center gap-2 text-sm font-semibold mt-4 transition-opacity hover:opacity-70 font-heading"
+              style={{ color: sector.color }}
             >
               View full archive
               <ArrowRight size={14} />
@@ -390,27 +330,19 @@ export function SectorPage() {
       </section>
 
       {/* CTA */}
-      <section className="py-16" style={{ background: 'var(--nurc-navy)' }}>
+      <section className="py-16 bg-nurc-navy">
         <div className="max-w-3xl mx-auto px-6 text-center">
-          <h2
-            className="text-white mb-4"
-            style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: 'clamp(24px, 3.5vw, 36px)',
-              fontWeight: 700,
-              lineHeight: 1.2,
-            }}
-          >
+          <h2 className="text-white mb-4 font-display text-[clamp(24px,3.5vw,36px)] font-bold leading-[1.2]">
             Start with a Free Sample Issue
           </h2>
-          <p className="text-white/60 mb-8" style={{ fontSize: '16px', lineHeight: 1.75 }}>
+          <p className="text-white/60 mb-8 text-[16px] leading-[1.75]">
             No commitment required. Experience the depth and quality of our {sector.title} before
             subscribing.
           </p>
           <button
             onClick={() => openReader(sector.article)}
-            className="px-8 py-3.5 rounded-xl font-semibold text-white transition-all hover:opacity-90"
-            style={{ background: sector.color, fontFamily: 'var(--font-heading)' }}
+            className="px-8 py-3.5 rounded-xl font-semibold text-white transition-all hover:opacity-90 font-heading"
+            style={{ background: sector.color }}
           >
             Read Sample Issue Now
           </button>

@@ -113,8 +113,7 @@ export function ReaderPage() {
         </p>
         <Link
           to="/newsletters"
-          className="px-4 py-2 bg-navy text-white rounded-lg text-sm font-semibold"
-          style={{ background: 'var(--nurc-navy)' }}
+          className="px-4 py-2 text-white rounded-lg text-sm font-semibold bg-nurc-navy"
         >
           Return to Archive
         </Link>
@@ -188,8 +187,8 @@ export function ReaderPage() {
 
   return (
     <div
-      className="min-h-[calc(100vh-64px)] transition-all duration-300 flex flex-col relative"
-      style={{ background: modeColors.bg, fontFamily: 'var(--font-body)', color: modeColors.text }}
+      className="min-h-[calc(100vh-64px)] transition-all duration-300 flex flex-col relative font-body"
+      style={{ background: modeColors.bg, color: modeColors.text }}
       id="reader-outer-wrapper"
     >
       {/* Dynamic Style Injection Override to enforce comfort colors on active themes without reloads */}
@@ -261,8 +260,8 @@ export function ReaderPage() {
         style={{ background: modeColors.border }}
       >
         <div
-          className="h-full transition-all duration-150"
-          style={{ width: `${progress}%`, background: 'var(--nurc-teal)' }}
+          className="h-full transition-all duration-150 bg-nurc-teal"
+          style={{ width: `${progress}%` }}
         />
       </div>
       {/* Top Floating Control Bar */}
@@ -273,8 +272,7 @@ export function ReaderPage() {
         <div className="flex items-center gap-2 min-w-0 flex-1">
           <Link
             to="/newsletters"
-            className="flex items-center gap-1 text-sm font-semibold transition-opacity hover:opacity-70 shrink-0 cursor-pointer"
-            style={{ color: 'var(--nurc-teal)' }}
+            className="flex items-center gap-1 text-sm font-semibold transition-opacity hover:opacity-70 shrink-0 cursor-pointer text-nurc-teal"
             aria-label="Return to newsletters archive"
           >
             <ArrowLeft size={16} />
@@ -283,14 +281,14 @@ export function ReaderPage() {
           <div className="h-4 w-px hidden sm:block" style={{ background: modeColors.border }} />
           <div className="flex items-center gap-1.5 min-w-0">
             <span
-              className="text-xs sm:text-sm font-bold truncate pr-1"
-              style={{ color: modeColors.text, fontFamily: 'var(--font-heading)' }}
+              className="text-xs sm:text-sm font-bold truncate pr-1 font-heading"
+              style={{ color: modeColors.text }}
             >
               {newsletter.article.title}
             </span>
             <span
-              className="hidden md:inline text-[10px] sm:text-xs font-semibold shrink-0"
-              style={{ color: modeColors.muted, fontFamily: 'var(--font-heading)' }}
+              className="hidden md:inline text-[10px] sm:text-xs font-semibold shrink-0 font-heading"
+              style={{ color: modeColors.muted }}
             >
               · {newsletter.article.readTime} · {Math.round(progress)}% Read
             </span>
@@ -398,10 +396,7 @@ export function ReaderPage() {
               borderColor: settings.readingMode === 'dark' ? '#2C2C2E' : 'var(--nurc-gold)',
             }}
           >
-            <div
-              className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-wider"
-              style={{ color: 'var(--nurc-gold)' }}
-            >
+            <div className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-wider text-nurc-gold">
               ★ Key Intelligence Takeaways
             </div>
             <ul className="space-y-2">
@@ -411,9 +406,7 @@ export function ReaderPage() {
                   className="text-xs font-semibold leading-relaxed flex items-start gap-2 text-gray-800"
                   style={{ color: modeColors.text }}
                 >
-                  <span className="shrink-0 mt-1" style={{ color: 'var(--nurc-gold)' }}>
-                    •
-                  </span>
+                  <span className="shrink-0 mt-1 text-nurc-gold">•</span>
                   <span>{h}</span>
                 </li>
               ))}
@@ -424,8 +417,7 @@ export function ReaderPage() {
                   const el = document.getElementById('full-briefing-start');
                   if (el) el.scrollIntoView({ behavior: 'smooth' });
                 }}
-                className="mt-2 text-xs font-bold hover:underline flex items-center gap-1 bg-transparent border-0 cursor-pointer p-0"
-                style={{ color: 'var(--nurc-teal)' }}
+                className="mt-2 text-xs font-bold hover:underline flex items-center gap-1 bg-transparent border-0 cursor-pointer p-0 text-nurc-teal"
               >
                 Read Full Intelligence Brief ↓
               </button>
@@ -438,10 +430,7 @@ export function ReaderPage() {
             <div className="space-y-6">
               {/* First Section Visible */}
               <div className="space-y-3 text-left">
-                <h2
-                  className="text-sm font-extrabold uppercase tracking-wider"
-                  style={{ color: 'var(--nurc-teal)' }}
-                >
+                <h2 className="text-sm font-extrabold uppercase tracking-wider text-nurc-teal">
                   {newsletter.article.content[0]?.heading || '01 · PREVIEW BRIEF'}
                 </h2>
                 <p className="text-sm md:text-base leading-relaxed text-gray-700 font-medium">
@@ -473,10 +462,7 @@ export function ReaderPage() {
                       <span className="font-bold text-lg">🔒</span>
                     </div>
                     <div className="space-y-1.5">
-                      <h4
-                        className="font-bold text-sm text-navy uppercase tracking-wider"
-                        style={{ color: 'var(--nurc-navy)', fontFamily: 'var(--font-heading)' }}
-                      >
+                      <h4 className="font-bold text-sm uppercase tracking-wider text-nurc-navy font-heading">
                         Unlock Full Intelligence
                       </h4>
                       <p className="text-[11px] text-muted-foreground leading-relaxed max-w-xs mx-auto">

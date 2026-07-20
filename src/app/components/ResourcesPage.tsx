@@ -112,39 +112,20 @@ export function ResourcesPage() {
         canonicalUrl="/insights"
       />
       {/* Hero */}
-      <section className="py-16 border-b border-border" style={{ background: '#FFFFFF' }}>
+      <section className="py-16 border-b border-border bg-white">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex items-center gap-3 mb-5">
-            <div className="h-px w-8" style={{ background: 'var(--nurc-gold)' }} />
-            <span
-              className="text-xs font-bold uppercase tracking-widest"
-              style={{
-                color: 'var(--nurc-teal)',
-                letterSpacing: '0.14em',
-                fontFamily: 'var(--font-heading)',
-              }}
-            >
+            <div className="h-px w-8 bg-nurc-gold" />
+            <span className="text-xs font-bold uppercase text-nurc-teal tracking-[0.14em] font-heading">
               Resources
             </span>
           </div>
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-8">
             <div>
-              <h1
-                className="mb-3"
-                style={{
-                  fontFamily: 'var(--font-display)',
-                  fontSize: 'clamp(28px, 4vw, 42px)',
-                  fontWeight: 700,
-                  color: 'var(--nurc-navy)',
-                  lineHeight: 1.2,
-                }}
-              >
+              <h1 className="mb-3 font-display text-[clamp(28px,4vw,42px)] font-bold text-nurc-navy leading-[1.2]">
                 Intelligence Library
               </h1>
-              <p
-                className="text-muted-foreground"
-                style={{ fontSize: '16px', lineHeight: 1.75, maxWidth: '520px' }}
-              >
+              <p className="text-muted-foreground text-[16px] leading-[1.75] max-w-[520px]">
                 Deep-read analysis from NURC's editorial team. Every article is available in Reader
                 Mode for a distraction-free experience.
               </p>
@@ -160,8 +141,7 @@ export function ResourcesPage() {
                 placeholder="Search articles…"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-9 pr-4 py-2.5 rounded-xl border border-border bg-background text-sm w-64 outline-none transition-all"
-                style={{ fontFamily: 'var(--font-body)', color: 'var(--foreground)' }}
+                className="pl-9 pr-4 py-2.5 rounded-xl border border-border bg-background text-sm w-64 outline-none transition-all font-body text-foreground"
               />
             </div>
           </div>
@@ -172,12 +152,11 @@ export function ResourcesPage() {
               <button
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
-                className="px-4 py-1.5 rounded-full text-sm font-semibold transition-all"
+                className="px-4 py-1.5 rounded-full text-sm font-semibold transition-all font-heading"
                 style={{
                   background: activeCategory === cat ? 'var(--nurc-navy)' : 'transparent',
                   color: activeCategory === cat ? '#fff' : 'var(--nurc-navy)',
                   border: `1px solid ${activeCategory === cat ? 'var(--nurc-navy)' : 'var(--border)'}`,
-                  fontFamily: 'var(--font-heading)',
                 }}
               >
                 {cat}
@@ -192,67 +171,37 @@ export function ResourcesPage() {
           {/* Featured */}
           {featured && (
             <div className="rounded-2xl overflow-hidden border border-border bg-card mb-10 grid lg:grid-cols-2 transition-all duration-200 hover:shadow-[0_12px_32px_rgba(0,0,0,0.10)]">
-              <div className="relative overflow-hidden" style={{ minHeight: '280px' }}>
+              <div className="relative overflow-hidden min-h-[280px]">
                 <img
                   src={featured.image}
                   alt={featured.title}
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute top-4 left-4">
-                  <span
-                    className="px-3 py-1 rounded-full text-xs font-bold text-white uppercase tracking-wider"
-                    style={{
-                      background: 'var(--nurc-teal)',
-                      letterSpacing: '0.1em',
-                      fontFamily: 'var(--font-heading)',
-                    }}
-                  >
+                  <span className="px-3 py-1 rounded-full text-xs font-bold text-white uppercase bg-nurc-teal tracking-[0.1em] font-heading">
                     Featured
                   </span>
                 </div>
               </div>
               <div className="p-8 flex flex-col justify-center">
-                <span
-                  className="text-xs font-bold uppercase tracking-widest mb-3"
-                  style={{
-                    color: 'var(--nurc-teal)',
-                    fontFamily: 'var(--font-heading)',
-                    letterSpacing: '0.12em',
-                  }}
-                >
+                <span className="text-xs font-bold uppercase mb-3 text-nurc-teal font-heading tracking-[0.12em]">
                   {featured.category}
                 </span>
-                <h2
-                  className="mb-4"
-                  style={{
-                    fontFamily: 'var(--font-display)',
-                    fontSize: 'clamp(20px, 2.5vw, 28px)',
-                    fontWeight: 700,
-                    color: 'var(--nurc-navy)',
-                    lineHeight: 1.25,
-                  }}
-                >
+                <h2 className="mb-4 font-display text-[clamp(20px,2.5vw,28px)] font-bold text-nurc-navy leading-[1.25]">
                   {featured.title}
                 </h2>
-                <p
-                  className="text-muted-foreground mb-6"
-                  style={{ fontSize: '15px', lineHeight: 1.75 }}
-                >
+                <p className="text-muted-foreground mb-6 text-[15px] leading-[1.75]">
                   {featured.summary}
                 </p>
                 <div className="flex items-center gap-4 mb-6">
-                  <span
-                    className="text-xs text-muted-foreground flex items-center gap-1"
-                    style={{ fontFamily: 'var(--font-heading)' }}
-                  >
+                  <span className="text-xs text-muted-foreground flex items-center gap-1 font-heading">
                     <Clock size={12} /> {featured.readTime}
                   </span>
                   <span className="text-xs text-muted-foreground">{featured.date}</span>
                 </div>
                 <button
                   onClick={() => openReader(featured.article)}
-                  className="self-start flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white transition-opacity hover:opacity-90"
-                  style={{ background: 'var(--nurc-teal)', fontFamily: 'var(--font-heading)' }}
+                  className="self-start flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white transition-opacity hover:opacity-90 bg-nurc-teal font-heading"
                 >
                   <BookOpen size={14} />
                   Open in Reader Mode
@@ -268,7 +217,7 @@ export function ResourcesPage() {
                 key={i}
                 className="rounded-2xl overflow-hidden bg-card border border-border transition-all duration-200 hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] hover:-translate-y-[3px]"
               >
-                <div className="relative overflow-hidden" style={{ height: '180px' }}>
+                <div className="relative overflow-hidden h-[180px]">
                   <img
                     src={article.image}
                     alt={article.title}
@@ -277,46 +226,24 @@ export function ResourcesPage() {
                 </div>
                 <div className="p-5">
                   <div className="flex items-center justify-between mb-3">
-                    <span
-                      className="text-xs font-bold uppercase tracking-widest"
-                      style={{
-                        color: 'var(--nurc-teal)',
-                        fontFamily: 'var(--font-heading)',
-                        letterSpacing: '0.1em',
-                      }}
-                    >
+                    <span className="text-xs font-bold uppercase text-nurc-teal font-heading tracking-[0.1em]">
                       {article.category}
                     </span>
-                    <span
-                      className="text-xs text-muted-foreground flex items-center gap-1"
-                      style={{ fontFamily: 'var(--font-heading)' }}
-                    >
+                    <span className="text-xs text-muted-foreground flex items-center gap-1 font-heading">
                       <Clock size={11} /> {article.readTime}
                     </span>
                   </div>
-                  <h3
-                    className="mb-2 font-bold"
-                    style={{
-                      fontFamily: 'var(--font-heading)',
-                      fontSize: '15px',
-                      color: 'var(--nurc-navy)',
-                      lineHeight: 1.3,
-                    }}
-                  >
+                  <h3 className="mb-2 font-bold font-heading text-[15px] text-nurc-navy leading-[1.3]">
                     {article.title}
                   </h3>
-                  <p
-                    className="text-muted-foreground mb-4"
-                    style={{ fontSize: '13px', lineHeight: 1.65 }}
-                  >
+                  <p className="text-muted-foreground mb-4 text-[13px] leading-[1.65]">
                     {article.summary.slice(0, 100)}...
                   </p>
                   <div className="flex items-center justify-between">
                     <span className="text-xs text-muted-foreground">{article.date}</span>
                     <button
                       onClick={() => openReader(article.article)}
-                      className="flex items-center gap-1 text-xs font-semibold transition-opacity hover:opacity-70"
-                      style={{ color: 'var(--nurc-teal)', fontFamily: 'var(--font-heading)' }}
+                      className="flex items-center gap-1 text-xs font-semibold transition-opacity hover:opacity-70 text-nurc-teal font-heading"
                     >
                       <BookOpen size={12} />
                       Read
@@ -329,9 +256,7 @@ export function ResourcesPage() {
 
           {filtered.length === 0 && (
             <div className="text-center py-16 text-muted-foreground">
-              <p style={{ fontFamily: 'var(--font-heading)' }}>
-                No articles found. Try a different search or category.
-              </p>
+              <p className="font-heading">No articles found. Try a different search or category.</p>
             </div>
           )}
         </div>

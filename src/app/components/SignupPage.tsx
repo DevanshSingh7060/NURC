@@ -102,23 +102,14 @@ export function SignupPage() {
         {/* Brand Banner */}
         <div className="text-center mb-10">
           <div className="inline-flex items-center gap-2 mb-3">
-            <div
-              className="w-6 h-6 rounded text-white flex items-center justify-center font-bold text-xs"
-              style={{ background: 'var(--nurc-navy)' }}
-            >
+            <div className="w-6 h-6 rounded text-white flex items-center justify-center font-bold text-xs bg-nurc-navy">
               N
             </div>
-            <span
-              className="font-bold tracking-wider text-xs uppercase"
-              style={{ color: 'var(--nurc-teal)', letterSpacing: '0.15em' }}
-            >
+            <span className="font-bold text-xs uppercase text-nurc-teal tracking-[0.15em]">
               NURC Intelligence Network
             </span>
           </div>
-          <h1
-            className="text-3xl font-bold tracking-tight text-navy"
-            style={{ color: 'var(--nurc-navy)', fontFamily: 'var(--font-heading)' }}
-          >
+          <h1 className="text-3xl font-bold tracking-tight text-nurc-navy font-heading">
             Register as a Subscriber
           </h1>
           <p className="mt-2 text-sm text-muted-foreground max-w-lg mx-auto">
@@ -135,14 +126,8 @@ export function SignupPage() {
         >
           {/* Section 1: Personal Info */}
           <div>
-            <h3
-              className="text-lg font-bold pb-2 border-b border-border flex items-center gap-2"
-              style={{ color: 'var(--nurc-navy)', fontFamily: 'var(--font-heading)' }}
-            >
-              <span
-                className="w-5 h-5 rounded-full bg-navy text-white text-xs flex items-center justify-center"
-                style={{ background: 'var(--nurc-navy)' }}
-              >
+            <h3 className="text-lg font-bold pb-2 border-b border-border flex items-center gap-2 text-nurc-navy font-heading">
+              <span className="w-5 h-5 rounded-full text-white text-xs flex items-center justify-center bg-nurc-navy">
                 1
               </span>
               Personal Information
@@ -218,14 +203,8 @@ export function SignupPage() {
 
           {/* Section 2: Company Info */}
           <div>
-            <h3
-              className="text-lg font-bold pb-2 border-b border-border flex items-center gap-2"
-              style={{ color: 'var(--nurc-navy)', fontFamily: 'var(--font-heading)' }}
-            >
-              <span
-                className="w-5 h-5 rounded-full bg-navy text-white text-xs flex items-center justify-center"
-                style={{ background: 'var(--nurc-navy)' }}
-              >
+            <h3 className="text-lg font-bold pb-2 border-b border-border flex items-center gap-2 text-nurc-navy font-heading">
+              <span className="w-5 h-5 rounded-full text-white text-xs flex items-center justify-center bg-nurc-navy">
                 2
               </span>
               Company Details
@@ -311,14 +290,8 @@ export function SignupPage() {
 
           {/* Section 3: Preferences */}
           <div>
-            <h3
-              className="text-lg font-bold pb-2 border-b border-border flex items-center gap-2"
-              style={{ color: 'var(--nurc-navy)', fontFamily: 'var(--font-heading)' }}
-            >
-              <span
-                className="w-5 h-5 rounded-full bg-navy text-white text-xs flex items-center justify-center"
-                style={{ background: 'var(--nurc-navy)' }}
-              >
+            <h3 className="text-lg font-bold pb-2 border-b border-border flex items-center gap-2 text-nurc-navy font-heading">
+              <span className="w-5 h-5 rounded-full text-white text-xs flex items-center justify-center bg-nurc-navy">
                 3
               </span>
               Newsletter Intelligence Settings
@@ -361,14 +334,8 @@ export function SignupPage() {
 
           {/* Section 4: Passwords */}
           <div>
-            <h3
-              className="text-lg font-bold pb-2 border-b border-border flex items-center gap-2"
-              style={{ color: 'var(--nurc-navy)', fontFamily: 'var(--font-heading)' }}
-            >
-              <span
-                className="w-5 h-5 rounded-full bg-navy text-white text-xs flex items-center justify-center"
-                style={{ background: 'var(--nurc-navy)' }}
-              >
+            <h3 className="text-lg font-bold pb-2 border-b border-border flex items-center gap-2 text-nurc-navy font-heading">
+              <span className="w-5 h-5 rounded-full text-white text-xs flex items-center justify-center bg-nurc-navy">
                 4
               </span>
               Security &amp; Credentials
@@ -455,7 +422,7 @@ export function SignupPage() {
                 className="ml-2 block text-xs text-muted-foreground cursor-pointer select-none leading-relaxed"
               >
                 I agree to the{' '}
-                <span className="underline font-semibold" style={{ color: 'var(--nurc-navy)' }}>
+                <span className="underline font-semibold text-nurc-navy">
                   Terms &amp; Conditions
                 </span>{' '}
                 and consent to receive daily or weekly sector analysis reports from NURC MediaNext
@@ -472,20 +439,14 @@ export function SignupPage() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="btn-nurc flex-1 h-12 rounded-xl text-white font-semibold text-sm transition-all focus:outline-none cursor-pointer flex items-center justify-center gap-2 animate-none disabled:opacity-60 disabled:cursor-not-allowed"
-                style={{ background: 'var(--nurc-navy)' }}
+                className="btn-nurc flex-1 h-12 rounded-xl text-white font-semibold text-sm transition-all focus:outline-none cursor-pointer flex items-center justify-center gap-2 animate-none disabled:opacity-60 disabled:cursor-not-allowed bg-nurc-navy"
               >
                 {isSubmitting && <Loader2 size={16} className="animate-spin" />}
                 {isSubmitting ? 'Creating account…' : 'Create Subscriber Account'}
               </button>
               <Link
                 to="/login"
-                className="btn-nurc text-center h-12 px-6 rounded-xl text-sm font-semibold border transition-all hover:bg-muted flex items-center justify-center animate-none"
-                style={{
-                  borderColor: 'var(--border)',
-                  color: 'var(--nurc-navy)',
-                  textDecoration: 'none',
-                }}
+                className="btn-nurc text-center h-12 px-6 rounded-xl text-sm font-semibold border transition-all hover:bg-muted flex items-center justify-center animate-none border-border text-nurc-navy no-underline"
               >
                 Login Instead
               </Link>

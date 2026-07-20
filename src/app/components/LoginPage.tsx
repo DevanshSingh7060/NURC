@@ -90,41 +90,26 @@ export function LoginPage() {
         noindex={true}
       />
       {/* Left panel - Editorial Quote */}
-      <div
-        className="hidden lg:flex flex-col justify-between p-12 text-white relative overflow-hidden"
-        style={{ background: 'var(--nurc-navy)' }}
-      >
+      <div className="hidden lg:flex flex-col justify-between p-12 text-white relative overflow-hidden bg-nurc-navy">
         <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#006D7A_1px,transparent_1px)] [background-size:16px_16px]"></div>
 
         <div className="relative z-10 flex items-center gap-2">
-          <div
-            className="w-6 h-6 rounded bg-white text-navy flex items-center justify-center font-bold text-xs"
-            style={{ color: 'var(--nurc-navy)' }}
-          >
+          <div className="w-6 h-6 rounded bg-white text-nurc-navy flex items-center justify-center font-bold text-xs">
             N
           </div>
-          <span
-            className="font-bold tracking-wider text-xs uppercase"
-            style={{ letterSpacing: '0.15em' }}
-          >
+          <span className="font-bold text-xs uppercase tracking-[0.15em]">
             NURC Intelligence Platform
           </span>
         </div>
 
         <div className="relative z-10 my-auto max-w-lg space-y-6">
-          <div className="h-0.5 w-16" style={{ background: 'var(--nurc-gold)' }} />
+          <div className="h-0.5 w-16 bg-nurc-gold" />
           <blockquote className="space-y-4">
-            <p
-              className="text-3xl font-normal leading-relaxed italic"
-              style={{ fontFamily: 'var(--font-display)' }}
-            >
+            <p className="text-3xl font-normal leading-relaxed italic font-display">
               "The ability to filter noise and access highly structured, industry-specific
               intelligence is no longer an advantage — it is a prerequisite for corporate survival."
             </p>
-            <cite
-              className="block text-sm not-italic font-semibold tracking-wider uppercase"
-              style={{ color: 'var(--nurc-gold)', letterSpacing: '0.1em' }}
-            >
+            <cite className="block text-sm not-italic font-semibold uppercase text-nurc-gold tracking-[0.1em]">
               — NURC Research Board, Annual Executive Briefing
             </cite>
           </blockquote>
@@ -144,18 +129,12 @@ export function LoginPage() {
               {/* Header */}
               <div>
                 <div className="flex items-center justify-center lg:justify-start gap-2 mb-4">
-                  <span
-                    className="text-xs font-bold uppercase tracking-widest text-muted-foreground"
-                    style={{ letterSpacing: '0.12em', fontFamily: 'var(--font-heading)' }}
-                  >
+                  <span className="text-xs font-bold uppercase text-muted-foreground tracking-[0.12em] font-heading">
                     Subscriber Portal
                   </span>
                   <div className="h-px w-8 bg-border" />
                 </div>
-                <h2
-                  className="text-3xl font-bold tracking-tight text-navy"
-                  style={{ color: 'var(--nurc-navy)', fontFamily: 'var(--font-heading)' }}
-                >
+                <h2 className="text-3xl font-bold tracking-tight text-nurc-navy font-heading">
                   Access Executive Intelligence
                 </h2>
                 <p className="mt-2 text-sm text-muted-foreground">
@@ -182,8 +161,7 @@ export function LoginPage() {
                 <div className="space-y-1.5">
                   <label
                     htmlFor="login-email"
-                    className="block text-sm font-semibold"
-                    style={{ color: 'var(--nurc-navy)' }}
+                    className="block text-sm font-semibold text-nurc-navy"
                   >
                     Business Email Address
                   </label>
@@ -212,16 +190,14 @@ export function LoginPage() {
                   <div className="flex items-center justify-between">
                     <label
                       htmlFor="login-password"
-                      className="block text-sm font-semibold"
-                      style={{ color: 'var(--nurc-navy)' }}
+                      className="block text-sm font-semibold text-nurc-navy"
                     >
                       Password
                     </label>
                     <button
                       type="button"
                       onClick={() => setMode('forgot')}
-                      className="text-xs font-semibold text-teal hover:underline"
-                      style={{ color: 'var(--nurc-teal)' }}
+                      className="text-xs font-semibold hover:underline text-nurc-teal"
                     >
                       Forgot Password?
                     </button>
@@ -260,8 +236,7 @@ export function LoginPage() {
                   <input
                     id="remember-me"
                     type="checkbox"
-                    className="h-4 w-4 rounded border-border text-teal focus:ring-teal cursor-pointer"
-                    style={{ accentColor: 'var(--nurc-teal)' }}
+                    className="h-4 w-4 rounded border-border text-teal focus:ring-teal cursor-pointer accent-nurc-teal"
                     {...loginForm.register('rememberMe')}
                   />
                   <label
@@ -275,8 +250,7 @@ export function LoginPage() {
                 <button
                   type="submit"
                   disabled={loginForm.formState.isSubmitting}
-                  className="btn-nurc w-full h-12 rounded-xl text-white font-semibold text-sm transition-all focus:outline-none flex items-center justify-center gap-2 animate-none disabled:opacity-60 disabled:cursor-not-allowed"
-                  style={{ background: 'var(--nurc-navy)' }}
+                  className="btn-nurc w-full h-12 rounded-xl text-white font-semibold text-sm transition-all focus:outline-none flex items-center justify-center gap-2 animate-none disabled:opacity-60 disabled:cursor-not-allowed bg-nurc-navy"
                 >
                   {loginForm.formState.isSubmitting && (
                     <Loader2 size={16} className="animate-spin" />
@@ -288,19 +262,11 @@ export function LoginPage() {
               <div className="text-center pt-4 border-t border-border">
                 <p className="text-xs text-muted-foreground">
                   Don't have an intelligence subscription?{' '}
-                  <Link
-                    to="/signup"
-                    className="font-semibold text-teal hover:underline"
-                    style={{ color: 'var(--nurc-teal)' }}
-                  >
+                  <Link to="/signup" className="font-semibold hover:underline text-nurc-teal">
                     Create Free Account
                   </Link>{' '}
                   or{' '}
-                  <Link
-                    to="/contact"
-                    className="font-semibold text-teal hover:underline"
-                    style={{ color: 'var(--nurc-teal)' }}
-                  >
+                  <Link to="/contact" className="font-semibold hover:underline text-nurc-teal">
                     Get In Touch
                   </Link>
                 </p>
@@ -332,10 +298,7 @@ export function LoginPage() {
                     <MailCheck size={28} />
                   </div>
                   <div className="space-y-2">
-                    <h2
-                      className="text-2xl font-bold tracking-tight"
-                      style={{ color: 'var(--nurc-navy)', fontFamily: 'var(--font-heading)' }}
-                    >
+                    <h2 className="text-2xl font-bold tracking-tight text-nurc-navy font-heading">
                       Check your inbox
                     </h2>
                     <p className="text-sm text-muted-foreground leading-relaxed">

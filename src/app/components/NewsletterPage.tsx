@@ -199,27 +199,17 @@ export function NewsletterPage() {
       />
 
       {/* Archive Hero Section */}
-      <section className="py-16 border-b border-border" style={{ background: '#FFFFFF' }}>
+      <section className="py-16 border-b border-border bg-white">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex items-center gap-3 mb-5">
-            <div className="h-px w-8" style={{ background: 'var(--nurc-gold)' }} />
-            <span
-              className="text-xs font-bold uppercase tracking-widest text-[#006D7A]"
-              style={{ letterSpacing: '0.14em', fontFamily: 'var(--font-heading)' }}
-            >
+            <div className="h-px w-8 bg-nurc-gold" />
+            <span className="text-xs font-bold uppercase text-[#006D7A] tracking-[0.14em] font-heading">
               Corporate Intelligence Archive
             </span>
           </div>
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
             <div>
-              <h1
-                className="mb-4 text-3xl md:text-5xl font-bold tracking-tight text-navy"
-                style={{
-                  fontFamily: 'var(--font-display)',
-                  color: 'var(--nurc-navy)',
-                  lineHeight: 1.2,
-                }}
-              >
+              <h1 className="mb-4 text-3xl md:text-5xl font-bold tracking-tight font-display text-nurc-navy leading-[1.2]">
                 Analyst Briefings Index
               </h1>
               <p className="text-muted-foreground text-sm leading-relaxed max-w-[560px]">
@@ -230,8 +220,7 @@ export function NewsletterPage() {
             </div>
             <Link
               to="/subscribe"
-              className="shrink-0 flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-white transition-all hover:opacity-90 text-sm cursor-pointer"
-              style={{ background: 'var(--nurc-teal)', fontFamily: 'var(--font-heading)' }}
+              className="shrink-0 flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-white transition-all hover:opacity-90 text-sm cursor-pointer bg-nurc-teal font-heading"
             >
               Subscribe for Full Access
               <ArrowRight size={15} />
@@ -375,8 +364,7 @@ export function NewsletterPage() {
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery('')}
-                className="text-teal hover:underline font-bold"
-                style={{ color: 'var(--nurc-teal)' }}
+                className="hover:underline font-bold text-nurc-teal"
               >
                 Clear Search
               </button>
@@ -396,8 +384,7 @@ export function NewsletterPage() {
                   setActiveRange('all');
                   setSearchQuery('');
                 }}
-                className="px-4 py-2 border rounded-lg text-xs font-semibold hover:bg-muted text-navy cursor-pointer"
-                style={{ color: 'var(--nurc-navy)' }}
+                className="px-4 py-2 border rounded-lg text-xs font-semibold hover:bg-muted cursor-pointer text-nurc-navy"
               >
                 Reset All Filters
               </button>
@@ -436,10 +423,7 @@ export function NewsletterPage() {
                           </span>
                         </div>
 
-                        <h3
-                          className="font-bold text-base tracking-tight text-navy mb-2 line-clamp-1"
-                          style={{ color: 'var(--nurc-navy)', fontFamily: 'var(--font-heading)' }}
-                        >
+                        <h3 className="font-bold text-base tracking-tight mb-2 line-clamp-1 text-nurc-navy font-heading">
                           {nl.title}
                         </h3>
 
@@ -448,10 +432,7 @@ export function NewsletterPage() {
                           <span>•</span>
                           <span>Issue {nl.issue}</span>
                           <span>•</span>
-                          <span
-                            className="flex items-center gap-1 text-teal"
-                            style={{ color: 'var(--nurc-teal)' }}
-                          >
+                          <span className="flex items-center gap-1 text-nurc-teal">
                             <Clock size={11} />
                             {nl.readTime} read
                           </span>
@@ -482,8 +463,8 @@ export function NewsletterPage() {
                     <div className="px-6 pb-6 pt-4 border-t border-border bg-muted/40 flex items-center justify-between gap-2">
                       <button
                         onClick={() => openReader(nl.article, nl.id)}
-                        className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg text-xs font-bold text-white transition-opacity hover:opacity-90 shrink-0 cursor-pointer"
-                        style={{ background: nl.color, fontFamily: 'var(--font-heading)' }}
+                        className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg text-xs font-bold text-white transition-opacity hover:opacity-90 shrink-0 cursor-pointer font-heading"
+                        style={{ background: nl.color }}
                       >
                         <BookOpen size={13} />
                         Read Briefing

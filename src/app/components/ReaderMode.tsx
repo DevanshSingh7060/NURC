@@ -231,8 +231,8 @@ export function ReaderModeOverlay() {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex flex-col transition-all duration-300"
-      style={{ background: modeColors.bg, fontFamily: 'var(--font-body)' }}
+      className="fixed inset-0 z-50 flex flex-col transition-all duration-300 font-body"
+      style={{ background: modeColors.bg }}
       id="reader-outer-wrapper"
     >
       <style>{`
@@ -302,8 +302,8 @@ export function ReaderModeOverlay() {
         style={{ background: modeColors.border }}
       >
         <div
-          className="h-full transition-all duration-150"
-          style={{ width: `${progress}%`, background: 'var(--nurc-teal)' }}
+          className="h-full transition-all duration-150 bg-nurc-teal"
+          style={{ width: `${progress}%` }}
         />
       </div>
 
@@ -314,8 +314,7 @@ export function ReaderModeOverlay() {
         <div className="flex items-center gap-2 min-w-0 flex-1">
           <button
             onClick={closeReader}
-            className="flex items-center gap-1 text-sm font-semibold transition-opacity hover:opacity-70 shrink-0 cursor-pointer bg-transparent border-0"
-            style={{ color: 'var(--nurc-teal)', fontFamily: 'var(--font-heading)' }}
+            className="flex items-center gap-1 text-sm font-semibold transition-opacity hover:opacity-70 shrink-0 cursor-pointer bg-transparent border-0 text-nurc-teal font-heading"
             aria-label="Exit reader mode"
           >
             <ArrowLeft size={16} />
@@ -324,14 +323,14 @@ export function ReaderModeOverlay() {
           <div className="h-4 w-px hidden sm:block" style={{ background: modeColors.border }} />
           <div className="flex items-center gap-1.5 min-w-0">
             <span
-              className="text-xs sm:text-sm font-bold truncate pr-1"
-              style={{ color: modeColors.text, fontFamily: 'var(--font-heading)' }}
+              className="text-xs sm:text-sm font-bold truncate pr-1 font-heading"
+              style={{ color: modeColors.text }}
             >
               {article.title}
             </span>
             <span
-              className="hidden md:inline text-[10px] sm:text-xs font-semibold shrink-0"
-              style={{ color: modeColors.muted, fontFamily: 'var(--font-heading)' }}
+              className="hidden md:inline text-[10px] sm:text-xs font-semibold shrink-0 font-heading"
+              style={{ color: modeColors.muted }}
             >
               · {article.readTime} · {Math.round(progress)}% Read
             </span>
@@ -453,10 +452,7 @@ export function ReaderModeOverlay() {
               borderColor: settings.readingMode === 'dark' ? '#2C2C2E' : 'var(--nurc-gold)',
             }}
           >
-            <div
-              className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-wider"
-              style={{ color: 'var(--nurc-gold)' }}
-            >
+            <div className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-wider text-nurc-gold">
               ★ Key Intelligence Takeaways
             </div>
             <ul className="space-y-2">
@@ -466,9 +462,7 @@ export function ReaderModeOverlay() {
                   className="text-xs font-semibold leading-relaxed flex items-start gap-2 text-gray-800"
                   style={{ color: modeColors.text }}
                 >
-                  <span className="shrink-0 mt-1" style={{ color: 'var(--nurc-gold)' }}>
-                    •
-                  </span>
+                  <span className="shrink-0 mt-1 text-nurc-gold">•</span>
                   <span>{h}</span>
                 </li>
               ))}
@@ -479,8 +473,7 @@ export function ReaderModeOverlay() {
                   const el = document.getElementById('full-briefing-start');
                   if (el) el.scrollIntoView({ behavior: 'smooth' });
                 }}
-                className="mt-2 text-xs font-bold hover:underline flex items-center gap-1 bg-transparent border-0 cursor-pointer p-0"
-                style={{ color: 'var(--nurc-teal)' }}
+                className="mt-2 text-xs font-bold hover:underline flex items-center gap-1 bg-transparent border-0 cursor-pointer p-0 text-nurc-teal"
               >
                 Read Full Intelligence Brief ↓
               </button>
@@ -491,10 +484,7 @@ export function ReaderModeOverlay() {
           {isGuest ? (
             <div className="space-y-6">
               <div className="space-y-3 text-left">
-                <h2
-                  className="text-sm font-extrabold uppercase tracking-wider"
-                  style={{ color: 'var(--nurc-teal)' }}
-                >
+                <h2 className="text-sm font-extrabold uppercase tracking-wider text-nurc-teal">
                   {article.content[0]?.heading || '01 · PREVIEW BRIEF'}
                 </h2>
                 <p className="text-sm md:text-base leading-relaxed text-gray-700 font-medium">
@@ -523,10 +513,7 @@ export function ReaderModeOverlay() {
                       <span className="font-bold text-lg">🔒</span>
                     </div>
                     <div className="space-y-1.5">
-                      <h4
-                        className="font-bold text-sm text-navy uppercase tracking-wider"
-                        style={{ color: 'var(--nurc-navy)', fontFamily: 'var(--font-heading)' }}
-                      >
+                      <h4 className="font-bold text-sm uppercase tracking-wider text-nurc-navy font-heading">
                         Unlock Full Intelligence
                       </h4>
                       <p className="text-[11px] text-muted-foreground leading-relaxed max-w-xs mx-auto">
@@ -539,19 +526,14 @@ export function ReaderModeOverlay() {
                       <Link
                         to="/signup"
                         onClick={closeReader}
-                        className="flex-1 py-2.5 rounded-xl text-xs font-bold text-white text-center cursor-pointer shadow-sm border-0 transition-opacity hover:opacity-90"
-                        style={{
-                          background: 'var(--nurc-teal)',
-                          fontFamily: 'var(--font-heading)',
-                        }}
+                        className="flex-1 py-2.5 rounded-xl text-xs font-bold text-white text-center cursor-pointer shadow-sm border-0 transition-opacity hover:opacity-90 bg-nurc-teal font-heading"
                       >
                         Create Account
                       </Link>
                       <Link
                         to="/contact"
                         onClick={closeReader}
-                        className="flex-1 py-2.5 border border-border text-navy rounded-xl text-xs font-bold text-center cursor-pointer hover:bg-gray-50 transition-colors"
-                        style={{ color: 'var(--nurc-navy)', fontFamily: 'var(--font-heading)' }}
+                        className="flex-1 py-2.5 border border-border rounded-xl text-xs font-bold text-center cursor-pointer hover:bg-gray-50 transition-colors text-nurc-navy font-heading"
                       >
                         Request Demo
                       </Link>
@@ -609,10 +591,7 @@ export function ReaderModeOverlay() {
           style={{ borderLeft: '4px solid var(--nurc-teal)' }}
         >
           <div>
-            <h5
-              className="font-bold text-xs text-navy uppercase tracking-wider"
-              style={{ color: 'var(--nurc-navy)', fontFamily: 'var(--font-heading)' }}
-            >
+            <h5 className="font-bold text-xs uppercase tracking-wider text-nurc-navy font-heading">
               Unlock B2B Intelligence
             </h5>
             <p className="text-[10px] text-muted-foreground mt-0.5 leading-normal max-w-[240px]">
@@ -625,8 +604,7 @@ export function ReaderModeOverlay() {
               closeReader();
               window.location.hash = '/subscribe';
             }}
-            className="px-4 py-2.5 rounded-lg text-xs font-bold text-white shrink-0 cursor-pointer border-0 shadow-sm"
-            style={{ background: 'var(--nurc-teal)', fontFamily: 'var(--font-heading)' }}
+            className="px-4 py-2.5 rounded-lg text-xs font-bold text-white shrink-0 cursor-pointer border-0 shadow-sm bg-nurc-teal font-heading"
           >
             Get Started
           </button>
@@ -643,35 +621,22 @@ export function SharePromptCard() {
 
   return (
     <div
-      className="fixed bottom-6 right-6 z-50 rounded-2xl p-5 w-72 border border-border print:hidden"
+      className="fixed bottom-6 right-6 z-50 rounded-2xl p-5 w-72 border border-border print:hidden bg-white"
       style={{
-        background: '#FFFFFF',
         boxShadow: '0 12px 40px rgba(0,0,0,0.14)',
         animation: 'none',
       }}
     >
       <button
         onClick={dismissSharePrompt}
-        className="absolute top-3 right-3 p-1 rounded hover:opacity-60 transition-opacity cursor-pointer bg-transparent border-0"
-        style={{ color: 'var(--muted-foreground)' }}
+        className="absolute top-3 right-3 p-1 rounded hover:opacity-60 transition-opacity cursor-pointer bg-transparent border-0 text-muted-foreground"
       >
         <X size={14} />
       </button>
-      <p
-        className="font-semibold mb-1 text-left"
-        style={{
-          fontFamily: 'var(--font-heading)',
-          fontSize: '14px',
-          color: 'var(--nurc-navy)',
-          paddingRight: '20px',
-        }}
-      >
+      <p className="font-semibold mb-1 text-left font-heading text-[14px] text-nurc-navy pr-5">
         Found this useful?
       </p>
-      <p
-        className="text-muted-foreground mb-4 text-left"
-        style={{ fontSize: '13px', lineHeight: 1.6, fontFamily: 'var(--font-body)' }}
-      >
+      <p className="text-muted-foreground mb-4 text-left text-[13px] leading-[1.6] font-body">
         Share this sample with a colleague or subscribe for weekly access.
       </p>
       <div className="flex flex-col gap-2">
@@ -680,8 +645,7 @@ export function SharePromptCard() {
             navigator.clipboard?.writeText(window.location.href);
             dismissSharePrompt();
           }}
-          className="btn-nurc w-full py-2 rounded-lg text-sm font-semibold text-white transition-all cursor-pointer"
-          style={{ background: 'var(--nurc-teal)', fontFamily: 'var(--font-heading)' }}
+          className="btn-nurc w-full py-2 rounded-lg text-sm font-semibold text-white transition-all cursor-pointer bg-nurc-teal font-heading"
         >
           Copy Sample Link
         </button>
@@ -691,13 +655,7 @@ export function SharePromptCard() {
             closeReader();
             dismissSharePrompt();
           }}
-          className="btn-nurc w-full py-2 rounded-lg text-sm font-semibold border transition-all cursor-pointer text-center flex items-center justify-center"
-          style={{
-            borderColor: 'var(--border)',
-            color: 'var(--nurc-navy)',
-            fontFamily: 'var(--font-heading)',
-            textDecoration: 'none',
-          }}
+          className="btn-nurc w-full py-2 rounded-lg text-sm font-semibold border transition-all cursor-pointer text-center flex items-center justify-center border-border text-nurc-navy font-heading no-underline"
         >
           Request Demo
         </Link>

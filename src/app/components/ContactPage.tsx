@@ -69,25 +69,12 @@ export function ContactPage() {
       <section className="py-16 border-b border-border bg-white">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex items-center gap-3 mb-5">
-            <div
-              className="h-px w-8 bg-[var(--nurc-gold)]"
-              style={{ background: 'var(--nurc-gold)' }}
-            />
-            <span
-              className="text-xs font-bold uppercase tracking-widest text-[#006D7A]"
-              style={{ letterSpacing: '0.14em', fontFamily: 'var(--font-heading)' }}
-            >
+            <div className="h-px w-8 bg-nurc-gold" />
+            <span className="text-xs font-bold uppercase text-[#006D7A] tracking-[0.14em] font-heading">
               Corporate Relations Desk
             </span>
           </div>
-          <h1
-            className="text-3xl md:text-5xl font-bold tracking-tight text-navy"
-            style={{
-              fontFamily: 'var(--font-display)',
-              color: 'var(--nurc-navy)',
-              lineHeight: 1.2,
-            }}
-          >
+          <h1 className="text-3xl md:text-5xl font-bold tracking-tight font-display text-nurc-navy leading-[1.2]">
             Connect with our Intelligence Team
           </h1>
           <p className="text-muted-foreground text-sm leading-relaxed max-w-xl mt-3">
@@ -102,27 +89,17 @@ export function ContactPage() {
         {/* Left Side: Corporate Details (5 Cols) */}
         <div className="lg:col-span-5 space-y-8">
           <div>
-            <h3
-              className="text-lg font-bold text-navy mb-4"
-              style={{ fontFamily: 'var(--font-heading)', color: 'var(--nurc-navy)' }}
-            >
+            <h3 className="text-lg font-bold mb-4 font-heading text-nurc-navy">
               Delhi Corporate HQ
             </h3>
             <div className="space-y-6">
               <div className="flex gap-4">
-                <MapPin
-                  className="text-teal shrink-0 mt-1"
-                  size={18}
-                  style={{ color: 'var(--nurc-teal)' }}
-                />
+                <MapPin className="shrink-0 mt-1 text-nurc-teal" size={18} />
                 <div>
                   <span className="block text-xs font-bold uppercase text-muted-foreground tracking-wider">
                     Corporate Office
                   </span>
-                  <span
-                    className="block text-sm font-semibold text-navy mt-1 leading-relaxed"
-                    style={{ color: 'var(--nurc-navy)' }}
-                  >
+                  <span className="block text-sm font-semibold mt-1 leading-relaxed text-nurc-navy">
                     NURC MediaNext Private Ltd.
                     <br />
                     9A, Pocket-B, SFS Flats
@@ -135,11 +112,7 @@ export function ContactPage() {
               </div>
 
               <div className="flex gap-4">
-                <Phone
-                  className="text-teal shrink-0 mt-1"
-                  size={18}
-                  style={{ color: 'var(--nurc-teal)' }}
-                />
+                <Phone className="shrink-0 mt-1 text-nurc-teal" size={18} />
                 <div>
                   <span className="block text-xs font-bold uppercase text-muted-foreground tracking-wider">
                     Telephone Targets
@@ -147,15 +120,13 @@ export function ContactPage() {
                   <div className="space-y-1 mt-1">
                     <a
                       href="tel:+919810975257"
-                      className="block text-sm font-semibold text-navy hover:underline"
-                      style={{ color: 'var(--nurc-navy)' }}
+                      className="block text-sm font-semibold hover:underline text-nurc-navy"
                     >
                       +91-9810975257 (Primary)
                     </a>
                     <a
                       href="tel:+919958949710"
-                      className="block text-sm font-semibold text-navy hover:underline"
-                      style={{ color: 'var(--nurc-navy)' }}
+                      className="block text-sm font-semibold hover:underline text-nurc-navy"
                     >
                       +91-9958949710 (Secondary)
                     </a>
@@ -164,11 +135,7 @@ export function ContactPage() {
               </div>
 
               <div className="flex gap-4">
-                <Mail
-                  className="text-teal shrink-0 mt-1"
-                  size={18}
-                  style={{ color: 'var(--nurc-teal)' }}
-                />
+                <Mail className="shrink-0 mt-1 text-nurc-teal" size={18} />
                 <div>
                   <span className="block text-xs font-bold uppercase text-muted-foreground tracking-wider">
                     Secure Email Dispatches
@@ -176,22 +143,19 @@ export function ContactPage() {
                   <div className="space-y-1 mt-1">
                     <a
                       href="mailto:contact@nurcmedianext.com"
-                      className="block text-sm font-semibold text-teal hover:underline"
-                      style={{ color: 'var(--nurc-teal)' }}
+                      className="block text-sm font-semibold hover:underline text-nurc-teal"
                     >
                       contact@nurcmedianext.com
                     </a>
                     <a
                       href="mailto:nurcmnx@gmail.com"
-                      className="block text-sm font-semibold text-teal hover:underline text-xs"
-                      style={{ color: 'var(--nurc-teal)' }}
+                      className="block text-sm font-semibold hover:underline text-xs text-nurc-teal"
                     >
                       nurcmnx@gmail.com
                     </a>
                     <a
                       href="mailto:nurcmedianext@gmail.com"
-                      className="block text-sm font-semibold text-teal hover:underline text-xs"
-                      style={{ color: 'var(--nurc-teal)' }}
+                      className="block text-sm font-semibold hover:underline text-xs text-nurc-teal"
                     >
                       nurcmedianext@gmail.com
                     </a>
@@ -202,7 +166,7 @@ export function ContactPage() {
           </div>
 
           <div className="p-5 bg-teal/5 border border-teal-100 rounded-2xl space-y-2.5">
-            <h4 className="text-xs font-bold uppercase tracking-wider" style={{ color: '#0A5560' }}>
+            <h4 className="text-xs font-bold uppercase tracking-wider text-[#0A5560]">
               Analyst Coverage Scope
             </h4>
             <p className="text-xs text-muted-foreground leading-relaxed">
@@ -218,10 +182,7 @@ export function ContactPage() {
             {!submittedInfo ? (
               <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-5">
                 <div>
-                  <h3
-                    className="text-lg font-bold text-navy"
-                    style={{ fontFamily: 'var(--font-heading)', color: 'var(--nurc-navy)' }}
-                  >
+                  <h3 className="text-lg font-bold font-heading text-nurc-navy">
                     Transmit Message
                   </h3>
                   <p className="text-xs text-muted-foreground mt-0.5">
@@ -363,8 +324,7 @@ export function ContactPage() {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full py-3 bg-[var(--nurc-navy)] hover:opacity-95 text-white font-bold rounded-xl text-xs shadow-md cursor-pointer transition-all border-0 flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
-                    style={{ background: 'var(--nurc-navy)' }}
+                    className="w-full py-3 bg-nurc-navy hover:opacity-95 text-white font-bold rounded-xl text-xs shadow-md cursor-pointer transition-all border-0 flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     {isSubmitting && <Loader2 size={14} className="animate-spin" />}
                     {isSubmitting ? 'Transmitting…' : 'Transmit Information Securely'}
@@ -382,7 +342,7 @@ export function ContactPage() {
                   <CheckCircle2 size={32} />
                 </div>
                 <div className="space-y-2">
-                  <h4 className="font-bold text-navy text-lg" style={{ color: 'var(--nurc-navy)' }}>
+                  <h4 className="font-bold text-lg text-nurc-navy">
                     Message Transmitted Successfully
                   </h4>
                   <p className="text-xs text-muted-foreground leading-relaxed max-w-sm mx-auto">
@@ -393,8 +353,7 @@ export function ContactPage() {
                 </div>
                 <button
                   onClick={() => setSubmittedInfo(null)}
-                  className="px-6 py-2 border border-border text-navy rounded-lg text-xs font-bold hover:bg-muted transition-colors cursor-pointer"
-                  style={{ color: 'var(--nurc-navy)' }}
+                  className="px-6 py-2 border border-border rounded-lg text-xs font-bold hover:bg-muted transition-colors cursor-pointer text-nurc-navy"
                 >
                   Send Another Message
                 </button>

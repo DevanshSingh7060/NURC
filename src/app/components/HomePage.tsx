@@ -165,16 +165,8 @@ function TestimonialCard({ t }: { t: (typeof testimonials)[number] }) {
 
   return (
     <div className="rounded-xl p-6 bg-card border border-border">
-      <Quote size={28} style={{ color: 'var(--nurc-gold)', opacity: 0.6, marginBottom: '16px' }} />
-      <div
-        className="italic space-y-3"
-        style={{
-          fontFamily: 'var(--font-body)',
-          fontSize: '15px',
-          lineHeight: 1.75,
-          color: 'var(--nurc-navy)',
-        }}
-      >
+      <Quote size={28} className="text-nurc-gold opacity-60 mb-4" />
+      <div className="italic space-y-3 font-body text-[15px] leading-[1.75] text-nurc-navy">
         {!isLong || expanded ? (
           paragraphs.map((para, pi) => <p key={pi}>"{para}"</p>)
         ) : (
@@ -186,8 +178,7 @@ function TestimonialCard({ t }: { t: (typeof testimonials)[number] }) {
         <button
           type="button"
           onClick={() => setExpanded((v) => !v)}
-          className="mt-2 inline-flex items-center gap-1 text-xs font-semibold transition-opacity hover:opacity-70 cursor-pointer bg-transparent border-0 p-0"
-          style={{ color: 'var(--nurc-teal)', fontFamily: 'var(--font-heading)' }}
+          className="mt-2 inline-flex items-center gap-1 text-xs font-semibold transition-opacity hover:opacity-70 cursor-pointer bg-transparent border-0 p-0 text-nurc-teal font-heading"
           aria-expanded={expanded}
         >
           {expanded ? 'Read less' : 'Read more'}
@@ -205,10 +196,7 @@ function TestimonialCard({ t }: { t: (typeof testimonials)[number] }) {
             <img src={t.logo} alt={`${t.company} logo`} className="w-full h-full object-contain" />
           </div>
         ) : (
-          <div
-            className="w-12 h-12 rounded-xl flex items-center justify-center text-white font-bold text-sm shrink-0"
-            style={{ background: 'var(--nurc-navy)' }}
-          >
+          <div className="w-12 h-12 rounded-xl flex items-center justify-center text-white font-bold text-sm shrink-0 bg-nurc-navy">
             {t.name
               .split(' ')
               .map((w) => w[0])
@@ -217,16 +205,7 @@ function TestimonialCard({ t }: { t: (typeof testimonials)[number] }) {
           </div>
         )}
         <div>
-          <div
-            className="font-semibold"
-            style={{
-              fontFamily: 'var(--font-heading)',
-              fontSize: '14px',
-              color: 'var(--nurc-navy)',
-            }}
-          >
-            {t.name}
-          </div>
+          <div className="font-semibold font-heading text-[14px] text-nurc-navy">{t.name}</div>
           <div className="text-xs text-muted-foreground mt-0.5">
             {t.title} · {t.company}
           </div>
@@ -234,7 +213,7 @@ function TestimonialCard({ t }: { t: (typeof testimonials)[number] }) {
       </div>
       <div className="flex gap-0.5 mt-4">
         {[...Array(5)].map((_, si) => (
-          <Star key={si} size={12} fill="var(--nurc-gold)" style={{ color: 'var(--nurc-gold)' }} />
+          <Star key={si} size={12} fill="var(--nurc-gold)" className="text-nurc-gold" />
         ))}
       </div>
     </div>
@@ -258,15 +237,7 @@ export function HomePage() {
         canonicalUrl="/"
       />
       {/* Hero Section */}
-      <section
-        className="relative overflow-hidden"
-        style={{
-          background: 'var(--nurc-navy)',
-          minHeight: '88vh',
-          display: 'flex',
-          alignItems: 'center',
-        }}
-      >
+      <section className="relative overflow-hidden bg-nurc-navy min-h-[88vh] flex items-center">
         {/* Subtle grid texture */}
         <div
           className="absolute inset-0 opacity-5"
@@ -277,47 +248,20 @@ export function HomePage() {
           }}
         />
         {/* Gold accent line */}
-        <div
-          className="absolute top-0 left-0 right-0 h-0.5"
-          style={{ background: 'var(--nurc-gold)' }}
-        />
+        <div className="absolute top-0 left-0 right-0 h-0.5 bg-nurc-gold" />
 
         <div className="relative max-w-7xl mx-auto px-6 py-24 grid lg:grid-cols-2 gap-16 items-center">
           <div>
             <div className="flex items-center gap-3 mb-8">
-              <div className="h-px w-8" style={{ background: 'var(--nurc-gold)' }} />
-              <span
-                className="text-xs font-bold uppercase tracking-widest"
-                style={{
-                  color: 'var(--nurc-gold)',
-                  letterSpacing: '0.15em',
-                  fontFamily: 'var(--font-heading)',
-                }}
-              >
+              <div className="h-px w-8 bg-nurc-gold" />
+              <span className="text-xs font-bold uppercase text-nurc-gold tracking-[0.15em] font-heading">
                 Established 2000 · 26 years of B2B Intelligence
               </span>
             </div>
-            <h1
-              className="mb-6 text-white"
-              style={{
-                fontFamily: 'var(--font-heading)',
-                fontSize: 'clamp(36px, 5vw, 54px)',
-                fontWeight: 700,
-                lineHeight: 1.15,
-                letterSpacing: '-0.02em',
-              }}
-            >
+            <h1 className="mb-6 text-white font-heading text-[clamp(36px,5vw,54px)] font-bold leading-[1.15] tracking-[-0.02em]">
               Daily Curated Information That Powers India’s Leading Corporations
             </h1>
-            <p
-              className="mb-10 text-white/70"
-              style={{
-                fontFamily: 'var(--font-body)',
-                fontSize: '17px',
-                lineHeight: 1.8,
-                maxWidth: '520px',
-              }}
-            >
+            <p className="mb-10 text-white/70 font-body text-[17px] leading-[1.8] max-w-[520px]">
               For 26 years, Fortune have relied on the credible information provided by NURC News
               Updates -- the advertisement-free news collation service delivered daily to inboxes at
               the start of the day.
@@ -325,24 +269,14 @@ export function HomePage() {
             <div className="flex flex-wrap gap-4">
               <Link
                 to="/contact"
-                className="btn-nurc h-12 flex items-center gap-2 px-6 rounded-xl text-white font-semibold transition-all hover:opacity-90 cursor-pointer text-sm animate-none"
-                style={{
-                  background: 'var(--nurc-teal)',
-                  fontFamily: 'var(--font-heading)',
-                  textDecoration: 'none',
-                }}
+                className="btn-nurc h-12 flex items-center gap-2 px-6 rounded-xl text-white font-semibold transition-all hover:opacity-90 cursor-pointer text-sm animate-none bg-nurc-teal font-heading no-underline"
               >
                 Request Demo
                 <ArrowRight size={16} />
               </Link>
               <button
                 onClick={() => openReader(SAMPLE_AUTO_ARTICLE)}
-                className="h-12 flex items-center gap-2 px-6 rounded-xl font-semibold border transition-all hover:bg-white/10 bg-transparent cursor-pointer text-sm"
-                style={{
-                  color: 'white',
-                  borderColor: 'rgba(255,255,255,0.3)',
-                  fontFamily: 'var(--font-heading)',
-                }}
+                className="h-12 flex items-center gap-2 px-6 rounded-xl font-semibold border transition-all hover:bg-white/10 bg-transparent cursor-pointer text-sm text-white border-[rgba(255,255,255,0.3)] font-heading"
               >
                 Request Sample
               </button>
@@ -351,12 +285,7 @@ export function HomePage() {
             {/* Social proof strip */}
             <div className="flex flex-wrap items-center gap-6 mt-12">
               <div className="text-center">
-                <div
-                  className="font-bold text-white"
-                  style={{ fontFamily: 'var(--font-display)', fontSize: '28px' }}
-                >
-                  Mon - Sat
-                </div>
+                <div className="font-bold text-white font-display text-[28px]">Mon - Sat</div>
                 <div className="text-xs text-white/50 uppercase tracking-wider mt-0.5">
                   Email Delivery
                 </div>
@@ -373,12 +302,7 @@ export function HomePage() {
               </div> */}
               <div className="h-8 w-px bg-white/10" />
               <div className="text-center">
-                <div
-                  className="font-bold text-white"
-                  style={{ fontFamily: 'var(--font-display)', fontSize: '28px' }}
-                >
-                  15 Days
-                </div>
+                <div className="font-bold text-white font-display text-[28px]">15 Days</div>
                 <div className="text-xs text-white/50 uppercase tracking-wider mt-0.5">
                   Free Trial
                 </div>
@@ -388,10 +312,7 @@ export function HomePage() {
 
           {/* Hero image card */}
           <div className="hidden lg:block relative">
-            <div
-              className="relative rounded-xl overflow-hidden"
-              style={{ boxShadow: '0 32px 64px rgba(0,0,0,0.4)' }}
-            >
+            <div className="relative rounded-xl overflow-hidden shadow-[0_32px_64px_rgba(0,0,0,0.4)]">
               <img
                 src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=700&h=500&fit=crop&auto=format"
                 alt="Corporate skyscrapers representing India's leading corporations served by NURC intelligence"
@@ -407,32 +328,24 @@ export function HomePage() {
               />
               <div className="absolute bottom-6 left-6 right-6">
                 <div
-                  className="rounded-xl p-6 backdrop-blur-sm"
+                  className="rounded-xl p-6 backdrop-blur-sm bg-[rgba(255,255,255,0.1)]"
                   style={{
-                    background: 'rgba(255,255,255,0.1)',
                     border: '1px solid rgba(255,255,255,0.15)',
                   }}
                 >
                   <div className="flex items-center gap-3">
-                    <div
-                      className="w-10 h-10 rounded-xl flex items-center justify-center"
-                      style={{ background: 'var(--nurc-teal)' }}
-                    >
+                    <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-nurc-teal">
                       <BookOpen size={18} className="text-white" />
                     </div>
                     <div>
-                      <div
-                        className="text-white text-sm font-semibold"
-                        style={{ fontFamily: 'var(--font-heading)' }}
-                      >
+                      <div className="text-white text-sm font-semibold font-heading">
                         Auto Industry Weekly
                       </div>
                       <div className="text-white/60 text-xs">Latest issue · May 27, 2025</div>
                     </div>
                     <button
                       onClick={() => openReader(SAMPLE_AUTO_ARTICLE)}
-                      className="ml-auto text-xs font-semibold h-12 flex items-center justify-center px-6 rounded-xl text-white transition-opacity hover:opacity-80 border-0 cursor-pointer"
-                      style={{ background: 'var(--nurc-teal)' }}
+                      className="ml-auto text-xs font-semibold h-12 flex items-center justify-center px-6 rounded-xl text-white transition-opacity hover:opacity-80 border-0 cursor-pointer bg-nurc-teal"
                     >
                       Read Now
                     </button>
@@ -448,21 +361,10 @@ export function HomePage() {
       <section className="py-16 bg-[#F9FAFB] border-b border-[#E5E7EB]">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-12">
-            <h2
-              style={{
-                fontFamily: 'var(--font-heading)',
-                fontSize: 'clamp(26px, 3.5vw, 38px)',
-                fontWeight: 700,
-                color: 'var(--nurc-navy)',
-                lineHeight: 1.25,
-              }}
-            >
+            <h2 className="font-heading text-[clamp(26px,3.5vw,38px)] font-bold text-nurc-navy leading-[1.25]">
               The NURC News Update
             </h2>
-            <p
-              className="text-muted-foreground mx-auto mt-3 max-w-2xl"
-              style={{ fontSize: '15px' }}
-            >
+            <p className="text-muted-foreground mx-auto mt-3 max-w-2xl text-[15px]">
               is a subscription-based, daily news information service tailored for corporate
               executives, decision-makers, PR and communication teams.
             </p>
@@ -504,10 +406,7 @@ export function HomePage() {
                   <div className="w-10 h-10 rounded-xl bg-[var(--nurc-teal)]/10 text-[var(--nurc-teal)] flex items-center justify-center mb-4">
                     <Icon size={20} />
                   </div>
-                  <h3
-                    className="font-bold text-[var(--nurc-navy)] mb-2"
-                    style={{ fontFamily: 'var(--font-heading)', fontSize: '16px' }}
-                  >
+                  <h3 className="font-bold text-[var(--nurc-navy)] mb-2 font-heading text-[16px]">
                     {feature.title}
                   </h3>
                   <p className="text-gray-500 text-sm leading-relaxed">{feature.description}</p>
@@ -526,31 +425,16 @@ export function HomePage() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
             <div className="flex items-center justify-center gap-3 mb-4">
-              <div className="h-px w-12" style={{ background: 'var(--nurc-gold)' }} />
-              <span
-                className="text-xs font-bold uppercase tracking-widest"
-                style={{
-                  color: 'var(--nurc-teal)',
-                  letterSpacing: '0.14em',
-                  fontFamily: 'var(--font-heading)',
-                }}
-              >
+              <div className="h-px w-12 bg-nurc-gold" />
+              <span className="text-xs font-bold uppercase text-nurc-teal tracking-[0.14em] font-heading">
                 Trust & Authority
               </span>
-              <div className="h-px w-12" style={{ background: 'var(--nurc-gold)' }} />
+              <div className="h-px w-12 bg-nurc-gold" />
             </div>
-            <h2
-              style={{
-                fontFamily: 'var(--font-heading)',
-                fontSize: 'clamp(26px, 3.5vw, 38px)',
-                fontWeight: 700,
-                color: 'var(--nurc-navy)',
-                lineHeight: 1.25,
-              }}
-            >
+            <h2 className="font-heading text-[clamp(26px,3.5vw,38px)] font-bold text-nurc-navy leading-[1.25]">
               Why Leading Companies Trust NURC
             </h2>
-            <p className="text-muted-foreground mx-auto mt-3 max-w-xl" style={{ fontSize: '15px' }}>
+            <p className="text-muted-foreground mx-auto mt-3 max-w-xl text-[15px]">
               Zero-noise, curated B2B executive intelligence built to drive strategic action and
               corporate growth.
             </p>
@@ -590,26 +474,13 @@ export function HomePage() {
                   key={i}
                   className="rounded-xl p-6 bg-[#F9FAFB] border border-gray-100 hover:shadow-md hover:-translate-y-1 transition-all duration-300"
                 >
-                  <div
-                    className="w-10 h-10 rounded-xl flex items-center justify-center mb-5"
-                    style={{ background: 'rgba(0,109,122,0.08)' }}
-                  >
-                    <Icon size={18} style={{ color: 'var(--nurc-teal)' }} />
+                  <div className="w-10 h-10 rounded-xl flex items-center justify-center mb-5 bg-[rgba(0,109,122,0.08)]">
+                    <Icon size={18} className="text-nurc-teal" />
                   </div>
-                  <h3
-                    className="mb-2 font-bold"
-                    style={{
-                      fontFamily: 'var(--font-heading)',
-                      fontSize: '15px',
-                      color: 'var(--nurc-navy)',
-                    }}
-                  >
+                  <h3 className="mb-2 font-bold font-heading text-[15px] text-nurc-navy">
                     {prop.title}
                   </h3>
-                  <p
-                    className="text-muted-foreground leading-relaxed animate-none"
-                    style={{ fontSize: '13px', lineHeight: '1.65' }}
-                  >
+                  <p className="text-muted-foreground animate-none text-[13px] leading-[1.65]">
                     {prop.description}
                   </p>
                 </div>
@@ -624,28 +495,13 @@ export function HomePage() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-10">
             <div className="flex items-center justify-center gap-3 mb-4">
-              <div className="h-px w-12" style={{ background: 'var(--nurc-gold)' }} />
-              <span
-                className="text-xs font-bold uppercase tracking-widest"
-                style={{
-                  color: 'var(--nurc-teal)',
-                  letterSpacing: '0.14em',
-                  fontFamily: 'var(--font-heading)',
-                }}
-              >
+              <div className="h-px w-12 bg-nurc-gold" />
+              <span className="text-xs font-bold uppercase text-nurc-teal tracking-[0.14em] font-heading">
                 Sectors
               </span>
-              <div className="h-px w-12" style={{ background: 'var(--nurc-gold)' }} />
+              <div className="h-px w-12 bg-nurc-gold" />
             </div>
-            <h2
-              style={{
-                fontFamily: 'var(--font-heading)',
-                fontSize: 'clamp(26px, 3.5vw, 36px)',
-                fontWeight: 700,
-                color: 'var(--nurc-navy)',
-                lineHeight: 1.25,
-              }}
-            >
+            <h2 className="font-heading text-[clamp(26px,3.5vw,36px)] font-bold text-nurc-navy leading-[1.25]">
               Intelligence Across India's Critical Sectors
             </h2>
           </div>
@@ -659,14 +515,7 @@ export function HomePage() {
               >
                 <div className="w-1.5 h-6 rounded-full mb-3" style={{ background: sector.color }} />
                 <div className="flex items-start justify-between mb-2">
-                  <h3
-                    style={{
-                      fontFamily: 'var(--font-heading)',
-                      fontSize: '16px',
-                      fontWeight: 700,
-                      color: 'var(--nurc-navy)',
-                    }}
-                  >
+                  <h3 className="font-heading text-[16px] font-bold text-nurc-navy">
                     {sector.title}
                   </h3>
                   <ArrowRight
@@ -675,10 +524,7 @@ export function HomePage() {
                     style={{ color: sector.color }}
                   />
                 </div>
-                <p
-                  className="text-muted-foreground mb-3"
-                  style={{ fontSize: '13px', lineHeight: 1.6 }}
-                >
+                <p className="text-muted-foreground mb-3 text-[13px] leading-[1.6]">
                   {sector.description}
                 </p>
                 <div
@@ -694,60 +540,28 @@ export function HomePage() {
       </section>
 
       {/* Newsletter Preview */}
-      <section ref={sampleRef} className="py-12 lg:py-20" style={{ background: '#FFFFFF' }}>
+      <section ref={sampleRef} className="py-12 lg:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             {/* Left Side Content Block */}
             <div className="space-y-6 text-left">
               <div className="flex items-center gap-3">
-                <div className="h-px w-8" style={{ background: 'var(--nurc-gold)' }} />
-                <span
-                  className="text-xs font-bold uppercase tracking-widest"
-                  style={{
-                    color: 'var(--nurc-teal)',
-                    letterSpacing: '0.14em',
-                    fontFamily: 'var(--font-heading)',
-                  }}
-                >
+                <div className="h-px w-8 bg-nurc-gold" />
+                <span className="text-xs font-bold uppercase text-nurc-teal tracking-[0.14em] font-heading">
                   Sample Issue
                 </span>
               </div>
-              <h2
-                style={{
-                  fontFamily: 'var(--font-heading)',
-                  fontSize: 'clamp(24px, 3.5vw, 40px)',
-                  fontWeight: 700,
-                  color: 'var(--nurc-navy)',
-                  lineHeight: 1.2,
-                  maxWidth: '480px',
-                }}
-              >
+              <h2 className="font-heading text-[clamp(24px,3.5vw,40px)] font-bold text-nurc-navy leading-[1.2] max-w-[480px]">
                 See What Your Competitors Are Reading
               </h2>
-              <p
-                className="text-muted-foreground"
-                style={{
-                  fontSize: 'clamp(16px, 1.8vw, 18px)',
-                  lineHeight: 1.7,
-                  maxWidth: '500px',
-                  color: '#4B5563',
-                }}
-              >
+              <p className="text-[clamp(16px,1.8vw,18px)] leading-[1.7] max-w-[500px] text-[#4B5563]">
                 Read a complete sample of our Auto Industry Weekly — the same briefing that lands in
                 the inboxes of CFOs and MDs at India's top automotive corporations every Tuesday
                 morning.
               </p>
               <button
                 onClick={() => openReader(SAMPLE_AUTO_ARTICLE)}
-                className="flex items-center gap-2 font-semibold text-white transition-all hover:opacity-90 cursor-pointer border-0"
-                style={{
-                  background: 'var(--nurc-teal)',
-                  fontFamily: 'var(--font-heading)',
-                  height: '48px',
-                  paddingLeft: '24px',
-                  paddingRight: '24px',
-                  borderRadius: '12px',
-                }}
+                className="flex items-center gap-2 font-semibold text-white transition-all hover:opacity-90 cursor-pointer border-0 bg-nurc-teal font-heading h-12 pl-6 pr-6 rounded-xl"
               >
                 <BookOpen size={18} />
                 Open in Reader Mode
@@ -755,75 +569,37 @@ export function HomePage() {
             </div>
 
             {/* Right Side Newsletter Preview Card (Email Mockup) */}
-            <div
-              className="rounded-xl overflow-hidden border border-border bg-white"
-              style={{ boxShadow: '0 4px 24px rgba(0,0,0,0.08)' }}
-            >
+            <div className="rounded-xl overflow-hidden border border-border bg-white shadow-[0_4px_24px_rgba(0,0,0,0.08)]">
               {/* Premium Email Mockup Header with 24px Padding */}
               <div className="bg-[#FAF9F6] border-b border-border p-6 text-left space-y-3.5">
                 <div className="flex items-center justify-between">
-                  <span
-                    className="text-xs font-bold uppercase tracking-wider"
-                    style={{ color: 'var(--nurc-teal)', fontFamily: 'var(--font-heading)' }}
-                  >
+                  <span className="text-xs font-bold uppercase tracking-wider text-nurc-teal font-heading">
                     Corporate Dispatch
                   </span>
                   <span className="w-2 h-2 rounded-full bg-green-500"></span>
                 </div>
                 <div className="space-y-3 font-sans">
                   <div className="grid grid-cols-3 items-center pb-2 border-b border-gray-100">
-                    <span
-                      className="text-xs font-medium text-gray-500"
-                      style={{ fontSize: '14px' }}
-                    >
-                      Sender
-                    </span>
-                    <span
-                      className="col-span-2 text-right font-semibold"
-                      style={{ color: 'var(--nurc-navy)', fontSize: '15px', fontWeight: 600 }}
-                    >
+                    <span className="font-medium text-gray-500 text-[14px]">Sender</span>
+                    <span className="col-span-2 text-right font-semibold text-nurc-navy text-[15px]">
                       NURC MediaNext Intelligence Desk
                     </span>
                   </div>
                   <div className="grid grid-cols-3 items-center pb-2 border-b border-gray-100">
-                    <span
-                      className="text-xs font-medium text-gray-500"
-                      style={{ fontSize: '14px' }}
-                    >
-                      Recipient
-                    </span>
-                    <span
-                      className="col-span-2 text-right font-semibold"
-                      style={{ color: 'var(--nurc-navy)', fontSize: '15px', fontWeight: 600 }}
-                    >
+                    <span className="font-medium text-gray-500 text-[14px]">Recipient</span>
+                    <span className="col-span-2 text-right font-semibold text-nurc-navy text-[15px]">
                       Corporate Subscriber
                     </span>
                   </div>
                   <div className="grid grid-cols-3 items-center pb-2 border-b border-gray-100">
-                    <span
-                      className="text-xs font-medium text-gray-500"
-                      style={{ fontSize: '14px' }}
-                    >
-                      Published
-                    </span>
-                    <span
-                      className="col-span-2 text-right font-semibold"
-                      style={{ color: 'var(--nurc-navy)', fontSize: '15px', fontWeight: 600 }}
-                    >
+                    <span className="font-medium text-gray-500 text-[14px]">Published</span>
+                    <span className="col-span-2 text-right font-semibold text-nurc-navy text-[15px]">
                       12 June 2026
                     </span>
                   </div>
                   <div className="grid grid-cols-3 items-center">
-                    <span
-                      className="text-xs font-medium text-gray-500"
-                      style={{ fontSize: '14px' }}
-                    >
-                      Industry
-                    </span>
-                    <span
-                      className="col-span-2 text-right font-semibold"
-                      style={{ color: 'var(--nurc-navy)', fontSize: '15px', fontWeight: 600 }}
-                    >
+                    <span className="font-medium text-gray-500 text-[14px]">Industry</span>
+                    <span className="col-span-2 text-right font-semibold text-nurc-navy text-[15px]">
                       Automotive Intelligence Weekly
                     </span>
                   </div>
@@ -841,12 +617,9 @@ export function HomePage() {
                 ].map((cat) => (
                   <span
                     key={cat}
-                    className="px-3 py-1 rounded-full text-xs font-semibold tracking-wide"
+                    className="px-3 py-1 rounded-full font-semibold tracking-wide bg-white text-nurc-teal text-[11px]"
                     style={{
-                      background: 'white',
-                      color: 'var(--nurc-teal)',
                       border: '1px solid #E5E7EB',
-                      fontSize: '11px',
                     }}
                   >
                     {cat}
@@ -881,30 +654,18 @@ export function HomePage() {
                 ].map((item, i) => (
                   <div key={i} className="px-6 py-5 bg-white text-left space-y-2">
                     <span
-                      className="px-2.5 py-0.5 rounded text-xs font-bold uppercase tracking-wider animate-none"
+                      className="px-2.5 py-0.5 rounded font-bold uppercase tracking-wider animate-none text-[12px]"
                       style={{
                         background: `${item.tagColor}10`,
                         color: item.tagColor,
-                        fontSize: '12px',
                       }}
                     >
                       {item.tag}
                     </span>
-                    <h4
-                      className="font-bold"
-                      style={{
-                        fontFamily: 'var(--font-heading)',
-                        fontSize: '18px',
-                        color: 'var(--nurc-navy)',
-                        lineHeight: '1.3',
-                      }}
-                    >
+                    <h4 className="font-bold font-heading text-[18px] text-nurc-navy leading-[1.3]">
                       {item.title}
                     </h4>
-                    <p
-                      className="text-gray-600 leading-relaxed font-medium"
-                      style={{ fontSize: '14px', color: '#4B5563' }}
-                    >
+                    <p className="leading-relaxed font-medium text-[14px] text-[#4B5563]">
                       {item.preview}
                     </p>
                   </div>
@@ -914,13 +675,7 @@ export function HomePage() {
                 <div className="px-6 py-5 bg-[#FAF9F6] text-center border-t border-border">
                   <button
                     onClick={() => openReader(SAMPLE_AUTO_ARTICLE)}
-                    className="w-full flex items-center justify-center gap-2 font-bold text-white transition-all hover:opacity-95 cursor-pointer border-0 shadow-sm"
-                    style={{
-                      background: 'var(--nurc-teal)',
-                      fontFamily: 'var(--font-heading)',
-                      height: '48px',
-                      borderRadius: '12px',
-                    }}
+                    className="w-full flex items-center justify-center gap-2 font-bold text-white transition-all hover:opacity-95 cursor-pointer border-0 shadow-sm bg-nurc-teal font-heading h-12 rounded-xl"
                   >
                     <BookOpen size={16} />
                     Open in Reader Mode
@@ -933,26 +688,15 @@ export function HomePage() {
       </section>
 
       {/* Free Trial Section (New) */}
-      <section className="py-20" style={{ background: 'var(--nurc-navy)' }}>
+      <section className="py-20 bg-nurc-navy">
         <div className="max-w-4xl mx-auto px-6 text-center">
           {/* <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-white/90 text-xs font-bold uppercase tracking-wider mb-6" style={{ fontFamily: 'var(--font-heading)' }}>
             No Commitment Required
           </div> */}
-          <h2
-            className="text-white mb-6"
-            style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: 'clamp(28px, 4vw, 42px)',
-              fontWeight: 700,
-              lineHeight: 1.2,
-            }}
-          >
+          <h2 className="text-white mb-6 font-display text-[clamp(28px,4vw,42px)] font-bold leading-[1.2]">
             Experience The NURC News Update
           </h2>
-          <p
-            className="text-white/70 mb-10 text-lg mx-auto"
-            style={{ maxWidth: '600px', lineHeight: 1.7 }}
-          >
+          <p className="text-white/70 mb-10 text-lg mx-auto max-w-[600px] leading-[1.7]">
             Sign up for a 15-day free trial. Allow multiple users from your organization to evaluate
             our daily sector-specific intelligence updates with absolutely no obligation to
             subscribe.
@@ -960,8 +704,7 @@ export function HomePage() {
           <div className="flex flex-wrap items-center justify-center gap-4">
             <Link
               to="/contact?intent=trial"
-              className="px-8 py-4 bg-[var(--nurc-teal)] hover:bg-[var(--nurc-teal)]/90 text-white rounded-xl font-bold text-lg transition-all"
-              style={{ fontFamily: 'var(--font-heading)' }}
+              className="px-8 py-4 bg-[var(--nurc-teal)] hover:bg-[var(--nurc-teal)]/90 text-white rounded-xl font-bold text-lg transition-all font-heading"
             >
               Start Your 15-Day Free Trial
             </Link>
@@ -974,28 +717,13 @@ export function HomePage() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-14">
             <div className="flex items-center justify-center gap-3 mb-4">
-              <div className="h-px w-12" style={{ background: 'var(--nurc-gold)' }} />
-              <span
-                className="text-xs font-bold uppercase tracking-widest"
-                style={{
-                  color: 'var(--nurc-teal)',
-                  letterSpacing: '0.14em',
-                  fontFamily: 'var(--font-heading)',
-                }}
-              >
+              <div className="h-px w-12 bg-nurc-gold" />
+              <span className="text-xs font-bold uppercase text-nurc-teal tracking-[0.14em] font-heading">
                 Testimonials
               </span>
-              <div className="h-px w-12" style={{ background: 'var(--nurc-gold)' }} />
+              <div className="h-px w-12 bg-nurc-gold" />
             </div>
-            <h2
-              style={{
-                fontFamily: 'var(--font-heading)',
-                fontSize: 'clamp(26px, 3.5vw, 36px)',
-                fontWeight: 700,
-                color: 'var(--nurc-navy)',
-                lineHeight: 1.25,
-              }}
-            >
+            <h2 className="font-heading text-[clamp(26px,3.5vw,36px)] font-bold text-nurc-navy leading-[1.25]">
               What Industry Leaders Say
             </h2>
           </div>

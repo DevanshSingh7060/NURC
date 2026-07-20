@@ -87,12 +87,7 @@ export function DashboardPage() {
       <div className="min-h-[calc(100vh-64px)] flex flex-col items-center justify-center p-6 bg-[#F8F9FA]">
         <div className="max-w-md w-full bg-white border border-border rounded-xl p-6 text-center space-y-4 shadow-sm">
           <User size={40} className="mx-auto text-muted-foreground" />
-          <h1
-            className="text-xl font-bold text-navy"
-            style={{ color: 'var(--nurc-navy)', fontFamily: 'var(--font-heading)' }}
-          >
-            Subscribers Only
-          </h1>
+          <h1 className="text-xl font-bold text-nurc-navy font-heading">Subscribers Only</h1>
           <p className="text-muted-foreground text-sm leading-relaxed">
             Please log in or register a corporate subscription to access the NURC subscriber
             dashboard.
@@ -100,15 +95,13 @@ export function DashboardPage() {
           <div className="flex gap-3 pt-2">
             <Link
               to="/login"
-              className="flex-1 h-12 flex items-center justify-center bg-navy text-white text-sm font-semibold rounded-xl text-center"
-              style={{ background: 'var(--nurc-navy)', textDecoration: 'none' }}
+              className="flex-1 h-12 flex items-center justify-center text-white text-sm font-semibold rounded-xl text-center bg-nurc-navy no-underline"
             >
               Log In
             </Link>
             <Link
               to="/signup"
-              className="flex-1 h-12 flex items-center justify-center border border-border text-navy text-sm font-semibold rounded-xl text-center"
-              style={{ color: 'var(--nurc-navy)', textDecoration: 'none' }}
+              className="flex-1 h-12 flex items-center justify-center border border-border text-sm font-semibold rounded-xl text-center text-nurc-navy no-underline"
             >
               Register
             </Link>
@@ -239,18 +232,12 @@ export function DashboardPage() {
         <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-2 mb-1.5">
-              <span
-                className="text-xs font-bold uppercase tracking-widest text-[#006D7A]"
-                style={{ letterSpacing: '0.12em', fontFamily: 'var(--font-heading)' }}
-              >
+              <span className="text-xs font-bold uppercase text-[#006D7A] tracking-[0.12em] font-heading">
                 Intelligence Workspace
               </span>
               <div className="h-px w-8 bg-border" />
             </div>
-            <h1
-              className="text-2xl md:text-3xl font-bold tracking-tight text-navy"
-              style={{ color: 'var(--nurc-navy)', fontFamily: 'var(--font-heading)' }}
-            >
+            <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-nurc-navy font-heading">
               Welcome back, {currentUser.fullName}
             </h1>
             <p className="text-xs text-muted-foreground mt-1">
@@ -267,18 +254,14 @@ export function DashboardPage() {
               <span className="text-muted-foreground block text-[10px] uppercase font-bold tracking-wider">
                 Plan License
               </span>
-              <span className="text-navy" style={{ color: 'var(--nurc-navy)' }}>
-                {currentUser.plan} Access
-              </span>
+              <span className="text-nurc-navy">{currentUser.plan} Access</span>
             </div>
             <div className="w-px h-6 bg-border" />
             <div>
               <span className="text-muted-foreground block text-[10px] uppercase font-bold tracking-wider">
                 Renewal Date
               </span>
-              <span className="text-navy" style={{ color: 'var(--nurc-navy)' }}>
-                {currentUser.renewalDate}
-              </span>
+              <span className="text-nurc-navy">{currentUser.renewalDate}</span>
             </div>
           </div>
         </div>
@@ -389,10 +372,7 @@ export function DashboardPage() {
                     <BookOpen size={16} className="text-[#006D7A]" />
                   </div>
                   <div>
-                    <h3
-                      className="text-xl font-bold text-navy leading-none"
-                      style={{ color: 'var(--nurc-navy)' }}
-                    >
+                    <h3 className="text-xl font-bold text-nurc-navy leading-none">
                       {Math.max(5, (readArticles ?? []).length)}
                     </h3>
                     <p className="text-[10px] text-muted-foreground mt-1">
@@ -409,10 +389,7 @@ export function DashboardPage() {
                     <Bookmark size={16} className="text-amber-500" />
                   </div>
                   <div>
-                    <h3
-                      className="text-xl font-bold text-navy leading-none"
-                      style={{ color: 'var(--nurc-navy)' }}
-                    >
+                    <h3 className="text-xl font-bold text-nurc-navy leading-none">
                       {(savedArticles ?? []).length}
                     </h3>
                     <p className="text-[10px] text-muted-foreground mt-1">
@@ -429,10 +406,7 @@ export function DashboardPage() {
                     <Layout size={16} className="text-blue-500" />
                   </div>
                   <div>
-                    <h3
-                      className="text-xl font-bold text-navy leading-none"
-                      style={{ color: 'var(--nurc-navy)' }}
-                    >
+                    <h3 className="text-xl font-bold text-nurc-navy leading-none">
                       {(currentUser.industries ?? []).length}
                     </h3>
                     <p className="text-[10px] text-muted-foreground mt-1">
@@ -449,10 +423,7 @@ export function DashboardPage() {
                     <Clock size={16} className="text-indigo-500" />
                   </div>
                   <div>
-                    <h3
-                      className="text-xl font-bold text-navy leading-none"
-                      style={{ color: 'var(--nurc-navy)' }}
-                    >
+                    <h3 className="text-xl font-bold text-nurc-navy leading-none">
                       {Math.max(45, (readArticles ?? []).length * 8) + ' Mins'}
                     </h3>
                     <p className="text-[10px] text-muted-foreground mt-1">
@@ -469,10 +440,7 @@ export function DashboardPage() {
                     <span className="text-[9px] font-bold text-amber-800 uppercase tracking-widest block">
                       Continue Reading ({resumePctNum}% Read)
                     </span>
-                    <h4
-                      className="font-bold text-sm text-navy"
-                      style={{ color: 'var(--nurc-navy)' }}
-                    >
+                    <h4 className="font-bold text-sm text-nurc-navy">
                       {resumeBrief.title}{' '}
                       <span className="text-xs text-muted-foreground font-semibold">
                         ({resumeBrief.category})
@@ -516,10 +484,7 @@ export function DashboardPage() {
                       </div>
                     </div>
 
-                    <h2
-                      className="text-2xl md:text-3xl font-bold tracking-tight text-navy mb-3"
-                      style={{ color: 'var(--nurc-navy)', fontFamily: 'var(--font-heading)' }}
-                    >
+                    <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-3 text-nurc-navy font-heading">
                       {todayNewsletter.title}
                     </h2>
 
@@ -534,8 +499,7 @@ export function DashboardPage() {
                       {todayNewsletter.highlights.map((h, i) => (
                         <div
                           key={i}
-                          className="flex items-start gap-2 text-xs font-semibold text-navy"
-                          style={{ color: 'var(--nurc-navy)' }}
+                          className="flex items-start gap-2 text-xs font-semibold text-nurc-navy"
                         >
                           <div
                             className="w-1.5 h-1.5 rounded-full mt-2 shrink-0"
@@ -578,9 +542,7 @@ export function DashboardPage() {
               ) : (
                 <div className="bg-white border border-border rounded-xl p-6 text-center space-y-3 shadow-sm">
                   <BookOpen className="mx-auto text-muted-foreground" size={32} />
-                  <h4 className="font-bold text-navy" style={{ color: 'var(--nurc-navy)' }}>
-                    No briefings found
-                  </h4>
+                  <h4 className="font-bold text-nurc-navy">No briefings found</h4>
                   <p className="text-xs text-muted-foreground">
                     Check your sector preferences to make sure you are subscribed to active
                     newsletter channels.
@@ -595,10 +557,7 @@ export function DashboardPage() {
             <div className="space-y-6 animate-fadeIn">
               <div className="bg-white border border-border rounded-xl p-6 shadow-sm space-y-4">
                 <div>
-                  <h3
-                    className="text-base font-bold text-navy"
-                    style={{ color: 'var(--nurc-navy)', fontFamily: 'var(--font-heading)' }}
-                  >
+                  <h3 className="text-base font-bold text-nurc-navy font-heading">
                     Historical Briefing Archives
                   </h3>
                   <p className="text-xs text-muted-foreground mt-0.5">
@@ -690,7 +649,7 @@ export function DashboardPage() {
                     return (
                       <div className="bg-white border border-border rounded-xl p-6 text-center space-y-2 shadow-sm">
                         <FileText className="mx-auto text-muted-foreground" size={30} />
-                        <h4 className="font-bold text-navy" style={{ color: 'var(--nurc-navy)' }}>
+                        <h4 className="font-bold text-nurc-navy">
                           No archived briefings match filters
                         </h4>
                         <p className="text-xs text-muted-foreground">
@@ -720,13 +679,7 @@ export function DashboardPage() {
                                 {nl.date}
                               </span>
                             </div>
-                            <h4
-                              className="font-bold text-navy text-sm"
-                              style={{
-                                color: 'var(--nurc-navy)',
-                                fontFamily: 'var(--font-heading)',
-                              }}
-                            >
+                            <h4 className="font-bold text-sm text-nurc-navy font-heading">
                               {nl.title}
                             </h4>
                             <p className="text-xs text-muted-foreground line-clamp-1 max-w-xl">
@@ -736,8 +689,7 @@ export function DashboardPage() {
                           <div className="flex items-center gap-2.5 shrink-0">
                             <button
                               onClick={() => openReader(nl.article, nl.id)}
-                              className="h-12 px-6 bg-[var(--nurc-teal)] text-white text-xs font-semibold rounded-xl hover:opacity-90 transition-all cursor-pointer border-0 flex items-center justify-center"
-                              style={{ background: 'var(--nurc-teal)' }}
+                              className="h-12 px-6 text-white text-xs font-semibold rounded-xl hover:opacity-90 transition-all cursor-pointer border-0 flex items-center justify-center bg-nurc-teal"
                             >
                               Open in Reader Mode
                             </button>
@@ -771,10 +723,7 @@ export function DashboardPage() {
               {/* Plan Information Card */}
               <div className="bg-white border border-border rounded-xl p-6 space-y-6 shadow-sm">
                 <div>
-                  <h3
-                    className="text-base font-bold text-navy pb-2 border-b border-border"
-                    style={{ color: 'var(--nurc-navy)', fontFamily: 'var(--font-heading)' }}
-                  >
+                  <h3 className="text-base font-bold pb-2 border-b border-border text-nurc-navy font-heading">
                     Active Subscription License Details
                   </h3>
                   <p className="text-xs text-muted-foreground mt-1.5">
@@ -787,10 +736,7 @@ export function DashboardPage() {
                     <span className="text-muted-foreground block text-[10px] uppercase font-bold tracking-wider mb-1">
                       License Plan Type
                     </span>
-                    <span
-                      className="font-bold text-navy text-sm"
-                      style={{ color: 'var(--nurc-navy)' }}
-                    >
+                    <span className="font-bold text-sm text-nurc-navy">
                       {currentUser.plan} Access
                     </span>
                   </div>
@@ -815,26 +761,19 @@ export function DashboardPage() {
                 <div className="flex flex-col sm:flex-row gap-3 pt-2">
                   <Link
                     to="/contact"
-                    className="btn-nurc flex-1 h-12 bg-teal text-white text-xs font-bold rounded-xl flex items-center justify-center gap-1.5 cursor-pointer border-0 text-center"
-                    style={{ background: 'var(--nurc-teal)', textDecoration: 'none' }}
+                    className="btn-nurc flex-1 h-12 text-white text-xs font-bold rounded-xl flex items-center justify-center gap-1.5 cursor-pointer border-0 text-center bg-nurc-teal no-underline"
                   >
                     Request Demo
                   </Link>
                   <Link
                     to="/contact"
-                    className="btn-nurc flex-1 h-12 border border-border text-navy text-xs font-bold rounded-xl cursor-pointer bg-white text-center flex items-center justify-center animate-none"
-                    style={{ color: 'var(--nurc-navy)', textDecoration: 'none' }}
+                    className="btn-nurc flex-1 h-12 border border-border text-xs font-bold rounded-xl cursor-pointer bg-white text-center flex items-center justify-center animate-none text-nurc-navy no-underline"
                   >
                     Contact Us
                   </Link>
                   <Link
                     to="/contact"
-                    className="btn-nurc flex-1 h-12 border border-border text-[#006D7A] hover:bg-teal-50/30 text-xs font-bold rounded-xl cursor-pointer bg-white text-center flex items-center justify-center animate-none"
-                    style={{
-                      color: 'var(--nurc-teal)',
-                      borderColor: 'var(--nurc-teal)',
-                      textDecoration: 'none',
-                    }}
+                    className="btn-nurc flex-1 h-12 border hover:bg-teal-50/30 text-xs font-bold rounded-xl cursor-pointer bg-white text-center flex items-center justify-center animate-none text-nurc-teal border-nurc-teal no-underline"
                   >
                     Schedule Consultation
                   </Link>
@@ -842,10 +781,7 @@ export function DashboardPage() {
               </div>
 
               {/* B2B Workspace widgets */}
-              <div
-                className="bg-[#0A2540] text-white rounded-xl p-6 shadow-md flex flex-col md:flex-row md:items-center justify-between gap-6 border-l-4 border-teal animate-fadeIn"
-                style={{ borderLeftColor: 'var(--nurc-teal)' }}
-              >
+              <div className="bg-[#0A2540] text-white rounded-xl p-6 shadow-md flex flex-col md:flex-row md:items-center justify-between gap-6 border-l-4 border-teal animate-fadeIn border-l-nurc-teal">
                 <div className="space-y-1 text-left">
                   <span className="text-[9px] font-bold text-teal-400 uppercase tracking-widest block">
                     Corporate Account Portal
@@ -863,8 +799,7 @@ export function DashboardPage() {
                 </div>
                 <button
                   onClick={openDemoModal}
-                  className="h-12 px-6 bg-teal text-white text-xs font-bold rounded-xl transition-all cursor-pointer border-0 shrink-0 flex items-center justify-center"
-                  style={{ background: 'var(--nurc-teal)' }}
+                  className="h-12 px-6 text-white text-xs font-bold rounded-xl transition-all cursor-pointer border-0 shrink-0 flex items-center justify-center bg-nurc-teal"
                 >
                   Schedule B2B Demo
                 </button>
@@ -880,10 +815,7 @@ export function DashboardPage() {
                 className="bg-white border border-border rounded-xl p-6 space-y-6 shadow-sm"
               >
                 <div>
-                  <h3
-                    className="text-base font-bold text-navy"
-                    style={{ color: 'var(--nurc-navy)', fontFamily: 'var(--font-heading)' }}
-                  >
+                  <h3 className="text-base font-bold text-nurc-navy font-heading">
                     Newsletter Sector Preferences
                   </h3>
                   <p className="text-xs text-muted-foreground mt-0.5">
@@ -923,8 +855,7 @@ export function DashboardPage() {
 
                 <button
                   type="submit"
-                  className="btn-nurc h-12 px-6 bg-navy text-white text-xs font-bold rounded-xl cursor-pointer border-0 flex items-center justify-center animate-none"
-                  style={{ background: 'var(--nurc-navy)' }}
+                  className="btn-nurc h-12 px-6 text-white text-xs font-bold rounded-xl cursor-pointer border-0 flex items-center justify-center animate-none bg-nurc-navy"
                 >
                   Save Feed Preferences
                 </button>
@@ -940,10 +871,7 @@ export function DashboardPage() {
                 onSubmit={handleProfileSubmit}
                 className="bg-white border border-border rounded-xl p-6 space-y-4 shadow-sm"
               >
-                <h3
-                  className="text-base font-bold pb-2 border-b border-border text-navy"
-                  style={{ color: 'var(--nurc-navy)', fontFamily: 'var(--font-heading)' }}
-                >
+                <h3 className="text-base font-bold pb-2 border-b border-border text-nurc-navy font-heading">
                   Personal Profile Details
                 </h3>
 
@@ -1009,8 +937,7 @@ export function DashboardPage() {
 
                 <button
                   type="submit"
-                  className="btn-nurc h-12 px-6 bg-navy text-white text-xs font-bold rounded-xl cursor-pointer border-0 flex items-center justify-center animate-none"
-                  style={{ background: 'var(--nurc-navy)' }}
+                  className="btn-nurc h-12 px-6 text-white text-xs font-bold rounded-xl cursor-pointer border-0 flex items-center justify-center animate-none bg-nurc-navy"
                 >
                   Save Profile Changes
                 </button>
@@ -1021,10 +948,7 @@ export function DashboardPage() {
                 onSubmit={handleCompanySubmit}
                 className="bg-white border border-border rounded-xl p-6 space-y-4 shadow-sm"
               >
-                <h3
-                  className="text-base font-bold pb-2 border-b border-border text-navy"
-                  style={{ color: 'var(--nurc-navy)', fontFamily: 'var(--font-heading)' }}
-                >
+                <h3 className="text-base font-bold pb-2 border-b border-border text-nurc-navy font-heading">
                   Corporate Company Particulars
                 </h3>
 
@@ -1106,8 +1030,7 @@ export function DashboardPage() {
 
                 <button
                   type="submit"
-                  className="btn-nurc h-12 px-6 bg-navy text-white text-xs font-bold rounded-xl cursor-pointer border-0 flex items-center justify-center animate-none"
-                  style={{ background: 'var(--nurc-navy)' }}
+                  className="btn-nurc h-12 px-6 text-white text-xs font-bold rounded-xl cursor-pointer border-0 flex items-center justify-center animate-none bg-nurc-navy"
                 >
                   Save Corporate Profile
                 </button>
