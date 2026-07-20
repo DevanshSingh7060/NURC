@@ -17,21 +17,12 @@ import {
   Moon,
   Monitor,
 } from 'lucide-react';
-
-const readingModeColors = {
-  default: { bg: '#FAF9F6', text: '#1F2937', card: '#FFFFFF', border: '#E5E7EB', muted: '#4B5563' },
-  night: { bg: '#F4EAD7', text: '#3D352A', card: '#FAF4EB', border: '#EADFCB', muted: '#7A6D5C' },
-  dark: { bg: '#111111', text: '#F5F5F5', card: '#1C1C1E', border: '#2C2C2E', muted: '#8E8E93' },
-};
-
-const fontSizeMap = {
-  small: '15px',
-  medium: '17px',
-  large: '19px',
-};
-
-// Line spacing is locked to standard/default (controls removed from UI completely)
-const lineHeight = '1.65';
+import { useReaderScrollProgress } from '../lib/reader/useReaderScrollProgress';
+import {
+  readingModeColors,
+  fontSizeMap,
+  readerLineHeight as lineHeight,
+} from '../lib/reader/readerConstants';
 
 export function ReaderPage() {
   const { id } = useParams<{ id: string }>();
@@ -49,152 +40,53 @@ export function ReaderPage() {
   ];
 
   const [copied, setCopied] = useState(false);
-  const [progress, setProgress] = useState(0);
   const [hoveredMode, setHoveredMode] = useState<string | null>(null);
 
-  // Track scroll position dynamically with requestAnimationFrame and ResizeObserver
-  useEffect(() => {
-    let frameId: number;
-
-    const handleScrollEvent = (e?: Event) => {
-      cancelAnimationFrame(frameId);
-      frameId = requestAnimationFrame(() => {
-        let scrollTarget: any = null;
-
-        if (e && e.target) {
-          scrollTarget = e.target;
-          if (scrollTarget === document) {
-            scrollTarget = document.documentElement || document.body;
-          }
-        }
-
-        const rootEl = document.getElementById('root');
-        const wrapperEl = document.getElementById('reader-outer-wrapper');
-
-        const targets = [
-          {
-            name: 'window',
-            el: document.documentElement || document.body,
-            scrollTop:
-              window.scrollY ||
-              window.pageYOffset ||
-              document.documentElement.scrollTop ||
-              document.body.scrollTop ||
-              0,
-            scrollHeight: document.documentElement.scrollHeight || document.body.scrollHeight || 0,
-            clientHeight: document.documentElement.clientHeight || window.innerHeight || 0,
-          },
-          {
-            name: 'root',
-            el: rootEl,
-            scrollTop: rootEl?.scrollTop || 0,
-            scrollHeight: rootEl?.scrollHeight || 0,
-            clientHeight: rootEl?.clientHeight || 0,
-          },
-          {
-            name: 'wrapper',
-            el: wrapperEl,
-            scrollTop: wrapperEl?.scrollTop || 0,
-            scrollHeight: wrapperEl?.scrollHeight || 0,
-            clientHeight: wrapperEl?.clientHeight || 0,
-          },
-        ];
-
-        let activeTarget = null;
-        if (scrollTarget) {
-          if (scrollTarget === rootEl) {
-            activeTarget = targets[1];
-          } else if (scrollTarget === wrapperEl) {
-            activeTarget = targets[2];
-          } else {
-            activeTarget = {
-              name: scrollTarget.id || scrollTarget.className || 'event-target',
-              el: scrollTarget,
-              scrollTop: scrollTarget.scrollTop || 0,
-              scrollHeight: scrollTarget.scrollHeight || 0,
-              clientHeight: scrollTarget.clientHeight || 0,
-            };
-          }
-        }
-
-        if (!activeTarget || activeTarget.scrollHeight <= activeTarget.clientHeight) {
-          activeTarget = targets[0]; // Default to window
-          for (const target of targets) {
-            if (target.scrollHeight > target.clientHeight && target.scrollTop > 0) {
-              activeTarget = target;
-              break;
-            }
-          }
-          if (activeTarget.scrollTop === 0) {
-            const scrollableTargets = targets.filter((t) => t.scrollHeight > t.clientHeight + 10);
-            if (scrollableTargets.length > 0) {
-              activeTarget = scrollableTargets[0];
-            }
-          }
-        }
-
-        const { scrollTop, scrollHeight, clientHeight } = activeTarget;
-        const scrollableHeight = scrollHeight - clientHeight;
-
-        let pct = 0;
-        if (scrollableHeight <= 0) {
-          pct = 100; // Fallback Protection
-        } else {
-          const isAtBottom = Math.abs(scrollableHeight - scrollTop) < 10;
-          pct = isAtBottom ? 100 : (scrollTop / scrollableHeight) * 100;
-        }
-
-        const roundedPct = Math.min(100, Math.max(0, pct));
-
-        setProgress(roundedPct);
-
-        if (id) {
-          safeStorage.setItem(`nurc_scroll_pos_${id}`, scrollTop.toString());
-          safeStorage.setItem(`nurc_scroll_pct_${id}`, roundedPct.toString());
-        }
-      });
-    };
-
-    window.addEventListener('scroll', handleScrollEvent, { passive: true });
-    window.addEventListener('resize', handleScrollEvent, { passive: true });
-    document.addEventListener('scroll', handleScrollEvent, { passive: true });
-    if (document.body)
-      document.body.addEventListener('scroll', handleScrollEvent, { passive: true });
-
-    // Handle root or wrapper scrolls as fallback listeners
-    const rootEl = document.getElementById('root');
-    const wrapperEl = document.getElementById('reader-outer-wrapper');
-    if (rootEl) rootEl.addEventListener('scroll', handleScrollEvent, { passive: true });
-    if (wrapperEl) wrapperEl.addEventListener('scroll', handleScrollEvent, { passive: true });
-
-    // Initial triggers & content load adjustments
-    handleScrollEvent();
-    const t1 = setTimeout(handleScrollEvent, 100);
-    const t2 = setTimeout(handleScrollEvent, 300);
-    const t3 = setTimeout(handleScrollEvent, 600);
-
-    // ResizeObserver observes elements to instantly detect size shifts from font scaling or resizing
-    const resizeObserver = new ResizeObserver(() => {
-      handleScrollEvent();
-    });
-    resizeObserver.observe(document.body);
-    if (rootEl) resizeObserver.observe(rootEl);
-    if (wrapperEl) resizeObserver.observe(wrapperEl);
-
-    return () => {
-      window.removeEventListener('scroll', handleScrollEvent);
-      window.removeEventListener('resize', handleScrollEvent);
-      document.removeEventListener('scroll', handleScrollEvent);
-      if (document.body) document.body.removeEventListener('scroll', handleScrollEvent);
-      if (rootEl) rootEl.removeEventListener('scroll', handleScrollEvent);
-      if (wrapperEl) wrapperEl.removeEventListener('scroll', handleScrollEvent);
-      clearTimeout(t1);
-      clearTimeout(t2);
-      clearTimeout(t3);
-      cancelAnimationFrame(frameId);
-      resizeObserver.disconnect();
-    };
-  }, [id, settings.fontSize, newsletter?.article]); // Added article dependency for content changes // Added article dependency for content changes
+  const progress = useReaderScrollProgress({
+    sources: [
+      {
+        getEl: () => document.documentElement || document.body,
+        getMetrics: () => ({
+          el: document.documentElement || document.body,
+          scrollTop:
+            window.scrollY ||
+            window.pageYOffset ||
+            document.documentElement.scrollTop ||
+            document.body.scrollTop ||
+            0,
+          scrollHeight: document.documentElement.scrollHeight || document.body.scrollHeight || 0,
+          clientHeight: document.documentElement.clientHeight || window.innerHeight || 0,
+        }),
+      },
+      {
+        getEl: () => document.getElementById('root'),
+        getMetrics: () => {
+          const el = document.getElementById('root');
+          return {
+            el,
+            scrollTop: el?.scrollTop || 0,
+            scrollHeight: el?.scrollHeight || 0,
+            clientHeight: el?.clientHeight || 0,
+          };
+        },
+      },
+      {
+        getEl: () => document.getElementById('reader-outer-wrapper'),
+        getMetrics: () => {
+          const el = document.getElementById('reader-outer-wrapper');
+          return {
+            el,
+            scrollTop: el?.scrollTop || 0,
+            scrollHeight: el?.scrollHeight || 0,
+            clientHeight: el?.clientHeight || 0,
+          };
+        },
+      },
+    ],
+    posKey: id ? `nurc_scroll_pos_${id}` : null,
+    pctKey: id ? `nurc_scroll_pct_${id}` : null,
+    deps: [id, settings.fontSize, newsletter?.article],
+  });
 
   // Auto-restore reading scroll position on load
   useEffect(() => {

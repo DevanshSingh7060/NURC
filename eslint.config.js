@@ -63,22 +63,9 @@ export default tseslint.config(
   // ONLY in these specific files so the rules stay at full strength for all other
   // (and new) code. Each is tracked to its audit finding / owning phase.
   {
-    files: ['src/app/components/ReaderMode.tsx'],
-    rules: {
-      'react-hooks/rules-of-hooks': 'warn', // COQ-002 — useReaderMode() in handleTouchEnd; fixed in Phase 5
-      'no-useless-assignment': 'warn', // scroll logic; refactored into shared hook in Phase 5
-    },
-  },
-  {
-    files: ['src/app/components/ReaderPage.tsx'],
-    rules: {
-      'no-useless-assignment': 'warn', // scroll logic; refactored into shared hook in Phase 5
-    },
-  },
-  {
     files: ['src/app/components/AboutPage.tsx'],
     rules: {
-      'no-constant-binary-expression': 'warn', // always-true DEVELOPMENT_MODE gate; Phase 5
+      'no-constant-binary-expression': 'warn', // intentional `{false && ...}` hidden Timeline section
     },
   },
   {
