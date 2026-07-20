@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'sonner';
@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import { leadSchema, type LeadInput } from '../lib/validation';
 import { api, ApiError } from '../lib/apiClient';
+import { useDialogA11y } from '../lib/useDialogA11y';
 
 const industrySectors = [
   'Automotive',
@@ -53,6 +54,14 @@ export function LeadModal() {
     },
   });
 
+  const closeAndReset = useCallback(() => {
+    setSubmittedInfo(null);
+    reset();
+    closeModal();
+  }, [reset, closeModal]);
+
+  const dialogRef = useDialogA11y<HTMLDivElement>(isOpen, closeAndReset);
+
   // Keep the schema's modalType in sync with the demo/coverage tab.
   useEffect(() => {
     setValue('modalType', modalType);
@@ -72,23 +81,22 @@ export function LeadModal() {
     }
   };
 
-  const handleResetAndClose = () => {
-    setSubmittedInfo(null);
-    reset();
-    closeModal();
-  };
-
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       {/* Backdrop blur overlay */}
       <div
         className="absolute inset-0 bg-[#0A2540]/40 backdrop-blur-sm transition-opacity"
-        onClick={handleResetAndClose}
+        onClick={closeAndReset}
       />
 
       {/* Modal Container */}
       <div
-        className="relative bg-white w-full max-w-lg rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-10 transition-all transform duration-300 animate-fadeIn"
+        ref={dialogRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="lead-modal-title"
+        tabIndex={-1}
+        className="relative bg-white w-full max-w-lg rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-10 transition-all transform duration-300 animate-fadeIn focus:outline-none"
         style={{ fontFamily: 'var(--font-heading)' }}
       >
         {/* Header Ribbon */}
@@ -96,7 +104,7 @@ export function LeadModal() {
 
         {/* Close Button */}
         <button
-          onClick={handleResetAndClose}
+          onClick={closeAndReset}
           aria-label="Close dialog"
           className="absolute top-4 right-4 p-1.5 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-50 transition-colors border-0 bg-transparent cursor-pointer"
         >
@@ -133,7 +141,7 @@ export function LeadModal() {
 
             {/* Form Headers */}
             <div className="mb-6">
-              <h2 className="text-xl font-bold tracking-tight text-gray-900">
+              <h2 id="lead-modal-title" className="text-xl font-bold tracking-tight text-gray-900">
                 {modalType === 'demo'
                   ? 'Access Enterprise Intelligence'
                   : 'Tailored Industry Briefings'}
@@ -343,7 +351,7 @@ export function LeadModal() {
             </div>
 
             <div className="space-y-2">
-              <h2 className="text-xl font-bold tracking-tight text-gray-900">
+              <h2 id="lead-modal-title" className="text-xl font-bold tracking-tight text-gray-900">
                 Specification Received Successfully
               </h2>
               <p className="text-xs text-muted-foreground leading-relaxed max-w-sm mx-auto">
@@ -375,7 +383,7 @@ export function LeadModal() {
             <div className="pt-2">
               <button
                 type="button"
-                onClick={handleResetAndClose}
+                onClick={closeAndReset}
                 className="px-6 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-xs font-bold transition-all border-0 cursor-pointer"
               >
                 Close Window
