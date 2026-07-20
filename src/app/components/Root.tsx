@@ -11,6 +11,7 @@ import { AppProvider } from '../context/AppContext';
 import { LeadModalProvider } from '../context/LeadModalContext';
 import { LeadModal } from './LeadModal';
 import { SkipToContent } from './shared/SkipToContent';
+import { OfflineBanner } from './shared/OfflineBanner';
 import { Toaster } from './ui/sonner';
 import { StructuredData, ORGANIZATION_SCHEMA, WEBSITE_SCHEMA } from './shared/StructuredData';
 import { PageLoadingFallback } from './shared/PageLoadingFallback';
@@ -39,6 +40,7 @@ export function Root() {
           <LeadModalProvider>
             <ReaderModeProvider>
               <div className="min-h-screen flex flex-col bg-background text-foreground">
+                <OfflineBanner />
                 <SkipToContent />
                 <StructuredData data={[ORGANIZATION_SCHEMA, WEBSITE_SCHEMA]} />
                 <ScrollToTop />

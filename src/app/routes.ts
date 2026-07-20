@@ -1,6 +1,7 @@
 import React from 'react';
 import { createBrowserRouter, Navigate } from 'react-router';
 import { Root } from './components/Root';
+import { RouteErrorBoundary } from './components/shared/RouteErrorBoundary';
 import { HomePage } from './components/HomePage';
 import { NewsletterPage } from './components/NewsletterPage';
 import { SectorPage } from './components/SectorPage';
@@ -35,7 +36,8 @@ import { SendNewslettersView, NewslettersSend } from './admin/pages/Newsletters'
 // Redirect components
 const RedirectToContact = () => React.createElement(Navigate, { to: '/contact', replace: true });
 const RedirectToInsights = () => React.createElement(Navigate, { to: '/insights', replace: true });
-const RedirectToTrial = () => React.createElement(Navigate, { to: '/contact?intent=trial', replace: true });
+const RedirectToTrial = () =>
+  React.createElement(Navigate, { to: '/contact?intent=trial', replace: true });
 
 // Redirect /sector/:slug to /industries/:slug
 function RedirectSectorToIndustry() {
@@ -48,6 +50,7 @@ export const router = createBrowserRouter([
   {
     path: '/',
     Component: Root,
+    ErrorBoundary: RouteErrorBoundary,
     children: [
       { index: true, Component: HomePage },
       // Industry pages (new canonical paths)
@@ -82,6 +85,7 @@ export const router = createBrowserRouter([
   {
     path: '/admin',
     Component: AdminRoot,
+    ErrorBoundary: RouteErrorBoundary,
     children: [
       { index: true, Component: AdminDashboard },
       { path: 'updates', Component: UpdatesView },
