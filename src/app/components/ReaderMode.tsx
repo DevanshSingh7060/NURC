@@ -159,11 +159,6 @@ export function ReaderModeOverlay() {
 
         const roundedPct = Math.min(100, Math.max(0, pct));
 
-        // Debug Logging
-        console.log(
-          `[ReaderMode Scroll Debug] Container: ${activeTarget.name} | ScrollTop: ${scrollTop} | ScrollHeight: ${scrollHeight} | ClientHeight: ${clientHeight} | ScrollableHeight: ${scrollableHeight} | Progress: ${roundedPct}%`,
-        );
-
         setProgress(roundedPct);
 
         if (storageKey) {
@@ -281,8 +276,7 @@ export function ReaderModeOverlay() {
     'Macroeconomic corporate statistics driving Q3 executive choices.',
   ];
 
-  const DEVELOPMENT_MODE = true;
-  const isGuest = DEVELOPMENT_MODE ? !currentUser : !currentUser || currentUser.plan === 'None';
+  const isGuest = !currentUser || currentUser.plan === 'None';
 
   const handleShare = () => {
     const url = newsletterId

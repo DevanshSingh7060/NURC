@@ -1,18 +1,51 @@
 import { useState, useEffect } from 'react';
-import { BookOpen, ArrowRight, Filter, Search, Download, Bookmark, Share2, Clock } from 'lucide-react';
+import {
+  BookOpen,
+  ArrowRight,
+  Filter,
+  Search,
+  Download,
+  Bookmark,
+  Share2,
+  Clock,
+} from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { useReaderMode } from './ReaderModeContext';
 import { Link, useSearchParams } from 'react-router';
 import { SEOHead } from './shared/SEOHead';
 
-const categories = ['All', 'Automotive', 'Banking', 'Finance', 'Insurance', 'Healthcare', 'Energy', 'Technology', 'Infrastructure'];
+const categories = [
+  'All',
+  'Automotive',
+  'Banking',
+  'Finance',
+  'Insurance',
+  'Healthcare',
+  'Energy',
+  'Technology',
+  'Infrastructure',
+];
 const years = ['All', '2026', '2025'];
-const months = ['All', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+const months = [
+  'All',
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+];
 const timeRanges = [
   { value: 'all', label: 'All Time' },
   { value: '30days', label: 'Last 30 Days' },
   { value: '6months', label: 'Last 6 Months' },
-  { value: '1year', label: 'Last Year' }
+  { value: '1year', label: 'Last Year' },
 ];
 
 export function NewsletterPage() {
@@ -30,13 +63,15 @@ export function NewsletterPage() {
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
   const getNewsletterImportance = (nl: any) => {
-    return (nl.id === 'nl-auto-1247' || nl.id === 'nl-banking-892' || nl.category === 'Energy') ? 'High Impact' : 'Normal';
+    return nl.id === 'nl-auto-1247' || nl.id === 'nl-banking-892' || nl.category === 'Energy'
+      ? 'High Impact'
+      : 'Normal';
   };
 
   // Sync category selection with URL parameters from dashboard
   useEffect(() => {
     if (categoryParam) {
-      const matched = categories.find(c => c.toLowerCase() === categoryParam.toLowerCase());
+      const matched = categories.find((c) => c.toLowerCase() === categoryParam.toLowerCase());
       if (matched) {
         setActiveCategory(matched);
       }
@@ -44,7 +79,7 @@ export function NewsletterPage() {
   }, [categoryParam]);
 
   // Filter Logic
-  const filtered = newsletters.filter(nl => {
+  const filtered = newsletters.filter((nl) => {
     // 1. Category filter
     if (activeCategory !== 'All' && nl.category.toLowerCase() !== activeCategory.toLowerCase()) {
       return false;
@@ -74,7 +109,7 @@ export function NewsletterPage() {
       const now = new Date();
       const diffTime = Math.abs(now.getTime() - date.getTime());
       const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-      
+
       if (activeRange === '30days' && diffDays > 30) return false;
       if (activeRange === '6months' && diffDays > 180) return false;
       if (activeRange === '1year' && diffDays > 365) return false;
@@ -86,14 +121,15 @@ export function NewsletterPage() {
       const matchTitle = nl.title.toLowerCase().includes(query);
       const matchSummary = nl.summary.toLowerCase().includes(query);
       const matchCategory = nl.category.toLowerCase().includes(query);
-      const matchHighlights = nl.highlights.some(h => h.toLowerCase().includes(query));
-      
+      const matchHighlights = nl.highlights.some((h) => h.toLowerCase().includes(query));
+
       // Deep search matching paragraph contents
-      const matchContent = nl.article.content.some(block => 
-        (block.text && block.text.toLowerCase().includes(query)) ||
-        (block.heading && block.heading.toLowerCase().includes(query)) ||
-        (block.tag && block.tag.toLowerCase().includes(query)) ||
-        (block.items && block.items.some(item => item.toLowerCase().includes(query)))
+      const matchContent = nl.article.content.some(
+        (block) =>
+          (block.text && block.text.toLowerCase().includes(query)) ||
+          (block.heading && block.heading.toLowerCase().includes(query)) ||
+          (block.tag && block.tag.toLowerCase().includes(query)) ||
+          (block.items && block.items.some((item) => item.toLowerCase().includes(query))),
       );
 
       return matchTitle || matchSummary || matchCategory || matchHighlights || matchContent;
@@ -110,7 +146,7 @@ export function NewsletterPage() {
   };
 
   const handleDownload = (id: string) => {
-    const nl = newsletters.find(n => n.id === id);
+    const nl = newsletters.find((n) => n.id === id);
     if (!nl) return;
 
     let textContent = `NURC MEDIANEXT BRIEFING\n`;
@@ -120,13 +156,13 @@ export function NewsletterPage() {
     textContent += `Issue: ${nl.issue} | Date: ${nl.date}\n`;
     textContent += `Read Time: ${nl.readTime}\n\n`;
 
-    nl.article.content.forEach(block => {
+    nl.article.content.forEach((block) => {
       if (block.type === 'section') {
         textContent += `[${block.heading || 'Briefing'} ${block.tag ? ` - ${block.tag}` : ''}]\n`;
         textContent += `${block.text}\n\n`;
       } else if (block.type === 'data') {
         textContent += `[Data Indicators]\n`;
-        block.items?.forEach(item => {
+        block.items?.forEach((item) => {
           textContent += ` - ${item}\n`;
         });
         textContent += `\n`;
@@ -161,23 +197,35 @@ export function NewsletterPage() {
         description="Browse the complete archive of NURC MediaNext intelligence dispatches across automotive, banking, infrastructure, energy, healthcare, and technology sectors."
         canonicalUrl="/newsletters"
       />
-      
+
       {/* Archive Hero Section */}
       <section className="py-16 border-b border-border" style={{ background: '#FFFFFF' }}>
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex items-center gap-3 mb-5">
             <div className="h-px w-8" style={{ background: 'var(--nurc-gold)' }} />
-            <span className="text-xs font-bold uppercase tracking-widest text-[#006D7A]" style={{ letterSpacing: '0.14em', fontFamily: 'var(--font-heading)' }}>
+            <span
+              className="text-xs font-bold uppercase tracking-widest text-[#006D7A]"
+              style={{ letterSpacing: '0.14em', fontFamily: 'var(--font-heading)' }}
+            >
               Corporate Intelligence Archive
             </span>
           </div>
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
             <div>
-              <h1 className="mb-4 text-3xl md:text-5xl font-bold tracking-tight text-navy" style={{ fontFamily: 'var(--font-display)', color: 'var(--nurc-navy)', lineHeight: 1.2 }}>
+              <h1
+                className="mb-4 text-3xl md:text-5xl font-bold tracking-tight text-navy"
+                style={{
+                  fontFamily: 'var(--font-display)',
+                  color: 'var(--nurc-navy)',
+                  lineHeight: 1.2,
+                }}
+              >
                 Analyst Briefings Index
               </h1>
               <p className="text-muted-foreground text-sm leading-relaxed max-w-[560px]">
-                Search and filter NURC's historical catalog of daily sector intelligence briefings. Log in to download full PDF formatted documents and view briefings under your active layout system.
+                Search and filter NURC's historical catalog of daily sector intelligence briefings.
+                Log in to download full PDF formatted documents and view briefings under your active
+                layout system.
               </p>
             </div>
             <Link
@@ -195,26 +243,30 @@ export function NewsletterPage() {
       {/* Advanced Search & Filtering Accordion Bar */}
       <section className="border-b border-border bg-card sticky top-16 z-30 shadow-sm py-4">
         <div className="max-w-7xl mx-auto px-6 space-y-4">
-          
           {/* Keyword Search Input */}
           <div className="relative">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground shrink-0" size={16} />
+            <Search
+              className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground shrink-0"
+              size={16}
+            />
             <input
               type="text"
               placeholder="Search headlines, summaries, paragraphs or indicators (e.g. 'Electric Vehicles', 'SEBI', 'Apollo')..."
               value={searchQuery}
-              onChange={e => setSearchQuery(e.target.value)}
+              onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-border bg-background focus:outline-none focus:ring-2 focus:ring-ring text-xs transition-all animate-none"
             />
           </div>
 
           {/* Selector Rows */}
           <div className="flex flex-wrap items-center gap-x-6 gap-y-3 text-xs">
-            
             {/* Category / Industry Selector */}
-            <div className="flex items-center gap-2 overflow-x-auto pb-1 max-w-full" style={{ scrollbarWidth: 'thin' }}>
+            <div
+              className="flex items-center gap-2 overflow-x-auto pb-1 max-w-full"
+              style={{ scrollbarWidth: 'thin' }}
+            >
               <Filter size={13} className="text-muted-foreground shrink-0" />
-              {categories.map(cat => (
+              {categories.map((cat) => (
                 <button
                   key={cat}
                   onClick={() => setActiveCategory(cat)}
@@ -222,7 +274,7 @@ export function NewsletterPage() {
                   style={{
                     background: activeCategory === cat ? 'var(--nurc-navy)' : 'transparent',
                     color: activeCategory === cat ? '#fff' : 'var(--nurc-navy)',
-                    borderColor: activeCategory === cat ? 'var(--nurc-navy)' : 'var(--border)'
+                    borderColor: activeCategory === cat ? 'var(--nurc-navy)' : 'var(--border)',
                   }}
                 >
                   {cat}
@@ -236,7 +288,7 @@ export function NewsletterPage() {
             <div className="flex items-center gap-1.5">
               <span className="text-muted-foreground font-semibold">Importance:</span>
               <div className="flex gap-1">
-                {['All', 'High Impact', 'Normal'].map(imp => (
+                {['All', 'High Impact', 'Normal'].map((imp) => (
                   <button
                     key={imp}
                     onClick={() => setActiveImportance(imp)}
@@ -244,7 +296,7 @@ export function NewsletterPage() {
                     style={{
                       background: activeImportance === imp ? 'var(--nurc-gold)' : 'transparent',
                       color: activeImportance === imp ? '#fff' : 'var(--nurc-navy)',
-                      borderColor: activeImportance === imp ? 'var(--nurc-gold)' : 'var(--border)'
+                      borderColor: activeImportance === imp ? 'var(--nurc-gold)' : 'var(--border)',
                     }}
                   >
                     {imp}
@@ -259,7 +311,7 @@ export function NewsletterPage() {
             <div className="flex items-center gap-1.5">
               <span className="text-muted-foreground font-semibold">Year:</span>
               <div className="flex gap-1">
-                {years.map(yr => (
+                {years.map((yr) => (
                   <button
                     key={yr}
                     onClick={() => setActiveYear(yr)}
@@ -267,7 +319,7 @@ export function NewsletterPage() {
                     style={{
                       background: activeYear === yr ? 'var(--nurc-teal)' : 'transparent',
                       color: activeYear === yr ? '#fff' : 'var(--nurc-navy)',
-                      borderColor: activeYear === yr ? 'var(--nurc-teal)' : 'var(--border)'
+                      borderColor: activeYear === yr ? 'var(--nurc-teal)' : 'var(--border)',
                     }}
                   >
                     {yr}
@@ -283,11 +335,13 @@ export function NewsletterPage() {
               <span className="text-muted-foreground font-semibold">Month:</span>
               <select
                 value={activeMonth}
-                onChange={e => setActiveMonth(e.target.value)}
+                onChange={(e) => setActiveMonth(e.target.value)}
                 className="border border-border rounded bg-background px-2 py-0.5 font-semibold text-[11px] cursor-pointer"
               >
-                {months.map(m => (
-                  <option key={m} value={m}>{m}</option>
+                {months.map((m) => (
+                  <option key={m} value={m}>
+                    {m}
+                  </option>
                 ))}
               </select>
             </div>
@@ -299,34 +353,41 @@ export function NewsletterPage() {
               <span className="text-muted-foreground font-semibold">Range:</span>
               <select
                 value={activeRange}
-                onChange={e => setActiveRange(e.target.value)}
+                onChange={(e) => setActiveRange(e.target.value)}
                 className="border border-border rounded bg-background px-2 py-0.5 font-semibold text-[11px] cursor-pointer"
               >
-                {timeRanges.map(tr => (
-                  <option key={tr.value} value={tr.value}>{tr.label}</option>
+                {timeRanges.map((tr) => (
+                  <option key={tr.value} value={tr.value}>
+                    {tr.label}
+                  </option>
                 ))}
               </select>
             </div>
-
           </div>
-
         </div>
       </section>
 
       {/* Grid Archive View */}
       <section className="py-12 bg-[#F8F9FA]">
         <div className="max-w-7xl mx-auto px-6">
-          
           <div className="mb-4 text-xs font-semibold text-muted-foreground flex justify-between items-center">
             <span>Showing {filtered.length} matching briefings</span>
             {searchQuery && (
-              <button onClick={() => setSearchQuery('')} className="text-teal hover:underline font-bold" style={{ color: 'var(--nurc-teal)' }}>Clear Search</button>
+              <button
+                onClick={() => setSearchQuery('')}
+                className="text-teal hover:underline font-bold"
+                style={{ color: 'var(--nurc-teal)' }}
+              >
+                Clear Search
+              </button>
             )}
           </div>
 
           {filtered.length === 0 ? (
             <div className="text-center py-20 bg-white border rounded-2xl p-8 space-y-3 animate-none">
-              <p className="text-muted-foreground font-medium">No archived briefings matched your selected keyword or filter options.</p>
+              <p className="text-muted-foreground font-medium">
+                No archived briefings matched your selected keyword or filter options.
+              </p>
               <button
                 onClick={() => {
                   setActiveCategory('All');
@@ -343,42 +404,42 @@ export function NewsletterPage() {
             </div>
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 animate-fadeIn">
-              {filtered.map(nl => {
+              {filtered.map((nl) => {
                 const isSaved = savedArticles.includes(nl.id);
                 const isHighImpact = getNewsletterImportance(nl) === 'High Impact';
                 return (
                   <div
                     key={nl.id}
-                    className="bg-card border border-border rounded-2xl overflow-hidden flex flex-col justify-between transition-all duration-200"
-                    onMouseEnter={e => {
-                      (e.currentTarget as HTMLElement).style.boxShadow = '0 10px 24px rgba(0,0,0,0.06)';
-                      (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
-                    }}
-                    onMouseLeave={e => {
-                      (e.currentTarget as HTMLElement).style.boxShadow = 'none';
-                      (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
-                    }}
+                    className="bg-card border border-border rounded-2xl overflow-hidden flex flex-col justify-between transition-all duration-200 hover:shadow-[0_10px_24px_rgba(0,0,0,0.06)] hover:-translate-y-0.5"
                   >
                     <div>
                       {/* Accent strip */}
                       <div className="h-1" style={{ background: nl.color }} />
                       <div className="p-6">
                         <div className="flex items-center justify-between mb-3.5">
-                          <span className="text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded text-white shrink-0" style={{ background: nl.color }}>
+                          <span
+                            className="text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded text-white shrink-0"
+                            style={{ background: nl.color }}
+                          >
                             {nl.category}
                           </span>
-                          
+
                           {/* Importance Badge */}
-                          <span className={`text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 rounded ${
-                            isHighImpact
-                              ? 'bg-amber-50 text-amber-700 border border-amber-200'
-                              : 'bg-slate-50 text-slate-600 border border-slate-200'
-                          }`}>
+                          <span
+                            className={`text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 rounded ${
+                              isHighImpact
+                                ? 'bg-amber-50 text-amber-700 border border-amber-200'
+                                : 'bg-slate-50 text-slate-600 border border-slate-200'
+                            }`}
+                          >
                             {isHighImpact ? '🔥 High Impact' : '📋 Briefing'}
                           </span>
                         </div>
 
-                        <h3 className="font-bold text-base tracking-tight text-navy mb-2 line-clamp-1" style={{ color: 'var(--nurc-navy)', fontFamily: 'var(--font-heading)' }}>
+                        <h3
+                          className="font-bold text-base tracking-tight text-navy mb-2 line-clamp-1"
+                          style={{ color: 'var(--nurc-navy)', fontFamily: 'var(--font-heading)' }}
+                        >
                           {nl.title}
                         </h3>
 
@@ -387,7 +448,10 @@ export function NewsletterPage() {
                           <span>•</span>
                           <span>Issue {nl.issue}</span>
                           <span>•</span>
-                          <span className="flex items-center gap-1 text-teal" style={{ color: 'var(--nurc-teal)' }}>
+                          <span
+                            className="flex items-center gap-1 text-teal"
+                            style={{ color: 'var(--nurc-teal)' }}
+                          >
                             <Clock size={11} />
                             {nl.readTime} read
                           </span>
@@ -399,8 +463,14 @@ export function NewsletterPage() {
 
                         <div className="space-y-1.5 mb-5 border-t border-border/50 pt-3">
                           {nl.highlights.slice(0, 2).map((h, hi) => (
-                            <div key={hi} className="flex items-center gap-1.5 text-[11px] text-foreground font-medium">
-                              <div className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: nl.color }} />
+                            <div
+                              key={hi}
+                              className="flex items-center gap-1.5 text-[11px] text-foreground font-medium"
+                            >
+                              <div
+                                className="w-1.5 h-1.5 rounded-full shrink-0"
+                                style={{ background: nl.color }}
+                              />
                               <span className="truncate">{h}</span>
                             </div>
                           ))}
@@ -418,21 +488,28 @@ export function NewsletterPage() {
                         <BookOpen size={13} />
                         Read Briefing
                       </button>
-                      
+
                       <div className="flex gap-1">
                         <button
                           onClick={() => toggleSaveArticle(nl.id)}
                           className="p-2 border border-border rounded-lg text-muted-foreground hover:text-navy hover:bg-muted transition-all cursor-pointer bg-white"
                           title={isSaved ? 'Remove from bookmarks' : 'Save briefing'}
                         >
-                          <Bookmark size={13} fill={isSaved ? 'currentColor' : 'none'} style={{ color: isSaved ? 'var(--nurc-teal)' : 'inherit' }} />
+                          <Bookmark
+                            size={13}
+                            fill={isSaved ? 'currentColor' : 'none'}
+                            style={{ color: isSaved ? 'var(--nurc-teal)' : 'inherit' }}
+                          />
                         </button>
                         <button
                           onClick={() => handleShare(nl.id)}
                           className="p-2 border border-border rounded-lg text-muted-foreground hover:text-navy hover:bg-muted transition-all cursor-pointer bg-white"
                           title="Copy share link"
                         >
-                          <Share2 size={13} style={{ color: copiedId === nl.id ? 'var(--nurc-teal)' : 'inherit' }} />
+                          <Share2
+                            size={13}
+                            style={{ color: copiedId === nl.id ? 'var(--nurc-teal)' : 'inherit' }}
+                          />
                         </button>
                         <button
                           onClick={() => handleDownload(nl.id)}
@@ -443,16 +520,13 @@ export function NewsletterPage() {
                         </button>
                       </div>
                     </div>
-
                   </div>
                 );
               })}
             </div>
           )}
-
         </div>
       </section>
-
     </div>
   );
 }

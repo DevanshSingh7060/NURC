@@ -3,23 +3,28 @@ import { BookOpen, ArrowRight, TrendingUp, BarChart2, FileText } from 'lucide-re
 import { useReaderMode, SAMPLE_AUTO_ARTICLE, SAMPLE_BANKING_ARTICLE } from './ReaderModeContext';
 import { SEOHead } from './shared/SEOHead';
 
-const sectorData: Record<string, {
-  title: string;
-  subtitle?: string;
-  description: string;
-  color: string;
-  image: string;
-  imageOpacity?: number;
-  overlayGradient?: string;
-  stats: { label: string; value: string }[];
-  benefits: string[];
-  article: typeof SAMPLE_AUTO_ARTICLE;
-}> = {
+const sectorData: Record<
+  string,
+  {
+    title: string;
+    subtitle?: string;
+    description: string;
+    color: string;
+    image: string;
+    imageOpacity?: number;
+    overlayGradient?: string;
+    stats: { label: string; value: string }[];
+    benefits: string[];
+    article: typeof SAMPLE_AUTO_ARTICLE;
+  }
+> = {
   auto: {
     title: 'Auto & Mobility',
-    description: 'NURC\'s automotive & mobility covers the full value chain — from government policy and OEM strategy to dealer economics and used car markets. Trusted by CFOs and strategy heads at Mercedes-Benz, Tata Motors, Bosch India, and 30+ auto sector leaders.',
+    description:
+      "NURC's automotive & mobility covers the full value chain — from government policy and OEM strategy to dealer economics and used car markets. Trusted by CFOs and strategy heads at Mercedes-Benz, Tata Motors, Bosch India, and 30+ auto sector leaders.",
     color: '#006D7A',
-    image: 'https://images.unsplash.com/photo-1565043666747-69f6646db940?w=1600&h=600&fit=crop&auto=format',
+    image:
+      'https://images.unsplash.com/photo-1565043666747-69f6646db940?w=1600&h=600&fit=crop&auto=format',
     imageOpacity: 0.6,
     overlayGradient: 'linear-gradient(to right, #006D7Acc 0%, #006D7A80 55%, #006D7A33 100%)',
     stats: [
@@ -41,9 +46,11 @@ const sectorData: Record<string, {
   banking: {
     title: 'Banking & Finance Intelligence',
     subtitle: 'Weekly · 40+ Institutions · RBI to Boardroom',
-    description: 'Comprehensive intelligence for senior executives at banks, NBFCs, and financial services firms. From RBI policy decisions and credit cycle analysis to digital banking competition and capital market dynamics.',
+    description:
+      'Comprehensive intelligence for senior executives at banks, NBFCs, and financial services firms. From RBI policy decisions and credit cycle analysis to digital banking competition and capital market dynamics.',
     color: '#0A2540',
-    image: 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1200&h=500&fit=crop&auto=format',
+    image:
+      'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1200&h=500&fit=crop&auto=format',
     stats: [
       { label: 'Institutions Tracked', value: '40+' },
       { label: 'RBI Sources', value: 'Daily' },
@@ -63,9 +70,11 @@ const sectorData: Record<string, {
   infrastructure: {
     title: 'Infrastructure Intelligence',
     subtitle: 'Weekly · ₹11L Crore Pipeline · NHAI to PPP',
-    description: 'Tracking India\'s infrastructure mega-programmes — NHAI highway pipeline, urban transport, smart cities, ports, and PPP deal flow. Essential intelligence for infrastructure companies, lenders, and government affairs teams.',
+    description:
+      "Tracking India's infrastructure mega-programmes — NHAI highway pipeline, urban transport, smart cities, ports, and PPP deal flow. Essential intelligence for infrastructure companies, lenders, and government affairs teams.",
     color: '#3B6E8A',
-    image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&h=500&fit=crop&auto=format',
+    image:
+      'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&h=500&fit=crop&auto=format',
     stats: [
       { label: 'Projects Tracked', value: '1,200+' },
       { label: 'Pipeline Value', value: '₹11L Cr' },
@@ -85,9 +94,11 @@ const sectorData: Record<string, {
   energy: {
     title: 'Energy & Power Intelligence',
     subtitle: 'Weekly · 180 GW Pipeline · Coal to Clean',
-    description: 'From renewable capacity additions and power procurement to coal plant retirement timelines and green hydrogen policy. Strategic intelligence for energy companies, utilities, and investors in India\'s energy transition.',
+    description:
+      "From renewable capacity additions and power procurement to coal plant retirement timelines and green hydrogen policy. Strategic intelligence for energy companies, utilities, and investors in India's energy transition.",
     color: '#5B8A5E',
-    image: 'https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1200&h=500&fit=crop&auto=format',
+    image:
+      'https://images.unsplash.com/photo-1509391366360-2e959784a276?w=1200&h=500&fit=crop&auto=format',
     stats: [
       { label: 'GW Pipeline', value: '180+' },
       { label: 'States Covered', value: '28' },
@@ -107,9 +118,11 @@ const sectorData: Record<string, {
   healthcare: {
     title: 'Healthcare Intelligence',
     subtitle: 'Bi-weekly · 35 Groups · Pharma to Policy',
-    description: 'Strategic intelligence for hospital group executives, pharma companies, medical device firms, and healthcare investors in India. CDSCO regulatory updates, PM-JAY intelligence, and sector M&A tracking.',
+    description:
+      'Strategic intelligence for hospital group executives, pharma companies, medical device firms, and healthcare investors in India. CDSCO regulatory updates, PM-JAY intelligence, and sector M&A tracking.',
     color: '#7B5C8A',
-    image: 'https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=1200&h=500&fit=crop&auto=format',
+    image:
+      'https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=1200&h=500&fit=crop&auto=format',
     stats: [
       { label: 'Hospital Groups', value: '35+' },
       { label: 'States Monitored', value: '28' },
@@ -129,9 +142,11 @@ const sectorData: Record<string, {
   fmcg: {
     title: 'FMCG & Retail Intelligence',
     subtitle: 'Weekly · 50+ Brands · D2C to Kirana',
-    description: 'Intelligence on India\'s fast-moving consumer goods and retail landscape — D2C disruption, modern trade dynamics, rural distribution, pricing strategies, and regulatory developments.',
+    description:
+      "Intelligence on India's fast-moving consumer goods and retail landscape — D2C disruption, modern trade dynamics, rural distribution, pricing strategies, and regulatory developments.",
     color: '#B85C44',
-    image: 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=1200&h=500&fit=crop&auto=format',
+    image:
+      'https://images.unsplash.com/photo-1542838132-92c53300491e?w=1200&h=500&fit=crop&auto=format',
     stats: [
       { label: 'Brands Tracked', value: '50+' },
       { label: 'Retail Formats', value: '8' },
@@ -172,24 +187,43 @@ export function SectorPage() {
             style={{ opacity: sector.imageOpacity ?? 0.2 }}
             loading="lazy"
           />
-          <div className="absolute inset-0" style={{ background: sector.overlayGradient ?? `linear-gradient(to right, ${sector.color} 40%, ${sector.color}80 100%)` }} />
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                sector.overlayGradient ??
+                `linear-gradient(to right, ${sector.color} 40%, ${sector.color}80 100%)`,
+            }}
+          />
         </div>
         <div className="relative max-w-7xl mx-auto px-6 py-20">
           {sector.subtitle && (
             <div className="flex items-center gap-3 mb-6">
               <div className="h-px w-8 bg-white/40" />
-              <span className="text-xs font-bold uppercase tracking-widest text-white/70" style={{ letterSpacing: '0.14em', fontFamily: 'var(--font-heading)' }}>
+              <span
+                className="text-xs font-bold uppercase tracking-widest text-white/70"
+                style={{ letterSpacing: '0.14em', fontFamily: 'var(--font-heading)' }}
+              >
                 {sector.subtitle}
               </span>
             </div>
           )}
           <h1
             className="text-white mb-5"
-            style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(28px, 4vw, 48px)', fontWeight: 700, lineHeight: 1.2, maxWidth: '700px' }}
+            style={{
+              fontFamily: 'var(--font-display)',
+              fontSize: 'clamp(28px, 4vw, 48px)',
+              fontWeight: 700,
+              lineHeight: 1.2,
+              maxWidth: '700px',
+            }}
           >
             {sector.title}
           </h1>
-          <p className="text-white/80 mb-10" style={{ fontSize: '17px', lineHeight: 1.8, maxWidth: '580px' }}>
+          <p
+            className="text-white/80 mb-10"
+            style={{ fontSize: '17px', lineHeight: 1.8, maxWidth: '580px' }}
+          >
             {sector.description}
           </p>
           <div className="flex flex-wrap gap-4">
@@ -219,10 +253,20 @@ export function SectorPage() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {sector.stats.map((stat, i) => (
               <div key={i} className="text-center">
-                <div className="font-bold mb-1" style={{ fontFamily: 'var(--font-display)', fontSize: '32px', color: sector.color }}>
+                <div
+                  className="font-bold mb-1"
+                  style={{
+                    fontFamily: 'var(--font-display)',
+                    fontSize: '32px',
+                    color: sector.color,
+                  }}
+                >
                   {stat.value}
                 </div>
-                <div className="text-muted-foreground text-sm" style={{ fontFamily: 'var(--font-heading)' }}>
+                <div
+                  className="text-muted-foreground text-sm"
+                  style={{ fontFamily: 'var(--font-heading)' }}
+                >
                   {stat.label}
                 </div>
               </div>
@@ -237,17 +281,36 @@ export function SectorPage() {
           <div>
             <h2
               className="mb-8"
-              style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(22px, 3vw, 32px)', fontWeight: 700, color: 'var(--nurc-navy)', lineHeight: 1.3 }}
+              style={{
+                fontFamily: 'var(--font-display)',
+                fontSize: 'clamp(22px, 3vw, 32px)',
+                fontWeight: 700,
+                color: 'var(--nurc-navy)',
+                lineHeight: 1.3,
+              }}
             >
               What's Inside Every Issue
             </h2>
             <div className="space-y-4">
               {sector.benefits.map((benefit, i) => (
                 <div key={i} className="flex items-start gap-3">
-                  <div className="w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5" style={{ background: `${sector.color}20` }}>
-                    <div className="w-1.5 h-1.5 rounded-full" style={{ background: sector.color }} />
+                  <div
+                    className="w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5"
+                    style={{ background: `${sector.color}20` }}
+                  >
+                    <div
+                      className="w-1.5 h-1.5 rounded-full"
+                      style={{ background: sector.color }}
+                    />
                   </div>
-                  <span style={{ fontSize: '15px', lineHeight: 1.65, color: 'var(--foreground)', fontFamily: 'var(--font-body)' }}>
+                  <span
+                    style={{
+                      fontSize: '15px',
+                      lineHeight: 1.65,
+                      color: 'var(--foreground)',
+                      fontFamily: 'var(--font-body)',
+                    }}
+                  >
                     {benefit}
                   </span>
                 </div>
@@ -256,30 +319,51 @@ export function SectorPage() {
           </div>
 
           <div className="space-y-4">
-            <h2 className="mb-6" style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(22px, 3vw, 32px)', fontWeight: 700, color: 'var(--nurc-navy)', lineHeight: 1.3 }}>
+            <h2
+              className="mb-6"
+              style={{
+                fontFamily: 'var(--font-display)',
+                fontSize: 'clamp(22px, 3vw, 32px)',
+                fontWeight: 700,
+                color: 'var(--nurc-navy)',
+                lineHeight: 1.3,
+              }}
+            >
               Recent Issues
             </h2>
             {[
-              { title: 'Latest Issue', date: 'May 27, 2025', summary: sector.article.content[0].text?.slice(0, 120) + '...' },
-              { title: 'Previous Issue', date: 'May 20, 2025', summary: sector.article.content[1]?.text?.slice(0, 120) + '...' },
+              {
+                title: 'Latest Issue',
+                date: 'May 27, 2025',
+                summary: sector.article.content[0].text?.slice(0, 120) + '...',
+              },
+              {
+                title: 'Previous Issue',
+                date: 'May 20, 2025',
+                summary: sector.article.content[1]?.text?.slice(0, 120) + '...',
+              },
             ].map((item, i) => (
               <div
                 key={i}
-                className="rounded-xl p-5 bg-card border border-border transition-all duration-200"
-                onMouseEnter={e => {
-                  (e.currentTarget as HTMLElement).style.boxShadow = '0 4px 16px rgba(0,0,0,0.08)';
-                }}
-                onMouseLeave={e => {
-                  (e.currentTarget as HTMLElement).style.boxShadow = 'none';
-                }}
+                className="rounded-xl p-5 bg-card border border-border transition-all duration-200 hover:shadow-[0_4px_16px_rgba(0,0,0,0.08)]"
               >
                 <div className="flex items-start justify-between mb-2">
-                  <div className="font-semibold" style={{ fontFamily: 'var(--font-heading)', fontSize: '14px', color: 'var(--nurc-navy)' }}>
+                  <div
+                    className="font-semibold"
+                    style={{
+                      fontFamily: 'var(--font-heading)',
+                      fontSize: '14px',
+                      color: 'var(--nurc-navy)',
+                    }}
+                  >
                     {sector.article.title} — {item.title}
                   </div>
                   <span className="text-xs text-muted-foreground shrink-0 ml-4">{item.date}</span>
                 </div>
-                <p className="text-muted-foreground mb-4" style={{ fontSize: '13px', lineHeight: 1.65 }}>
+                <p
+                  className="text-muted-foreground mb-4"
+                  style={{ fontSize: '13px', lineHeight: 1.65 }}
+                >
                   {item.summary}
                 </p>
                 <button
@@ -308,11 +392,20 @@ export function SectorPage() {
       {/* CTA */}
       <section className="py-16" style={{ background: 'var(--nurc-navy)' }}>
         <div className="max-w-3xl mx-auto px-6 text-center">
-          <h2 className="text-white mb-4" style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(24px, 3.5vw, 36px)', fontWeight: 700, lineHeight: 1.2 }}>
+          <h2
+            className="text-white mb-4"
+            style={{
+              fontFamily: 'var(--font-display)',
+              fontSize: 'clamp(24px, 3.5vw, 36px)',
+              fontWeight: 700,
+              lineHeight: 1.2,
+            }}
+          >
             Start with a Free Sample Issue
           </h2>
           <p className="text-white/60 mb-8" style={{ fontSize: '16px', lineHeight: 1.75 }}>
-            No commitment required. Experience the depth and quality of our {sector.title} before subscribing.
+            No commitment required. Experience the depth and quality of our {sector.title} before
+            subscribing.
           </p>
           <button
             onClick={() => openReader(sector.article)}

@@ -146,11 +146,6 @@ export function ReaderPage() {
 
         const roundedPct = Math.min(100, Math.max(0, pct));
 
-        // Debug Logging
-        console.log(
-          `[ReaderPage Scroll Debug] Container: ${activeTarget.name} | ScrollTop: ${scrollTop} | ScrollHeight: ${scrollHeight} | ClientHeight: ${clientHeight} | ScrollableHeight: ${scrollableHeight} | Progress: ${roundedPct}%`,
-        );
-
         setProgress(roundedPct);
 
         if (id) {
@@ -240,8 +235,7 @@ export function ReaderPage() {
   const activeTheme = currentUser?.theme || 'Original';
   const modeColors = readingModeColors[settings.readingMode || 'default'];
   const fontSize = fontSizeMap[settings.fontSize || 'medium'];
-  const DEVELOPMENT_MODE = true;
-  const isGuest = DEVELOPMENT_MODE ? !currentUser : !currentUser || currentUser.plan === 'None';
+  const isGuest = !currentUser || currentUser.plan === 'None';
 
   const handleShare = () => {
     navigator.clipboard?.writeText(window.location.href);
