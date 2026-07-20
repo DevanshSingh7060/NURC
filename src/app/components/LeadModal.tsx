@@ -169,6 +169,7 @@ export function LeadModal() {
                     type="text"
                     autoComplete="name"
                     placeholder="e.g. Devansh Sharma"
+                    aria-required
                     aria-invalid={!!errors.name}
                     aria-describedby={errors.name ? 'lead-name-error' : undefined}
                     className="w-full px-3.5 py-2 border border-border bg-input-background rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-xs transition-all"
@@ -198,6 +199,7 @@ export function LeadModal() {
                       autoComplete="email"
                       inputMode="email"
                       placeholder="you@company.com"
+                      aria-required
                       aria-invalid={!!errors.email}
                       aria-describedby={errors.email ? 'lead-email-error' : undefined}
                       className="w-full pl-9 pr-3.5 py-2 border border-border bg-input-background rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-xs transition-all"
@@ -231,6 +233,7 @@ export function LeadModal() {
                       autoComplete="tel"
                       inputMode="tel"
                       placeholder="e.g. +91 98109 75257"
+                      aria-required
                       aria-invalid={!!errors.phone}
                       aria-describedby={errors.phone ? 'lead-phone-error' : undefined}
                       className="w-full pl-9 pr-3.5 py-2 border border-border bg-input-background rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-xs transition-all"
@@ -260,6 +263,7 @@ export function LeadModal() {
                       type="text"
                       autoComplete="organization"
                       placeholder="e.g. Tata Group"
+                      aria-required
                       aria-invalid={!!errors.company}
                       aria-describedby={errors.company ? 'lead-company-error' : undefined}
                       className="w-full pl-9 pr-3.5 py-2 border border-border bg-input-background rounded-lg focus:outline-none focus:ring-2 focus:ring-ring text-xs transition-all"
@@ -306,6 +310,7 @@ export function LeadModal() {
                     id="lead-coverage"
                     rows={3}
                     placeholder="Describe specific micro-segments, competitors, or research topics you require us to track..."
+                    aria-required
                     aria-invalid={!!errors.customBriefRequirements}
                     aria-describedby={
                       errors.customBriefRequirements ? 'lead-coverage-error' : undefined

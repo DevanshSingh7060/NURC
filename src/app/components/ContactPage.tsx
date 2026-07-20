@@ -242,6 +242,7 @@ export function ContactPage() {
                       type="text"
                       autoComplete="name"
                       placeholder="e.g. Devansh Singh"
+                      aria-required
                       aria-invalid={!!errors.name}
                       aria-describedby={errors.name ? 'contact-name-error' : undefined}
                       className={inputClass}
@@ -263,6 +264,7 @@ export function ContactPage() {
                       autoComplete="email"
                       inputMode="email"
                       placeholder="devansh@company.com"
+                      aria-required
                       aria-invalid={!!errors.email}
                       aria-describedby={errors.email ? 'contact-email-error' : undefined}
                       className={inputClass}
@@ -287,6 +289,7 @@ export function ContactPage() {
                       autoComplete="tel"
                       inputMode="tel"
                       placeholder="e.g. +91 98109 75257"
+                      aria-required
                       aria-invalid={!!errors.phone}
                       aria-describedby={errors.phone ? 'contact-phone-error' : undefined}
                       className={inputClass}
@@ -307,6 +310,7 @@ export function ContactPage() {
                       type="text"
                       autoComplete="organization"
                       placeholder="e.g. Tata Motors"
+                      aria-required
                       aria-invalid={!!errors.company}
                       aria-describedby={errors.company ? 'contact-company-error' : undefined}
                       className={inputClass}
@@ -345,6 +349,7 @@ export function ContactPage() {
                     id="contact-message"
                     rows={4}
                     placeholder="Provide details about your query or custom intelligence briefing needs..."
+                    aria-required
                     aria-invalid={!!errors.message}
                     aria-describedby={errors.message ? 'contact-message-error' : undefined}
                     className="w-full px-4 py-2.5 border border-border bg-[#F9FAFB] rounded-xl focus:outline-none focus:ring-1 focus:ring-teal text-xs resize-none transition-all"

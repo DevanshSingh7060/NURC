@@ -117,12 +117,12 @@ export function DashboardPage() {
       <div className="min-h-[calc(100vh-64px)] flex flex-col items-center justify-center p-6 bg-[#F8F9FA]">
         <div className="max-w-md w-full bg-white border border-border rounded-xl p-6 text-center space-y-4 shadow-sm">
           <User size={40} className="mx-auto text-muted-foreground" />
-          <h2
+          <h1
             className="text-xl font-bold text-navy"
             style={{ color: 'var(--nurc-navy)', fontFamily: 'var(--font-heading)' }}
           >
             Subscribers Only
-          </h2>
+          </h1>
           <p className="text-muted-foreground text-sm leading-relaxed">
             Please log in or register a corporate subscription to access the NURC subscriber
             dashboard.
@@ -640,10 +640,14 @@ export function DashboardPage() {
                 {/* Filters Row */}
                 <div className="grid sm:grid-cols-3 gap-4 pt-2">
                   <div className="space-y-1">
-                    <label className="block text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
+                    <label
+                      htmlFor="db-archive-search"
+                      className="block text-[10px] font-bold uppercase tracking-wider text-muted-foreground"
+                    >
                       Search Title/Content
                     </label>
                     <input
+                      id="db-archive-search"
                       type="text"
                       placeholder="e.g. FAME, RBI, GDP..."
                       value={archiveSearch}
@@ -653,10 +657,14 @@ export function DashboardPage() {
                   </div>
 
                   <div className="space-y-1">
-                    <label className="block text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
+                    <label
+                      htmlFor="db-archive-sector"
+                      className="block text-[10px] font-bold uppercase tracking-wider text-muted-foreground"
+                    >
                       Filter by Sector
                     </label>
                     <select
+                      id="db-archive-sector"
                       value={archiveSector}
                       onChange={(e) => setArchiveSector(e.target.value)}
                       className="w-full px-3 py-2 border border-border bg-card rounded-lg text-xs h-[34px] cursor-pointer"
@@ -671,10 +679,14 @@ export function DashboardPage() {
                   </div>
 
                   <div className="space-y-1">
-                    <label className="block text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
+                    <label
+                      htmlFor="db-archive-date"
+                      className="block text-[10px] font-bold uppercase tracking-wider text-muted-foreground"
+                    >
                       Filter by Date
                     </label>
                     <select
+                      id="db-archive-date"
                       value={archiveDate}
                       onChange={(e) => setArchiveDate(e.target.value)}
                       className="w-full px-3 py-2 border border-border bg-card rounded-lg text-xs h-[34px] cursor-pointer"
@@ -974,22 +986,31 @@ export function DashboardPage() {
 
                 <div className="grid md:grid-cols-2 gap-4">
                   <div className="space-y-1">
-                    <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                    <label
+                      htmlFor="db-fullName"
+                      className="block text-xs font-bold uppercase tracking-wider text-muted-foreground"
+                    >
                       Full Name
                     </label>
                     <input
+                      id="db-fullName"
                       type="text"
                       required
+                      aria-required="true"
                       value={fullName}
                       onChange={(e) => setFullName(e.target.value)}
                       className="w-full px-4 py-2 border border-border bg-input-background rounded-lg text-xs"
                     />
                   </div>
                   <div className="space-y-1">
-                    <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                    <label
+                      htmlFor="db-email"
+                      className="block text-xs font-bold uppercase tracking-wider text-muted-foreground"
+                    >
                       Business Email Address (Login)
                     </label>
                     <input
+                      id="db-email"
                       type="email"
                       disabled
                       value={currentUser.email}
@@ -997,12 +1018,18 @@ export function DashboardPage() {
                     />
                   </div>
                   <div className="space-y-1 md:col-span-2">
-                    <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                    <label
+                      htmlFor="db-phone"
+                      className="block text-xs font-bold uppercase tracking-wider text-muted-foreground"
+                    >
                       Contact Phone
                     </label>
                     <input
+                      id="db-phone"
                       type="tel"
+                      inputMode="tel"
                       required
+                      aria-required="true"
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
                       className="w-full px-4 py-2 border border-border bg-input-background rounded-lg text-xs"
@@ -1040,46 +1067,65 @@ export function DashboardPage() {
 
                 <div className="grid md:grid-cols-2 gap-4">
                   <div className="space-y-1">
-                    <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                    <label
+                      htmlFor="db-companyName"
+                      className="block text-xs font-bold uppercase tracking-wider text-muted-foreground"
+                    >
                       Company Name
                     </label>
                     <input
+                      id="db-companyName"
                       type="text"
                       required
+                      aria-required="true"
                       value={companyName}
                       onChange={(e) => setCompanyName(e.target.value)}
                       className="w-full px-4 py-2 border border-border bg-input-background rounded-lg text-xs"
                     />
                   </div>
                   <div className="space-y-1">
-                    <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                    <label
+                      htmlFor="db-designation"
+                      className="block text-xs font-bold uppercase tracking-wider text-muted-foreground"
+                    >
                       Designation / Role
                     </label>
                     <input
+                      id="db-designation"
                       type="text"
                       required
+                      aria-required="true"
                       value={designation}
                       onChange={(e) => setDesignation(e.target.value)}
                       className="w-full px-4 py-2 border border-border bg-input-background rounded-lg text-xs"
                     />
                   </div>
                   <div className="space-y-1">
-                    <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                    <label
+                      htmlFor="db-companyIndustry"
+                      className="block text-xs font-bold uppercase tracking-wider text-muted-foreground"
+                    >
                       Company Primary Industry
                     </label>
                     <input
+                      id="db-companyIndustry"
                       type="text"
                       required
+                      aria-required="true"
                       value={companyIndustry}
                       onChange={(e) => setCompanyIndustry(e.target.value)}
                       className="w-full px-4 py-2 border border-border bg-input-background rounded-lg text-xs"
                     />
                   </div>
                   <div className="space-y-1">
-                    <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                    <label
+                      htmlFor="db-website"
+                      className="block text-xs font-bold uppercase tracking-wider text-muted-foreground"
+                    >
                       Corporate Website
                     </label>
                     <input
+                      id="db-website"
                       type="url"
                       value={companyWebsite}
                       onChange={(e) => setCompanyWebsite(e.target.value)}

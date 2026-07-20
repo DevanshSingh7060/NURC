@@ -193,6 +193,7 @@ export function LoginPage() {
                     autoComplete="email"
                     inputMode="email"
                     placeholder="you@company.com"
+                    aria-required
                     aria-invalid={!!loginForm.formState.errors.email}
                     aria-describedby={
                       loginForm.formState.errors.email ? 'login-email-error' : undefined
@@ -231,6 +232,7 @@ export function LoginPage() {
                       type={showPassword ? 'text' : 'password'}
                       autoComplete="current-password"
                       placeholder="••••••••"
+                      aria-required
                       aria-invalid={!!loginForm.formState.errors.password}
                       aria-describedby={
                         loginForm.formState.errors.password ? 'login-password-error' : undefined

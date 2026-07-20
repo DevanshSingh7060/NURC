@@ -157,6 +157,7 @@ export function SignupPage() {
                   type="text"
                   autoComplete="name"
                   placeholder="e.g. Devansh Sharma"
+                  aria-required
                   aria-invalid={!!errors.fullName}
                   aria-describedby={errors.fullName ? 'su-fullName-error' : undefined}
                   className={inputClass}
@@ -178,6 +179,7 @@ export function SignupPage() {
                   autoComplete="email"
                   inputMode="email"
                   placeholder="you@company.com"
+                  aria-required
                   aria-invalid={!!errors.email}
                   aria-describedby={errors.email ? 'su-email-error' : undefined}
                   className={inputClass}
@@ -199,6 +201,7 @@ export function SignupPage() {
                   autoComplete="tel"
                   inputMode="tel"
                   placeholder="e.g. +91 98109 75257"
+                  aria-required
                   aria-invalid={!!errors.phone}
                   aria-describedby={errors.phone ? 'su-phone-error' : undefined}
                   className={inputClass}
@@ -237,6 +240,7 @@ export function SignupPage() {
                   type="text"
                   autoComplete="organization"
                   placeholder="e.g. Tata Motors"
+                  aria-required
                   aria-invalid={!!errors.companyName}
                   aria-describedby={errors.companyName ? 'su-companyName-error' : undefined}
                   className={inputClass}
@@ -273,6 +277,7 @@ export function SignupPage() {
                   type="text"
                   autoComplete="organization-title"
                   placeholder="e.g. Industry Analyst"
+                  aria-required
                   aria-invalid={!!errors.designation}
                   aria-describedby={errors.designation ? 'su-designation-error' : undefined}
                   className={inputClass}
@@ -378,6 +383,7 @@ export function SignupPage() {
                   type="password"
                   autoComplete="new-password"
                   placeholder="••••••••"
+                  aria-required
                   aria-invalid={!!errors.password}
                   aria-describedby="su-password-strength su-password-error"
                   className={inputClass}
@@ -417,6 +423,7 @@ export function SignupPage() {
                   type="password"
                   autoComplete="new-password"
                   placeholder="••••••••"
+                  aria-required
                   aria-invalid={!!errors.confirmPassword}
                   aria-describedby={errors.confirmPassword ? 'su-confirmPassword-error' : undefined}
                   className={inputClass}
