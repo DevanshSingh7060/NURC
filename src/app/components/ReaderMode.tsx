@@ -694,7 +694,7 @@ export function ReaderModeOverlay() {
 }
 
 export function SharePromptCard() {
-  const { showSharePrompt, dismissSharePrompt, article } = useReaderMode();
+  const { showSharePrompt, dismissSharePrompt, closeReader, article } = useReaderMode();
 
   if (!showSharePrompt || !article) return null;
 

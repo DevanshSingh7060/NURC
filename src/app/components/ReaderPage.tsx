@@ -28,6 +28,12 @@ export function ReaderPage() {
 
   const newsletter = newsletters.find(n => n.id === id);
 
+  const highlights = newsletter?.highlights || [
+    'Policy adjustments shaping market segment outcomes.',
+    'Analyst indicators tracking competitor expansion pipelines.',
+    'Macroeconomic corporate statistics driving Q3 executive choices.'
+  ];
+
   const [copied, setCopied] = useState(false);
   const [progress, setProgress] = useState(0);
   const [hoveredMode, setHoveredMode] = useState<string | null>(null);
