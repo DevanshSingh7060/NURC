@@ -379,9 +379,14 @@ export function NewsletterPage() {
           </div>
 
           {filtered.length === 0 ? (
-            <div className="text-center py-20 bg-white border rounded-2xl p-8 space-y-3 animate-none">
-              <p className="text-muted-foreground font-medium">
-                No archived briefings matched your selected keyword or filter options.
+            <div className="text-center py-16 bg-white border border-border rounded-2xl p-8 flex flex-col items-center gap-3 animate-none">
+              <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center text-muted-foreground">
+                <Search size={22} />
+              </div>
+              <h3 className="font-semibold text-nurc-navy font-heading">No matching briefings</h3>
+              <p className="text-muted-foreground font-medium max-w-sm">
+                No archived briefings matched your selected keyword or filter options. Try clearing
+                a filter or search term.
               </p>
               <button
                 onClick={() => {

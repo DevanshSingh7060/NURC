@@ -14,6 +14,7 @@ import {
   BookOpen,
   Clock,
   Layout,
+  X,
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { SEOHead } from './shared/SEOHead';
@@ -816,9 +817,20 @@ export function DashboardPage() {
                 </div>
 
                 {prefSuccess && (
-                  <div className="p-4 rounded-lg bg-green-50 border border-green-200 flex items-start gap-3 text-green-800 text-sm">
+                  <div
+                    className="p-4 rounded-lg bg-green-50 border border-green-200 flex items-start gap-3 text-green-800 text-sm"
+                    role="status"
+                  >
                     <CheckCircle size={18} className="shrink-0 mt-0.5" />
-                    <span>{prefSuccess}</span>
+                    <span className="flex-1">{prefSuccess}</span>
+                    <button
+                      type="button"
+                      onClick={() => setPrefSuccess('')}
+                      aria-label="Dismiss notification"
+                      className="shrink-0 -mt-0.5 -mr-1 p-1 rounded hover:bg-green-100 transition-colors cursor-pointer"
+                    >
+                      <X size={15} />
+                    </button>
                   </div>
                 )}
 
@@ -867,9 +879,20 @@ export function DashboardPage() {
                 </h3>
 
                 {profileSuccess && (
-                  <div className="p-4 rounded-lg bg-green-50 border border-green-200 flex items-start gap-3 text-green-800 text-sm">
+                  <div
+                    className="p-4 rounded-lg bg-green-50 border border-green-200 flex items-start gap-3 text-green-800 text-sm"
+                    role="status"
+                  >
                     <CheckCircle size={18} className="shrink-0 mt-0.5" />
-                    <span>{profileSuccess}</span>
+                    <span className="flex-1">{profileSuccess}</span>
+                    <button
+                      type="button"
+                      onClick={() => setProfileSuccess('')}
+                      aria-label="Dismiss notification"
+                      className="shrink-0 -mt-0.5 -mr-1 p-1 rounded hover:bg-green-100 transition-colors cursor-pointer"
+                    >
+                      <X size={15} />
+                    </button>
                   </div>
                 )}
 
@@ -944,9 +967,20 @@ export function DashboardPage() {
                 </h3>
 
                 {companySuccess && (
-                  <div className="p-4 rounded-lg bg-green-50 border border-green-200 flex items-start gap-3 text-green-800 text-sm">
+                  <div
+                    className="p-4 rounded-lg bg-green-50 border border-green-200 flex items-start gap-3 text-green-800 text-sm"
+                    role="status"
+                  >
                     <CheckCircle size={18} className="shrink-0 mt-0.5" />
-                    <span>{companySuccess}</span>
+                    <span className="flex-1">{companySuccess}</span>
+                    <button
+                      type="button"
+                      onClick={() => setCompanySuccess('')}
+                      aria-label="Dismiss notification"
+                      className="shrink-0 -mt-0.5 -mr-1 p-1 rounded hover:bg-green-100 transition-colors cursor-pointer"
+                    >
+                      <X size={15} />
+                    </button>
                   </div>
                 )}
 
