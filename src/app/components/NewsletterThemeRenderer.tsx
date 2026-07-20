@@ -9,13 +9,13 @@ interface Props {
 
 export const NewsletterThemeRenderer: React.FC<Props> = ({ article }) => {
   return (
-    <div className="bg-[#FAF9F6] text-[#1A1A1A] p-8 md:p-12 rounded-xl border border-[#E5E7EB] shadow-sm max-w-[800px] mx-auto transition-all" style={{ fontFamily: 'var(--font-body)' }}>
+    <div className="bg-[#FAF9F6] text-[#1A1A1A] p-8 md:p-12 rounded-xl border border-[#E5E7EB] shadow-sm max-w-[800px] mx-auto transition-all font-body">
       {/* Header */}
       <div className="border-b border-[#E5E7EB] pb-6 mb-8 text-center md:text-left">
-        <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest text-white" style={{ background: 'var(--nurc-teal)' }}>
+        <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest text-white bg-nurc-teal">
           {article.category}
         </span>
-        <h1 className="mt-4 mb-2 text-3xl md:text-4xl font-bold leading-tight" style={{ fontFamily: 'var(--font-display)', color: 'var(--nurc-navy)' }}>
+        <h1 className="mt-4 mb-2 text-3xl md:text-4xl font-bold leading-tight font-display text-nurc-navy">
           {article.title}
         </h1>
         <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
@@ -30,13 +30,11 @@ export const NewsletterThemeRenderer: React.FC<Props> = ({ article }) => {
             return (
               <div key={idx} className="space-y-3">
                 {block.heading && (
-                  <h2 className="text-sm font-bold uppercase tracking-wider border-l-2 pl-3" style={{ color: 'var(--nurc-teal)', borderColor: 'var(--nurc-gold)' }}>
+                  <h2 className="text-sm font-bold uppercase tracking-wider border-l-2 pl-3 text-nurc-teal border-nurc-gold">
                     {block.heading} {block.tag && `· ${block.tag}`}
                   </h2>
                 )}
-                <p className="text-sm md:text-base leading-relaxed text-[#374151]">
-                  {block.text}
-                </p>
+                <p className="text-sm md:text-base leading-relaxed text-[#374151]">{block.text}</p>
               </div>
             );
           }
@@ -44,13 +42,16 @@ export const NewsletterThemeRenderer: React.FC<Props> = ({ article }) => {
             return (
               <div key={idx} className="bg-white border border-[#E5E7EB] rounded-xl p-6 space-y-3">
                 <h3 className="text-xs font-bold uppercase tracking-widest text-[#9CA3AF] flex items-center gap-1.5">
-                  <BarChart3 size={13} style={{ color: 'var(--nurc-teal)' }} />
+                  <BarChart3 size={13} className="text-nurc-teal" />
                   {block.heading || 'Intelligence Data Pool'}
                 </h3>
                 <ul className="space-y-2">
                   {block.items?.map((item, i) => (
-                    <li key={i} className="flex items-start gap-2.5 text-sm text-[#374151] leading-relaxed">
-                      <div className="w-1.5 h-1.5 rounded-full shrink-0 mt-2" style={{ background: 'var(--nurc-teal)' }} />
+                    <li
+                      key={i}
+                      className="flex items-start gap-2.5 text-sm text-[#374151] leading-relaxed"
+                    >
+                      <div className="w-1.5 h-1.5 rounded-full shrink-0 mt-2 bg-nurc-teal" />
                       <span>{item}</span>
                     </li>
                   ))}
@@ -60,8 +61,8 @@ export const NewsletterThemeRenderer: React.FC<Props> = ({ article }) => {
           }
           if (block.type === 'quote') {
             return (
-              <div key={idx} className="border-l-4 pl-6 py-2 italic my-6" style={{ borderColor: 'var(--nurc-gold)' }}>
-                <p className="text-lg md:text-xl font-medium leading-relaxed" style={{ fontFamily: 'var(--font-display)', color: 'var(--nurc-navy)' }}>
+              <div key={idx} className="border-l-4 pl-6 py-2 italic my-6 border-nurc-gold">
+                <p className="text-lg md:text-xl font-medium leading-relaxed font-display text-nurc-navy">
                   "{block.text}"
                 </p>
                 {block.attribution && (
@@ -78,4 +79,3 @@ export const NewsletterThemeRenderer: React.FC<Props> = ({ article }) => {
     </div>
   );
 };
-
