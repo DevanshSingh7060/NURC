@@ -1,21 +1,33 @@
 import { useRef, useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router';
 import { useReaderMode, ContentBlock, ReaderSettings } from './ReaderModeContext';
-import { BookOpen, ArrowLeft, Printer, Bookmark, Share2, Download, X, Sun, Moon, Monitor } from 'lucide-react';
+import { safeStorage } from '../lib/safeStorage';
+import {
+  BookOpen,
+  ArrowLeft,
+  Printer,
+  Bookmark,
+  Share2,
+  Download,
+  X,
+  Sun,
+  Moon,
+  Monitor,
+} from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { NewsletterThemeRenderer } from './NewsletterThemeRenderer';
 
 // Color configuration maps for the three Reading Comfort Modes (Independent of layout themes!)
 const readingModeColors = {
   default: { bg: '#FAF9F6', text: '#1F2937', card: '#FFFFFF', border: '#E5E7EB', muted: '#4B5563' },
-  night:   { bg: '#F4EAD7', text: '#3D352A', card: '#FAF4EB', border: '#EADFCB', muted: '#7A6D5C' },
-  dark:    { bg: '#111111', text: '#F5F5F5', card: '#1C1C1E', border: '#2C2C2E', muted: '#8E8E93' },
+  night: { bg: '#F4EAD7', text: '#3D352A', card: '#FAF4EB', border: '#EADFCB', muted: '#7A6D5C' },
+  dark: { bg: '#111111', text: '#F5F5F5', card: '#1C1C1E', border: '#2C2C2E', muted: '#8E8E93' },
 };
 
 const fontSizeMap: Record<ReaderSettings['fontSize'], string> = {
-  small:  '15px',
+  small: '15px',
   medium: '17px',
-  large:  '19px',
+  large: '19px',
 };
 
 // Line spacing is locked to standard/default (controls removed from UI completely)
@@ -23,12 +35,19 @@ const lineHeight = '1.65';
 
 export function ReaderModeOverlay() {
   const { isOpen, article, newsletterId, settings, closeReader, updateSettings } = useReaderMode();
-  const { savedArticles, toggleSaveArticle, currentUser, setContinueReading, markAsRead, newsletters } = useApp();
+  const {
+    savedArticles,
+    toggleSaveArticle,
+    currentUser,
+    setContinueReading,
+    markAsRead,
+    newsletters,
+  } = useApp();
   const [progress, setProgress] = useState(0);
   const [copied, setCopied] = useState(false);
-  
+
   const [hoveredMode, setHoveredMode] = useState<string | null>(null);
-  
+
   const contentRef = useRef<HTMLDivElement>(null);
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);
@@ -40,14 +59,22 @@ export function ReaderModeOverlay() {
 
     let frameId: number;
 
-    const storageKey = newsletterId ? `nurc_scroll_pos_${newsletterId}` : (article ? `nurc_scroll_pos_sample_${article.title}` : null);
-    const storagePctKey = newsletterId ? `nurc_scroll_pct_${newsletterId}` : (article ? `nurc_scroll_pct_sample_${article.title}` : null);
+    const storageKey = newsletterId
+      ? `nurc_scroll_pos_${newsletterId}`
+      : article
+        ? `nurc_scroll_pos_sample_${article.title}`
+        : null;
+    const storagePctKey = newsletterId
+      ? `nurc_scroll_pct_${newsletterId}`
+      : article
+        ? `nurc_scroll_pct_sample_${article.title}`
+        : null;
 
     const handleScrollEvent = (e?: Event) => {
       cancelAnimationFrame(frameId);
       frameId = requestAnimationFrame(() => {
         let scrollTarget: any = null;
-        
+
         if (e && e.target) {
           scrollTarget = e.target;
           if (scrollTarget === document) {
@@ -56,29 +83,34 @@ export function ReaderModeOverlay() {
         }
 
         const rootEl = document.getElementById('root');
-        
+
         const targets = [
           {
             name: 'element',
             el: el,
             scrollTop: el.scrollTop || 0,
             scrollHeight: el.scrollHeight || 0,
-            clientHeight: el.clientHeight || 0
+            clientHeight: el.clientHeight || 0,
           },
           {
             name: 'window',
             el: document.documentElement || document.body,
-            scrollTop: window.scrollY || window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0,
+            scrollTop:
+              window.scrollY ||
+              window.pageYOffset ||
+              document.documentElement.scrollTop ||
+              document.body.scrollTop ||
+              0,
             scrollHeight: document.documentElement.scrollHeight || document.body.scrollHeight || 0,
-            clientHeight: document.documentElement.clientHeight || window.innerHeight || 0
+            clientHeight: document.documentElement.clientHeight || window.innerHeight || 0,
           },
           {
             name: 'root',
             el: rootEl,
             scrollTop: rootEl?.scrollTop || 0,
             scrollHeight: rootEl?.scrollHeight || 0,
-            clientHeight: rootEl?.clientHeight || 0
-          }
+            clientHeight: rootEl?.clientHeight || 0,
+          },
         ];
 
         let activeTarget = null;
@@ -93,7 +125,7 @@ export function ReaderModeOverlay() {
               el: scrollTarget,
               scrollTop: scrollTarget.scrollTop || 0,
               scrollHeight: scrollTarget.scrollHeight || 0,
-              clientHeight: scrollTarget.clientHeight || 0
+              clientHeight: scrollTarget.clientHeight || 0,
             };
           }
         }
@@ -107,7 +139,7 @@ export function ReaderModeOverlay() {
             }
           }
           if (activeTarget.scrollTop === 0) {
-            const scrollableTargets = targets.filter(t => t.scrollHeight > t.clientHeight + 10);
+            const scrollableTargets = targets.filter((t) => t.scrollHeight > t.clientHeight + 10);
             if (scrollableTargets.length > 0) {
               activeTarget = scrollableTargets[0];
             }
@@ -116,7 +148,7 @@ export function ReaderModeOverlay() {
 
         const { scrollTop, scrollHeight, clientHeight } = activeTarget;
         const scrollableHeight = scrollHeight - clientHeight;
-        
+
         let pct = 0;
         if (scrollableHeight <= 0) {
           pct = 100; // Fallback Protection
@@ -126,17 +158,19 @@ export function ReaderModeOverlay() {
         }
 
         const roundedPct = Math.min(100, Math.max(0, pct));
-        
+
         // Debug Logging
-        console.log(`[ReaderMode Scroll Debug] Container: ${activeTarget.name} | ScrollTop: ${scrollTop} | ScrollHeight: ${scrollHeight} | ClientHeight: ${clientHeight} | ScrollableHeight: ${scrollableHeight} | Progress: ${roundedPct}%`);
+        console.log(
+          `[ReaderMode Scroll Debug] Container: ${activeTarget.name} | ScrollTop: ${scrollTop} | ScrollHeight: ${scrollHeight} | ClientHeight: ${clientHeight} | ScrollableHeight: ${scrollableHeight} | Progress: ${roundedPct}%`,
+        );
 
         setProgress(roundedPct);
-        
+
         if (storageKey) {
-          localStorage.setItem(storageKey, scrollTop.toString());
+          safeStorage.setItem(storageKey, scrollTop.toString());
         }
         if (storagePctKey) {
-          localStorage.setItem(storagePctKey, roundedPct.toString());
+          safeStorage.setItem(storagePctKey, roundedPct.toString());
         }
       });
     };
@@ -144,20 +178,21 @@ export function ReaderModeOverlay() {
     el.addEventListener('scroll', handleScrollEvent, { passive: true });
     window.addEventListener('resize', handleScrollEvent, { passive: true });
     document.addEventListener('scroll', handleScrollEvent, { passive: true });
-    if (document.body) document.body.addEventListener('scroll', handleScrollEvent, { passive: true });
+    if (document.body)
+      document.body.addEventListener('scroll', handleScrollEvent, { passive: true });
 
     const rootEl = document.getElementById('root');
     if (rootEl) rootEl.addEventListener('scroll', handleScrollEvent, { passive: true });
 
     // Initial check & auto-restoration
     if (storageKey) {
-      const savedPos = localStorage.getItem(storageKey);
+      const savedPos = safeStorage.getItem(storageKey);
       if (savedPos) {
         const scrollTop = parseFloat(savedPos);
         el.scrollTop = scrollTop;
       }
     }
-    
+
     handleScrollEvent();
     const t1 = setTimeout(handleScrollEvent, 100);
     const t2 = setTimeout(handleScrollEvent, 300);
@@ -208,7 +243,7 @@ export function ReaderModeOverlay() {
   const handleTouchEnd = () => {
     const diffX = touchStartX.current - touchEndX.current;
     if (Math.abs(diffX) > 85 && newsletterId && newsletters) {
-      const activeIndex = newsletters.findIndex(n => n.id === newsletterId);
+      const activeIndex = newsletters.findIndex((n) => n.id === newsletterId);
       if (activeIndex !== -1) {
         if (diffX > 0) {
           // Swipe Left: Next Newsletter
@@ -239,18 +274,18 @@ export function ReaderModeOverlay() {
   const modeColors = readingModeColors[settings.readingMode || 'default'];
 
   // Identify active newsletter and load takeaways
-  const activeNewsletter = newsletters.find(n => n.id === newsletterId);
+  const activeNewsletter = newsletters.find((n) => n.id === newsletterId);
   const highlights = activeNewsletter?.highlights || [
     'Policy adjustments shaping market segment outcomes.',
     'Analyst indicators tracking competitor expansion pipelines.',
-    'Macroeconomic corporate statistics driving Q3 executive choices.'
+    'Macroeconomic corporate statistics driving Q3 executive choices.',
   ];
 
   const DEVELOPMENT_MODE = true;
-  const isGuest = DEVELOPMENT_MODE ? !currentUser : (!currentUser || currentUser.plan === 'None');
+  const isGuest = DEVELOPMENT_MODE ? !currentUser : !currentUser || currentUser.plan === 'None';
 
   const handleShare = () => {
-    const url = newsletterId 
+    const url = newsletterId
       ? `${window.location.origin}/reader/${newsletterId}`
       : window.location.href;
     navigator.clipboard?.writeText(url);
@@ -260,7 +295,7 @@ export function ReaderModeOverlay() {
 
   const handleDownload = () => {
     if (!article) return;
-    
+
     let textContent = `NURC MEDIANEXT BRIEFING\n`;
     textContent += `=========================\n`;
     textContent += `Title: ${article.title}\n`;
@@ -268,13 +303,13 @@ export function ReaderModeOverlay() {
     textContent += `Date: ${article.date}\n`;
     textContent += `Read Time: ${article.readTime}\n\n`;
 
-    article.content.forEach(block => {
+    article.content.forEach((block) => {
       if (block.type === 'section') {
         textContent += `[${block.heading || 'Briefing'} ${block.tag ? ` - ${block.tag}` : ''}]\n`;
         textContent += `${block.text}\n\n`;
       } else if (block.type === 'data') {
         textContent += `[Data Indicators]\n`;
-        block.items?.forEach(item => {
+        block.items?.forEach((item) => {
           textContent += ` - ${item}\n`;
         });
         textContent += `\n`;
@@ -380,7 +415,10 @@ export function ReaderModeOverlay() {
         }
       `}</style>
 
-      <div className="fixed top-0 left-0 right-0 h-1 shrink-0 z-50" style={{ background: modeColors.border }}>
+      <div
+        className="fixed top-0 left-0 right-0 h-1 shrink-0 z-50"
+        style={{ background: modeColors.border }}
+      >
         <div
           className="h-full transition-all duration-150"
           style={{ width: `${progress}%`, background: 'var(--nurc-teal)' }}
@@ -403,10 +441,16 @@ export function ReaderModeOverlay() {
           </button>
           <div className="h-4 w-px hidden sm:block" style={{ background: modeColors.border }} />
           <div className="flex items-center gap-1.5 min-w-0">
-            <span className="text-xs sm:text-sm font-bold truncate pr-1" style={{ color: modeColors.text, fontFamily: 'var(--font-heading)' }}>
+            <span
+              className="text-xs sm:text-sm font-bold truncate pr-1"
+              style={{ color: modeColors.text, fontFamily: 'var(--font-heading)' }}
+            >
               {article.title}
             </span>
-            <span className="hidden md:inline text-[10px] sm:text-xs font-semibold shrink-0" style={{ color: modeColors.muted, fontFamily: 'var(--font-heading)' }}>
+            <span
+              className="hidden md:inline text-[10px] sm:text-xs font-semibold shrink-0"
+              style={{ color: modeColors.muted, fontFamily: 'var(--font-heading)' }}
+            >
               · {article.readTime} · {Math.round(progress)}% Read
             </span>
           </div>
@@ -414,7 +458,7 @@ export function ReaderModeOverlay() {
 
         <div className="flex items-center gap-1.5 shrink-0">
           <div className="flex items-center bg-[#E5E7EB] p-0.5 sm:p-1 rounded-lg sm:rounded-xl border border-gray-300 transition-all shrink-0">
-            {(['default', 'night', 'dark'] as const).map(mode => {
+            {(['default', 'night', 'dark'] as const).map((mode) => {
               const isActive = settings.readingMode === mode;
               const isHovered = hoveredMode === mode;
               return (
@@ -425,16 +469,8 @@ export function ReaderModeOverlay() {
                   onMouseLeave={() => setHoveredMode(null)}
                   className="px-1.5 sm:px-3 py-1 rounded-md sm:rounded-lg text-xs transition-all cursor-pointer flex items-center gap-1 border-0"
                   style={{
-                    backgroundColor: isActive 
-                      ? '#FFFFFF' 
-                      : isHovered 
-                        ? '#F3F4F6' 
-                        : 'transparent',
-                    color: isActive 
-                      ? '#0A2540' 
-                      : isHovered 
-                        ? '#1F2937' 
-                        : '#4B5563',
+                    backgroundColor: isActive ? '#FFFFFF' : isHovered ? '#F3F4F6' : 'transparent',
+                    color: isActive ? '#0A2540' : isHovered ? '#1F2937' : '#4B5563',
                     fontWeight: isActive ? 600 : 500,
                     boxShadow: isActive ? '0 1px 3px rgba(0,0,0,0.15)' : 'none',
                   }}
@@ -483,7 +519,7 @@ export function ReaderModeOverlay() {
               style={{
                 borderColor: isSaved ? 'var(--nurc-teal)' : modeColors.border,
                 color: isSaved ? 'var(--nurc-teal)' : modeColors.muted,
-                background: isSaved ? 'rgba(0,109,122,0.03)' : 'transparent'
+                background: isSaved ? 'rgba(0,109,122,0.03)' : 'transparent',
               }}
               title={isSaved ? 'Remove Bookmark' : 'Save Briefing'}
             >
@@ -521,30 +557,38 @@ export function ReaderModeOverlay() {
         </div>
       </div>
 
-      <div 
-        className="flex-1 overflow-y-auto pb-20 sm:pb-10" 
-        ref={contentRef} 
+      <div
+        className="flex-1 overflow-y-auto pb-20 sm:pb-10"
+        ref={contentRef}
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
         style={{ scrollbarWidth: 'thin' }}
       >
         <div className="max-w-[800px] mx-auto px-6 py-14" id="reader-content-wrapper">
-          
-          <div 
+          <div
             className="rounded-2xl p-6 mb-8 text-left space-y-3.5 border shadow-sm"
-            style={{ 
-              background: settings.readingMode === 'dark' ? '#1C1C1E' : 'rgba(212,183,143,0.06)', 
-              borderColor: settings.readingMode === 'dark' ? '#2C2C2E' : 'var(--nurc-gold)' 
+            style={{
+              background: settings.readingMode === 'dark' ? '#1C1C1E' : 'rgba(212,183,143,0.06)',
+              borderColor: settings.readingMode === 'dark' ? '#2C2C2E' : 'var(--nurc-gold)',
             }}
           >
-            <div className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-wider" style={{ color: 'var(--nurc-gold)' }}>
+            <div
+              className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-wider"
+              style={{ color: 'var(--nurc-gold)' }}
+            >
               ★ Key Intelligence Takeaways
             </div>
             <ul className="space-y-2">
               {highlights.map((h, i) => (
-                <li key={i} className="text-xs font-semibold leading-relaxed flex items-start gap-2 text-gray-800" style={{ color: modeColors.text }}>
-                  <span className="shrink-0 mt-1" style={{ color: 'var(--nurc-gold)' }}>•</span>
+                <li
+                  key={i}
+                  className="text-xs font-semibold leading-relaxed flex items-start gap-2 text-gray-800"
+                  style={{ color: modeColors.text }}
+                >
+                  <span className="shrink-0 mt-1" style={{ color: 'var(--nurc-gold)' }}>
+                    •
+                  </span>
                   <span>{h}</span>
                 </li>
               ))}
@@ -567,11 +611,15 @@ export function ReaderModeOverlay() {
           {isGuest ? (
             <div className="space-y-6">
               <div className="space-y-3 text-left">
-                <h2 className="text-sm font-extrabold uppercase tracking-wider" style={{ color: 'var(--nurc-teal)' }}>
+                <h2
+                  className="text-sm font-extrabold uppercase tracking-wider"
+                  style={{ color: 'var(--nurc-teal)' }}
+                >
                   {article.content[0]?.heading || '01 · PREVIEW BRIEF'}
                 </h2>
                 <p className="text-sm md:text-base leading-relaxed text-gray-700 font-medium">
-                  {article.content[0]?.text || 'India\'s macro economic margins showed a structural expansion...'}
+                  {article.content[0]?.text ||
+                    "India's macro economic margins showed a structural expansion..."}
                 </p>
               </div>
 
@@ -595,11 +643,16 @@ export function ReaderModeOverlay() {
                       <span className="font-bold text-lg">🔒</span>
                     </div>
                     <div className="space-y-1.5">
-                      <h4 className="font-bold text-sm text-navy uppercase tracking-wider" style={{ color: 'var(--nurc-navy)', fontFamily: 'var(--font-heading)' }}>
+                      <h4
+                        className="font-bold text-sm text-navy uppercase tracking-wider"
+                        style={{ color: 'var(--nurc-navy)', fontFamily: 'var(--font-heading)' }}
+                      >
                         Unlock Full Intelligence
                       </h4>
                       <p className="text-[11px] text-muted-foreground leading-relaxed max-w-xs mx-auto">
-                        You are viewing a complimentary preview briefing. Subscribe to NURC MediaNext to unlock daily C-Suite editions, full analyst libraries, and custom sector tracking models.
+                        You are viewing a complimentary preview briefing. Subscribe to NURC
+                        MediaNext to unlock daily C-Suite editions, full analyst libraries, and
+                        custom sector tracking models.
                       </p>
                     </div>
                     <div className="flex gap-2.5 pt-2">
@@ -607,7 +660,10 @@ export function ReaderModeOverlay() {
                         to="/signup"
                         onClick={closeReader}
                         className="flex-1 py-2.5 rounded-xl text-xs font-bold text-white text-center cursor-pointer shadow-sm border-0 transition-opacity hover:opacity-90"
-                        style={{ background: 'var(--nurc-teal)', fontFamily: 'var(--font-heading)' }}
+                        style={{
+                          background: 'var(--nurc-teal)',
+                          fontFamily: 'var(--font-heading)',
+                        }}
                       >
                         Create Account
                       </Link>
@@ -627,7 +683,6 @@ export function ReaderModeOverlay() {
           ) : (
             <NewsletterThemeRenderer article={article} theme={activeTheme} />
           )}
-
         </div>
       </div>
 
@@ -637,7 +692,11 @@ export function ReaderModeOverlay() {
             onClick={() => toggleSaveArticle(newsletterId)}
             className="flex flex-col items-center gap-0.5 text-[9px] font-bold text-gray-500 hover:text-navy bg-transparent border-0 cursor-pointer"
           >
-            <Bookmark size={14} fill={isSaved ? 'var(--nurc-teal)' : 'none'} style={{ color: isSaved ? 'var(--nurc-teal)' : 'inherit' }} />
+            <Bookmark
+              size={14}
+              fill={isSaved ? 'var(--nurc-teal)' : 'none'}
+              style={{ color: isSaved ? 'var(--nurc-teal)' : 'inherit' }}
+            />
             <span>{isSaved ? 'Saved' : 'Save'}</span>
           </button>
         )}
@@ -665,16 +724,20 @@ export function ReaderModeOverlay() {
       </div>
 
       {isGuest && (
-        <div 
-          className="hidden md:flex fixed bottom-6 right-6 z-40 bg-white border border-border rounded-2xl p-5 shadow-2xl items-center justify-between gap-5 max-w-md animate-fadeIn" 
+        <div
+          className="hidden md:flex fixed bottom-6 right-6 z-40 bg-white border border-border rounded-2xl p-5 shadow-2xl items-center justify-between gap-5 max-w-md animate-fadeIn"
           style={{ borderLeft: '4px solid var(--nurc-teal)' }}
         >
           <div>
-            <h5 className="font-bold text-xs text-navy uppercase tracking-wider" style={{ color: 'var(--nurc-navy)', fontFamily: 'var(--font-heading)' }}>
+            <h5
+              className="font-bold text-xs text-navy uppercase tracking-wider"
+              style={{ color: 'var(--nurc-navy)', fontFamily: 'var(--font-heading)' }}
+            >
               Unlock B2B Intelligence
             </h5>
             <p className="text-[10px] text-muted-foreground mt-0.5 leading-normal max-w-[240px]">
-              Subscribe to NURC MediaNext for daily C-Suite industry dispatches across all critical segments.
+              Subscribe to NURC MediaNext for daily C-Suite industry dispatches across all critical
+              segments.
             </p>
           </div>
           <button
@@ -716,11 +779,19 @@ export function SharePromptCard() {
       </button>
       <p
         className="font-semibold mb-1 text-left"
-        style={{ fontFamily: 'var(--font-heading)', fontSize: '14px', color: 'var(--nurc-navy)', paddingRight: '20px' }}
+        style={{
+          fontFamily: 'var(--font-heading)',
+          fontSize: '14px',
+          color: 'var(--nurc-navy)',
+          paddingRight: '20px',
+        }}
       >
         Found this useful?
       </p>
-      <p className="text-muted-foreground mb-4 text-left" style={{ fontSize: '13px', lineHeight: 1.6, fontFamily: 'var(--font-body)' }}>
+      <p
+        className="text-muted-foreground mb-4 text-left"
+        style={{ fontSize: '13px', lineHeight: 1.6, fontFamily: 'var(--font-body)' }}
+      >
         Share this sample with a colleague or subscribe for weekly access.
       </p>
       <div className="flex flex-col gap-2">
@@ -741,7 +812,12 @@ export function SharePromptCard() {
             dismissSharePrompt();
           }}
           className="btn-nurc w-full py-2 rounded-lg text-sm font-semibold border transition-all cursor-pointer text-center flex items-center justify-center"
-          style={{ borderColor: 'var(--border)', color: 'var(--nurc-navy)', fontFamily: 'var(--font-heading)', textDecoration: 'none' }}
+          style={{
+            borderColor: 'var(--border)',
+            color: 'var(--nurc-navy)',
+            fontFamily: 'var(--font-heading)',
+            textDecoration: 'none',
+          }}
         >
           Request Demo
         </Link>

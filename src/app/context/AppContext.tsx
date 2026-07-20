@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { Newsletter, MOCK_NEWSLETTERS } from '../data/newslettersData';
+import { safeStorage } from '../lib/safeStorage';
 
 export interface Subscriber {
   fullName: string;
@@ -76,64 +77,64 @@ const DEFAULT_SUBSCRIBER: Subscriber = {
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   // Pre-load database states from localStorage
   const [subscribers, setSubscribers] = useState<Subscriber[]>(() => {
-    const saved = localStorage.getItem('nurc_subscribers');
+    const saved = safeStorage.getItem('nurc_subscribers');
     return saved ? JSON.parse(saved) : [DEFAULT_SUBSCRIBER];
   });
 
   const [newsletters, setNewsletters] = useState<Newsletter[]>(() => {
-    const saved = localStorage.getItem('nurc_newsletters');
+    const saved = safeStorage.getItem('nurc_newsletters');
     return saved ? JSON.parse(saved) : MOCK_NEWSLETTERS;
   });
 
   const [currentUser, setCurrentUser] = useState<Subscriber | null>(() => {
-    const saved = localStorage.getItem('nurc_current_user');
+    const saved = safeStorage.getItem('nurc_current_user');
     return saved ? JSON.parse(saved) : null;
   });
 
   const [savedArticles, setSavedArticles] = useState<string[]>(() => {
-    const saved = localStorage.getItem('nurc_saved_articles');
+    const saved = safeStorage.getItem('nurc_saved_articles');
     return saved ? JSON.parse(saved) : [];
   });
 
   const [readArticles, setReadArticles] = useState<string[]>(() => {
-    const saved = localStorage.getItem('nurc_read_articles');
+    const saved = safeStorage.getItem('nurc_read_articles');
     return saved ? JSON.parse(saved) : [];
   });
 
   const [continueReading, setContinueReadingState] = useState<string | null>(() => {
-    return localStorage.getItem('nurc_continue_reading');
+    return safeStorage.getItem('nurc_continue_reading');
   });
 
   // Sync to localStorage
   useEffect(() => {
-    localStorage.setItem('nurc_subscribers', JSON.stringify(subscribers));
+    safeStorage.setItem('nurc_subscribers', JSON.stringify(subscribers));
   }, [subscribers]);
 
   useEffect(() => {
-    localStorage.setItem('nurc_newsletters', JSON.stringify(newsletters));
+    safeStorage.setItem('nurc_newsletters', JSON.stringify(newsletters));
   }, [newsletters]);
 
   useEffect(() => {
     if (currentUser) {
-      localStorage.setItem('nurc_current_user', JSON.stringify(currentUser));
+      safeStorage.setItem('nurc_current_user', JSON.stringify(currentUser));
     } else {
-      localStorage.removeItem('nurc_current_user');
+      safeStorage.removeItem('nurc_current_user');
     }
   }, [currentUser]);
 
   useEffect(() => {
-    localStorage.setItem('nurc_saved_articles', JSON.stringify(savedArticles));
+    safeStorage.setItem('nurc_saved_articles', JSON.stringify(savedArticles));
   }, [savedArticles]);
 
   useEffect(() => {
-    localStorage.setItem('nurc_read_articles', JSON.stringify(readArticles));
+    safeStorage.setItem('nurc_read_articles', JSON.stringify(readArticles));
   }, [readArticles]);
 
   useEffect(() => {
     if (continueReading) {
-      localStorage.setItem('nurc_continue_reading', continueReading);
+      safeStorage.setItem('nurc_continue_reading', continueReading);
     } else {
-      localStorage.removeItem('nurc_continue_reading');
+      safeStorage.removeItem('nurc_continue_reading');
     }
   }, [continueReading]);
 

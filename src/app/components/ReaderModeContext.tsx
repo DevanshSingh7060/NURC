@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, ReactNode } from 'react';
+import { safeStorage } from '../lib/safeStorage';
 
 export interface ContentBlock {
   type: 'section' | 'paragraph' | 'data' | 'quote';
@@ -43,9 +44,9 @@ export function ReaderModeProvider({ children }: { children: ReactNode }) {
   const [showSharePrompt, setShowSharePrompt] = useState(false);
   const [article, setArticle] = useState<Article | null>(null);
   const [newsletterId, setNewsletterId] = useState<string | null>(null);
-  
+
   const [settings, setSettings] = useState<ReaderSettings>(() => {
-    const saved = localStorage.getItem('nurc_reader_preferences');
+    const saved = safeStorage.getItem('nurc_reader_preferences');
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
@@ -83,15 +84,27 @@ export function ReaderModeProvider({ children }: { children: ReactNode }) {
   const dismissSharePrompt = () => setShowSharePrompt(false);
 
   const updateSettings = (s: Partial<ReaderSettings>) => {
-    setSettings(prev => {
+    setSettings((prev) => {
       const next = { ...prev, ...s };
-      localStorage.setItem('nurc_reader_preferences', JSON.stringify(next));
+      safeStorage.setItem('nurc_reader_preferences', JSON.stringify(next));
       return next;
     });
   };
 
   return (
-    <ReaderModeContext.Provider value={{ isOpen, showSharePrompt, article, newsletterId, settings, openReader, closeReader, dismissSharePrompt, updateSettings }}>
+    <ReaderModeContext.Provider
+      value={{
+        isOpen,
+        showSharePrompt,
+        article,
+        newsletterId,
+        settings,
+        openReader,
+        closeReader,
+        dismissSharePrompt,
+        updateSettings,
+      }}
+    >
       {children}
     </ReaderModeContext.Provider>
   );
@@ -150,7 +163,7 @@ export const SAMPLE_AUTO_ARTICLE: Article = {
     },
     {
       type: 'section',
-      heading: 'EDITOR\'S INTELLIGENCE NOTE',
+      heading: "EDITOR'S INTELLIGENCE NOTE",
       tag: 'Strategic Briefing',
       text: `This week's numbers confirm what we have been tracking for the past three quarters: India's automotive sector is undergoing a structural transformation, not a cyclical upturn. The divergence between premium and mass-market segments is widening, and OEMs that straddle both are facing significant product portfolio decisions. We recommend watching Maruti Suzuki's board meeting scheduled for mid-June closely — the company's revised EV strategy, expected to be presented then, could be the most consequential announcement in Indian automotive policy since the 2021 FAME II revision.`,
     },

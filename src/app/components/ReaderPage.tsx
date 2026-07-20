@@ -1,20 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router';
 import { useApp } from '../context/AppContext';
+import { safeStorage } from '../lib/safeStorage';
 import { useReaderMode } from './ReaderModeContext';
 import { NewsletterThemeRenderer } from './NewsletterThemeRenderer';
-import { ArrowLeft, Printer, Download, Bookmark, Share2, ChevronLeft, BookOpen, X, Sun, Moon, Monitor } from 'lucide-react';
+import {
+  ArrowLeft,
+  Printer,
+  Download,
+  Bookmark,
+  Share2,
+  ChevronLeft,
+  BookOpen,
+  X,
+  Sun,
+  Moon,
+  Monitor,
+} from 'lucide-react';
 
 const readingModeColors = {
   default: { bg: '#FAF9F6', text: '#1F2937', card: '#FFFFFF', border: '#E5E7EB', muted: '#4B5563' },
-  night:   { bg: '#F4EAD7', text: '#3D352A', card: '#FAF4EB', border: '#EADFCB', muted: '#7A6D5C' },
-  dark:    { bg: '#111111', text: '#F5F5F5', card: '#1C1C1E', border: '#2C2C2E', muted: '#8E8E93' },
+  night: { bg: '#F4EAD7', text: '#3D352A', card: '#FAF4EB', border: '#EADFCB', muted: '#7A6D5C' },
+  dark: { bg: '#111111', text: '#F5F5F5', card: '#1C1C1E', border: '#2C2C2E', muted: '#8E8E93' },
 };
 
 const fontSizeMap = {
-  small:  '15px',
+  small: '15px',
   medium: '17px',
-  large:  '19px',
+  large: '19px',
 };
 
 // Line spacing is locked to standard/default (controls removed from UI completely)
@@ -23,15 +36,16 @@ const lineHeight = '1.65';
 export function ReaderPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { newsletters, currentUser, savedArticles, toggleSaveArticle, setContinueReading } = useApp();
+  const { newsletters, currentUser, savedArticles, toggleSaveArticle, setContinueReading } =
+    useApp();
   const { settings, updateSettings } = useReaderMode();
 
-  const newsletter = newsletters.find(n => n.id === id);
+  const newsletter = newsletters.find((n) => n.id === id);
 
   const highlights = newsletter?.highlights || [
     'Policy adjustments shaping market segment outcomes.',
     'Analyst indicators tracking competitor expansion pipelines.',
-    'Macroeconomic corporate statistics driving Q3 executive choices.'
+    'Macroeconomic corporate statistics driving Q3 executive choices.',
   ];
 
   const [copied, setCopied] = useState(false);
@@ -46,7 +60,7 @@ export function ReaderPage() {
       cancelAnimationFrame(frameId);
       frameId = requestAnimationFrame(() => {
         let scrollTarget: any = null;
-        
+
         if (e && e.target) {
           scrollTarget = e.target;
           if (scrollTarget === document) {
@@ -61,24 +75,29 @@ export function ReaderPage() {
           {
             name: 'window',
             el: document.documentElement || document.body,
-            scrollTop: window.scrollY || window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0,
+            scrollTop:
+              window.scrollY ||
+              window.pageYOffset ||
+              document.documentElement.scrollTop ||
+              document.body.scrollTop ||
+              0,
             scrollHeight: document.documentElement.scrollHeight || document.body.scrollHeight || 0,
-            clientHeight: document.documentElement.clientHeight || window.innerHeight || 0
+            clientHeight: document.documentElement.clientHeight || window.innerHeight || 0,
           },
           {
             name: 'root',
             el: rootEl,
             scrollTop: rootEl?.scrollTop || 0,
             scrollHeight: rootEl?.scrollHeight || 0,
-            clientHeight: rootEl?.clientHeight || 0
+            clientHeight: rootEl?.clientHeight || 0,
           },
           {
             name: 'wrapper',
             el: wrapperEl,
             scrollTop: wrapperEl?.scrollTop || 0,
             scrollHeight: wrapperEl?.scrollHeight || 0,
-            clientHeight: wrapperEl?.clientHeight || 0
-          }
+            clientHeight: wrapperEl?.clientHeight || 0,
+          },
         ];
 
         let activeTarget = null;
@@ -93,7 +112,7 @@ export function ReaderPage() {
               el: scrollTarget,
               scrollTop: scrollTarget.scrollTop || 0,
               scrollHeight: scrollTarget.scrollHeight || 0,
-              clientHeight: scrollTarget.clientHeight || 0
+              clientHeight: scrollTarget.clientHeight || 0,
             };
           }
         }
@@ -107,7 +126,7 @@ export function ReaderPage() {
             }
           }
           if (activeTarget.scrollTop === 0) {
-            const scrollableTargets = targets.filter(t => t.scrollHeight > t.clientHeight + 10);
+            const scrollableTargets = targets.filter((t) => t.scrollHeight > t.clientHeight + 10);
             if (scrollableTargets.length > 0) {
               activeTarget = scrollableTargets[0];
             }
@@ -116,7 +135,7 @@ export function ReaderPage() {
 
         const { scrollTop, scrollHeight, clientHeight } = activeTarget;
         const scrollableHeight = scrollHeight - clientHeight;
-        
+
         let pct = 0;
         if (scrollableHeight <= 0) {
           pct = 100; // Fallback Protection
@@ -126,15 +145,17 @@ export function ReaderPage() {
         }
 
         const roundedPct = Math.min(100, Math.max(0, pct));
-        
+
         // Debug Logging
-        console.log(`[ReaderPage Scroll Debug] Container: ${activeTarget.name} | ScrollTop: ${scrollTop} | ScrollHeight: ${scrollHeight} | ClientHeight: ${clientHeight} | ScrollableHeight: ${scrollableHeight} | Progress: ${roundedPct}%`);
+        console.log(
+          `[ReaderPage Scroll Debug] Container: ${activeTarget.name} | ScrollTop: ${scrollTop} | ScrollHeight: ${scrollHeight} | ClientHeight: ${clientHeight} | ScrollableHeight: ${scrollableHeight} | Progress: ${roundedPct}%`,
+        );
 
         setProgress(roundedPct);
-        
+
         if (id) {
-          localStorage.setItem(`nurc_scroll_pos_${id}`, scrollTop.toString());
-          localStorage.setItem(`nurc_scroll_pct_${id}`, roundedPct.toString());
+          safeStorage.setItem(`nurc_scroll_pos_${id}`, scrollTop.toString());
+          safeStorage.setItem(`nurc_scroll_pct_${id}`, roundedPct.toString());
         }
       });
     };
@@ -142,7 +163,8 @@ export function ReaderPage() {
     window.addEventListener('scroll', handleScrollEvent, { passive: true });
     window.addEventListener('resize', handleScrollEvent, { passive: true });
     document.addEventListener('scroll', handleScrollEvent, { passive: true });
-    if (document.body) document.body.addEventListener('scroll', handleScrollEvent, { passive: true });
+    if (document.body)
+      document.body.addEventListener('scroll', handleScrollEvent, { passive: true });
 
     // Handle root or wrapper scrolls as fallback listeners
     const rootEl = document.getElementById('root');
@@ -183,13 +205,13 @@ export function ReaderPage() {
   useEffect(() => {
     if (id) {
       setContinueReading(id);
-      const savedPos = localStorage.getItem(`nurc_scroll_pos_${id}`);
+      const savedPos = safeStorage.getItem(`nurc_scroll_pos_${id}`);
       if (savedPos) {
         const scrollTop = parseFloat(savedPos);
         setTimeout(() => {
           window.scrollTo({
             top: scrollTop,
-            behavior: 'auto'
+            behavior: 'auto',
           });
         }, 150);
       }
@@ -200,8 +222,14 @@ export function ReaderPage() {
     return (
       <div className="min-h-[calc(100vh-64px)] flex flex-col items-center justify-center p-6 bg-[#FAF9F6] text-[#1F2937]">
         <h2 className="text-xl font-bold text-red-600 mb-2">Briefing Not Found</h2>
-        <p className="text-muted-foreground mb-4">The newsletter briefing you requested is not active or has been archived.</p>
-        <Link to="/newsletters" className="px-4 py-2 bg-navy text-white rounded-lg text-sm font-semibold" style={{ background: 'var(--nurc-navy)' }}>
+        <p className="text-muted-foreground mb-4">
+          The newsletter briefing you requested is not active or has been archived.
+        </p>
+        <Link
+          to="/newsletters"
+          className="px-4 py-2 bg-navy text-white rounded-lg text-sm font-semibold"
+          style={{ background: 'var(--nurc-navy)' }}
+        >
           Return to Archive
         </Link>
       </div>
@@ -213,7 +241,7 @@ export function ReaderPage() {
   const modeColors = readingModeColors[settings.readingMode || 'default'];
   const fontSize = fontSizeMap[settings.fontSize || 'medium'];
   const DEVELOPMENT_MODE = true;
-  const isGuest = DEVELOPMENT_MODE ? !currentUser : (!currentUser || currentUser.plan === 'None');
+  const isGuest = DEVELOPMENT_MODE ? !currentUser : !currentUser || currentUser.plan === 'None';
 
   const handleShare = () => {
     navigator.clipboard?.writeText(window.location.href);
@@ -229,13 +257,13 @@ export function ReaderPage() {
     textContent += `Issue: ${newsletter.issue} | Date: ${newsletter.date}\n`;
     textContent += `Read Time: ${newsletter.readTime}\n\n`;
 
-    newsletter.article.content.forEach(block => {
+    newsletter.article.content.forEach((block) => {
       if (block.type === 'section') {
         textContent += `[${block.heading || 'Briefing'} ${block.tag ? ` - ${block.tag}` : ''}]\n`;
         textContent += `${block.text}\n\n`;
       } else if (block.type === 'data') {
         textContent += `[Data Indicators]\n`;
-        block.items?.forEach(item => {
+        block.items?.forEach((item) => {
           textContent += ` - ${item}\n`;
         });
         textContent += `\n`;
@@ -343,7 +371,10 @@ export function ReaderPage() {
       `}</style>
 
       {/* Reading Progress Bar (Fixed top viewport indicator) */}
-      <div className="fixed top-0 left-0 right-0 h-1 shrink-0 z-50 animate-fadeIn" style={{ background: modeColors.border }}>
+      <div
+        className="fixed top-0 left-0 right-0 h-1 shrink-0 z-50 animate-fadeIn"
+        style={{ background: modeColors.border }}
+      >
         <div
           className="h-full transition-all duration-150"
           style={{ width: `${progress}%`, background: 'var(--nurc-teal)' }}
@@ -366,10 +397,16 @@ export function ReaderPage() {
           </Link>
           <div className="h-4 w-px hidden sm:block" style={{ background: modeColors.border }} />
           <div className="flex items-center gap-1.5 min-w-0">
-            <span className="text-xs sm:text-sm font-bold truncate pr-1" style={{ color: modeColors.text, fontFamily: 'var(--font-heading)' }}>
+            <span
+              className="text-xs sm:text-sm font-bold truncate pr-1"
+              style={{ color: modeColors.text, fontFamily: 'var(--font-heading)' }}
+            >
               {newsletter.article.title}
             </span>
-            <span className="hidden md:inline text-[10px] sm:text-xs font-semibold shrink-0" style={{ color: modeColors.muted, fontFamily: 'var(--font-heading)' }}>
+            <span
+              className="hidden md:inline text-[10px] sm:text-xs font-semibold shrink-0"
+              style={{ color: modeColors.muted, fontFamily: 'var(--font-heading)' }}
+            >
               · {newsletter.article.readTime} · {Math.round(progress)}% Read
             </span>
           </div>
@@ -378,7 +415,7 @@ export function ReaderPage() {
         <div className="flex items-center gap-1.5 shrink-0">
           {/* Segmented comfort modes */}
           <div className="flex items-center bg-[#E5E7EB] p-0.5 sm:p-1 rounded-lg sm:rounded-xl border border-gray-300 transition-all shrink-0">
-            {(['default', 'night', 'dark'] as const).map(mode => {
+            {(['default', 'night', 'dark'] as const).map((mode) => {
               const isActive = settings.readingMode === mode;
               const isHovered = hoveredMode === mode;
               return (
@@ -389,16 +426,8 @@ export function ReaderPage() {
                   onMouseLeave={() => setHoveredMode(null)}
                   className="px-1.5 sm:px-3 py-1 rounded-md sm:rounded-lg text-xs transition-all cursor-pointer flex items-center gap-1 border-0"
                   style={{
-                    backgroundColor: isActive 
-                      ? '#FFFFFF' 
-                      : isHovered 
-                        ? '#F3F4F6' 
-                        : 'transparent',
-                    color: isActive 
-                      ? '#0A2540' 
-                      : isHovered 
-                        ? '#1F2937' 
-                        : '#4B5563',
+                    backgroundColor: isActive ? '#FFFFFF' : isHovered ? '#F3F4F6' : 'transparent',
+                    color: isActive ? '#0A2540' : isHovered ? '#1F2937' : '#4B5563',
                     fontWeight: isActive ? 600 : 500,
                     boxShadow: isActive ? '0 1px 3px rgba(0,0,0,0.15)' : 'none',
                   }}
@@ -447,7 +476,7 @@ export function ReaderPage() {
             style={{
               borderColor: isSaved ? 'var(--nurc-teal)' : modeColors.border,
               color: isSaved ? 'var(--nurc-teal)' : modeColors.muted,
-              background: isSaved ? 'rgba(0,109,122,0.03)' : 'transparent'
+              background: isSaved ? 'rgba(0,109,122,0.03)' : 'transparent',
             }}
             title={isSaved ? 'Remove Bookmark' : 'Save Briefing'}
           >
@@ -472,29 +501,36 @@ export function ReaderPage() {
             <Share2 size={14} />
             <span className="hidden md:inline">{copied ? 'Copied' : 'Share'}</span>
           </button>
-
         </div>
       </div>
 
       {/* Reader Layout container */}
       <div className="py-12 px-6 print:py-0 print:px-0 flex-1" id="reader-content-wrapper">
         <div className="max-w-[800px] mx-auto">
-          
           {/* Key Takeaways summary card */}
-          <div 
+          <div
             className="rounded-2xl p-6 mb-8 text-left space-y-3.5 border shadow-sm"
-            style={{ 
-              background: settings.readingMode === 'dark' ? '#1C1C1E' : 'rgba(212,183,143,0.06)', 
-              borderColor: settings.readingMode === 'dark' ? '#2C2C2E' : 'var(--nurc-gold)' 
+            style={{
+              background: settings.readingMode === 'dark' ? '#1C1C1E' : 'rgba(212,183,143,0.06)',
+              borderColor: settings.readingMode === 'dark' ? '#2C2C2E' : 'var(--nurc-gold)',
             }}
           >
-            <div className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-wider" style={{ color: 'var(--nurc-gold)' }}>
+            <div
+              className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-wider"
+              style={{ color: 'var(--nurc-gold)' }}
+            >
               ★ Key Intelligence Takeaways
             </div>
             <ul className="space-y-2">
               {highlights.map((h, i) => (
-                <li key={i} className="text-xs font-semibold leading-relaxed flex items-start gap-2 text-gray-800" style={{ color: modeColors.text }}>
-                  <span className="shrink-0 mt-1" style={{ color: 'var(--nurc-gold)' }}>•</span>
+                <li
+                  key={i}
+                  className="text-xs font-semibold leading-relaxed flex items-start gap-2 text-gray-800"
+                  style={{ color: modeColors.text }}
+                >
+                  <span className="shrink-0 mt-1" style={{ color: 'var(--nurc-gold)' }}>
+                    •
+                  </span>
                   <span>{h}</span>
                 </li>
               ))}
@@ -519,11 +555,15 @@ export function ReaderPage() {
             <div className="space-y-6">
               {/* First Section Visible */}
               <div className="space-y-3 text-left">
-                <h2 className="text-sm font-extrabold uppercase tracking-wider" style={{ color: 'var(--nurc-teal)' }}>
+                <h2
+                  className="text-sm font-extrabold uppercase tracking-wider"
+                  style={{ color: 'var(--nurc-teal)' }}
+                >
                   {newsletter.article.content[0]?.heading || '01 · PREVIEW BRIEF'}
                 </h2>
                 <p className="text-sm md:text-base leading-relaxed text-gray-700 font-medium">
-                  {newsletter.article.content[0]?.text || 'India\'s macro economic margins showed a structural expansion...'}
+                  {newsletter.article.content[0]?.text ||
+                    "India's macro economic margins showed a structural expansion..."}
                 </p>
               </div>
 
@@ -550,18 +590,26 @@ export function ReaderPage() {
                       <span className="font-bold text-lg">🔒</span>
                     </div>
                     <div className="space-y-1.5">
-                      <h4 className="font-bold text-sm text-navy uppercase tracking-wider" style={{ color: 'var(--nurc-navy)', fontFamily: 'var(--font-heading)' }}>
+                      <h4
+                        className="font-bold text-sm text-navy uppercase tracking-wider"
+                        style={{ color: 'var(--nurc-navy)', fontFamily: 'var(--font-heading)' }}
+                      >
                         Unlock Full Intelligence
                       </h4>
                       <p className="text-[11px] text-muted-foreground leading-relaxed max-w-xs mx-auto">
-                        You are viewing a complimentary preview briefing. Subscribe to NURC MediaNext to unlock daily C-Suite editions, full analyst libraries, and custom sector tracking models.
+                        You are viewing a complimentary preview briefing. Subscribe to NURC
+                        MediaNext to unlock daily C-Suite editions, full analyst libraries, and
+                        custom sector tracking models.
                       </p>
                     </div>
                     <div className="flex gap-2.5 pt-2">
                       <Link
                         to="/signup"
                         className="flex-1 py-2.5 rounded-xl text-xs font-bold text-white text-center cursor-pointer shadow-sm border-0 transition-opacity hover:opacity-90 animate-none"
-                        style={{ background: 'var(--nurc-teal)', fontFamily: 'var(--font-heading)' }}
+                        style={{
+                          background: 'var(--nurc-teal)',
+                          fontFamily: 'var(--font-heading)',
+                        }}
                       >
                         Create Account
                       </Link>
@@ -581,7 +629,6 @@ export function ReaderPage() {
             /* Render Full Newsletter Theme for Subscribed Members */
             <NewsletterThemeRenderer article={newsletter.article} theme={activeTheme} />
           )}
-
         </div>
       </div>
 
@@ -591,7 +638,11 @@ export function ReaderPage() {
           onClick={() => toggleSaveArticle(newsletter.id)}
           className="flex flex-col items-center gap-0.5 text-[9px] font-bold text-gray-500 hover:text-navy bg-transparent border-0 cursor-pointer"
         >
-          <Bookmark size={14} fill={isSaved ? 'var(--nurc-teal)' : 'none'} style={{ color: isSaved ? 'var(--nurc-teal)' : 'inherit' }} />
+          <Bookmark
+            size={14}
+            fill={isSaved ? 'var(--nurc-teal)' : 'none'}
+            style={{ color: isSaved ? 'var(--nurc-teal)' : 'inherit' }}
+          />
           <span>{isSaved ? 'Saved' : 'Save'}</span>
         </button>
         <button
@@ -619,22 +670,30 @@ export function ReaderPage() {
 
       {/* Floating CTA Card Overlay (Only shown on Desktop for Guests) */}
       {isGuest && (
-        <div 
-          className="hidden md:flex fixed bottom-6 right-6 z-40 bg-white border border-border rounded-2xl p-5 shadow-2xl items-center justify-between gap-5 max-w-md animate-fadeIn" 
+        <div
+          className="hidden md:flex fixed bottom-6 right-6 z-40 bg-white border border-border rounded-2xl p-5 shadow-2xl items-center justify-between gap-5 max-w-md animate-fadeIn"
           style={{ borderLeft: '4px solid var(--nurc-teal)' }}
         >
           <div>
-            <h5 className="font-bold text-xs text-navy uppercase tracking-wider" style={{ color: 'var(--nurc-navy)', fontFamily: 'var(--font-heading)' }}>
+            <h5
+              className="font-bold text-xs text-navy uppercase tracking-wider"
+              style={{ color: 'var(--nurc-navy)', fontFamily: 'var(--font-heading)' }}
+            >
               Unlock B2B Intelligence
             </h5>
             <p className="text-[10px] text-muted-foreground mt-0.5 leading-normal max-w-[240px]">
-              Subscribe to NURC MediaNext for daily C-Suite industry dispatches across all critical segments.
+              Subscribe to NURC MediaNext for daily C-Suite industry dispatches across all critical
+              segments.
             </p>
           </div>
           <Link
             to="/contact"
             className="px-4 py-2.5 rounded-lg text-xs font-bold text-white shrink-0 cursor-pointer border-0 shadow-sm flex items-center justify-center text-center"
-            style={{ background: 'var(--nurc-teal)', fontFamily: 'var(--font-heading)', textDecoration: 'none' }}
+            style={{
+              background: 'var(--nurc-teal)',
+              fontFamily: 'var(--font-heading)',
+              textDecoration: 'none',
+            }}
           >
             Request Demo
           </Link>

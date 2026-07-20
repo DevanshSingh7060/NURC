@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link, useSearchParams } from 'react-router';
 import { useApp, Subscriber } from '../context/AppContext';
 import { useReaderMode } from './ReaderModeContext';
+import { safeStorage } from '../lib/safeStorage';
 import { useLeadModal } from '../context/LeadModalContext';
 import { NewsletterThemeRenderer } from './NewsletterThemeRenderer';
 import {
@@ -172,7 +173,7 @@ export function DashboardPage() {
   const resumeBrief = continueReading
     ? (newsletters ?? []).find((n) => n.id === continueReading)
     : null;
-  const resumePct = resumeBrief ? localStorage.getItem(`nurc_scroll_pct_${resumeBrief.id}`) : null;
+  const resumePct = resumeBrief ? safeStorage.getItem(`nurc_scroll_pct_${resumeBrief.id}`) : null;
   const resumePctNum = resumePct ? Math.round(parseFloat(resumePct)) : 0;
 
   // Saved Briefings list for bookmark rendering
