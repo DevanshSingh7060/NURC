@@ -46,12 +46,17 @@ export default tseslint.config(
     },
   },
 
-  // Accessibility fixes are Phase 3 — surface jsx-a11y findings as warnings for now
+  // Accessibility (jsx-a11y) — surfaced as warnings; Phase 3 addresses the real ones.
   {
     files: ['**/*.{ts,tsx}'],
-    rules: Object.fromEntries(
-      Object.keys(jsxA11y.flatConfigs.recommended.rules).map((rule) => [rule, 'warn']),
-    ),
+    rules: {
+      ...Object.fromEntries(
+        Object.keys(jsxA11y.flatConfigs.recommended.rules).map((rule) => [rule, 'warn']),
+      ),
+      // Deprecated rule, superseded by label-has-associated-control (satisfied via htmlFor).
+      // Its default "nesting required" mode false-positives on otherwise-valid labels.
+      'jsx-a11y/label-has-for': 'off',
+    },
   },
 
   // Known pre-existing violations owned by later phases. Downgraded to warnings

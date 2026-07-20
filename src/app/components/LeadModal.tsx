@@ -83,8 +83,9 @@ export function LeadModal() {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      {/* Backdrop blur overlay */}
+      {/* Backdrop blur overlay — decorative; keyboard users close via Escape (useDialogA11y) */}
       <div
+        aria-hidden="true"
         className="absolute inset-0 bg-[#0A2540]/40 backdrop-blur-sm transition-opacity"
         onClick={closeAndReset}
       />
