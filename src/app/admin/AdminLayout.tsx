@@ -15,7 +15,6 @@ import {
   X,
   ExternalLink,
   RotateCcw,
-  Zap,
   Megaphone,
   Captions,
   Mail,

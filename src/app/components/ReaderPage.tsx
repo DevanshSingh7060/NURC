@@ -4,18 +4,7 @@ import { useApp } from '../context/AppContext';
 import { safeStorage } from '../lib/safeStorage';
 import { useReaderMode } from './ReaderModeContext';
 import { NewsletterThemeRenderer } from './NewsletterThemeRenderer';
-import {
-  ArrowLeft,
-  Printer,
-  Download,
-  Bookmark,
-  Share2,
-  ChevronLeft,
-  BookOpen,
-  X,
-  Sun,
-  Moon,
-} from 'lucide-react';
+import { ArrowLeft, Download, Bookmark, Share2, BookOpen, X, Sun, Moon } from 'lucide-react';
 import { useReaderScrollProgress } from '../lib/reader/useReaderScrollProgress';
 import {
   readingModeColors,

@@ -1,5 +1,5 @@
 import { useParams, Link } from 'react-router';
-import { BookOpen, ArrowRight, TrendingUp, BarChart2, FileText } from 'lucide-react';
+import { BookOpen, ArrowRight } from 'lucide-react';
 import { useReaderMode, SAMPLE_AUTO_ARTICLE, SAMPLE_BANKING_ARTICLE } from './ReaderModeContext';
 import { SEOHead } from './shared/SEOHead';
 

@@ -1,25 +1,19 @@
 import React, { useState } from 'react';
 import { useNavigate, Link, useSearchParams } from 'react-router';
-import { useApp, Subscriber } from '../context/AppContext';
+import { useApp } from '../context/AppContext';
 import { useReaderMode } from './ReaderModeContext';
 import { safeStorage } from '../lib/safeStorage';
 import { useLeadModal } from '../context/LeadModalContext';
-import { NewsletterThemeRenderer } from './NewsletterThemeRenderer';
 import {
   User,
-  Briefcase,
   FileText,
   Settings,
   Bookmark,
   CheckCircle,
-  Bell,
   ArrowRight,
-  Star,
-  RefreshCw,
   BookOpen,
   Clock,
   Layout,
-  HelpCircle,
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { SEOHead } from './shared/SEOHead';

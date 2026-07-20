@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { useNavigate, Link } from 'react-router';
+import { useNavigate } from 'react-router';
 import { toast } from 'sonner';
 import { Trash2, Send, Archive, MailCheck, Clock, MailOpen } from 'lucide-react';
 import { Button } from '@/app/components/ui/button';
@@ -8,9 +8,21 @@ import { Badge } from '@/app/components/ui/badge';
 import { Checkbox } from '@/app/components/ui/checkbox';
 import { Card } from '@/app/components/ui/card';
 import {
-  Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
 } from '@/app/components/ui/select';
-import { PageHeader, DataTable, FormCard, Field, FieldGrid, StatCard, type Column } from '../components';
+import {
+  PageHeader,
+  DataTable,
+  FormCard,
+  Field,
+  FieldGrid,
+  StatCard,
+  type Column,
+} from '../components';
 import { useAdmin, fmtDate, type Newsletter } from '../store';
 
 const STATUS_STYLES: Record<Newsletter['status'], string> = {
@@ -28,28 +40,40 @@ export function SendNewslettersView() {
   const [selected, setSelected] = useState<Set<string>>(new Set());
 
   const updateName = (id: string) => data.updates.find((u) => u.id === id)?.title ?? '—';
-  const clientName = (id: string) => data.clients.find((c) => c.id === id)?.organization ?? 'All clients';
+  const clientName = (id: string) =>
+    data.clients.find((c) => c.id === id)?.organization ?? 'All clients';
 
-  const rows = useMemo(() => data.newsletters.filter((n) =>
-    (statusFilter === 'all' || n.status === statusFilter) &&
-    (updateFilter === 'all' || n.updateId === updateFilter),
-  ), [data.newsletters, statusFilter, updateFilter]);
+  const rows = useMemo(
+    () =>
+      data.newsletters.filter(
+        (n) =>
+          (statusFilter === 'all' || n.status === statusFilter) &&
+          (updateFilter === 'all' || n.updateId === updateFilter),
+      ),
+    [data.newsletters, statusFilter, updateFilter],
+  );
 
-  const counts = useMemo(() => ({
-    total: data.newsletters.length,
-    queue: data.newsletters.filter((n) => n.status === 'Queue').length,
-    delivered: data.newsletters.filter((n) => n.status === 'Delivered').length,
-    read: data.newsletters.filter((n) => n.status === 'Read').length,
-  }), [data.newsletters]);
+  const counts = useMemo(
+    () => ({
+      total: data.newsletters.length,
+      queue: data.newsletters.filter((n) => n.status === 'Queue').length,
+      delivered: data.newsletters.filter((n) => n.status === 'Delivered').length,
+      read: data.newsletters.filter((n) => n.status === 'Read').length,
+    }),
+    [data.newsletters],
+  );
 
-  const toggle = (id: string) => setSelected((prev) => {
-    const next = new Set(prev);
-    next.has(id) ? next.delete(id) : next.add(id);
-    return next;
-  });
+  const toggle = (id: string) =>
+    setSelected((prev) => {
+      const next = new Set(prev);
+      next.has(id) ? next.delete(id) : next.add(id);
+      return next;
+    });
 
   const resend = (ids: string[]) => {
-    ids.forEach((id) => update('newsletters', id, { status: 'Queue', sentDate: new Date().toISOString() }));
+    ids.forEach((id) =>
+      update('newsletters', id, { status: 'Queue', sentDate: new Date().toISOString() }),
+    );
     toast.success(`${ids.length} newsletter(s) re-queued for sending`);
     setSelected(new Set());
   };
@@ -62,11 +86,20 @@ export function SendNewslettersView() {
 
   const columns: Column<Newsletter>[] = [
     {
-      key: 'select', header: '',
-      render: (r) => <Checkbox checked={selected.has(r.id)} onCheckedChange={() => toggle(r.id)} aria-label="Select row" />,
+      key: 'select',
+      header: '',
+      render: (r) => (
+        <Checkbox
+          checked={selected.has(r.id)}
+          onCheckedChange={() => toggle(r.id)}
+          aria-label="Select row"
+        />
+      ),
     },
     {
-      key: 'subscriberEmail', header: 'Subscriber', sortValue: (r) => r.subscriberEmail.toLowerCase(),
+      key: 'subscriberEmail',
+      header: 'Subscriber',
+      sortValue: (r) => r.subscriberEmail.toLowerCase(),
       render: (r) => (
         <div>
           <p className="font-medium text-[var(--nurc-navy)]">{r.subscriberEmail}</p>
@@ -74,29 +107,76 @@ export function SendNewslettersView() {
         </div>
       ),
     },
-    { key: 'updateId', hideBelow: 'sm', header: 'Update', render: (r) => <Badge variant="secondary">{updateName(r.updateId)}</Badge> },
     {
-      key: 'status', header: 'Status', sortValue: (r) => r.status,
+      key: 'updateId',
+      hideBelow: 'sm',
+      header: 'Update',
+      render: (r) => <Badge variant="secondary">{updateName(r.updateId)}</Badge>,
+    },
+    {
+      key: 'status',
+      header: 'Status',
+      sortValue: (r) => r.status,
       render: (r) => (
-        <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${STATUS_STYLES[r.status]}`}>
+        <span
+          className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${STATUS_STYLES[r.status]}`}
+        >
           {r.status}
         </span>
       ),
     },
-    { key: 'sentDate', hideBelow: 'md', header: 'Sent Date', sortValue: (r) => r.sentDate, render: (r) => fmtDate(r.sentDate) },
-    { key: 'archived', hideBelow: 'lg', header: 'Archived', render: (r) => (r.archived ? <Badge variant="outline">Archived</Badge> : <span className="text-muted-foreground">—</span>) },
     {
-      key: 'actions', header: '', className: 'text-right',
+      key: 'sentDate',
+      hideBelow: 'md',
+      header: 'Sent Date',
+      sortValue: (r) => r.sentDate,
+      render: (r) => fmtDate(r.sentDate),
+    },
+    {
+      key: 'archived',
+      hideBelow: 'lg',
+      header: 'Archived',
+      render: (r) =>
+        r.archived ? (
+          <Badge variant="outline">Archived</Badge>
+        ) : (
+          <span className="text-muted-foreground">—</span>
+        ),
+    },
+    {
+      key: 'actions',
+      header: '',
+      className: 'text-right',
       render: (r) => (
         <div className="flex justify-end gap-1">
-          <Button variant="ghost" size="icon" className="size-8" title="Resend" onClick={() => resend([r.id])}>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="size-8"
+            title="Resend"
+            onClick={() => resend([r.id])}
+          >
             <Send className="size-4" />
           </Button>
-          <Button variant="ghost" size="icon" className="size-8" title={r.archived ? 'Unarchive' : 'Archive'}
-            onClick={() => { update('newsletters', r.id, { archived: !r.archived }); toast.success(r.archived ? 'Unarchived' : 'Archived'); }}>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="size-8"
+            title={r.archived ? 'Unarchive' : 'Archive'}
+            onClick={() => {
+              update('newsletters', r.id, { archived: !r.archived });
+              toast.success(r.archived ? 'Unarchived' : 'Archived');
+            }}
+          >
             <Archive className="size-4" />
           </Button>
-          <Button variant="ghost" size="icon" className="size-8 text-destructive hover:text-destructive" title="Delete" onClick={() => del([r.id])}>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="size-8 text-destructive hover:text-destructive"
+            title="Delete"
+            onClick={() => del([r.id])}
+          >
             <Trash2 className="size-4" />
           </Button>
         </div>
@@ -108,8 +188,12 @@ export function SendNewslettersView() {
 
   return (
     <div>
-      <PageHeader title="Send Newsletters" description="Delivery log and status of newsletters sent to subscribers."
-        actionLabel="Compose & Send" actionTo="/admin/newsletters/send" />
+      <PageHeader
+        title="Send Newsletters"
+        description="Delivery log and status of newsletters sent to subscribers."
+        actionLabel="Compose & Send"
+        actionTo="/admin/newsletters/send"
+      />
 
       <div className="mb-6 grid grid-cols-2 gap-4 md:grid-cols-4">
         <StatCard label="Total Sent" value={counts.total} icon={MailCheck} accent="#0A2540" />
@@ -130,20 +214,33 @@ export function SendNewslettersView() {
                 <Button size="sm" variant="outline" onClick={() => resend(selectedIds)}>
                   <Send className="size-3.5" /> Resend ({selectedIds.length})
                 </Button>
-                <Button size="sm" variant="outline" className="text-destructive" onClick={() => del(selectedIds)}>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="text-destructive"
+                  onClick={() => del(selectedIds)}
+                >
                   <Trash2 className="size-3.5" /> Delete
                 </Button>
               </>
             )}
             <Select value={updateFilter} onValueChange={setUpdateFilter}>
-              <SelectTrigger className="w-[150px] bg-background"><SelectValue placeholder="All updates" /></SelectTrigger>
+              <SelectTrigger className="w-[150px] bg-background">
+                <SelectValue placeholder="All updates" />
+              </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All updates</SelectItem>
-                {data.updates.map((u) => <SelectItem key={u.id} value={u.id}>{u.title}</SelectItem>)}
+                {data.updates.map((u) => (
+                  <SelectItem key={u.id} value={u.id}>
+                    {u.title}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
             <Select value={statusFilter} onValueChange={setStatusFilter}>
-              <SelectTrigger className="w-[140px] bg-background"><SelectValue /></SelectTrigger>
+              <SelectTrigger className="w-[140px] bg-background">
+                <SelectValue />
+              </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All statuses</SelectItem>
                 <SelectItem value="Queue">Queue</SelectItem>
@@ -171,10 +268,17 @@ export function NewslettersSend() {
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!updateId) { toast.error('Please select an update'); return; }
+    if (!updateId) {
+      toast.error('Please select an update');
+      return;
+    }
 
-    const targets = clientId === 'all' ? activeClients : activeClients.filter((c) => c.id === clientId);
-    if (targets.length === 0) { toast.error('No active clients to send to'); return; }
+    const targets =
+      clientId === 'all' ? activeClients : activeClients.filter((c) => c.id === clientId);
+    if (targets.length === 0) {
+      toast.error('No active clients to send to');
+      return;
+    }
 
     let count = 0;
     targets.forEach((c) => {
@@ -198,32 +302,63 @@ export function NewslettersSend() {
   return (
     <div>
       <PageHeader title="Compose & Send Newsletter" backTo="/admin/newsletters" />
-      <FormCard title="Send a newsletter" description="Queue an update edition for delivery to active subscribers." onSubmit={submit} submitLabel="Queue & Send" backTo="/admin/newsletters">
+      <FormCard
+        title="Send a newsletter"
+        description="Queue an update edition for delivery to active subscribers."
+        onSubmit={submit}
+        submitLabel="Queue & Send"
+        backTo="/admin/newsletters"
+      >
         <FieldGrid>
           <Field label="Update Edition" required>
             <Select value={updateId} onValueChange={setUpdateId}>
-              <SelectTrigger><SelectValue placeholder="Select update" /></SelectTrigger>
-              <SelectContent>{data.updates.map((u) => <SelectItem key={u.id} value={u.id}>{u.title}</SelectItem>)}</SelectContent>
+              <SelectTrigger>
+                <SelectValue placeholder="Select update" />
+              </SelectTrigger>
+              <SelectContent>
+                {data.updates.map((u) => (
+                  <SelectItem key={u.id} value={u.id}>
+                    {u.title}
+                  </SelectItem>
+                ))}
+              </SelectContent>
             </Select>
           </Field>
           <Field label="Recipients" hint="Choose all active clients or a specific one.">
             <Select value={clientId} onValueChange={setClientId}>
-              <SelectTrigger><SelectValue /></SelectTrigger>
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All active clients ({activeClients.length})</SelectItem>
-                {activeClients.map((c) => <SelectItem key={c.id} value={c.id}>{c.organization}</SelectItem>)}
+                {activeClients.map((c) => (
+                  <SelectItem key={c.id} value={c.id}>
+                    {c.organization}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </Field>
         </FieldGrid>
-        <Field label="Override Email" htmlFor="email" hint="Optional. Leave blank to use each client's registered email.">
-          <Input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="someone@example.com" />
+        <Field
+          label="Override Email"
+          htmlFor="email"
+          hint="Optional. Leave blank to use each client's registered email."
+        >
+          <Input
+            id="email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="someone@example.com"
+          />
         </Field>
 
         {updateId && (
           <Card className="bg-[var(--nurc-sage)]/30 p-4">
             <p className="text-sm text-[var(--nurc-navy)]">
-              Ready to queue <strong>{updateTitle}</strong> to <strong>{recipients}</strong> recipient{recipients === 1 ? '' : 's'}.
+              Ready to queue <strong>{updateTitle}</strong> to <strong>{recipients}</strong>{' '}
+              recipient{recipients === 1 ? '' : 's'}.
             </p>
           </Card>
         )}

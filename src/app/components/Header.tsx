@@ -10,8 +10,6 @@ import {
   Briefcase,
   FileText,
   Settings,
-  Star,
-  Bookmark,
   Home,
   Mail,
 } from 'lucide-react';

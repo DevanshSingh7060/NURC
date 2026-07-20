@@ -6,11 +6,9 @@ import {
   Shield,
   Clock,
   TrendingUp,
-  ChevronRight,
   Star,
   Quote,
   ShieldCheck,
-  HelpCircle,
   Settings,
   ChevronDown,
 } from 'lucide-react';
@@ -21,9 +19,6 @@ import { useLeadModal } from '../context/LeadModalContext';
 import { SEOHead } from './shared/SEOHead';
 
 import mercedesBenzLogo from '../../Logo/Mercedes Benz.png';
-import bmwLogo from '../../Logo/BMW.png';
-import tataLogo from '../../Logo/Tata.png';
-import deutscheBankLogo from '../../Logo/Deutsche Bank.png';
 
 const sectors = [
   {

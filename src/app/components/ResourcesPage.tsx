@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { BookOpen, Clock, ArrowRight, Search } from 'lucide-react';
+import { BookOpen, Clock, Search } from 'lucide-react';
 import { useReaderMode, SAMPLE_AUTO_ARTICLE, SAMPLE_BANKING_ARTICLE } from './ReaderModeContext';
 import { SEOHead } from './shared/SEOHead';
 

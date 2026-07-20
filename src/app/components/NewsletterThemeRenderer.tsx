@@ -1,6 +1,6 @@
 import React from 'react';
 import { Article } from '../data/newslettersData';
-import { Quote, BarChart3, Newspaper, Award, Briefcase } from 'lucide-react';
+import { BarChart3 } from 'lucide-react';
 
 interface Props {
   article: Article;

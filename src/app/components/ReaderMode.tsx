@@ -1,17 +1,7 @@
 import { useRef, useState, useEffect } from 'react';
 import { Link } from 'react-router';
 import { useReaderMode } from './ReaderModeContext';
-import {
-  BookOpen,
-  ArrowLeft,
-  Printer,
-  Bookmark,
-  Share2,
-  Download,
-  X,
-  Sun,
-  Moon,
-} from 'lucide-react';
+import { BookOpen, ArrowLeft, Bookmark, Share2, Download, X, Sun, Moon } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { NewsletterThemeRenderer } from './NewsletterThemeRenderer';
 import { useReaderScrollProgress } from '../lib/reader/useReaderScrollProgress';

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router';
-import { ArrowRight, Filter, Quote, Star, ChevronDown } from 'lucide-react';
+import { Quote, Star, ChevronDown } from 'lucide-react';
 import { SEOHead } from './shared/SEOHead';
 
 // Import PNG logos from src/Logo
