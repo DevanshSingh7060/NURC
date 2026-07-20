@@ -23,27 +23,13 @@ export function ErrorFallback({ error, onReset, title, description }: Props) {
       role="alert"
       className="min-h-[60vh] flex flex-col items-center justify-center text-center px-6 py-20"
     >
-      <div
-        className="flex items-center justify-center w-16 h-16 rounded-2xl mb-6"
-        style={{ background: 'rgba(184,92,68,0.1)' }}
-      >
-        <AlertTriangle size={30} style={{ color: '#B85C44' }} />
+      <div className="flex items-center justify-center w-16 h-16 rounded-2xl mb-6 bg-[#B85C44]/10">
+        <AlertTriangle size={30} className="text-[#B85C44]" />
       </div>
-      <h1
-        className="mb-3"
-        style={{
-          fontFamily: 'var(--font-display)',
-          fontSize: '28px',
-          fontWeight: 700,
-          color: 'var(--nurc-navy)',
-        }}
-      >
+      <h1 className="mb-3 font-display text-[28px] font-bold text-nurc-navy">
         {title ?? 'Something went wrong'}
       </h1>
-      <p
-        className="text-muted-foreground mb-8"
-        style={{ fontSize: '16px', maxWidth: '420px', lineHeight: 1.75 }}
-      >
+      <p className="text-muted-foreground mb-8 text-base max-w-[420px] leading-[1.75]">
         {description ??
           'An unexpected error occurred while loading this page. You can try again, or head back to the homepage.'}
       </p>
@@ -57,20 +43,14 @@ export function ErrorFallback({ error, onReset, title, description }: Props) {
       <div className="flex flex-wrap items-center justify-center gap-3">
         <button
           onClick={() => (onReset ? onReset() : window.location.reload())}
-          className="flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-white transition-all hover:opacity-90"
-          style={{ background: 'var(--nurc-teal)', fontFamily: 'var(--font-heading)' }}
+          className="flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-white transition-all hover:opacity-90 bg-nurc-teal font-heading"
         >
           <RefreshCw size={15} />
           Try Again
         </button>
         <a
           href="/"
-          className="flex items-center gap-2 px-6 py-3 rounded-xl font-semibold border transition-all hover:bg-muted"
-          style={{
-            borderColor: 'var(--border)',
-            color: 'var(--nurc-navy)',
-            textDecoration: 'none',
-          }}
+          className="flex items-center gap-2 px-6 py-3 rounded-xl font-semibold border transition-all hover:bg-muted border-border text-nurc-navy no-underline"
         >
           <Home size={15} />
           Back to Homepage

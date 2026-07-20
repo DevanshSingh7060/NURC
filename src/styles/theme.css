@@ -91,6 +91,18 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 
+  /* NURC brand colors as utilities: text-nurc-navy, bg-nurc-teal, border-nurc-gold, ... */
+  --color-nurc-navy: var(--nurc-navy);
+  --color-nurc-navy-light: var(--nurc-navy-light);
+  --color-nurc-teal: var(--nurc-teal);
+  --color-nurc-gold: var(--nurc-gold);
+  --color-nurc-sage: var(--nurc-sage);
+
+  /* Font-family utilities: font-display, font-heading, font-body */
+  --font-display: var(--font-display);
+  --font-heading: var(--font-heading);
+  --font-body: var(--font-body);
+
   /* Elevation / shadow scale — see DESIGN_TOKENS.md.
      Generates the utilities: shadow-elevation-1 / -2 / -3 */
   --shadow-elevation-1: 0 4px 16px rgba(10, 37, 64, 0.06);
