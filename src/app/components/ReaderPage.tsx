@@ -15,7 +15,6 @@ import {
   X,
   Sun,
   Moon,
-  Monitor,
 } from 'lucide-react';
 import { useReaderScrollProgress } from '../lib/reader/useReaderScrollProgress';
 import {
@@ -304,6 +303,8 @@ export function ReaderPage() {
             {(['default', 'night', 'dark'] as const).map((mode) => {
               const isActive = settings.readingMode === mode;
               const isHovered = hoveredMode === mode;
+              const label = mode === 'default' ? 'Light' : mode === 'night' ? 'Sepia' : 'Dark';
+              const ModeIcon = mode === 'default' ? Sun : mode === 'night' ? BookOpen : Moon;
               return (
                 <button
                   key={mode}
@@ -317,14 +318,10 @@ export function ReaderPage() {
                     fontWeight: isActive ? 600 : 500,
                     boxShadow: isActive ? '0 1px 3px rgba(0,0,0,0.15)' : 'none',
                   }}
-                  title={`Switch to ${mode} mode`}
+                  title={`Switch to ${label} mode`}
                 >
-                  {mode === 'default' && <Sun size={13} className="shrink-0" />}
-                  {mode === 'night' && <Moon size={13} className="shrink-0" />}
-                  {mode === 'dark' && <Monitor size={13} className="shrink-0" />}
-                  <span className="hidden sm:inline">
-                    {mode === 'default' ? 'Default' : mode === 'night' ? 'Night' : 'Dark'}
-                  </span>
+                  <ModeIcon size={13} className="shrink-0" />
+                  <span className="hidden sm:inline">{label}</span>
                 </button>
               );
             })}

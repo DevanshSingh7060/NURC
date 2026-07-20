@@ -1,49 +1,49 @@
 :root {
   --font-size: 17px;
-  --background: #F8F9FA;
-  --foreground: #1F2937;
-  --card: #FFFFFF;
-  --card-foreground: #1F2937;
-  --popover: #FFFFFF;
-  --popover-foreground: #1F2937;
-  --primary: #0A2540;
-  --primary-foreground: #FFFFFF;
-  --secondary: #E0E7E3;
-  --secondary-foreground: #0A2540;
-  --muted: #F3F4F6;
+  --background: #f8f9fa;
+  --foreground: #1f2937;
+  --card: #ffffff;
+  --card-foreground: #1f2937;
+  --popover: #ffffff;
+  --popover-foreground: #1f2937;
+  --primary: #0a2540;
+  --primary-foreground: #ffffff;
+  --secondary: #e0e7e3;
+  --secondary-foreground: #0a2540;
+  --muted: #f3f4f6;
   --muted-foreground: #374151;
-  --accent: #C8B39E;
-  --accent-foreground: #0A2540;
+  --accent: #c8b39e;
+  --accent-foreground: #0a2540;
   --destructive: #d4183d;
   --destructive-foreground: #ffffff;
-  --border: #E5E7EB;
+  --border: #e5e7eb;
   --input: transparent;
-  --input-background: #F3F4F6;
+  --input-background: #f3f4f6;
   --switch-background: #cbced4;
   --font-weight-medium: 500;
   --font-weight-normal: 400;
-  --ring: #006D7A;
+  --ring: #006d7a;
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
   --chart-4: oklch(0.828 0.189 84.429);
   --chart-5: oklch(0.769 0.188 70.08);
   --radius: 0.5rem;
-  --sidebar: #FFFFFF;
-  --sidebar-foreground: #1F2937;
-  --sidebar-primary: #0A2540;
-  --sidebar-primary-foreground: #FFFFFF;
-  --sidebar-accent: #F3F4F6;
-  --sidebar-accent-foreground: #1F2937;
-  --sidebar-border: #E5E7EB;
-  --sidebar-ring: #006D7A;
+  --sidebar: #ffffff;
+  --sidebar-foreground: #1f2937;
+  --sidebar-primary: #0a2540;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f3f4f6;
+  --sidebar-accent-foreground: #1f2937;
+  --sidebar-border: #e5e7eb;
+  --sidebar-ring: #006d7a;
 
   /* NURC brand tokens */
-  --nurc-navy: #0A2540;
-  --nurc-teal: #006D7A;
-  --nurc-gold: #C8B39E;
-  --nurc-sage: #E0E7E3;
-  --nurc-navy-light: #0F3460;
+  --nurc-navy: #0a2540;
+  --nurc-teal: #006d7a;
+  --nurc-gold: #c8b39e;
+  --nurc-sage: #e0e7e3;
+  --nurc-navy-light: #0f3460;
 
   /* Font families */
   --font-display: 'Inter', system-ui, sans-serif;
@@ -90,6 +90,12 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Elevation / shadow scale — see DESIGN_TOKENS.md.
+     Generates the utilities: shadow-elevation-1 / -2 / -3 */
+  --shadow-elevation-1: 0 4px 16px rgba(10, 37, 64, 0.06);
+  --shadow-elevation-2: 0 8px 24px rgba(10, 37, 64, 0.08);
+  --shadow-elevation-3: 0 16px 40px rgba(10, 37, 64, 0.12);
 }
 
 @layer base {
@@ -102,7 +108,12 @@
     font-family: var(--font-body);
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: var(--font-heading);
   }
 
