@@ -1,9 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, Suspense } from 'react';
 import { Link, NavLink, Outlet, useLocation } from 'react-router';
 import {
-  LayoutDashboard, LayoutList, Newspaper, Users, Radio, Rss,
-  Building2, MapPin, Car, FileText, Menu, X, ExternalLink, RotateCcw, Zap,
-  Megaphone, Captions, Mail,
+  LayoutDashboard,
+  LayoutList,
+  Newspaper,
+  Users,
+  Radio,
+  Rss,
+  Building2,
+  MapPin,
+  Car,
+  FileText,
+  Menu,
+  X,
+  ExternalLink,
+  RotateCcw,
+  Zap,
+  Megaphone,
+  Captions,
+  Mail,
 } from 'lucide-react';
 import { Toaster } from '@/app/components/ui/sonner';
 import { Button } from '@/app/components/ui/button';
@@ -42,7 +57,9 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
         </span>
         <div className="leading-tight">
           <p className="font-semibold text-white">NURC</p>
-          <p className="text-[11px] uppercase tracking-widest text-[var(--nurc-gold)]">Admin Console</p>
+          <p className="text-[11px] uppercase tracking-widest text-[var(--nurc-gold)]">
+            Admin Console
+          </p>
         </div>
       </div>
 
@@ -92,11 +109,19 @@ function Topbar({ onMenu }: { onMenu: () => void }) {
           <Menu className="size-5" />
         </Button>
         <div className="hidden items-center gap-1.5 text-sm text-muted-foreground sm:flex">
-          <Link to="/admin" className="hover:text-[var(--nurc-teal)]">Admin</Link>
+          <Link to="/admin" className="hover:text-[var(--nurc-teal)]">
+            Admin
+          </Link>
           {crumb.map((c, i) => (
             <span key={i} className="flex items-center gap-1.5">
               <span className="opacity-40">/</span>
-              <span className={i === crumb.length - 1 ? 'font-medium capitalize text-[var(--nurc-navy)]' : 'capitalize'}>
+              <span
+                className={
+                  i === crumb.length - 1
+                    ? 'font-medium capitalize text-[var(--nurc-navy)]'
+                    : 'capitalize'
+                }
+              >
                 {c.replace(/-/g, ' ')}
               </span>
             </span>
@@ -119,7 +144,9 @@ function Topbar({ onMenu }: { onMenu: () => void }) {
           <span className="flex size-7 items-center justify-center rounded-full bg-[var(--nurc-navy)] text-xs font-semibold text-white">
             VP
           </span>
-          <span className="hidden text-sm font-medium text-[var(--nurc-navy)] sm:inline">Vimal Parashar</span>
+          <span className="hidden text-sm font-medium text-[var(--nurc-navy)] sm:inline">
+            Vimal Parashar
+          </span>
         </div>
       </div>
     </header>
@@ -157,7 +184,13 @@ function AdminShell() {
       <div className="lg:pl-64">
         <Topbar onMenu={() => setMobileOpen(true)} />
         <main className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-          <Outlet />
+          <Suspense
+            fallback={
+              <div className="py-20 text-center text-sm text-muted-foreground">Loading…</div>
+            }
+          >
+            <Outlet />
+          </Suspense>
         </main>
       </div>
     </div>

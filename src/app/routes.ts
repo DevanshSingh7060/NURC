@@ -1,37 +1,64 @@
-import React from 'react';
+import React, { lazy } from 'react';
 import { createBrowserRouter, Navigate } from 'react-router';
 import { Root } from './components/Root';
-import { RouteErrorBoundary } from './components/shared/RouteErrorBoundary';
 import { HomePage } from './components/HomePage';
-import { NewsletterPage } from './components/NewsletterPage';
-import { SectorPage } from './components/SectorPage';
-import { ClientsPage } from './components/ClientsPage';
-import { AllClientsPage } from './components/AllClientsPage';
-import { AboutPage } from './components/AboutPage';
-import { ContactPage } from './components/ContactPage';
-import { ResourcesPage } from './components/ResourcesPage';
-import { ServicesPage } from './components/ServicesPage';
 import { NotFoundPage } from './components/NotFoundPage';
-import { LoginPage } from './components/LoginPage';
-import { SignupPage } from './components/SignupPage';
-import { DashboardPage } from './components/DashboardPage';
-import { ReaderPage } from './components/ReaderPage';
+import { RouteErrorBoundary } from './components/shared/RouteErrorBoundary';
 
-// Admin console (no public header/footer, no auth)
-import { AdminRoot } from './admin/AdminLayout';
-import { AdminDashboard } from './admin/pages/Dashboard';
-import { SectionsView, SectionsAdd } from './admin/pages/Sections';
-import { StoriesView, StoriesAdd, StoriesShortcuts } from './admin/pages/Stories';
-import { ClientsView, ClientsAdd } from './admin/pages/Clients';
-import { SourcesView, SourcesAdd } from './admin/pages/Sources';
-import { AgenciesView, AgenciesAdd } from './admin/pages/Agencies';
-import { CompaniesView, CompaniesAdd } from './admin/pages/Companies';
-import { CitiesView, CitiesAdd } from './admin/pages/Cities';
-import { VehiclesView, VehiclesAdd } from './admin/pages/Vehicles';
-import { MasterFormView, MasterFormAdd } from './admin/pages/MasterForms';
-import { UpdatesView, UpdatesAdd, UpdatesPublish } from './admin/pages/Updates';
-import { FormCaptionsView, FormCaptionsAdd } from './admin/pages/FormCaptions';
-import { SendNewslettersView, NewslettersSend } from './admin/pages/Newsletters';
+/** Lazy-load a named export as a route component (code-splitting). */
+function lazyRoute<M extends Record<string, React.ComponentType<unknown>>>(
+  loader: () => Promise<M>,
+  name: keyof M,
+) {
+  return lazy(async () => ({ default: (await loader())[name] }));
+}
+
+// Public pages (split into per-route chunks; Root + HomePage stay in the main chunk)
+const NewsletterPage = lazyRoute(() => import('./components/NewsletterPage'), 'NewsletterPage');
+const SectorPage = lazyRoute(() => import('./components/SectorPage'), 'SectorPage');
+const ClientsPage = lazyRoute(() => import('./components/ClientsPage'), 'ClientsPage');
+const AllClientsPage = lazyRoute(() => import('./components/AllClientsPage'), 'AllClientsPage');
+const AboutPage = lazyRoute(() => import('./components/AboutPage'), 'AboutPage');
+const ContactPage = lazyRoute(() => import('./components/ContactPage'), 'ContactPage');
+const ResourcesPage = lazyRoute(() => import('./components/ResourcesPage'), 'ResourcesPage');
+const ServicesPage = lazyRoute(() => import('./components/ServicesPage'), 'ServicesPage');
+const LoginPage = lazyRoute(() => import('./components/LoginPage'), 'LoginPage');
+const SignupPage = lazyRoute(() => import('./components/SignupPage'), 'SignupPage');
+const DashboardPage = lazyRoute(() => import('./components/DashboardPage'), 'DashboardPage');
+const ReaderPage = lazyRoute(() => import('./components/ReaderPage'), 'ReaderPage');
+
+// Admin console — entirely lazy so public visitors never download it
+const AdminRoot = lazyRoute(() => import('./admin/AdminLayout'), 'AdminRoot');
+const AdminDashboard = lazyRoute(() => import('./admin/pages/Dashboard'), 'AdminDashboard');
+const SectionsView = lazyRoute(() => import('./admin/pages/Sections'), 'SectionsView');
+const SectionsAdd = lazyRoute(() => import('./admin/pages/Sections'), 'SectionsAdd');
+const StoriesView = lazyRoute(() => import('./admin/pages/Stories'), 'StoriesView');
+const StoriesAdd = lazyRoute(() => import('./admin/pages/Stories'), 'StoriesAdd');
+const StoriesShortcuts = lazyRoute(() => import('./admin/pages/Stories'), 'StoriesShortcuts');
+const ClientsView = lazyRoute(() => import('./admin/pages/Clients'), 'ClientsView');
+const ClientsAdd = lazyRoute(() => import('./admin/pages/Clients'), 'ClientsAdd');
+const SourcesView = lazyRoute(() => import('./admin/pages/Sources'), 'SourcesView');
+const SourcesAdd = lazyRoute(() => import('./admin/pages/Sources'), 'SourcesAdd');
+const AgenciesView = lazyRoute(() => import('./admin/pages/Agencies'), 'AgenciesView');
+const AgenciesAdd = lazyRoute(() => import('./admin/pages/Agencies'), 'AgenciesAdd');
+const CompaniesView = lazyRoute(() => import('./admin/pages/Companies'), 'CompaniesView');
+const CompaniesAdd = lazyRoute(() => import('./admin/pages/Companies'), 'CompaniesAdd');
+const CitiesView = lazyRoute(() => import('./admin/pages/Cities'), 'CitiesView');
+const CitiesAdd = lazyRoute(() => import('./admin/pages/Cities'), 'CitiesAdd');
+const VehiclesView = lazyRoute(() => import('./admin/pages/Vehicles'), 'VehiclesView');
+const VehiclesAdd = lazyRoute(() => import('./admin/pages/Vehicles'), 'VehiclesAdd');
+const MasterFormView = lazyRoute(() => import('./admin/pages/MasterForms'), 'MasterFormView');
+const MasterFormAdd = lazyRoute(() => import('./admin/pages/MasterForms'), 'MasterFormAdd');
+const UpdatesView = lazyRoute(() => import('./admin/pages/Updates'), 'UpdatesView');
+const UpdatesAdd = lazyRoute(() => import('./admin/pages/Updates'), 'UpdatesAdd');
+const UpdatesPublish = lazyRoute(() => import('./admin/pages/Updates'), 'UpdatesPublish');
+const FormCaptionsView = lazyRoute(() => import('./admin/pages/FormCaptions'), 'FormCaptionsView');
+const FormCaptionsAdd = lazyRoute(() => import('./admin/pages/FormCaptions'), 'FormCaptionsAdd');
+const SendNewslettersView = lazyRoute(
+  () => import('./admin/pages/Newsletters'),
+  'SendNewslettersView',
+);
+const NewslettersSend = lazyRoute(() => import('./admin/pages/Newsletters'), 'NewslettersSend');
 
 // Redirect components
 const RedirectToContact = () => React.createElement(Navigate, { to: '/contact', replace: true });
@@ -41,7 +68,6 @@ const RedirectToTrial = () =>
 
 // Redirect /sector/:slug to /industries/:slug
 function RedirectSectorToIndustry() {
-  // We use a small component that reads the URL and redirects
   const slug = window.location.pathname.split('/sector/')[1];
   return React.createElement(Navigate, { to: `/industries/${slug}`, replace: true });
 }
@@ -53,19 +79,13 @@ export const router = createBrowserRouter([
     ErrorBoundary: RouteErrorBoundary,
     children: [
       { index: true, Component: HomePage },
-      // Industry pages (new canonical paths)
-      { path: 'industries', Component: SectorPage }, // Will be replaced with IndustriesPage in Phase 3
+      { path: 'industries', Component: SectorPage },
       { path: 'industries/:slug', Component: SectorPage },
-      // Backward-compatible redirect from old sector URLs
       { path: 'sector/:slug', Component: RedirectSectorToIndustry },
-      // Insights (replaces resources)
       { path: 'insights', Component: ResourcesPage },
       { path: 'resources', Component: RedirectToInsights },
-      // Services
       { path: 'services', Component: ServicesPage },
-      // Free Trial
       { path: 'free-trial', Component: RedirectToTrial },
-      // Existing pages
       { path: 'newsletters', Component: NewsletterPage },
       { path: 'archive', Component: NewsletterPage },
       { path: 'newsletter', Component: NewsletterPage },
