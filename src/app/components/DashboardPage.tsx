@@ -24,37 +24,6 @@ import {
 import { toast } from 'sonner';
 import { SEOHead } from './shared/SEOHead';
 
-const SAMPLE_PREVIEW_ARTICLE = {
-  title: 'India Macro Intelligence Briefing',
-  subtitle: 'Daily Corporate Briefing · May 30, 2026',
-  category: 'Macro Economics',
-  date: 'May 30, 2026',
-  readTime: '3 min read',
-  content: [
-    {
-      type: 'section' as const,
-      heading: 'EXECUTIVE SUMMARY',
-      tag: 'Market Dynamics',
-      text: `India's corporate margins showed a structural expansion of +120 basis points in Q1 FY26. The improvement was driven by softer commodity input prices, optimized domestic logistics operations, and steady volume gains in core middle-income urban markets.`,
-    },
-    {
-      type: 'data' as const,
-      heading: 'KEY MARKET METRICS',
-      tag: 'Macro Statistics',
-      items: [
-        'Urban consumption growth: +8.4% YoY',
-        'Private investment growth: +11.2% YoY',
-        'Core inflation baseline: 4.8% held steady',
-      ],
-    },
-    {
-      type: 'quote' as const,
-      text: 'The tailwinds supporting domestic earnings remain strong. High-single-digit volume growth will likely sustain across consumer products, financial services, and mobility sectors through Q3.',
-      attribution: 'NURC Global Research Board, Macroeconomics Division',
-    },
-  ],
-};
-
 export function DashboardPage() {
   const { openReader } = useReaderMode();
   const { openDemoModal, openCoverageModal } = useLeadModal();

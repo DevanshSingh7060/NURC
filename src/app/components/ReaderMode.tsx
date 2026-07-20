@@ -34,7 +34,8 @@ const fontSizeMap: Record<ReaderSettings['fontSize'], string> = {
 const lineHeight = '1.65';
 
 export function ReaderModeOverlay() {
-  const { isOpen, article, newsletterId, settings, closeReader, updateSettings } = useReaderMode();
+  const { isOpen, article, newsletterId, settings, closeReader, openReader, updateSettings } =
+    useReaderMode();
   const {
     savedArticles,
     toggleSaveArticle,
@@ -245,14 +246,14 @@ export function ReaderModeOverlay() {
           const nextIndex = (activeIndex + 1) % newsletters.length;
           const nextNewsletter = newsletters[nextIndex];
           if (nextNewsletter) {
-            useReaderMode().openReader(nextNewsletter.article, nextNewsletter.id);
+            openReader(nextNewsletter.article, nextNewsletter.id);
           }
         } else {
           // Swipe Right: Previous Newsletter
           const prevIndex = (activeIndex - 1 + newsletters.length) % newsletters.length;
           const prevNewsletter = newsletters[prevIndex];
           if (prevNewsletter) {
-            useReaderMode().openReader(prevNewsletter.article, prevNewsletter.id);
+            openReader(prevNewsletter.article, prevNewsletter.id);
           }
         }
       }
