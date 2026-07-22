@@ -1,7 +1,27 @@
 import { useParams, Link } from 'react-router';
 import { BookOpen, ArrowRight } from 'lucide-react';
 import { useReaderMode, SAMPLE_AUTO_ARTICLE, SAMPLE_BANKING_ARTICLE } from './ReaderModeContext';
+import { useApp } from '../context/AppContext';
 import { SEOHead } from './shared/SEOHead';
+import { SectorMarquee } from './SectorMarquee';
+
+/**
+ * Maps each sector slug to its newsletter `category` in the content store
+ * (AppContext.newsletters). This is how a sector finds its own unique issues.
+ */
+const CATEGORY_BY_SLUG: Record<string, string> = {
+  auto: 'Automotive',
+  banking: 'Banking',
+  insurance: 'Insurance',
+  'mutual-funds': 'Mutual Funds',
+  infrastructure: 'Infrastructure',
+  energy: 'Energy',
+  'metals-minerals': 'Metals & Minerals',
+  fmcg: 'FMCG',
+  healthcare: 'Healthcare',
+  finance: 'Finance',
+  technology: 'Technology',
+};
 
 const sectorData: Record<
   string,
@@ -163,19 +183,122 @@ const sectorData: Record<
     ],
     article: SAMPLE_AUTO_ARTICLE,
   },
+  insurance: {
+    title: 'Insurance Intelligence',
+    subtitle: 'Weekly · Life to General · IRDAI to Boardroom',
+    description:
+      'Strategic intelligence for insurers, reinsurers, and bancassurance partners — from IRDAI regulatory shifts and product innovation to distribution economics and the Bima Sugam digital rollout.',
+    color: '#5B8A5E',
+    image:
+      'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=1200&h=500&fit=crop&auto=format',
+    stats: [
+      { label: 'Insurers Tracked', value: '35+' },
+      { label: 'IRDAI Sources', value: 'Weekly' },
+      { label: 'Issues per Year', value: '52' },
+      { label: 'Subscribers', value: '70+' },
+    ],
+    benefits: [
+      'IRDAI regulatory and EoM framework tracking',
+      'Health vs. life product growth intelligence',
+      'Bima Sugam and digital distribution updates',
+      'Bancassurance and agency channel economics',
+      'Claims ratio and solvency margin analysis',
+      'Reinsurance and catastrophe pricing trends',
+    ],
+    article: SAMPLE_BANKING_ARTICLE,
+  },
+  'mutual-funds': {
+    title: 'Mutual Funds & AMC Intelligence',
+    subtitle: 'Weekly · ₹68L Cr AUM · SIP to SEBI',
+    description:
+      'Intelligence for asset managers, distributors, and wealth platforms — tracking AUM flows, SIP momentum, SEBI expense and disclosure norms, passive-fund disruption, and new fund launches.',
+    color: '#8A6A3B',
+    image:
+      'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1200&h=500&fit=crop&auto=format',
+    stats: [
+      { label: 'AMCs Tracked', value: '44' },
+      { label: 'Industry AUM', value: '₹68L Cr' },
+      { label: 'Issues per Year', value: '52' },
+      { label: 'Subscribers', value: '90+' },
+    ],
+    benefits: [
+      'Monthly AUM and category flow analysis',
+      'SIP momentum and investor-base tracking',
+      'SEBI expense ratio and disclosure norms',
+      'Passive and index fund competitive landscape',
+      'New fund offer (NFO) pipeline intelligence',
+      'Distributor and platform economics',
+    ],
+    article: SAMPLE_BANKING_ARTICLE,
+  },
+  'metals-minerals': {
+    title: 'Metals & Minerals Intelligence',
+    subtitle: 'Weekly · Steel to Critical Minerals',
+    description:
+      "Tracking India's metals and mining value chain — steel demand cycles, critical mineral auctions, aluminium and base-metal capacity, iron ore supply, and decarbonisation of primary metals.",
+    color: '#5B4A7B',
+    image:
+      'https://images.unsplash.com/photo-1605557202138-097f3c3f1c86?w=1200&h=500&fit=crop&auto=format',
+    stats: [
+      { label: 'Producers Tracked', value: '30+' },
+      { label: 'Steel Demand', value: '+11.8%' },
+      { label: 'Issues per Year', value: '52' },
+      { label: 'Subscribers', value: '65+' },
+    ],
+    benefits: [
+      'Steel demand and capacity utilisation tracking',
+      'Critical mineral auction and policy intelligence',
+      'Aluminium and base-metal capex monitoring',
+      'Iron ore and coking coal supply analysis',
+      'Export carbon-border regulation updates',
+      'Green metals and decarbonisation trends',
+    ],
+    article: SAMPLE_AUTO_ARTICLE,
+  },
 };
 
 export function SectorPage() {
   const { slug } = useParams<{ slug: string }>();
   const { openReader } = useReaderMode();
-  const sector = sectorData[slug || 'auto'] || sectorData.auto;
+  const { newsletters } = useApp();
+  const activeSlug = slug || 'auto';
+  const sector = sectorData[activeSlug] || sectorData.auto;
+
+  // Each sector opens its OWN latest issue from the content store (admin-managed).
+  const category = CATEGORY_BY_SLUG[activeSlug];
+  const sectorIssues = category ? newsletters.filter((n) => n.category === category) : [];
+  const latestIssue = sectorIssues[0];
+
+  // Prefer the sector's own latest published issue; fall back to the static sample.
+  const openSectorReader = () =>
+    latestIssue ? openReader(latestIssue.article, latestIssue.id) : openReader(sector.article);
+
+  // Recent issues list — real issues for this sector when available.
+  const recentIssues =
+    sectorIssues.length > 0
+      ? sectorIssues.slice(0, 3).map((n) => ({
+          id: n.id as string | undefined,
+          heading: n.title,
+          date: n.date,
+          summary: n.summary,
+          article: n.article,
+        }))
+      : [
+          {
+            id: undefined as string | undefined,
+            heading: `${sector.article.title} — Latest Issue`,
+            date: sector.article.date,
+            summary: (sector.article.content[0]?.text || '').slice(0, 140) + '…',
+            article: sector.article,
+          },
+        ];
 
   return (
     <div className="min-h-screen bg-background">
       <SEOHead
         title={`${sector.title} | NURC MediaNext`}
         description={sector.description}
-        canonicalUrl={`/industries/${slug || 'auto'}`}
+        canonicalUrl={`/industries/${activeSlug}`}
       />
       {/* Hero */}
       <section className="relative overflow-hidden" style={{ background: sector.color }}>
@@ -213,7 +336,7 @@ export function SectorPage() {
           </p>
           <div className="flex flex-wrap gap-4">
             <button
-              onClick={() => openReader(sector.article)}
+              onClick={openSectorReader}
               className="flex items-center gap-2 px-6 py-3 rounded-xl font-semibold bg-white transition-all hover:opacity-90 font-heading"
               style={{ color: sector.color }}
             >
@@ -230,6 +353,8 @@ export function SectorPage() {
           </div>
         </div>
       </section>
+
+      <SectorMarquee />
 
       {/* Stats */}
       <section className="py-12 bg-card border-b border-border">
@@ -281,25 +406,14 @@ export function SectorPage() {
             <h2 className="mb-6 font-display text-[clamp(22px,3vw,32px)] font-bold text-nurc-navy leading-[1.3]">
               Recent Issues
             </h2>
-            {[
-              {
-                title: 'Latest Issue',
-                date: 'May 27, 2025',
-                summary: sector.article.content[0].text?.slice(0, 120) + '...',
-              },
-              {
-                title: 'Previous Issue',
-                date: 'May 20, 2025',
-                summary: sector.article.content[1]?.text?.slice(0, 120) + '...',
-              },
-            ].map((item, i) => (
+            {recentIssues.map((item, i) => (
               <div
-                key={i}
+                key={item.id ?? i}
                 className="rounded-xl p-5 bg-card border border-border transition-all duration-200 hover:shadow-[0_4px_16px_rgba(0,0,0,0.08)]"
               >
                 <div className="flex items-start justify-between mb-2">
                   <div className="font-semibold font-heading text-[14px] text-nurc-navy">
-                    {sector.article.title} — {item.title}
+                    {item.heading}
                   </div>
                   <span className="text-xs text-muted-foreground shrink-0 ml-4">{item.date}</span>
                 </div>
@@ -307,7 +421,7 @@ export function SectorPage() {
                   {item.summary}
                 </p>
                 <button
-                  onClick={() => openReader(sector.article)}
+                  onClick={() => openReader(item.article, item.id)}
                   className="flex items-center gap-1.5 text-xs font-semibold transition-opacity hover:opacity-70 font-heading"
                   style={{ color: sector.color }}
                 >
@@ -340,7 +454,7 @@ export function SectorPage() {
             subscribing.
           </p>
           <button
-            onClick={() => openReader(sector.article)}
+            onClick={openSectorReader}
             className="px-8 py-3.5 rounded-xl font-semibold text-white transition-all hover:opacity-90 font-heading"
             style={{ background: sector.color }}
           >

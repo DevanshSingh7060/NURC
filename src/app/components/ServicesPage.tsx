@@ -1,6 +1,7 @@
 import { Link } from 'react-router';
 import { ArrowRight, BookOpen, Search, Settings, Users, Clock, CheckCircle2 } from 'lucide-react';
 import { SEOHead } from './shared/SEOHead';
+import { SectorMarquee } from './SectorMarquee';
 
 const services = [
   {
@@ -140,6 +141,8 @@ export function ServicesPage() {
           </div>
         </div>
       </section>
+
+      <SectorMarquee />
 
       {/* Services Grid */}
       <section className="py-16 bg-background">

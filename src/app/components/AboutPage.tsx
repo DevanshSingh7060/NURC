@@ -1,6 +1,7 @@
 import { Link } from 'react-router';
 import { ArrowRight, MapPin, Mail, Phone } from 'lucide-react';
 import { SEOHead } from './shared/SEOHead';
+import { SectorMarquee } from './SectorMarquee';
 
 const timeline = [
   {
@@ -56,33 +57,6 @@ const timeline = [
     title: '500+ C-Suite Readers',
     description:
       'Celebrating 25 years of uninterrupted intelligence. Trusted by 500+ C-Suite executives across 36 leading corporations.',
-  },
-];
-
-const team = [
-  {
-    name: 'Deepak Nair',
-    title: 'Founder & Editor-in-Chief',
-    bio: 'Former automotive journalist at Business Standard. 30+ years in business intelligence. Established NURC in 2000.',
-    initials: 'DN',
-  },
-  {
-    name: 'Meera Krishnan',
-    title: 'Managing Director',
-    bio: 'MBA from IIM Ahmedabad. 18 years in executive media. Oversees editorial strategy and client relationships.',
-    initials: 'MK',
-  },
-  {
-    name: 'Rajesh Pillai',
-    title: 'Chief Research Officer',
-    bio: 'Former CRISIL analyst. Expert in Indian financial markets and banking sector intelligence.',
-    initials: 'RP',
-  },
-  {
-    name: 'Sunita Malhotra',
-    title: 'Head of Auto Intelligence',
-    bio: 'Ex-SIAM researcher. Deep expertise in OEM strategy, EV policy, and automotive supply chains.',
-    initials: 'SM',
   },
 ];
 
@@ -147,6 +121,8 @@ export function AboutPage() {
           </div>
         </div>
       </section>
+
+      <SectorMarquee />
 
       {/* Values */}
       <section className="py-16 bg-background">
@@ -250,33 +226,6 @@ export function AboutPage() {
         </section>
       )}
 
-      {/* Team */}
-      <section className="py-16 bg-background">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-12">
-            <h2 className="font-display text-[clamp(22px,3vw,34px)] font-bold text-nurc-navy">
-              Leadership Team
-            </h2>
-          </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {team.map((member, i) => (
-              <div key={i} className="rounded-2xl p-6 bg-card border border-border text-center">
-                <div className="w-16 h-16 rounded-full mx-auto flex items-center justify-center mb-4 text-white font-bold bg-nurc-navy font-heading text-[18px]">
-                  {member.initials}
-                </div>
-                <h3 className="font-bold mb-0.5 font-heading text-[15px] text-nurc-navy">
-                  {member.name}
-                </h3>
-                <div className="text-xs font-semibold mb-3 text-nurc-teal font-heading">
-                  {member.title}
-                </div>
-                <p className="text-muted-foreground text-[13px] leading-[1.65]">{member.bio}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Offices + Contact */}
       <section className="py-20 border-t border-border bg-white">
         <div className="max-w-7xl mx-auto px-6">
@@ -286,7 +235,8 @@ export function AboutPage() {
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto text-[15px]">
               Have questions about our intelligence briefings, enterprise licensing, or
-              subscriptions? Connect with us directly.
+              subscriptions? <br />
+              Connect with us directly.
             </p>
           </div>
 

@@ -119,7 +119,7 @@ export function useReaderMode() {
 export { ReaderModeContext };
 
 export const SAMPLE_AUTO_ARTICLE: Article = {
-  title: 'Auto Industry Weekly',
+  title: 'Auto Industry Daily',
   subtitle: 'Issue #1,247 · May 27, 2025',
   category: 'Automotive Intelligence',
   date: 'May 27, 2025',

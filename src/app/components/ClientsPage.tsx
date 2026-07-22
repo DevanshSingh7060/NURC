@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router';
 import { Quote, Star, ChevronDown } from 'lucide-react';
 import { SEOHead } from './shared/SEOHead';
+import { SectorMarquee } from './SectorMarquee';
 
 // Import PNG logos from src/Logo
 import mercedesBenzLogo from '../../Logo/Mercedes Benz.png';
@@ -222,8 +223,8 @@ const testimonials = [
     quote:
       'NURC MediaNext has been a valuable news update partner for BMW Group India, providing timely, relevant and well-curated automotive and industry updates. Their daily newsletter and Synoptic Auto Update offer a crisp, easy-to-consume view of key developments, helping our teams stay informed in a fast-moving media and business environment. We appreciate their consistency, responsiveness and understanding of our information needs, and value NURC as a dependable source for structured news intelligence.',
     name: 'Satchit Gayakwad',
-    title: 'Marketing, Network Performance and Customer Support Communication',
-    company: 'Press and Corporate Affairs',
+    title: 'Asst General Manager, Press & Corporate Affairs',
+    company: 'BMW Group India',
     initials: 'SG',
   },
 ];
@@ -266,9 +267,13 @@ function TestimonialCard({ t }: { t: (typeof testimonials)[number] }) {
         </div>
         <div>
           <div className="font-semibold font-heading text-[14px] text-nurc-navy">{t.name}</div>
-          <div className="text-xs text-muted-foreground mt-0.5">
-            {t.title} · {t.company}
-          </div>
+          {t.title.split(/,\s*/).map((part, i, arr) => (
+            <div key={i} className={`text-xs text-muted-foreground${i === 0 ? ' mt-0.5' : ''}`}>
+              {part}
+              {i < arr.length - 1 ? ',' : ''}
+            </div>
+          ))}
+          <div className="text-xs text-muted-foreground">{t.company}</div>
         </div>
       </div>
       <div className="flex gap-0.5 mt-4">
@@ -324,6 +329,8 @@ export function ClientsPage() {
           {/* </div> */}
         </div>
       </section>
+
+      <SectorMarquee />
 
       {/* Grid containing the 5 Sector Cards */}
       <section className="py-10 bg-[#F8F9FA]">

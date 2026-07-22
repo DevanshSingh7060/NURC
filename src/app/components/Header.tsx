@@ -13,7 +13,7 @@ import {
   Home,
   Mail,
 } from 'lucide-react';
-import { useReaderMode, SAMPLE_AUTO_ARTICLE } from './ReaderModeContext';
+import { useReaderMode } from './ReaderModeContext';
 import { useApp } from '../context/AppContext';
 import nurcLogo from '../../Logo/nurc-logo.png';
 
@@ -39,7 +39,7 @@ const solutionsLinks = [
 
 export function Header() {
   const { currentUser, logout, newsletters } = useApp();
-  const { openReader, isOpen: readerOpen } = useReaderMode();
+  const { isOpen: readerOpen } = useReaderMode();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [sectorsOpen, setSectorsOpen] = useState(false);
   const [mobileSectorsOpen, setMobileSectorsOpen] = useState(false);
@@ -78,69 +78,23 @@ export function Header() {
     >
       {/* Single merged header bar */}
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between h-16 sm:h-20 relative">
-        {/* Left side: Auth actions */}
-        <div className="flex items-center gap-2 shrink-0">
-          {/* Desktop-only Auth Actions */}
-          <div className="hidden lg:flex items-center gap-2">
-            {currentUser ? (
-              <div className="flex items-center gap-2">
-                <span className="hidden xl:inline text-xs font-semibold text-muted-foreground mr-2">
-                  Welcome, {currentUser.fullName.split(' ')[0]}
-                </span>
-                <Link
-                  to="/dashboard"
-                  className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-semibold border transition-all hover:bg-muted border-border text-nurc-navy"
-                >
-                  <User size={14} />
-                  Dashboard
-                </Link>
-
-                <button
-                  onClick={() => openReader(SAMPLE_AUTO_ARTICLE)}
-                  className="p-2 rounded-lg hover:bg-muted hover:text-[var(--nurc-teal)] transition-all cursor-pointer bg-transparent border-0 flex items-center justify-center shrink-0 text-nurc-navy"
-                  title="Open Reader Mode"
-                >
-                  <BookOpen size={16} />
-                </button>
-
-                <Link
-                  to="/contact"
-                  className="btn-nurc flex items-center px-4 py-2 rounded-lg text-sm font-semibold text-white cursor-pointer bg-nurc-teal"
-                >
-                  Request Demo
-                </Link>
-
-                <button
-                  onClick={() => logout()}
-                  className="px-3 py-2 rounded-lg text-sm font-semibold hover:bg-muted text-red-600 transition-colors cursor-pointer bg-transparent border-0"
-                >
-                  Log Out
-                </button>
-              </div>
-            ) : (
-              <div className="flex items-center gap-3">
-                <Link
-                  to="/login"
-                  className="px-3 py-2 rounded text-sm font-semibold hover:text-[var(--nurc-teal)] transition-colors text-nurc-navy"
-                >
-                  Login
-                </Link>
-                <Link
-                  to="/signup"
-                  className="px-4 py-2 text-white text-sm font-semibold rounded-lg hover:opacity-90 transition-all btn-nurc shadow-sm bg-nurc-teal"
-                >
-                  Sign Up
-                </Link>
-                <button
-                  onClick={() => openReader(SAMPLE_AUTO_ARTICLE)}
-                  className="p-2 rounded-lg hover:bg-muted hover:text-[var(--nurc-teal)] transition-all cursor-pointer bg-transparent border-0 flex items-center justify-center shrink-0 text-nurc-navy"
-                  title="Open Reader Mode"
-                >
-                  <BookOpen size={16} />
-                </button>
-              </div>
-            )}
-          </div>
+        {/* Left side: Logo */}
+        <div className="flex items-center gap-3 shrink-0">
+          {/* Company logo */}
+          <Link
+            to="/"
+            className="flex items-center shrink-0"
+            onClick={() => setMobileOpen(false)}
+            aria-label="NURC Media Next — Home"
+          >
+            <img
+              src={nurcLogo}
+              alt="NURC Media Next — 26 Years of Trust & Service"
+              className="h-10 sm:h-16 w-auto max-w-[150px] sm:max-w-none"
+              width={320}
+              height={102}
+            />
+          </Link>
         </div>
 
         {/* Center: Desktop Nav */}
@@ -193,8 +147,55 @@ export function Header() {
           )}
         </nav>
 
-        {/* Right side: Hamburger (mobile) + Logo */}
+        {/* Right side: Auth actions + Hamburger (mobile) */}
         <div className="flex items-center gap-3 shrink-0">
+          {/* Desktop-only Auth Actions */}
+          <div className="hidden lg:flex items-center gap-2">
+            {currentUser ? (
+              <div className="flex items-center gap-2">
+                <span className="hidden xl:inline text-xs font-semibold text-muted-foreground mr-2">
+                  Welcome, {currentUser.fullName.split(' ')[0]}
+                </span>
+                <Link
+                  to="/dashboard"
+                  className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-semibold border transition-all hover:bg-muted border-border text-nurc-navy"
+                >
+                  <User size={14} />
+                  Dashboard
+                </Link>
+
+                <Link
+                  to="/contact"
+                  className="btn-nurc flex items-center px-4 py-2 rounded-lg text-sm font-semibold text-white cursor-pointer bg-nurc-teal"
+                >
+                  Request Demo
+                </Link>
+
+                <button
+                  onClick={() => logout()}
+                  className="px-3 py-2 rounded-lg text-sm font-semibold hover:bg-muted text-red-600 transition-colors cursor-pointer bg-transparent border-0"
+                >
+                  Log Out
+                </button>
+              </div>
+            ) : (
+              <div className="flex items-center gap-3">
+                <Link
+                  to="/login"
+                  className="px-3 py-2 rounded text-sm font-semibold hover:text-[var(--nurc-teal)] transition-colors text-nurc-navy"
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/signup"
+                  className="px-4 py-2 text-white text-sm font-semibold rounded-lg hover:opacity-90 transition-all btn-nurc shadow-sm bg-nurc-teal"
+                >
+                  Sign Up
+                </Link>
+              </div>
+            )}
+          </div>
+
           {/* Mobile hamburger menu toggle */}
           <button
             className="lg:hidden p-2 rounded-lg hover:bg-muted transition-colors shrink-0 cursor-pointer"
@@ -208,22 +209,6 @@ export function Header() {
               <Menu size={20} className="text-nurc-navy" />
             )}
           </button>
-
-          {/* Company logo */}
-          <Link
-            to="/"
-            className="flex items-center shrink-0"
-            onClick={() => setMobileOpen(false)}
-            aria-label="NURC Media Next — Home"
-          >
-            <img
-              src={nurcLogo}
-              alt="NURC Media Next — 26 Years of Trust & Service"
-              className="h-10 sm:h-16 w-auto max-w-[150px] sm:max-w-none"
-              width={320}
-              height={102}
-            />
-          </Link>
         </div>
       </div>
 
@@ -366,16 +351,6 @@ export function Header() {
                       Sign Up
                     </Link>
                   </div>
-                  <button
-                    onClick={() => {
-                      setMobileOpen(false);
-                      openReader(SAMPLE_AUTO_ARTICLE);
-                    }}
-                    className="px-3 py-2.5 rounded-lg border hover:bg-teal/5 transition-all flex items-center justify-center gap-2 text-xs text-center font-bold bg-transparent cursor-pointer border-nurc-teal text-nurc-teal"
-                  >
-                    <BookOpen size={14} />
-                    Reader Mode Preview
-                  </button>
                 </div>
               ) : (
                 <div className="flex flex-col gap-1">

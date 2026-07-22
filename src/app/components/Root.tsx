@@ -4,7 +4,6 @@ import { HelmetProvider } from 'react-helmet-async';
 import { ThemeProvider } from 'next-themes';
 import { Header } from './Header';
 import { Footer } from './Footer';
-import { SectorMarquee } from './SectorMarquee';
 import { ReaderModeOverlay, SharePromptCard } from './ReaderMode';
 import { ReaderModeProvider } from './ReaderModeContext';
 import { AppProvider } from '../context/AppContext';
@@ -50,7 +49,6 @@ export function Root() {
                     <Outlet />
                   </Suspense>
                 </main>
-                <SectorMarquee />
 
                 {/* MSME / Udyam Registration Credential */}
                 <section className="py-8 bg-[#F9FAFB] border-t border-[#E5E7EB]">

@@ -13,6 +13,7 @@ import { useApp } from '../context/AppContext';
 import { useReaderMode } from './ReaderModeContext';
 import { Link, useSearchParams } from 'react-router';
 import { SEOHead } from './shared/SEOHead';
+import { SectorMarquee } from './SectorMarquee';
 
 const categories = [
   'All',
@@ -235,6 +236,8 @@ export function NewsletterPage() {
           </div>
         </div>
       </section>
+
+      <SectorMarquee />
 
       {/* Advanced Search & Filtering Accordion Bar */}
       <section className="border-b border-border bg-card sticky top-16 z-30 shadow-sm py-4">

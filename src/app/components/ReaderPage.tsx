@@ -114,7 +114,8 @@ export function ReaderPage() {
   const activeTheme = currentUser?.theme || 'Original';
   const modeColors = readingModeColors[settings.readingMode || 'default'];
   const fontSize = fontSizeMap[settings.fontSize || 'medium'];
-  const isGuest = !currentUser || currentUser.plan === 'None';
+  // Paywall disabled — all issues are freely accessible for now.
+  const isGuest = false;
 
   const handleShare = () => {
     navigator.clipboard?.writeText(window.location.href);

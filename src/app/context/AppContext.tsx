@@ -83,7 +83,17 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const [newsletters, setNewsletters] = useState<Newsletter[]>(() => {
     const saved = safeStorage.getItem('nurc_newsletters');
-    return saved ? JSON.parse(saved) : MOCK_NEWSLETTERS;
+    if (!saved) return MOCK_NEWSLETTERS;
+    try {
+      const stored: Newsletter[] = JSON.parse(saved);
+      // Non-destructive merge-seed: append any seed issues (e.g. newly added
+      // sectors) that aren't already present, without wiping existing/admin data.
+      const storedIds = new Set(stored.map((n) => n.id));
+      const missingSeeds = MOCK_NEWSLETTERS.filter((n) => !storedIds.has(n.id));
+      return missingSeeds.length ? [...stored, ...missingSeeds] : stored;
+    } catch {
+      return MOCK_NEWSLETTERS;
+    }
   });
 
   const [currentUser, setCurrentUser] = useState<Subscriber | null>(() => {

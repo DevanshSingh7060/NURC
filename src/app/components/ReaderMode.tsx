@@ -154,7 +154,8 @@ export function ReaderModeOverlay() {
     'Macroeconomic corporate statistics driving Q3 executive choices.',
   ];
 
-  const isGuest = !currentUser || currentUser.plan === 'None';
+  // Paywall disabled — all issues are freely accessible for now.
+  const isGuest = false;
 
   const handleShare = () => {
     const url = newsletterId

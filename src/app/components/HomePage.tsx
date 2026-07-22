@@ -14,11 +14,14 @@ import {
 } from 'lucide-react';
 import { useReaderMode, SAMPLE_AUTO_ARTICLE } from './ReaderModeContext';
 import { ClientMarquee } from './ClientMarquee';
+import { SectorMarquee } from './SectorMarquee';
 import { useScrollFadeIn } from './useScrollFadeIn';
 import { useLeadModal } from '../context/LeadModalContext';
 import { SEOHead } from './shared/SEOHead';
 
 import mercedesBenzLogo from '../../Logo/Mercedes Benz.png';
+
+const SHOW_NEWSLETTER_PREVIEW = false;
 
 const sectors = [
   {
@@ -135,8 +138,8 @@ const testimonials = [
     quote:
       'NURC MediaNext has been a valuable news update partner for BMW Group India, providing timely, relevant and well-curated automotive and industry updates. Their daily newsletter and Synoptic Auto Update offer a crisp, easy-to-consume view of key developments, helping our teams stay informed in a fast-moving media and business environment. We appreciate their consistency, responsiveness and understanding of our information needs, and value NURC as a dependable source for structured news intelligence.',
     name: 'Satchit Gayakwad',
-    title: 'Marketing, Network Performance and Customer Support Communication',
-    company: 'Press and Corporate Affairs',
+    title: 'Asst General Manager, Press & Corporate Affairs',
+    company: 'BMW Group India',
     logo: null,
   },
 ];
@@ -206,9 +209,13 @@ function TestimonialCard({ t }: { t: (typeof testimonials)[number] }) {
         )}
         <div>
           <div className="font-semibold font-heading text-[14px] text-nurc-navy">{t.name}</div>
-          <div className="text-xs text-muted-foreground mt-0.5">
-            {t.title} · {t.company}
-          </div>
+          {t.title.split(/,\s*/).map((part, i, arr) => (
+            <div key={i} className={`text-xs text-muted-foreground${i === 0 ? ' mt-0.5' : ''}`}>
+              {part}
+              {i < arr.length - 1 ? ',' : ''}
+            </div>
+          ))}
+          <div className="text-xs text-muted-foreground">{t.company}</div>
         </div>
       </div>
       <div className="flex gap-0.5 mt-4">
@@ -278,7 +285,7 @@ export function HomePage() {
                 onClick={() => openReader(SAMPLE_AUTO_ARTICLE)}
                 className="h-12 flex items-center gap-2 px-6 rounded-xl font-semibold border transition-all hover:bg-white/10 bg-transparent cursor-pointer text-sm text-white border-[rgba(255,255,255,0.3)] font-heading"
               >
-                Request Sample
+                Read Daily
               </button>
             </div>
 
@@ -314,9 +321,9 @@ export function HomePage() {
           <div className="hidden lg:block relative">
             <div className="relative rounded-xl overflow-hidden shadow-[0_32px_64px_rgba(0,0,0,0.4)]">
               <img
-                src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=700&h=500&fit=crop&auto=format"
-                alt="Corporate skyscrapers representing India's leading corporations served by NURC intelligence"
-                className="w-full h-[420px] object-cover"
+                src="/heroImage.jpg"
+                alt="Modern glass corporate skyscrapers viewed from below, representing the corporate intelligence NURC delivers"
+                className="w-full h-[420px] object-cover rounded-2xl border-2 border-white/10 shadow-2xl"
                 width={700}
                 height={500}
               />
@@ -326,36 +333,12 @@ export function HomePage() {
                   background: 'linear-gradient(to top, rgba(10,37,64,0.7) 0%, transparent 60%)',
                 }}
               />
-              <div className="absolute bottom-6 left-6 right-6">
-                <div
-                  className="rounded-xl p-6 backdrop-blur-sm bg-[rgba(255,255,255,0.1)]"
-                  style={{
-                    border: '1px solid rgba(255,255,255,0.15)',
-                  }}
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-nurc-teal">
-                      <BookOpen size={18} className="text-white" />
-                    </div>
-                    <div>
-                      <div className="text-white text-sm font-semibold font-heading">
-                        Auto Industry Weekly
-                      </div>
-                      <div className="text-white/60 text-xs">Latest issue · May 27, 2025</div>
-                    </div>
-                    <button
-                      onClick={() => openReader(SAMPLE_AUTO_ARTICLE)}
-                      className="ml-auto text-xs font-semibold h-12 flex items-center justify-center px-6 rounded-xl text-white transition-opacity hover:opacity-80 border-0 cursor-pointer bg-nurc-teal"
-                    >
-                      Read Now
-                    </button>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
       </section>
+
+      <SectorMarquee />
 
       {/* What NURC Does Section (New) */}
       <section className="py-16 bg-[#F9FAFB] border-b border-[#E5E7EB]">
@@ -366,7 +349,9 @@ export function HomePage() {
             </h2>
             <p className="text-muted-foreground mx-auto mt-3 max-w-2xl text-[15px]">
               is a subscription-based, daily news information service tailored for corporate
-              executives, decision-makers, PR and communication teams.
+              executives,
+              <br />
+              decision-makers, PR and communication teams.
             </p>
           </div>
 
@@ -540,152 +525,154 @@ export function HomePage() {
       </section>
 
       {/* Newsletter Preview */}
-      <section ref={sampleRef} className="py-12 lg:py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            {/* Left Side Content Block */}
-            <div className="space-y-6 text-left">
-              <div className="flex items-center gap-3">
-                <div className="h-px w-8 bg-nurc-gold" />
-                <span className="text-xs font-bold uppercase text-nurc-teal tracking-[0.14em] font-heading">
-                  Sample Issue
-                </span>
-              </div>
-              <h2 className="font-heading text-[clamp(24px,3.5vw,40px)] font-bold text-nurc-navy leading-[1.2] max-w-[480px]">
-                See What Your Competitors Are Reading
-              </h2>
-              <p className="text-[clamp(16px,1.8vw,18px)] leading-[1.7] max-w-[500px] text-[#4B5563]">
-                Read a complete sample of our Auto Industry Weekly — the same briefing that lands in
-                the inboxes of CFOs and MDs at India's top automotive corporations every Tuesday
-                morning.
-              </p>
-              <button
-                onClick={() => openReader(SAMPLE_AUTO_ARTICLE)}
-                className="flex items-center gap-2 font-semibold text-white transition-all hover:opacity-90 cursor-pointer border-0 bg-nurc-teal font-heading h-12 pl-6 pr-6 rounded-xl"
-              >
-                <BookOpen size={18} />
-                Open in Reader Mode
-              </button>
-            </div>
-
-            {/* Right Side Newsletter Preview Card (Email Mockup) */}
-            <div className="rounded-xl overflow-hidden border border-border bg-white shadow-[0_4px_24px_rgba(0,0,0,0.08)]">
-              {/* Premium Email Mockup Header with 24px Padding */}
-              <div className="bg-[#FAF9F6] border-b border-border p-6 text-left space-y-3.5">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold uppercase tracking-wider text-nurc-teal font-heading">
-                    Corporate Dispatch
+      {SHOW_NEWSLETTER_PREVIEW && (
+        <section ref={sampleRef} className="py-12 lg:py-20 bg-white">
+          <div className="max-w-7xl mx-auto px-6">
+            <div className="grid lg:grid-cols-2 gap-16 items-center">
+              {/* Left Side Content Block */}
+              <div className="space-y-6 text-left">
+                <div className="flex items-center gap-3">
+                  <div className="h-px w-8 bg-nurc-gold" />
+                  <span className="text-xs font-bold uppercase text-nurc-teal tracking-[0.14em] font-heading">
+                    Sample Issue
                   </span>
-                  <span className="w-2 h-2 rounded-full bg-green-500"></span>
                 </div>
-                <div className="space-y-3 font-sans">
-                  <div className="grid grid-cols-3 items-center pb-2 border-b border-gray-100">
-                    <span className="font-medium text-gray-500 text-[14px]">Sender</span>
-                    <span className="col-span-2 text-right font-semibold text-nurc-navy text-[15px]">
-                      NURC MediaNext Intelligence Desk
-                    </span>
-                  </div>
-                  <div className="grid grid-cols-3 items-center pb-2 border-b border-gray-100">
-                    <span className="font-medium text-gray-500 text-[14px]">Recipient</span>
-                    <span className="col-span-2 text-right font-semibold text-nurc-navy text-[15px]">
-                      Corporate Subscriber
-                    </span>
-                  </div>
-                  <div className="grid grid-cols-3 items-center pb-2 border-b border-gray-100">
-                    <span className="font-medium text-gray-500 text-[14px]">Published</span>
-                    <span className="col-span-2 text-right font-semibold text-nurc-navy text-[15px]">
-                      12 June 2026
-                    </span>
-                  </div>
-                  <div className="grid grid-cols-3 items-center">
-                    <span className="font-medium text-gray-500 text-[14px]">Industry</span>
-                    <span className="col-span-2 text-right font-semibold text-nurc-navy text-[15px]">
-                      Automotive Intelligence Weekly
-                    </span>
-                  </div>
-                </div>
+                <h2 className="font-heading text-[clamp(24px,3.5vw,40px)] font-bold text-nurc-navy leading-[1.2] max-w-[480px]">
+                  See What Your Competitors Are Reading
+                </h2>
+                <p className="text-[clamp(16px,1.8vw,18px)] leading-[1.7] max-w-[500px] text-[#4B5563]">
+                  Read a complete sample of our Auto Industry Weekly — the same briefing that lands
+                  in the inboxes of CFOs and MDs at India's top automotive corporations every
+                  Tuesday morning.
+                </p>
+                <button
+                  onClick={() => openReader(SAMPLE_AUTO_ARTICLE)}
+                  className="flex items-center gap-2 font-semibold text-white transition-all hover:opacity-90 cursor-pointer border-0 bg-nurc-teal font-heading h-12 pl-6 pr-6 rounded-xl"
+                >
+                  <BookOpen size={18} />
+                  Open in Reader Mode
+                </button>
               </div>
 
-              {/* Refined Rounded Category Pills */}
-              <div className="border-b border-border bg-[#F9FAFB] px-6 py-4 flex gap-2 flex-wrap items-center">
-                {[
-                  'Policy Update',
-                  'Industry News',
-                  'Competitor Intel',
-                  'Market Data',
-                  "Editor's Note",
-                ].map((cat) => (
-                  <span
-                    key={cat}
-                    className="px-3 py-1 rounded-full font-semibold tracking-wide bg-white text-nurc-teal text-[11px]"
-                    style={{
-                      border: '1px solid #E5E7EB',
-                    }}
-                  >
-                    {cat}
-                  </span>
-                ))}
-              </div>
+              {/* Right Side Newsletter Preview Card (Email Mockup) */}
+              <div className="rounded-xl overflow-hidden border border-border bg-white shadow-[0_4px_24px_rgba(0,0,0,0.08)]">
+                {/* Premium Email Mockup Header with 24px Padding */}
+                <div className="bg-[#FAF9F6] border-b border-border p-6 text-left space-y-3.5">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-bold uppercase tracking-wider text-nurc-teal font-heading">
+                      Corporate Dispatch
+                    </span>
+                    <span className="w-2 h-2 rounded-full bg-green-500"></span>
+                  </div>
+                  <div className="space-y-3 font-sans">
+                    <div className="grid grid-cols-3 items-center pb-2 border-b border-gray-100">
+                      <span className="font-medium text-gray-500 text-[14px]">Sender</span>
+                      <span className="col-span-2 text-right font-semibold text-nurc-navy text-[15px]">
+                        NURC MediaNext Intelligence Desk
+                      </span>
+                    </div>
+                    <div className="grid grid-cols-3 items-center pb-2 border-b border-gray-100">
+                      <span className="font-medium text-gray-500 text-[14px]">Recipient</span>
+                      <span className="col-span-2 text-right font-semibold text-nurc-navy text-[15px]">
+                        Corporate Subscriber
+                      </span>
+                    </div>
+                    <div className="grid grid-cols-3 items-center pb-2 border-b border-gray-100">
+                      <span className="font-medium text-gray-500 text-[14px]">Published</span>
+                      <span className="col-span-2 text-right font-semibold text-nurc-navy text-[15px]">
+                        12 June 2026
+                      </span>
+                    </div>
+                    <div className="grid grid-cols-3 items-center">
+                      <span className="font-medium text-gray-500 text-[14px]">Industry</span>
+                      <span className="col-span-2 text-right font-semibold text-nurc-navy text-[15px]">
+                        Automotive Intelligence Weekly
+                      </span>
+                    </div>
+                  </div>
+                </div>
 
-              {/* Clean Dividers and Headline List */}
-              <div className="divide-y divide-gray-100">
-                {[
-                  {
-                    tag: 'POLICY',
-                    tagColor: '#006D7A',
-                    title: 'FAME III Extended Through March 2027',
-                    preview:
-                      'Ministry extends subsidies for commercial EVs; ₹15,000/kWh for battery procurement...',
-                  },
-                  {
-                    tag: 'INDUSTRY',
-                    tagColor: '#0A2540',
-                    title: 'Tata Motors Q4 Revenue Up 12.3% YoY',
-                    preview:
-                      'JLR performance in North America drives growth; EV division records 340% surge...',
-                  },
-                  {
-                    tag: 'COMPETITOR',
-                    tagColor: '#5B6A7B',
-                    title: 'Hyundai Breaks Ground on Maharashtra Plant',
-                    preview:
-                      '₹6,000 crore investment; 200,000 unit capacity targeting mid-premium segment...',
-                  },
-                ].map((item, i) => (
-                  <div key={i} className="px-6 py-5 bg-white text-left space-y-2">
+                {/* Refined Rounded Category Pills */}
+                <div className="border-b border-border bg-[#F9FAFB] px-6 py-4 flex gap-2 flex-wrap items-center">
+                  {[
+                    'Policy Update',
+                    'Industry News',
+                    'Competitor Intel',
+                    'Market Data',
+                    "Editor's Note",
+                  ].map((cat) => (
                     <span
-                      className="px-2.5 py-0.5 rounded font-bold uppercase tracking-wider animate-none text-[12px]"
+                      key={cat}
+                      className="px-3 py-1 rounded-full font-semibold tracking-wide bg-white text-nurc-teal text-[11px]"
                       style={{
-                        background: `${item.tagColor}10`,
-                        color: item.tagColor,
+                        border: '1px solid #E5E7EB',
                       }}
                     >
-                      {item.tag}
+                      {cat}
                     </span>
-                    <h4 className="font-bold font-heading text-[18px] text-nurc-navy leading-[1.3]">
-                      {item.title}
-                    </h4>
-                    <p className="leading-relaxed font-medium text-[14px] text-[#4B5563]">
-                      {item.preview}
-                    </p>
-                  </div>
-                ))}
+                  ))}
+                </div>
 
-                {/* Bottom CTA Button */}
-                <div className="px-6 py-5 bg-[#FAF9F6] text-center border-t border-border">
-                  <button
-                    onClick={() => openReader(SAMPLE_AUTO_ARTICLE)}
-                    className="w-full flex items-center justify-center gap-2 font-bold text-white transition-all hover:opacity-95 cursor-pointer border-0 shadow-sm bg-nurc-teal font-heading h-12 rounded-xl"
-                  >
-                    <BookOpen size={16} />
-                    Open in Reader Mode
-                  </button>
+                {/* Clean Dividers and Headline List */}
+                <div className="divide-y divide-gray-100">
+                  {[
+                    {
+                      tag: 'POLICY',
+                      tagColor: '#006D7A',
+                      title: 'FAME III Extended Through March 2027',
+                      preview:
+                        'Ministry extends subsidies for commercial EVs; ₹15,000/kWh for battery procurement...',
+                    },
+                    {
+                      tag: 'INDUSTRY',
+                      tagColor: '#0A2540',
+                      title: 'Tata Motors Q4 Revenue Up 12.3% YoY',
+                      preview:
+                        'JLR performance in North America drives growth; EV division records 340% surge...',
+                    },
+                    {
+                      tag: 'COMPETITOR',
+                      tagColor: '#5B6A7B',
+                      title: 'Hyundai Breaks Ground on Maharashtra Plant',
+                      preview:
+                        '₹6,000 crore investment; 200,000 unit capacity targeting mid-premium segment...',
+                    },
+                  ].map((item, i) => (
+                    <div key={i} className="px-6 py-5 bg-white text-left space-y-2">
+                      <span
+                        className="px-2.5 py-0.5 rounded font-bold uppercase tracking-wider animate-none text-[12px]"
+                        style={{
+                          background: `${item.tagColor}10`,
+                          color: item.tagColor,
+                        }}
+                      >
+                        {item.tag}
+                      </span>
+                      <h4 className="font-bold font-heading text-[18px] text-nurc-navy leading-[1.3]">
+                        {item.title}
+                      </h4>
+                      <p className="leading-relaxed font-medium text-[14px] text-[#4B5563]">
+                        {item.preview}
+                      </p>
+                    </div>
+                  ))}
+
+                  {/* Bottom CTA Button */}
+                  <div className="px-6 py-5 bg-[#FAF9F6] text-center border-t border-border">
+                    <button
+                      onClick={() => openReader(SAMPLE_AUTO_ARTICLE)}
+                      className="w-full flex items-center justify-center gap-2 font-bold text-white transition-all hover:opacity-95 cursor-pointer border-0 shadow-sm bg-nurc-teal font-heading h-12 rounded-xl"
+                    >
+                      <BookOpen size={16} />
+                      Open in Reader Mode
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* Free Trial Section (New) */}
       <section className="py-20 bg-nurc-navy">

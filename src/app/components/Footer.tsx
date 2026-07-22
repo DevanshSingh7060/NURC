@@ -25,9 +25,7 @@ export function Footer() {
             <p className="text-xs text-[#4B5563] leading-[1.6]">
               Daily Curated News Intelligence for Industry Leaders Since 2000
             </p>
-            <p className="text-[11px] text-gray-400 leading-relaxed">
-              NURC MediaNext Pvt. Ltd. — Holding company for NURC India
-            </p>
+            <p className="text-[11px] text-gray-400 leading-relaxed">NURC MediaNext Pvt. Ltd.</p>
           </div>
 
           {/* Column 2: Company */}
@@ -152,17 +150,18 @@ export function Footer() {
                   +91-9958949710
                 </a>
               </p>
-              <p>
-                <span className="font-semibold text-gray-700">Landline:</span>{' '}
-                <a href="tel:+911149849324" className="hover:text-gray-900 transition-colors">
+              {/*<p>*/}
+              {/*<span className="font-semibold text-gray-700">Landline:</span>{' '}*/}
+              {/*<a href="tel:+911149849324" className="hover:text-gray-900 transition-colors">
                   +91-11-49849324
-                </a>
-              </p>
+                </a>*/}
+              {/*</p>*/}
             </div>
             <div className="pt-2 border-t border-gray-100">
               <span className="font-semibold text-gray-700 block mb-0.5">Corporate Office:</span>
               <p className="leading-relaxed text-[11px] text-gray-400">
-                9A, Pocket-B, SFS Flats, Mayur Vihar Phase-III, Delhi - 110096, India
+                9A, Pocket-B, SFS Flats, Mayur Vihar Phase-III, <br />
+                Delhi - 110096, India
               </p>
             </div>
           </div>

@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'sonner';
 import { Mail, Phone, MapPin, ShieldCheck, CheckCircle2, Loader2 } from 'lucide-react';
 import { SEOHead } from './shared/SEOHead';
+import { SectorMarquee } from './SectorMarquee';
 import { contactSchema, type ContactInput } from '../lib/validation';
 import { api, ApiError } from '../lib/apiClient';
 
@@ -83,6 +84,8 @@ export function ContactPage() {
           </p>
         </div>
       </section>
+
+      <SectorMarquee />
 
       {/* Main Content Grid */}
       <section className="max-w-7xl mx-auto px-6 py-12 grid lg:grid-cols-12 gap-12">

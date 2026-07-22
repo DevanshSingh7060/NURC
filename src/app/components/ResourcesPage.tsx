@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { BookOpen, Clock, Search } from 'lucide-react';
 import { useReaderMode, SAMPLE_AUTO_ARTICLE, SAMPLE_BANKING_ARTICLE } from './ReaderModeContext';
 import { SEOHead } from './shared/SEOHead';
+import { SectorMarquee } from './SectorMarquee';
 
 const categories = [
   'All',
@@ -165,6 +166,8 @@ export function ResourcesPage() {
           </div>
         </div>
       </section>
+
+      <SectorMarquee />
 
       <section className="py-12">
         <div className="max-w-7xl mx-auto px-6">
